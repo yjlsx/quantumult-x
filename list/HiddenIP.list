@@ -1,0 +1,47 @@
+################################################################
+# 针对部分网站显示IP归属地的QuantumultX分流规则
+# 原项目地址：https://github.com/lwd-temp/anti-ip-attribution
+# 更新时间：2023-4-12
+###############################################################
+
+# ======= 哔哩哔哩 ======= #
+DHOST-SUFFIX,biliapi.net,IP,PROXY
+HOST,api.bilibili.com,IP,PROXY
+HOST,api.bilibili.tv,IP,PROXY
+HOST,app.bilibili.com,IP,PROXY
+HOST-SUFFIX,biliapi.com,IP,PROXY
+HOST,api.live.bilibili.com,IP,PROXY
+HOST,api.vc.bilibili.com,IP,PROXY
+HOST,passport.bilibili.com,IP,PROXY
+HOST,live-trace.bilibili.com,IP,PROXY
+HOST,message.bilibili.com,IP,PROXY
+HOST,cm.bilibili.com,IP,PROXY
+HOST-SUFFIX,bilibili.com,IP,PROXY
+HOST-SUFFIX,im9.com,IP,PROXY
+HOST-SUFFIX,acg.tv,IP,PROXY
+HOST-SUFFIX,biligame.com,IP,PROXY
+IP-CIDR,203.107.1.0/24,REJECT
+
+# ======= 微博 ======= #
+HOST-SUFFIX,weibo.cn,IP,PROXY
+HOST-SUFFIX,weibo.com,IP,PROXY
+HOST-SUFFIX,weibocdn.com,IP,PROXY
+HOST-KEYWORD,weibo,IP,PROXY
+
+# ======= 百度贴吧 ======= #
+HOST,tieba.baidu.com,IP,PROXY
+HOST,tbmsg.baidu.com,IP,PROXY
+HOST,tb5.bdstatic.com,IP,PROXY
+HOST,fclog.baidu.com,IP,PROXY
+HOST,gsp0.baidu.com,IP,PROXY
+HOST,hm.baidu.com,IP,PROXY
+HOST,www.baidu.com,IP,PROXY
+HOST,tiebac.baidu.com,IP,PROXY
+IP-CIDR,180.76.76.0/24,IP,PROXY
+HOST,httpsdns.baidu.com,IP,PROXY
+HOST,c.tieba.baidu.com,IP,PROXY
+HOST,httpdns.baidu.com,IP,PROXY
+HOST,httpdns.baidubce.com,IP,PROXY
+ 
+# ======= 酷安 ======= #
+HOST,api.coolapk.com,IP,PROXY
