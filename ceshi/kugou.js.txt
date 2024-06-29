@@ -11,7 +11,7 @@
 ^https:\\//gateway\.kugou\.com\/updateservice\/v1\/get_dev_user url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 
 ^https:\\//gateway\.kugou\.com\/.?urlparam.+$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
-^http:\/\/adserviceretry\.kglink\.cn\/v4\/mobile_splash url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js  */去广告
+^http:\/\/adserviceretry\.kglink\.cn\/v4\/mobile_splash url reject-200
 
 
 [mitm]
