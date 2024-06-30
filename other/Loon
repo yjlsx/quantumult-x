@@ -1,0 +1,280 @@
+# Name           Loon
+# Author         Wuty-zju
+# UpdateTime     2024/6/30-PM/3:15
+# URL            https://raw.githubusercontent.com/yjlsx/quantumult-x/master/other/Loon
+
+[General]
+doh3-server = https://dns.alidns.com/dns-query, https://doh.pub/dns-query, https://cloudflare-dns.com/dns-query, https://dns.google/dns-query
+doh-server = https://dns.alidns.com/dns-query, https://doh.pub/dns-query, https://cloudflare-dns.com/dns-query, https://dns.google/dns-query
+dns-server = 223.5.5.5, 2400:3200::1, 119.29.29.29, 2402:4e00::, 1.1.1.1, 2606:4700:4700::1111, 8.8.8.8, 2001:4860:4860::8888
+ipv6 = true
+disable-udp-ports = 443
+allow-wifi-access = false
+mitm-on-wifi-access = false
+wifi-access-http-port = 7222
+wifi-access-socks5-port = 7221
+proxy-test-url = http://www.apple.com/library/test/success.html
+internet-test-url = http://www.apple.com/library/test/success.html
+test-timeout = 1
+interface-mode = auto
+sni-sniffing = true
+fast-switch = false
+disable-stun = false
+disconnect-on-policy-change = true
+switch-node-after-failure-times = 1
+resource-parser = https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-parser.loon.min.js
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlynatics.com
+bypass-tun = 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.88.99.0/24, 192.168.0.0/16, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 255.255.255.255/32
+
+[Proxy]
+
+[Remote Proxy]
+# 订阅
+猫猫·订阅 = https://qqq.clmurl2.com/api/v1/client/subscribe?token=c08e6673e7778a965ef286013c121479, parser-enabled = true, udp = true, fast-open = true, vmess-aead = true, enabled = true
+猪猪·订阅 = https://apiv1.fliggylink.com/api/v1/client/subscribe?token=7498781b6191081d1a7e4b8af3c320eb, parser-enabled = true, udp = true, fast-open = true, vmess-aead = true, enabled = true
+鱼薯·订阅 = https://hirasawa.chipsfuck.fish/api/v1/client/subscribe?token=3f9ce7d889c1c60bb927d6fc81bea583&node=1, parser-enabled = true, udp = true, fast-open = true, vmess-aead = true, enabled = true
+
+[Remote Filter]
+# 节点
+全球·节点 = NameRegex, FilterKey = "^(?=.*(.*))(?!.*((?i)邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|恢复|过期|已用|联系|邮箱|工单|群|贩卖|通知|倒卖|防止|国内|🎮|TG|tg|\b(GAME|USE|USED|TOTAL|EXPIRE|EMAIL|Panel)\b)).*$"
+大陆·节点 = NameRegex, FilterKey = "^(?=.*((?i)大陆|(\b(China)\b)))(?!.*((?i)校园)).*$"
+香港·节点 = NameRegex, FilterKey = "^(?=.*((?i)🇭🇰|香港|(\b(HK|Hong)\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+台湾·节点 = NameRegex, FilterKey = "^(?=.*((?i)🇹🇼|台湾|(\b(TW|Tai|Taiwan)\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+日本·节点 = NameRegex, FilterKey = "^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|Japan)\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+韩国·节点 = NameRegex, FilterKey = "^(?=.*((?i)🇰🇷|韩国|韓|首尔|(\b(KR|Korea)\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+新国·节点 = NameRegex, FilterKey = "^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|Singapore)\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+美国·节点 = NameRegex, FilterKey = "^(?=.*((?i)🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|(\b(US|United States)\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+直连·节点 = NameRegex, FilterKey = "^(?=.*((?i)直连|(\b(AD)\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+拒绝·节点 = NameRegex, FilterKey = "^(?=.*((?i)广告|(\b(AD)\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+
+[Proxy Group]
+# 场景
+全球·场景 = ssid, default = 全球·策略, cellular = 全球·策略, "吴天宇的WLAN" = 全球·策略, img-url = w.circle
+大陆·场景 = ssid, default = 大陆·策略, cellular = 大陆·策略, "吴天宇的WLAN" = 大陆·策略, img-url = c.circle
+香港·场景 = ssid, default = 香港·策略, cellular = 香港·策略, "吴天宇的WLAN" = 香港·策略, img-url = h.circle
+台湾·场景 = ssid, default = 台湾·策略, cellular = 台湾·策略, "吴天宇的WLAN" = 台湾·策略, img-url = t.circle
+日本·场景 = ssid, default = 日本·策略, cellular = 日本·策略, "吴天宇的WLAN" = 日本·策略, img-url = j.circle
+韩国·场景 = ssid, default = 韩国·策略, cellular = 韩国·策略, "吴天宇的WLAN" = 韩国·策略, img-url = k.circle
+新国·场景 = ssid, default = 新国·策略, cellular = 新国·策略, "吴天宇的WLAN" = 新国·策略, img-url = s.circle
+美国·场景 = ssid, default = 美国·策略, cellular = 美国·策略, "吴天宇的WLAN" = 美国·策略, img-url = u.circle
+直连·场景 = ssid, default = 直连·策略, cellular = 直连·策略, "吴天宇的WLAN" = 直连·策略, img-url = d.circle
+拒绝·场景 = ssid, default = 拒绝·策略, cellular = 拒绝·策略, "吴天宇的WLAN" = 拒绝·策略, img-url = r.circle
+# 策略
+全球·策略 = select, 全球·延时优选, 全球·故障转移, 全球·负载均衡, 全球·手动选择, img-url = w.circle
+大陆·策略 = select, 大陆·延时优选, 大陆·故障转移, 大陆·负载均衡, 大陆·手动选择, img-url = c.circle
+香港·策略 = select, 香港·延时优选, 香港·故障转移, 香港·负载均衡, 香港·手动选择, img-url = h.circle
+台湾·策略 = select, 台湾·延时优选, 台湾·故障转移, 台湾·负载均衡, 台湾·手动选择, img-url = t.circle
+日本·策略 = select, 日本·延时优选, 日本·故障转移, 日本·负载均衡, 日本·手动选择, img-url = j.circle
+韩国·策略 = select, 韩国·延时优选, 韩国·故障转移, 韩国·负载均衡, 韩国·手动选择, img-url = k.circle
+新国·策略 = select, 新国·延时优选, 新国·故障转移, 新国·负载均衡, 新国·手动选择, img-url = s.circle
+美国·策略 = select, 美国·延时优选, 美国·故障转移, 美国·负载均衡, 美国·手动选择, img-url = u.circle
+直连·策略 = select, 直连·延时优选, 直连·故障转移, 直连·负载均衡, 直连·手动选择, img-url = d.circle
+拒绝·策略 = select, 拒绝·延时优选, 拒绝·故障转移, 拒绝·负载均衡, 拒绝·手动选择, img-url = r.circle
+# 延时优选
+全球·延时优选 = url-test, 全球·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = w.circle
+大陆·延时优选 = url-test, 大陆·节点, DIRECT, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = c.circle
+香港·延时优选 = url-test, 香港·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = h.circle
+台湾·延时优选 = url-test, 台湾·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = t.circle
+日本·延时优选 = url-test, 日本·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = j.circle
+韩国·延时优选 = url-test, 韩国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = k.circle
+新国·延时优选 = url-test, 新国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = s.circle
+美国·延时优选 = url-test, 美国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = u.circle
+直连·延时优选 = url-test, 直连·节点, DIRECT, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = d.circle
+拒绝·延时优选 = url-test, 拒绝·节点, REJECT, url = http://www.apple.com/library/test/success.html, interval = 10000, tolerance = 10, img-url = r.circle
+# 故障转移
+全球·故障转移 = fallback, 全球·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = w.circle
+大陆·故障转移 = fallback, 大陆·节点, DIRECT, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = c.circle
+香港·故障转移 = fallback, 香港·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = h.circle
+台湾·故障转移 = fallback, 台湾·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = t.circle
+日本·故障转移 = fallback, 日本·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = j.circle
+韩国·故障转移 = fallback, 韩国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = k.circle
+新国·故障转移 = fallback, 新国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = s.circle
+美国·故障转移 = fallback, 美国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = u.circle
+直连·故障转移 = fallback, 直连·节点, DIRECT, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = d.circle
+拒绝·故障转移 = fallback, 拒绝·节点, REJECT, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, img-url = r.circle
+# 负载均衡
+全球·负载均衡 = load-balance, 全球·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = w.circle
+大陆·负载均衡 = load-balance, 大陆·节点, DIRECT, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = c.circle
+香港·负载均衡 = load-balance, 香港·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = h.circle
+台湾·负载均衡 = load-balance, 台湾·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = t.circle
+日本·负载均衡 = load-balance, 日本·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = j.circle
+韩国·负载均衡 = load-balance, 韩国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = k.circle
+新国·负载均衡 = load-balance, 新国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = s.circle
+美国·负载均衡 = load-balance, 美国·节点, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = u.circle
+直连·负载均衡 = load-balance, 直连·节点, DIRECT, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = d.circle
+拒绝·负载均衡 = load-balance, 拒绝·节点, REJECT, url = http://www.apple.com/library/test/success.html, interval = 10000, max-timeout = 1000, algorithm = pcc, img-url = r.circle
+# 手动选择
+全球·手动选择 = select, 全球·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = w.circle
+大陆·手动选择 = select, 大陆·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = c.circle
+香港·手动选择 = select, 香港·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = h.circle
+台湾·手动选择 = select, 台湾·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = t.circle
+日本·手动选择 = select, 日本·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = j.circle
+韩国·手动选择 = select, 韩国·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = k.circle
+新国·手动选择 = select, 新国·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = s.circle
+美国·手动选择 = select, 美国·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = u.circle
+直连·手动选择 = select, 直连·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = d.circle
+拒绝·手动选择 = select, 拒绝·节点, DIRECT, REJECT, REJECT-DROP, REJECT-NO-DROP, img-url = r.circle
+
+[Proxy Chain]
+
+[Rule]
+# 兜底
+FINAL, 全球·场景
+
+[Remote Rule]
+# 广告
+https://anti-ad.net/surge2.txt, policy = 拒绝·场景, tag = 广告, enabled = true
+http://script.hub/file/_start_/https://raw.githubusercontent.com/fmz200/wool_scripts/main/QuantumultX/filter/fenliu.list/_end_/fenliu.list?type=rule-set&target=loon-rule-set&del=true, policy = 拒绝·场景, tag = 广告, enabled = false
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rules/MyBlockAds.list/_end_/MyBlockAds.list?type=rule-set&target=loon-rule-set&del=true, policy = 拒绝·场景, tag = 广告, enabled = false
+https://limbopro.com/Adblock4limbo.list, policy = 拒绝·场景, tag = 广告, enabled = false
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Advertising/Advertising.list, policy = 拒绝·场景, tag = 广告, enabled = false
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Advertising/Advertising_Domain.list, policy = 拒绝·场景, tag = 广告, enabled = false
+# ZJU
+https://raw.githubusercontent.com/SubConv/ZJU-Rule/main/Clash/ZJU.list, policy = 大陆·场景, tag = ZJU, enabled = true
+# Apple
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Apple/Apple.list, policy = 大陆·场景, tag = Apple, enabled = true
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Apple/Apple_Domain.list, policy = 大陆·场景, tag = Apple, enabled = true
+# WeChat
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/WeChat/WeChat.list, policy = 大陆·场景, tag = WeChat, enabled = true
+# Speedtest
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Speedtest/Speedtest.list, policy = 大陆·场景, tag = Speedtest, enabled = true
+# YouTube
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/YouTube/YouTube.list, policy = 全球·场景, tag = YouTube, enabled = true
+# Google
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Google/Google.list, policy = 全球·场景, tag = Google, enabled = true
+# GitHub
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/GitHub/GitHub.list, policy = 全球·场景, tag = GitHub, enabled = true
+# OpenAI
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/OpenAI/OpenAI.list, policy = 全球·场景, tag = OpenAI, enabled = true
+# X
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Twitter/Twitter.list, policy = 全球·场景, tag = X, enabled = true
+# TikTok
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/TikTok/TikTok.list, policy = 全球·场景, tag = TikTok, enabled = true
+# Telegram
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Telegram/Telegram.list, policy = 全球·场景, tag = Telegram, enabled = true
+# Spotify
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Spotify/Spotify.list, policy = 全球·场景, tag = Spotify, enabled = true
+# Disney
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Disney/Disney.list, policy = 全球·场景, tag = Disney, enabled = true
+# Netflix
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Netflix/Netflix.list, policy = 全球·场景, tag = Netflix, enabled = true
+# PayPal
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/PayPal/PayPal.list, policy = 美国·场景, tag = PayPal, enabled = true
+# Claude
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Claude/Claude.list, policy = 美国·场景, tag = Claude, enabled = true
+# 大陆
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/ChinaMax/ChinaMax.list, policy = 大陆·场景, tag = 大陆, enabled = true
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/ChinaMax/ChinaMax_Domain.list, policy = 大陆·场景, tag = 大陆, enabled = true
+
+[Host]
+# ZJU
+*.zju.edu.cn = server:system
+
+[Rewrite]
+
+[Script]
+
+[Plugin]
+# Apple
+
+https://raw.githubusercontent.com/VirgilClyne/iRingo/main/plugin/Siri.plugin, tag =  iRingo: 🔍 Siri & Search, enabled = true
+https://raw.githubusercontent.com/VirgilClyne/iRingo/main/plugin/Location.plugin, tag =  iRingo: 📍 Location, enabled = true
+https://raw.githubusercontent.com/VirgilClyne/iRingo/main/plugin/Maps.plugin, tag =  iRingo: 🗺️ Maps, enabled = false
+https://raw.githubusercontent.com/VirgilClyne/iRingo/main/plugin/TV.plugin, tag =  iRingo: 📺 TV app, enabled = false
+https://raw.githubusercontent.com/VirgilClyne/iRingo/main/plugin/TestFlight.plugin, tag =  iRingo: ✈ TestFlight, enabled = false
+https://raw.githubusercontent.com/VirgilClyne/iRingo/main/plugin/News.plugin, policy = 大陆·场景, tag =  iRingo: 📰 News, enabled = false
+# Fries
+https://raw.githubusercontent.com/VirgilClyne/GetSomeFries/main/plugin/HTTPDNS.Block.plugin, tag = 🍟 Fries: 🚫 Block HTTPDNS, enabled = true
+https://raw.githubusercontent.com/VirgilClyne/GetSomeFries/main/plugin/General.plugin, tag = 🍟 Fries: 🌐 General Enhanced, enabled = true
+https://raw.githubusercontent.com/VirgilClyne/GetSomeFries/main/plugin/DNS.plugin, tag = 🍟 Fries: 🌐 DNS enhanced, enabled = false
+# BiliBili
+https://raw.githubusercontent.com/BiliUniverse/ADBlock/main/modules/BiliBili.ADBlock.plugin, tag = 📺 BiliBili: 🛡️ ADBlock, enabled = true
+https://raw.githubusercontent.com/BiliUniverse/Enhanced/main/modules/BiliBili.Enhanced.plugin, tag = 📺 BiliBili: ⚙ Enhanced, enabled = true
+https://raw.githubusercontent.com/BiliUniverse/Global/main/modules/BiliBili.Global.plugin, tag = 📺 BiliBili: 🌐 Global, enabled = true
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/bilibili.snippet/_end_/bilibili.plugin?n=bilibili%2Bbilibili%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fbilibili.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = Bilibili, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/Bilibili.conf/_end_/Bilibili.plugin?n=Bilibili%2B%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%87%80%E5%8C%96%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FBilibili.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = Bilibili, enabled = false
+# YouTube
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/YoutubeAds.conf/_end_/YoutubeAds.plugin?n=Youtube%2B%E7%94%A8%E4%BA%8E%E8%A7%86%E9%A2%91%E3%80%81%E7%80%91%E5%B8%83%E6%B5%81%E3%80%81%E6%90%9C%E7%B4%A2%E3%80%81%E6%92%AD%E6%94%BE%E9%A1%B5%E3%80%81%E7%9F%AD%E8%A7%86%E9%A2%91%E5%8F%8A%E8%B4%B4%E7%89%87%E5%B9%BF%E5%91%8A%E3%80%81%E8%A7%86%E9%A2%91%E8%87%AA%E5%8A%A8PIP%E3%80%81%E5%90%8E%E5%8F%B0%E6%92%AD%E6%94%BE%E3%80%81%E8%87%AA%E5%8A%A8%E7%BF%BB%E8%AF%91%EF%BC%8C%E4%B8%8D%E9%80%82%E7%94%A8%E5%85%81%E8%AE%B8%20UDP%20%E8%BD%AC%E5%8F%91%E7%9A%84%E8%8A%82%E7%82%B9%E5%8F%8A%20Premium%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FYoutubeAds.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = YouTube, enabled = true
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/youtube.snippet/_end_/youtube.plugin?n=YouTube%2BYouTube%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fyoutube.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = YouTube, enabled = false
+# DualSubs
+https://raw.githubusercontent.com/DualSubs/YouTube/main/modules/DualSubs.YouTube.plugin, tag = 🍿️ DualSubs: ▶️ YouTube, enabled = true
+https://raw.githubusercontent.com/DualSubs/Netflix/main/modules/DualSubs.Netflix.plugin, tag = 🍿️ DualSubs: 🇳 Netflix, enabled = false
+https://raw.githubusercontent.com/DualSubs/Universal/main/modules/DualSubs.Universal.plugin, tag = 🍿️ DualSubs: 🎦 Universal, enabled = false
+# Safari
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/Html/Q-Search.conf/_end_/Q-Search.plugin?n=Safari%2BSafari%20%E5%86%85%E8%BE%93%E5%85%A5%E4%BB%A5%E4%B8%8B%E6%A0%BC%E5%BC%8F%E5%91%BD%E4%BB%A4%E5%BF%AB%E9%80%9F%E6%8C%87%E5%AE%9A%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E3%80%90%E5%91%BD%E4%BB%A4%26%E7%A9%BA%E6%A0%BC%26%E5%85%B3%E9%94%AE%E8%AF%8D%E3%80%91%E6%88%96%E8%80%85%E3%80%90%E5%85%B3%E9%94%AE%E8%AF%8D%26%E7%A9%BA%E6%A0%BC%26%E5%91%BD%E4%BB%A4%E3%80%91%EF%BC%88%E8%AF%B7%E5%85%88%E8%BF%9B%E5%85%A5%E8%AE%BE%E7%BD%AE%E6%9B%B4%E6%94%B9%20Safari%20%E9%BB%98%E8%AE%A4%E6%90%9C%E7%B4%A2%E4%B8%BA%20DuckDuckGO%EF%BC%89%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FHtml%2FQ-Search.conf%0A%23!author%3D%20ddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = Safari, enabled = true
+# 微信
+http://script.hub/file/_start_/https://raw.githubusercontent.com/fmz200/wool_scripts/main/QuantumultX/rewrite/cleanup.snippet/_end_/cleanup.plugin?n=%E7%BB%BC%E5%90%88%2BApp%26%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%87%80%E5%8C%96%E5%90%88%E9%9B%86%EF%BC%8C%E5%8E%BB%E9%99%A4%E4%B8%80%E4%BA%9B%E5%86%97%E4%BD%99%E7%9A%84%E6%A8%A1%E5%9D%97%EF%BC%8C%E9%81%87%E5%88%B0%E5%BC%82%E5%B8%B8%E6%97%B6%E5%85%B3%E9%97%AD%E6%AD%A4%E8%84%9A%E6%9C%AC%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FQuantumultX%2Frewrite%2Fcleanup.snippet%0A%23!author%3Dfmz200&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%3Dbody.replace(%2F%23!icon%3D.*%3F%5C.gif%2Fg%2C%20'%23!icon%3D')%3B, tag = 微信, enabled = true
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/Applet.conf/_end_/Applet.plugin?n=%E5%BE%AE%E4%BF%A1%2B%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8E%BB%E9%99%A4%E5%B9%BF%E5%91%8A%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FApplet.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 微信, enabled = false
+# 知乎
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/zhihu.snippet/_end_/zhihu.plugin?n=%E7%9F%A5%E4%B9%8E%2B%E7%9F%A5%E4%B9%8E%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fzhihu.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 知乎, enabled = true
+https://script.hub/file/_start_/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zheye/zheye.snippet/_end_/zheye.plugin?n=%E7%9F%A5%E4%B9%8E%2B%E7%9F%A5%E4%B9%8E%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fblackmatrix7%2Fios_rule_script%2Fmaster%2Fscript%2Fzheye%2Fzheye.snippet%0A%23!author%3Dblackmatrix7&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 知乎, enabled = false
+# 阿里网盘
+https://script.hub/file/_start_/https://gist.githubusercontent.com/ddgksf2013/f4752e632fd3375ea2811985c5b635dc/raw/alicloud.js/_end_/alicloud.plugin?n=%E9%98%BF%E9%87%8C%E7%BD%91%E7%9B%98%2B%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98%E5%87%80%E5%8C%96%26%E8%A7%A3%E9%94%81%E6%9C%AC%E5%9C%B0%E4%BC%9A%E5%91%98%E5%8A%9F%E8%83%BD%5B%E5%80%8D%E9%80%9F%E3%80%81%E7%A0%81%E7%8E%87%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fgist.githubusercontent.com%2Fddgksf2013%2Ff4752e632fd3375ea2811985c5b635dc%2Fraw%2Falicloud.js%0A%23!author%3D%20ddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 阿里网盘, enabled = false
+# 百度网盘
+https://script.hub/file/_start_/https://gist.githubusercontent.com/ddgksf2013/f43026707830c7818ee3ba624e383c8d/raw/baiduCloud.vip.js/_end_/baiduCloud.plugin?n=%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%2B%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98SVIP%26%E5%8E%BB%E5%BC%80%E5%B1%8F%E5%B9%BF%E5%91%8A%E8%84%9A%E6%9C%AC%0A%23!openUrl%3Dhttps%3A%2F%2Fgist.githubusercontent.com%2Fddgksf2013%2Ff43026707830c7818ee3ba624e383c8d%2Fraw%2FbaiduCloud.vip.js%0A%23!author%3D%20ddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 百度网盘, enabled = false
+# 百度地图
+https://script.hub/file/_start_/https://gist.githubusercontent.com/ddgksf2013/beec132ca0c3570ffa0cf331bce8f82a/raw/baidumap.adblock.conf/_end_/baidumap.plugin?n=%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%2B%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E5%87%80%E5%8C%96%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fgist.githubusercontent.com%2Fddgksf2013%2Fbeec132ca0c3570ffa0cf331bce8f82a%2Fraw%2Fbaidumap.adblock.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 百度地图, enabled = false
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/bdmap.snippet/_end_/bdmap.plugin?n=%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%2B%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fbdmap.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 百度地图, enabled = false
+# 高德地图
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/amap.snippet/_end_/amap.plugin?n=%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE%2B%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Famap.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 高德地图, enabled = true
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/Amap.conf/_end_/Amap.plugin?n=%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE%2B%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE%E5%87%80%E5%8C%96%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FAmap.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 高德地图, enabled = false
+# 菜鸟裹裹
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/cainiao.snippet/_end_/cainiao.plugin?n=%E8%8F%9C%E9%B8%9F%E8%A3%B9%E8%A3%B9%2B%E8%8F%9C%E9%B8%9F%E8%A3%B9%E8%A3%B9%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fcainiao.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 菜鸟裹裹, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/Cainiao.conf/_end_/Cainiao.plugin?n=%E8%8F%9C%E9%B8%9F%E8%A3%B9%E8%A3%B9%2B%E8%8F%9C%E9%B8%9F%5B%E8%8F%9C%E9%B8%9F%E8%A3%B9%E8%A3%B9%5D(%E6%94%AF%E4%BB%98%E5%AE%9D%E5%B0%8F%E7%A8%8B%E5%BA%8F)%E5%87%80%E5%8C%96%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FCainiao.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 菜鸟裹裹, enabled = false
+# 微博
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/weibo.snippet/_end_/weibo.plugin?n=%E5%BE%AE%E5%8D%9A%2B%E5%BE%AE%E5%8D%9A%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fweibo.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 微博, enabled = true
+# 小红书
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/xiaohongshu.snippet/_end_/xiaohongshu.plugin?n=%E5%B0%8F%E7%BA%A2%E4%B9%A6%2B%E5%B0%8F%E7%BA%A2%E4%B9%A6%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fxiaohongshu.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 小红书, enabled = true
+# 什么值得买
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/smzdm.snippet/_end_/smzdm.plugin?n=%E4%BB%80%E4%B9%88%E5%80%BC%E5%BE%97%E4%B9%B0%2B%E4%BB%80%E4%B9%88%E5%80%BC%E5%BE%97%E4%B9%B0%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fsmzdm.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 什么值得买, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.qxrewrite/_end_/smzdm_remove_ads.plugin?n=%E4%BB%80%E4%B9%88%E5%80%BC%E5%BE%97%E4%B9%B0%2B%E4%BB%80%E4%B9%88%E5%80%BC%E5%BE%97%E4%B9%B0%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fblackmatrix7%2Fios_rule_script%2Fmaster%2Fscript%2Fsmzdm%2Fsmzdm_remove_ads.qxrewrite%0A%23!author%3Dblackmatrix7&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 什么值得买, enabled = false
+# 网易云音乐
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/cloudmusic.snippet/_end_/cloudmusic.plugin?n=%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%2B%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fcloudmusic.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 网易云音乐, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/Netease.conf/_end_/Netease.plugin?n=%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%2B%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E5%87%80%E5%8C%96%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FNetease.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 网易云音乐, enabled = false
+# 喜马拉雅
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/Ximalaya.conf/_end_/Ximalaya.plugin?n=%E5%96%9C%E9%A9%AC%E6%8B%89%E9%9B%85%2B%E5%96%9C%E9%A9%AC%E6%8B%89%E9%9B%85%E5%87%80%E5%8C%96%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FXimalaya.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 喜马拉雅, enabled = false
+# IT之家
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/ithome.snippet/_end_/ithome.plugin?n=IT%E4%B9%8B%E5%AE%B6%2BIT%E4%B9%8B%E5%AE%B6%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fithome.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = IT之家, enabled = false
+# 豆瓣
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/Html/Douban.conf/_end_/Douban.plugin?n=%E8%B1%86%E7%93%A3%2B%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%E7%A7%BB%E5%8A%A8%E7%89%88%E7%BD%91%E9%A1%B5%E4%BC%98%E5%8C%96%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FHtml%2FDouban.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 豆瓣, enabled = false
+# 百度贴吧
+https://raw.githubusercontent.com/app2smile/rules/master/plugin/tieba.plugin, tag = 百度贴吧, enabled = false
+# Pixiv
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Scripts/master/pixivAds.js/_end_/pixivAds.plugin?n=Pixiv%2BPixiv%E5%8E%BB%E5%B9%BF%E5%91%8A%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FScripts%2Fmaster%2FpixivAds.js%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = Pixiv, enabled = false
+# Keep
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/KeepStyle.conf/_end_/KeepStyle.plugin?n=Keep%2BKeep%E5%87%80%E5%8C%96%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FKeepStyle.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = Keep, enabled = false
+# 综合·解锁
+https://raw.githubusercontent.com/chxm1023/Script_X/main/Collections.plugin, tag = 综合, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/AppUnlock.conf/_end_/AppUnlock.plugin?n=%E4%BC%9A%E5%91%98%2B%E7%A0%B4%E8%A7%A3%E4%BC%9A%E5%91%98%0A%23!openUrl%20%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FAppUnlock.conf%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+http://script.hub/file/_start_/https://raw.githubusercontent.com/fmz200/wool_scripts/main/Loon/scripts/unlock_vip.scripts/_end_/unlock_vip.plugin?n=%E7%BB%BC%E5%90%88%2Bfmz200%E8%A7%A3%E9%94%81%E4%BC%9A%E5%91%98%E5%90%88%E9%9B%86%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FLoon%2Fscripts%2Funlock_vip.scripts%0A%23!author%3Dfmz200&type=loon-plugin&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/dev/master/ForOwnUse.conf/_end_/ForOwnUse.plugin?n=%E7%BB%BC%E5%90%88%2BAPP%E8%A7%A3%E9%94%81%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2Fdev%2Fmaster%2FForOwnUse.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+http://script.hub/file/_start_/https://gist.githubusercontent.com/ddgksf2013/dbb1695cd96743eef18f3fac5c6fe227/raw/revenuecat.js/_end_/revenuecat.plugin?n=%E7%BB%BC%E5%90%88%2BAPP%E8%A7%A3%E9%94%81-RevenueCat%E5%A4%9A%E5%90%88%E4%B8%80%5B%E5%A2%A8%E9%B1%BC%E7%89%88%5D%0A%23!openUrl%3Dhttps%3A%2F%2Fgist.githubusercontent.com%2Fddgksf2013%2Fdbb1695cd96743eef18f3fac5c6fe227%2Fraw%2Frevenuecat.js%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20%27%23!icon%3D%27)%3B, tag = 综合, enabled = false
+# 综合·广告
+https://raw.githubusercontent.com/wutianyu1129/Quantumult-X/main/wawa, policy = 拒绝·场景, tag = 综合, enabled = true
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/MyBlockAds.conf/_end_/MyBlockAds.plugin?n=%E7%BB%BC%E5%90%88%2B%E5%8E%BB%E5%B9%BF%E5%91%8A%E5%90%88%E9%9B%86%EF%BC%8C%E4%BB%A5%E4%B8%8Bapp%E8%AF%B7%E4%BD%BF%E7%94%A8%E5%8D%95%E7%8B%AC%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%9A%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE%2C%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%2C%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%2C%E5%BE%AE%E5%8D%9A%2CYouTube%2C%E7%9F%A5%E4%B9%8E%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FMyBlockAds.conf%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = true
+http://script.hub/file/_start_/https://raw.githubusercontent.com/fmz200/wool_scripts/main/QuantumultX/rewrite/chongxie.txt/_end_/chongxie.plugin?n=%E7%BB%BC%E5%90%88%2B%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%90%88%E9%9B%86%EF%BC%8C%E9%92%88%E5%AF%B9%E9%83%A8%E5%88%86APP%E5%BC%80%E5%B1%8F%E5%B9%BF%E5%91%8A%EF%BC%8C%E5%BA%94%E7%94%A8%E5%86%85%E5%B9%BF%E5%91%8A%E8%BF%9B%E8%A1%8C%E6%8B%A6%E6%88%AA%EF%BC%8C%E6%9F%90%E4%BA%9BAPP%E8%A6%81%E6%B8%85%E9%99%A4%E7%BC%93%E5%AD%98%E6%88%96%E8%80%85%E9%87%8D%E6%96%B0%E5%AE%89%E8%A3%85%E6%8B%A6%E6%88%AA%E5%B9%BF%E5%91%8A%E6%89%8D%E4%BC%9A%E7%94%9F%E6%95%88%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Ffmz200%2Fwool_scripts%2Fmain%2FQuantumultX%2Frewrite%2Fchongxie.txt%0A%23!author%3Dfmz200&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.gif%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = true
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/AdBlock/StartUp.conf/_end_/StartUp.plugin?n=%E7%BB%BC%E5%90%88%2B%E5%8E%BB%E9%99%A4APP%E9%A6%96%E9%A1%B5%E5%90%AF%E5%8A%A8%E5%B9%BF%E5%91%8A%E5%92%8C%E9%83%A8%E5%88%86%E5%BA%94%E7%94%A8%E5%86%85%E5%B9%BF%E5%91%8A%EF%BC%8C%E4%B8%8D%E5%90%AB%5B%E5%96%9C%E9%A9%AC%E6%8B%89%E9%9B%85%E3%80%81%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E3%80%81%E5%BE%AE%E5%8D%9A(%E5%9B%BD%E9%99%85%E7%89%88)%E3%80%81Youtube%E3%80%81Keep%E3%80%81%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7%E3%80%81%E7%9F%A5%E4%B9%8E%E3%80%81%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE%E3%80%81%E5%B0%8F%E7%BA%A2%E4%B9%A6%E3%80%81%E7%BD%91%E6%98%93%E4%BA%91%E3%80%81%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E3%80%81%E4%BB%80%E4%B9%88%E5%80%BC%E5%BE%97%E4%B9%B0%5D%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FAdBlock%2FStartUp.conf%0A%23!author%3Dddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Loon/AllInOne/AllInOne.plugin, tag = 综合, enabled = false
+http://script.hub/file/_start_/https://raw.githubusercontent.com/DivineEngine/Profiles/master/Quantumult/Rewrite/Block/Advertising.conf/_end_/Advertising.plugin?n=%E7%BB%BC%E5%90%88%2B%E7%BB%BC%E5%90%88%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FDivineEngine%2FProfiles%2Fmaster%2FQuantumult%2FRewrite%2FBlock%2FAdvertising.conf%0A%23!author%3D%20DivineEngine&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/zqzess/rule_for_quantumultX/master/QuantumultX/rewrite/MyRewrite.conf/_end_/MyRewrite.plugin?n=%E7%BB%BC%E5%90%88%2B%E7%BB%BC%E5%90%88%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fzqzess%2Frule_for_quantumultX%2Fmaster%2FQuantumultX%2Frewrite%2FMyRewrite.conf%0A%23!author%3Dzqzess&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+http://script.hub/file/_start_/https://raw.githubusercontent.com/zwf234/rules/master/QuantumultX/tailadv.conf/_end_/tailadv.plugin?n=%E7%BB%BC%E5%90%88%2B%E7%BB%BC%E5%90%88%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fzwf234%2Frules%2Fmaster%2FQuantumultX%2Ftailadv.conf%0A%23!author%3Dzwf234&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+https://raw.githubusercontent.com/chxm1023/Advertising/Loon/AppAD.plugin, tag = 综合, enabled = false
+# 综合·影视
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/Cube/cnftp.snippet/_end_/cnftp.plugin?n=%E7%BB%BC%E5%90%88%2BChina%20Film%20and%20Television%20Platform%EF%BC%88%E7%88%B1%E5%A5%87%E8%89%BA%E3%80%81%E4%BC%98%E9%85%B7%E3%80%81%E8%85%BE%E8%AE%AF%E3%80%81%E8%8A%92%E6%9E%9CTV%EF%BC%89%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FCube%2Fcnftp.snippet%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rewrites/WebPage.conf/_end_/WebPage.plugin?n=%E7%BB%BC%E5%90%88%2B%E5%8E%BB%E5%B9%BF%E5%91%8A%26%E5%BD%B1%E8%A7%86%E7%BD%91%E9%A1%B5%E4%BC%98%E5%8C%96%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FRuCu6%2FQuanX%2Fmain%2FRewrites%2FWebPage.conf%0A%23!author%3DRuCu6&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/ddgksf2013/Rewrite/master/Html/WebAdBlock.conf/_end_/WebAdBlock.plugin?n=%E7%BB%BC%E5%90%88%2B%E5%BD%B1%E8%A7%86%E7%BD%91%E7%AB%99%E5%8E%BB%E5%B9%BF%E5%91%8A%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fddgksf2013%2FRewrite%2Fmaster%2FHtml%2FWebAdBlock.conf%0A%23!author%3D%20ddgksf2013&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+https://script.hub/file/_start_/https://raw.githubusercontent.com/limbopro/Adblock4limbo/main/Adblock4limbo.conf/_end_/Adblock4limbo.plugin?n=%E7%BB%BC%E5%90%88%2B%E5%8E%BB%E5%B9%BF%E5%91%8A%26%E5%BD%B1%E8%A7%86%E7%BD%91%E7%AB%99%E4%BC%98%E5%8C%96%0A%23!openUrl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Flimbopro%2FAdblock4limbo%2Fmain%2FAdblock4limbo.conf%0A%23!author%3Dlimbopro&type=qx-rewrite&target=loon-plugin&nocache=true&evalScriptmodi=body%20%3D%20body.replace(%2F%23!icon%3D.*%3F%5C.png%2Fg%2C%20'%23!icon%3D')%3B, tag = 综合, enabled = false
+# 工具
+https://raw.githubusercontent.com/chavyleung/scripts/master/box/rewrite/boxjs.rewrite.loon.plugin, policy = 全球·场景, tag = BoxJs, enabled = true
+https://raw.githubusercontent.com/sub-store-org/Sub-Store/master/config/Loon.plugin, policy = 全球·场景, tag = Sub-Store, enabled = false
+https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/modules/script-hub.loon.plugin, tag = 转换, enabled = true
+https://raw.githubusercontent.com/Keywos/rule/main/script/netisp/netisp.plugin, tag = 入口落地查询, enabled = true
+https://raw.githubusercontent.com/Peng-YM/Loon-Gallery/master/loon-gallery.plugin, policy = 全球·场景, tag = 插件仓库, enabled = false
+
+[Mitm]
+ca-p12 = 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
+ca-passphrase = B5138HU8
+hostname  = 
+ca-p12 = 
+ca-passphrase = 
+skip-server-cert-verify = false

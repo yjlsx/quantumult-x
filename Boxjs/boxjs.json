@@ -1,0 +1,31 @@
+{
+  "id": "yjlsx",
+  "name": "yjlsx 脚本订阅",
+  "author": "@yjlsx",
+  "icon": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/Auto.png",
+  "repo": "https://github.com/yjlsx",
+  "apps": [
+    {
+      "id": "Kuwomusic",
+      "name": "酷我音乐",
+      "keys": ["Kuwomusicurl", "Kuwomusichd"],
+      "author": "@yjlsx",
+      "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
+      "icons": ["https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/KKTV.png", 
+      "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/KKTV.png"],
+      "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/Kuwomusic.js"
+    },
+    {
+      "id": "QQreader",
+      "name": "QQ阅读",
+      "keys": ["qqrdcookie"],
+      "author": "@yjlsx",
+      "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
+      "icons": ["https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/QQ.png", 
+      "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/QQ.png"],
+      "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/QQreader.js"
+    }
+  ]
+}
+
+
