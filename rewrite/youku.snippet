@@ -1,0 +1,30 @@
+#!name = 优酷
+#!desc = 优酷去广告
+#!author = RuCu6
+#!openUrl =
+#!homepage = https://github.com/Du23456/Quantumult-X/tree/main
+#!icon = http://www.kuaipng.com/Uploads/pic/w/2020/05-20/81896/water_81896_698_698_.png
+#!date = 2023-9-4 15:50
+
+#原项目链接: https://github.com/RuCu6/QuanX/raw/main/Rewrites/Cube/cnftp.snippet
+
+#[rewrite_local]
+# 播放详情页,首页信息流,顶部tab,我的页面
+^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.(gateway\.new\.execute|home\.feed|home\.query|uc\.query) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/V1/cnftp.js
+# 评论区
+^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.columbus\.ycp\.query url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/V1/cnftp.js
+# 底部tab
+^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.haidai\.lantern\.appconfig\.get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/V1/cnftp.js
+# 青少年模式弹窗
+^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.huluwa\.dispatcher\.youthmode\.config2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/V1/cnftp.js
+# 播放页弹窗动图
+^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.(pisp\.scripts\.get|xspace\.play\.position\.preload\.query|xspace\.poplayer\.position\.query) url reject-dict
+# 搜索列表
+^https:\/\/acs\.youku\.com\/gw\/mtop\.youku\.soku\.yksearch url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/V1/cnftp.js
+# 热剧弹窗
+^https:\/\/push\.m\.youku\.com\/collect-api\/get_push_interval_config_wx\? url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/V1/cnftp.js
+# 开屏广告
+^https:\/\/un-acs\.youku\.com\/gw\/mtop\.youku\.play\.ups\.appinfo\.get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/V1/cnftp.js
+
+#[mitm]
+hostname=acs.youku.com, push.m.youku.com, un-acs.youku.com

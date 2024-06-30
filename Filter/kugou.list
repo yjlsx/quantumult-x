@@ -1,0 +1,27 @@
+# > 酷狗音乐
+host-keyword, searchrecommend.kugou.com, reject
+host-keyword, rt-m.kugou.com, reject
+host-keyword, c1img.ali.kugou.com, reject
+host-keyword, kgstaticdlbssdlbig.tx.kugou.com, reject
+host-keyword, splashimgbssdl.yun.kugou.com, reject
+host-keyword, rich.kuwo.cn, reject
+host-keyword, mobilead.kuwo.cn, reject
+host, adsfile.bssdlbig.kugou.com, reject
+HOST-SUFFIX,oth.eve.mdt.qq.com, reject
+HOST,pgdt.gtimg.cn, reject
+HOST-SUFFIX,pgdt.gtimg.cn, reject
+HOST,pgdt.gtimg.com, reject
+HOST,adsmind.gdtimg.com, reject
+HOST-SUFFIX,channel.fanxing.kugou.com, reject
+HOST-SUFFIX,minidcsc.kugou.com, reject
+HOST-SUFFIX,mo.kugou.com, reject
+HOST-SUFFIX,msg.mobile.kugou.com, reject
+HOST-SUFFIX,mvads.kugou.com, reject
+HOST-SUFFIX,p.kugou.com, reject
+HOST-SUFFIX,push.mobile.kugou.com, reject
+HOST-SUFFIX,rtmonitor.kugou.com, reject
+HOST-SUFFIX,sdn.kugou.com, reject
+HOST-SUFFIX,song.fanxing.kugou.com, reject
+HOST-SUFFIX,update.mobile.kugou.com, reject
+HOST-SUFFIX,youxi.kugou.com, reject
+HOST-SUFFIX,log.stat.kugou.com, reject
