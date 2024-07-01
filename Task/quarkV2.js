@@ -20,13 +20,13 @@ const $ = new Env("夸克网盘")
 
 [Script]
 
-http-response ^https:\/\/drive-pc\.quark\.cn\/1\/clouddrive\/file\/sort script-path=https://gist.githubusercontent.com/yjlsx/quantumult-x/master/Task/quarkV2.js, requires-body=true, timeout=60, tag=夸克网盘获取token
+http-response ^https:\/\/drive-pc\.quark\.cn\/1\/clouddrive\/file\/sort script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/quarkV2.js, requires-body=true, timeout=60, tag=夸克网盘获取token
 
-http-response ^https:\/\/coral2\.quark\.cn\/task\/trigger script-path=https://gist.githubusercontent.com/yjlsx/quantumult-x/master/Task/quarkV2.js, requires-body=true, timeout=60, tag=夸克网盘福利日常收录任务
+http-response ^https:\/\/coral2\.quark\.cn\/task\/trigger script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/quarkV2.js, requires-body=true, timeout=60, tag=夸克网盘福利日常收录任务
 
-http-request ^https:\/\/coral2\.quark\.cn\/quark\/(carbon|welfare)\/(v1|v2)\/signIn script-path=https://gist.githubusercontent.com/yjlsx/quantumult-x/master/Task/quarkV2.js, requires-body=true, timeout=60, tag=夸克网盘空间签到收录任务
+http-request ^https:\/\/coral2\.quark\.cn\/quark\/(carbon|welfare)\/(v1|v2)\/signIn script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/quarkV2.js, requires-body=true, timeout=60, tag=夸克网盘空间签到收录任务
 
-http-request ^https:\/\/coral2\.quark\.cn\/quark\/welfare\/v2\/sleep\/trigger script-path=https://gist.githubusercontent.com/yjlsx/quantumult-x/master/Task/quarkV2.js, requires-body=true, timeout=60, tag=夸克网盘睡眠打卡收录任务
+http-request ^https:\/\/coral2\.quark\.cn\/quark\/welfare\/v2\/sleep\/trigger script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/quarkV2.js, requires-body=true, timeout=60, tag=夸克网盘睡眠打卡收录任务
 
 [MITM]
 hostname = coral2.quark.cn,drive-pc.quark.cn
