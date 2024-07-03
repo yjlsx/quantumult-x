@@ -2,6 +2,11 @@
  * @fileoverview Template to compose HTTP reqeuest.
  * 
  */
+[rewrite_remote]
+https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/1905cookie.js,  tag=1905, update-interval=172800, opt-parser=ture, enabled=false
+
+[MITM]
+hostname = 50843.activity-42.m.duiba.com.cn
 
 const cookieName = '1905电影'
 const tokenurlKey = 'chavy_tokenurl_1905'
