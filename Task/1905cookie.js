@@ -2,8 +2,8 @@
  * @fileoverview Template to compose HTTP reqeuest.
  * 
  */
-[rewrite_remote]
-https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/1905cookie.js,  tag=1905, update-interval=172800, opt-parser=ture, enabled=false
+[Script]
+http-response ^http:\/\/50843\.activity-42\.m\.duiba\.com\.cn\/signactivity\/doSign script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/1905cookie.js, requires-body=true, timeout=60, tag=1905
 
 [MITM]
 hostname = 50843.activity-42.m.duiba.com.cn
