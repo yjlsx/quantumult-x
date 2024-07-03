@@ -3,7 +3,7 @@
  * 
  */
 [Script]
-http-response ^http:\/\/50843\.activity-42\.m\.duiba\.com\.cn\/signactivity\/doSign script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/1905cookie.js, requires-body=true, timeout=60, tag=1905
+http-response ^http:\/\/50843\.activity-42\.m\.duiba\.com\.cn\/sign script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/1905cookie.js, requires-body=true, timeout=60, tag=1905
 
 [MITM]
 hostname = 50843.activity-42.m.duiba.com.cn
@@ -17,7 +17,7 @@ const signbodyKey = 'chavy_signbody_1905'
 const chavy = init()
 
 const requrl = $request.url
-if ($request && $request.method != 'GET' && requrl.match(/\/signactivity\/doSign/)) {
+if ($request && $request.method != 'GET' && requrl.match(/\/sign\/fornew/)) {
   const signurlVal = requrl
   const signheaderVal = JSON.stringify($request.headers)
   const signbodyVal = $request.body
