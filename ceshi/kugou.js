@@ -14,7 +14,7 @@
 ^https:\\//gateway\.kugou\.com\/.?urlparam.+$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^http:\/\/adserviceretry\.kglink\.cn\/v4\/mobile_splash url reject-200
 ^https:\\//welfare\.kugou\.com\/diy\/v1\/get_official_theme url script-analyze-echo-response https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/theme.json
-
+^https:\\//gateway\.kugou\.com\/v5\/login_by_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 
 [mitm]
 hostname = gateway.kugou.com,
@@ -38,15 +38,16 @@ const coupon = '/listening';
 const prom = '/promotionvip';
 const ads = '/v5/task_video';
 const user = '/get_login_extend_info';
+const token = '/login_by_token';
 
 if (url.indexOf(user) != -1) {   
 obj.data.ads = { };
 obj.data.vipinfo.su_vip_y_endtime = "2099-03-17 09:05:55"; 
-obj.data.vipinfo.su_vip_clearday = "4070880000"; 
+obj.data.vipinfo.su_vip_clearday = "2022-03-17 09:05:55"; 
 obj.data.vipinfo.su_vip_end_time = "2099-03-17 09:05:55"; 
 obj.data.vipinfo.su_vip_begin_time = "2022-03-17 09:05:55"; 
 obj.data.vipinfo.svip_score = 999999; 
-obj.data.vipinfo.vip_type = 5120; 
+obj.data.vipinfo.vip_type = 0; 
 obj.data.vipinfo.svip_level = 20; 
 body = JSON.stringify(obj);
 }
@@ -76,20 +77,20 @@ body = JSON.stringify(obj);
 if (url.indexOf(svip) != -1) {    
 obj.data.list.p_grade = 20; 
 obj.data.list.vipinfo.is_vip = 1;
-obj.data.list.vipinfo.vip.type = 5120;
+obj.data.list.vipinfo.vip.type = 0;
 obj.data.list.vipinfo.svip.level = 20;
 obj.data.list.vipinfo.svip.score = 99999;
 obj.data.list.vipinfo.vip_statu = 1;       */user_type=0  user_y_type = 0
 body = JSON.stringify(obj);
 }
 if (url.indexOf(time) != -1) {    
-obj.data.list.start_time = "1672502400"; 
-obj.data.list.end_time = "4070880000"; 
-obj.data.list.type =ssvip; 
+obj.data.list.start_time = "2022-03-17 09:05:55"; 
+obj.data.list.end_time = "2099-03-17 09:05:55"; 
+obj.data.list.type =svip; 
 body = JSON.stringify(obj);
 }
 if (url.indexOf(ssvip) != -1) {    
-obj.data.user_type = vip; 
+obj.data.user_type = 0; 
 obj.data.vip_end_time = "2099-03-17 09:05:55"; 
 obj.data.su_vip_end_time = "2099-03-17 09:05:55"; 
 obj.data.vip_begin_time = "2022-03-17 09:05:55";
@@ -97,23 +98,23 @@ obj.data.m_end_time = "2099-03-17 09:05:55";
 obj.data.su_vip_begin_time = "2022-03-17 09:05:55";
 obj.data.su_vip_y_endtime = "2099-03-17 09:05:55";
 obj.data.is_vip = 1; 
-obj.data.su_vip_clearday = "4070880000"; 
-obj.data.vip_type = ssvip; 
+obj.data.su_vip_clearday = "2022-03-17 09:05:55"; 
+obj.data.vip_type = 0; 
 body = JSON.stringify(obj);
 }
 if (url.indexOf(data) != -1) {    
 obj.data.vipinfo.su_vip_y_endtime = "2099-03-17 09:05:55";
-obj.data.vipinfo.su_vip_clearday = "4070880000"; 
+obj.data.vipinfo.su_vip_clearday = "2022-03-17 09:05:55"; 
 obj.data.vipinfo.su_vip_end_time = "2099-03-17 09:05:55"; 
 obj.data.vipinfo.su_vip_begin_time = "2022-03-17 09:05:55";
 obj.data.vipinfo.svip_score = 99999;
-obj.data.vipinfo.vip_type = ssvip; 
+obj.data.vipinfo.vip_type = 0; 
 obj.data.vipinfo.svip_level = 20; 
 body = JSON.stringify(obj);
 }
 if (url.indexOf(vipinfo) != -1) {   
 obj.data.vip_begin_time = "2022-03-17 09:05:55";
-obj.data.vip_type = ssvip;  
+obj.data.vip_type = 0;  
 obj.data.vip_y_endtime = "2099-03-17 09:05:55";
 obj.data.su_vip_upgrade_days = 9999;
 obj.data.su_vip_begin_time = "2022-03-17 09:05:55";
@@ -122,15 +123,28 @@ obj.data.su_vip_y_end_time = "2099-03-17 09:05:55";
 obj.data.su_vip_y_endtime = "2099-03-17 09:05:55";
 obj.data.vip_endtime = "2099-03-17 09:05:55"; 
 obj.data.svip_level = 20; 
-obj.data.su_vip_clearday = "4070880000"; 
+obj.data.su_vip_clearday = "2022-03-17 09:05:55"; 
 obj.data.svip_score = 99999;
 obj.data.is_vip = 1;
+obj.data.producttype = svip;
 obj.data.su_vip_end_time = "2099-03-17 09:05:55"; 
 obj.data.m_end_time = "2099-03-17 09:05:55"; 
 obj.data.m_y_endtime = "2099-03-17 09:05:55"; 
-obj.data.vip_clearday = "4070880000"; 
-obj.data.m_clearday = "4070880000"; 
+obj.data.vip_clearday = "2022-03-17 09:05:55"; 
+obj.data.m_clearday = "2022-03-17 09:05:55"; 
 obj.data.h_end_time = "2099-03-17 09:05:55"; 
+body = JSON.stringify(obj);
+}
+if (url.indexOf(token) != -1) {    
+obj.data.vip_end_time = "2099-03-17 09:05:55"; 
+obj.data.su_vip_end_time = "2099-03-17 09:05:55"; 
+obj.data.is_vip = 1;
+obj.data.su_vip_clearday = "2022-03-17 09:05:55"; 
+obj.data.vip_begin_time = "2022-03-17 09:05:55"; 
+obj.data.m_end_time = "2099-03-17 09:05:55"; 
+obj.data.su_vip_begin_time = "2022-03-17 09:05:55";
+obj.data.su_vip_y_endtime = "2099-03-17 09:05:55"; 
+obj.data.m_begin_time = "2022-03-17 09:05:55"; 
 body = JSON.stringify(obj);
 }
 if (url.indexOf(inte) != -1) {   
@@ -138,7 +152,7 @@ obj.data.vip_integral = 99999;
 obj.data.get_vip_info_v3.data.vip_list = [^0];
 obj.data.get_vip_info_v3.data.m_list = [^0];
 obj.data.get_vip_info_v3.data.auto_list = [^0];
-obj.data.get_vip_info_v3.data.vip_type = ssvip;
+obj.data.get_vip_info_v3.data.vip_type = 0;
 obj.data.get_vip_info_v3.data.vip_y_endtime = "2099-03-17 09:05:55";
 obj.data.get_vip_info_v3.data.su_vip_upgrade_days = 9999;
 obj.data.get_vip_info_v3.data.su_vip_upgrade_month = 999;
@@ -148,14 +162,15 @@ obj.data.get_vip_info_v3.data.promise.start_time = "2022-03-17 09:05:55";
 obj.data.get_vip_info_v3.data.promise.end_time = "2099-03-17 09:05:55"; 
 obj.data.get_vip_info_v3.data.svip99 = 1;
 obj.data.get_vip_info_v3.data.svip_level = 20; 
-obj.data.get_vip_info_v3.data.su_vip_clearday = "4070880000"; 
+obj.data.get_vip_info_v3.data.su_vip_clearday = "2022-03-17 09:05:55"; 
 obj.data.get_vip_info_v3.data.m_y_endtime = "2099-03-17 09:05:55"; 
 obj.data.get_vip_info_v3.data.svip7free = 1
 obj.data.get_vip_info_v3.data.svip_score = 99999;
 obj.data.get_vip_info_v3.data.is_vip = 1;
+obj.data.get_vip_info_v3.data.producttype = svip;
 obj.data.get_vip_info_v3.data.su_vip_end_time = "2099-03-17 09:05:55"; 
 obj.data.get_vip_info_v3.data.m_end_time = "2099-03-17 09:05:55"; 
-obj.data.get_vip_info_v3.data.vip_clearday = "4070880000"; 
+obj.data.get_vip_info_v3.data.vip_clearday = "2022-03-17 09:05:55"; 
 body = JSON.stringify(obj);
 }
 if (url.indexOf(coupon) != -1) {    
