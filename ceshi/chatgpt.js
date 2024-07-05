@@ -11,7 +11,7 @@ hostname = ios.chat.openai.com
 
 
 // Quantumult X Rewrite Script
-const body = $response.body;
+let body = $response.body;
 let obj = JSON.parse(body);
 
 // Modify the JSON response for the default account
@@ -23,8 +23,8 @@ obj.accounts.default.entitlement.has_active_subscription = true;
 obj.accounts.default.entitlement.expires_at = "2099-12-31T23:59:59Z";  // Setting a far future expiry date
 
 // Convert JSON object back to string
-const modifiedBody = JSON.stringify(obj);
+body = JSON.stringify(obj);
 
 // Return the modified response
-$done({ body: modifiedBody });
+$done({ body });
 
