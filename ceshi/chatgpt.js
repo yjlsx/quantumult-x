@@ -2,19 +2,16 @@
  * @fileoverview Template to compose HTTP reqeuest.
  * 
  */
-
+/*
 [rewrite_local]
-^https:\/\/ios\.chat\.openai\.com\/backend-api\/accounts\/check\/v4-2023-04-27$ script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/rewrite.js
+^https:\/\/ios\.chat\.openai\.com\/backend-api\/accounts\/check\/v4-2023-04-27$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/rewrite.js
 
 [mitm]
 hostname = ios.chat.openai.com
+*/
 
-
-// Quantumult X Rewrite Script
 let body = $response.body;
 let obj = JSON.parse(body);
-
-// Modify the JSON response for the default account
 obj.accounts.default.account.plan_type = "plus";
 obj.accounts.default.account.has_previously_paid_subscription = true;
 obj.accounts.default.is_eligible_for_yearly_plus_subscription = true;
