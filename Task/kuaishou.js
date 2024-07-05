@@ -1,9 +1,11 @@
 
 /**
- * App:1905电影网
+ * App : 快手
  * By @yjlsx
- * 脚本功能：签到！
+ * 脚本功能：签到领取金币.
+ * 使用方法：添加相关规则到quantumult x，进入首页的金币主页，提示获取cookie成功，把rewrite和hostname关闭，以免每次运行都会获取cookie.
  * Date: 2024.07.05
+ * 此脚本仅个人使用，请勿用于非法途径！
  
 *⚠️【免责声明】
 ------------------------------------------
@@ -17,16 +19,19 @@
 
 //Quantumult X 重写规则
  [rewrite_local]
-      https:\/\/50843\.activity\-42\.m\.duiba\.com\.cn\/signactivity\/getSignInfo url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/1905qd.js
-[mitm] 
-      hostname = 50843.activity-42.m.duiba.com.cn
- [task_local]
-     1 0 * * * https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/1905qd.js, tag=1905电影网签到, img-url=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/1905.png, enabled=true
+  https:\/\/encourage\.kuaishou\.com\/rest\/wd\/encourage\/home url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou.js
+ 
+ [mitm] 
+      hostname = encourage.kuaishou.com
+
+  [task_local]
+  1 0 * * * https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou.js, tag=快手签到, img-url=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png, enabled=true
+ * 
  */
 
-const $ = new API("1905签到", true);
+const $ = API("快手签到", true);
 const ERR = MYERR();
-$.cookie = $.getval("duiba_cookies");
+$.cookie = $.getval("kuaishou_cookies");
 
 !(async () => {
   $.log("脚本开始运行");
@@ -39,15 +44,15 @@ $.cookie = $.getval("duiba_cookies");
       await checkin();
     } else {
       $.log("未找到Cookie");
-      $.notify("1905电影网签到", "", "❌ 请先获取Cookie");
+      $.notify("快手签到", "", "❌ 请先获取Cookie");
     }
   } catch (err) {
     $.log("捕获到错误");
     if (err instanceof ERR.ParseError) {
-      $.notify("1905电影网签到", "❌ 解析数据出现错误", err.message);
+      $.notify("快手签到", "❌ 解析数据出现错误", err.message);
     } else {
       $.notify(
-        "1905电影网签到",
+        "快手签到",
         "❌ 出现错误",
         JSON.stringify(err, Object.getOwnPropertyNames(err))
       );
@@ -59,47 +64,58 @@ $.cookie = $.getval("duiba_cookies");
 })();
 
 function checkin() {
-  const url = `http://50843.activity-42.m.duiba.com.cn/signactivity/doSign?id=251034638333476&signActType=7&_=1720023053642`;
+  const url = `https://encourage.kuaishou.com/rest/wd/encourage/unionTask/signIn/report?__NS_sig3=f7e7a0901f7588d73babc2a8afaea9ccfb84a14f9ac525b52611b8b8bebebdbc83a3&sigCatVer=1`;
+  const method = `GET`;
   const headers = {
-    Cookie: $.cookie,
-    Accept: `application/json, text/plain, */*`,
-    Connection: `keep-alive`,
-    Referer: `http://50843.activity-42.m.duiba.com.cn/sign/fornew/index?id=251034638333476&from=login&spm=50843.1.1.1`,
-    "Accept-Encoding": `gzip, deflate`,
-    Host: `50843.activity-42.m.duiba.com.cn`,
-    "User-Agent": `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 M1905/6.5.34.1097 (Open 0.1) From 1905 App`,
-    "Accept-Language": `zh-CN,zh-Hans;q=0.9`,
+    'Sec-Fetch-Dest': `empty`,
+    'Connection': `keep-alive`,
+    'Accept-Encoding': `gzip, deflate, br`,
+    'Content-Type': `application/x-www-form-urlencoded;charset=UTF-8`,
+    'Sec-Fetch-Site': `same-origin`,
+    'Cache-Control': `no-cache`,
+    'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/12.5.40.8800 ISLP/0 StatusHT/47 ISDM/0 TitleHT/44 NetType/WIFI ICFO/0 locale/zh-Hans CT/0 Yoda/2.13.7 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1`,
+    'PGID': `FCD15D57-5F0F-4690-B66D-CD1A516F4FA7`,
+    'Sec-Fetch-Mode': `cors`,
+    'Cookie': $.cookie,
+    'Host': `encourage.kuaishou.com`,
+    'Referer': `https://encourage.kuaishou.com/kwai/task?layoutType=4&source=pendant&hyId=encourage_earning`,
+    'ZYCK': `encourage_earning`,
+    'Pragma': `no-cache`,
+    'Accept': `*/*`,
+    'Accept-Language': `zh-CN,zh-Hans;q=0.9`
   };
+  const body = ``;
 
   const myRequest = {
     url: url,
+    method: method,
     headers: headers,
+    body: body
   };
 
   return new Promise((resolve, reject) => {
     $task.fetch(myRequest).then(response => {
-      $.log(`签到请求响应: ${JSON.stringify(response)}`);
-      if (response.statusCode === 200) {
-        const parsedData = JSON.parse(response.body); // 解析响应体
+      const data = JSON.parse(response.body);
+      let title = "快手";
+      let subtitle = "";
+      let content = "";
 
-        if (parsedData.success === "true") {
-          const acmDay = parsedData.signInfoVO.acmDay;
-          if (acmDay > 1) {
-            const message = `已连续签到 ${acmDay} 天.`;
-            $.notify("1905电影网", "今日签到成功", message);
-          } else {
-            $.notify("1905电影网", "签到失败", "连续签到中断");
-          }
-        } else {
-          $.notify("1905电影网", "今日已签到", "请明日再来.");
-        }
-        resolve();
+      if (data.result === 102006) {
+        subtitle = "签到成功";
+        content = data.msg;
+      } else if (data.result === 1) {
+        subtitle = "签到失败";
+        content = data.msg;
       } else {
-        $.error(`签到请求失败: ${JSON.stringify(response)}`);
-        reject(new ERR.ParseError("数据解析错误，请检查日志"));
+        title = "签到失败";
+        subtitle = "";
+        content = `错误信息: ${data.error_msg}`;
       }
+
+      $notify(title, subtitle, content);
+      resolve();
     }).catch(error => {
-      $.log(`请求错误: ${JSON.stringify(error)}`);
+      $notify("签到请求失败", "", error);
       reject(new ERR.ParseError("签到请求失败，请检查日志"));
     });
   });
@@ -108,13 +124,13 @@ function checkin() {
 function getCookie() {
   if (
     $request &&
-    $request.method === "POST" &&
-    $request.url.match(/signactivity\/getSignInfo/)
+    $request.method === "GET" &&
+    $request.url.match(/rest\/wd\/encourage\/home/)
   ) {
     const cookie = $request.headers["Cookie"];
     $.log(`获取到的Cookie: ${cookie}`);
-    $.setval(cookie, "duiba_cookies");
-    $.notify("1905电影网签到", "", "获取Cookie成功🎉");
+    $.setval(cookie, "kuaishou_cookies");
+    $.notify("快手签到", "", "获取Cookie成功🎉");
   }
 }
 
