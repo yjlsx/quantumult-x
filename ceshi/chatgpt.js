@@ -1,17 +1,9 @@
 /**
  * @fileoverview Template to compose HTTP reqeuest.
  * 
- */
-/*
-[rewrite_local]
-^https:\/\/ios\.chat\.openai\.com\/backend-api\/accounts\/check\/v4-2023-04-27$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/rewrite.js
-^https:\/\/ios\.chat\.openai\.com\/backend-api\/me\?include_groups=true$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/rewrite.js
-[mitm]
-hostname = ios.chat.openai.com
-
 [rewrite_local] 
 # 重写 OpenAI ChatGPT 响应，取消限制
-^https:\\//ios\.chat\.opena\i.com\/backend-api\/conversation\/init url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/chatgpt.js
+^https:\/\/ios\.chat\.openai\.com\/backend-api\/conversation\/init url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/chatgpt.js
 
 # 重写账户检查响应
 ^https:\/\/ios\.chat\.openai\.com\/backend-api\/accounts\/check\/v4-2023-04-27$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/chatgpt.js
@@ -66,6 +58,27 @@ if ($request.url.includes('/backend-api/conversation/init')) {
         account.entitlement.subscription_id = "e6f15a04-e647-4576-9695-e74ae36dbd47";
         account.entitlement.expires_at = "2099-12-31T23:59:59.715158+00:00"; // 设置为未来的一个日期
     };
+
+    modifyAccountCheck(obj.accounts.default.account);
+    for (const accountId in obj.accounts) {
+        if (obj.accounts.hasOwnProperty(accountId)) {
+            modifyAccountCheck(obj.accounts[accountId].account);
+        }
+    }
+} else if ($request.url.includes('/backend-api/me')) {
+    // 修改 /backend-api/me 响应体
+    const modifyMeResponse = (user) => {
+        user.has_payg_project_spend_limit = false;
+    };
+
+    modifyMeResponse(obj);
+}
+
+// 将 JSON 对象转换回字符串
+body = JSON.stringify(obj);
+
+// 返回修改后的响应
+$done({ body });
 
     modifyAccountCheck(obj.accounts.default.account);
     for (const accountId in obj.accounts) {
