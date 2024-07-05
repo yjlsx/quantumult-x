@@ -21,7 +21,7 @@
 [mitm] 
       hostname = 50843.activity-42.m.duiba.com.cn
  [task_local]
-     5 0 * * * 1905.js, tag=1905电影网签到
+     1 0 * * * 1905qd.js, tag=1905电影网签到, img-url=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/1905logo.jpg, enabled=true
  */
 
 const $ = new API("1905签到", true);
