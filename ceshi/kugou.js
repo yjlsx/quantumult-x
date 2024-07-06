@@ -15,6 +15,7 @@
 ^http:\/\/adserviceretry\.kglink\.cn\/v4\/mobile_splash url reject-200
 ^https:\\//welfare\.kugou\.com\/diy\/v1\/get_official_theme url script-analyze-echo-response https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/theme.json
 ^https:\\//gateway\.kugou\.com\/v5\/login_by_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
+^https:\\//gateway\.kugou\.com\/tools\.mobile\/api\/v2\/theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 
 [mitm]
 hostname = gateway.kugou.com,
@@ -37,8 +38,9 @@ const inte = '/fusion';
 const coupon = '/listening';
 const prom = '/promotionvip';
 const ads = '/v5/task_video';
-const user = '/get_login_extend_info';
+const user = '/get_login_extend_info';     //path
 const token = '/login_by_token';
+const path1 = '/tools';
 
 if (url.indexOf(user) != -1) {   
 obj.data.ads = { };
@@ -48,14 +50,20 @@ obj.data.vipinfo.su_vip_end_time = "2099-03-17 09:05:55";
 obj.data.vipinfo.su_vip_begin_time = "2022-03-17 09:05:55"; 
 obj.data.vipinfo.svip_score = 999999; 
 obj.data.vipinfo.vip_type = 0; 
-obj.data.vipinfo.svip_level = 20; 
+obj.data.vipinfo.svip_level = 20;    
 body = JSON.stringify(obj);
 }
-if (url.indexOf(ads) != -1) {   
-obj.data.ads = [ ];
-obj.data.is_free_vip = 1;  
-body = JSON.stringify(obj);
-}
+ if (url.indexOf(ads) != -1) {   
+   obj.data.ads = [ ];
+   obj.data.ad_show_freq = [ ]; //去广告
+   obj.data.is_free_vip = 1;  
+   obj.data.free_mode_user = 0;  
+   obj.data.user_conf.is_auto_open_fm = 1;  //???
+    for (let task  of obj.data.tasks_info){
+          task.used_times = task.total_number;
+       }  
+   body = JSON.stringify(obj);
+  }
 if (url.indexOf(vip) != -1) {    
 obj.info.is_special_vip = 1;  
 obj.info.vip_switch = 1;  */一致
@@ -72,6 +80,10 @@ obj.data.multiplatform_navigation_vip_text_ssvip_overdue = "[\"超级VIP会员\"
 obj.data.multiplatform_vip_text_vip_link_musicexpire = "[\"您已开通会员\"]"；
 obj.data.multiplatform_music_already_expire_myinfo_config_0 = "{\"content\":{\"content\":\"音乐包会员\"},\"data\":[{\"value\":1,\"index\":1,\"n\":1}]}"
 obj.data.multiplatform_vip_text_user_label_contentv2_24 = "{\"1\":[{\"k\":125,\"v\":{\"content\":\"您的会员***天后到期\"}},{\"k\":80,\"version\":\"11569-99999\",\"v\":{\"open\":1,\"day\":999,\"time\":2,\"percent\":99}}]}"
+body = JSON.stringify(obj);
+}
+if (url.indexOf(path1) != -1) {    
+obj.data.vip_level = 9; 
 body = JSON.stringify(obj);
 }
 if (url.indexOf(svip) != -1) {    
@@ -114,15 +126,15 @@ body = JSON.stringify(obj);
 }
 if (url.indexOf(vipinfo) != -1) {   
 obj.data.vip_begin_time = "2022-03-17 09:05:55";
-obj.data.vip_type = 0;  
+obj.data.vip_type = 1;  
 obj.data.vip_y_endtime = "2099-03-17 09:05:55";
 obj.data.su_vip_upgrade_days = 9999;
 obj.data.su_vip_begin_time = "2022-03-17 09:05:55";
-obj.data.super_vip_upgrade_month = 999;
+obj.data.super_vip_upgrade_month = 9999;
 obj.data.su_vip_y_end_time = "2099-03-17 09:05:55";
 obj.data.su_vip_y_endtime = "2099-03-17 09:05:55";
 obj.data.vip_endtime = "2099-03-17 09:05:55"; 
-obj.data.svip_level = 20; 
+obj.data.svip_level = 9; 
 obj.data.su_vip_clearday = "2022-03-17 09:05:55"; 
 obj.data.svip_score = 99999;
 obj.data.is_vip = 1;
