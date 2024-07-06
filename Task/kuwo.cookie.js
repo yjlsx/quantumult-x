@@ -4,7 +4,7 @@
     我的 --> 任务中心
     更新登录信息后禁用脚本
 [rewrite local]
-https\:\/\/integralapi\.kuwo\.cn\/api\/v1\/online\/sign\/v1\/earningSignIn\/.* url script-request-header https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/kuwo.cookie.js
+https\:\/\/integralapi\.kuwo\.cn\/api\/v1\/online\/sign\/v1\/earningSignIn\/.* url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuwo.cookie.js
 
 [MITM]
 hostname = integralapi.kuwo.cn

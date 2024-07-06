@@ -14,18 +14,18 @@
   ✅资产查询
 🎯重写脚本:
   [rewrite local]
-  https\:\/\/integralapi\.kuwo\.cn\/api\/v1\/online\/sign\/v1\/earningSignIn\/.* url script-request-header https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/kuwo.cookie.js
+  https\:\/\/integralapi\.kuwo\.cn\/api\/v1\/online\/sign\/v1\/earningSignIn\/.* url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuwo.cookie.js
   [MITM]
   hostname = integralapi.kuwo.cn
 ⏰定时任务:
   [task_local]
-  30 10,20 * * * https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/Scripts/myScripts/kuwo.js, tag=🎵酷我音乐, img-url=https://raw.githubusercontent.com/deezertidal/private/main/icons/kuwosvip.png, enabled=true
+  30 10,20 * * * https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuwo.js, tag=🎵酷我音乐, img-url=https://raw.githubusercontent.com/deezertidal/private/main/icons/kuwosvip.png, enabled=true
 🔍手动抓包: 
   开启抓包,进入任务界面
   直接搜索请求🔗url中的 loginUid loginSid 填入BoxJs
   🔗url: https://integralapi.kuwo.cn/api/v1/online/sign/v1/earningSignIn/..loginUid=xxx & loginSid=xxx...
 📦BoxJs地址:
-  https://raw.githubusercontent.com/MCdasheng/QuantumultX/main/mcdasheng.boxjs.json
+  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Boxjs/boxjs.json
 @params: 
   "kw_loginUid" 
   "kw_loginSid" (过期时间不清楚,抓包写一个月,但是失效可能也很快,待解决?)
