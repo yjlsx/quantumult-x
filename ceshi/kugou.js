@@ -17,8 +17,11 @@
 ^https:\\//gateway\.kugou\.com\/v5\/login_by_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\\//gateway\.kugou\.com\/tools\.mobile\/api\/v2\/theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 
+^http:\\//dynamicentry\.kugou\.com\/api\/v1\/entry\/index url reject-dict
+^https:\\//gateway\.kugou\.com\/adp\/ad\/v1\/home_combine url reject-dict
+
 [mitm]
-hostname = gateway.kugou.com,
+hostname = gateway.kugou.com, dynamicentry.kugou.com
 */
 
 // 双斜杠后的内容在js里是属于注释内容不会生效
