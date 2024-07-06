@@ -8,11 +8,10 @@
     {
       "id": "Kuwomusic",
       "name": "酷我音乐",
-      "keys": ["Kuwomusicurl", "Kuwomusichd"],
+      "keys": ["kuwourl", "kuwohd", "kuwobody", "kuwourl", "kuwohd", "kuwobody"],
       "author": "@yjlsx",
       "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
-      "icons": ["https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/KKTV.png", 
-      "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/KKTV.png"],
+      "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuwo.png"],
       "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/Kuwomusic.js"
     },
     {
