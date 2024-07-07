@@ -25,7 +25,7 @@ try {
     const jsonBody = JSON.parse(body);
 
     // 修改响应体中的数据，这里假设要修改的字段为 vip_status
-    jsonBody.data.vip_status = "1"; // 设置为 VIP 状态
+    jsonBody.data.vip_status = "ok"; // 设置为 VIP 状态
     jsonBody.data.is_master = "1";  
     jsonBody.data.accredit_total = 1;
     jsonBody.data.accredit_list = ["eu6zGN8LCt/ov7BLRQRe+karwn+0vJkOZ7YJUmjEPhVSaYyyHwb9wiTha7ZDhFUf0MEZDIQQpZ/fgWPvJXjvR1t+lrRkQUtuTQ5f8VyBAMlQo87377bvu2gnc8uXE36m4Twgtet3vc8oBpKjUtQ3Q12zaP6gcGIwynyfw3QWm763nQYKET6egb8Le9994CiKqMLw4EcSVtlgdDUEkpIhf15US2JTzQqQ6U7m70jkvF8PNBY5FGwkki4yJHtoXqMdYsujCC+k1IhIhitwdQVbUCYa/b48bnFfLGOxeZM2ctaxGEjv4DOR/B4Fkthq1kFTitmavOv3wpZ7ALw4O00Mrg=="];  
@@ -59,7 +59,7 @@ try {
     keyObj.is_master = "1"; // 设置为 VIP 状态
     keyObj.user_rights = jsonBody.data.user_rights;
     keyObj.vip_expiration_time = "2099-12-01"; // 设置 VIP 过期时间为 2023-12-31
-    keyObj.vip_status = "1";
+    keyObj.vip_status = "ok";
     keyObj.createtime = 1695088494;
     keyObj.accredit_total = 1;
     keyObj.accredit_list = jsonBody.data.accredit_list;
