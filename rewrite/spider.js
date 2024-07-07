@@ -28,7 +28,7 @@ try {
     jsonBody.data.vip_status = "ok"; // 设置为 VIP 状态
     jsonBody.data.is_master = "1";  
     jsonBody.data.accredit_total = 1;
-    jsonBody.data.accredit_list = ["eu6zGN8LCt/ov7BLRQRe+karwn+0vJkOZ7YJUmjEPhVSaYyyHwb9wiTha7ZDhFUf0MEZDIQQpZ/fgWPvJXjvR1t+lrRkQUtuTQ5f8VyBAMlQo87377bvu2gnc8uXE36m4Twgtet3vc8oBpKjUtQ3Q12zaP6gcGIwynyfw3QWm763nQYKET6egb8Le9994CiKqMLw4EcSVtlgdDUEkpIhf15US2JTzQqQ6U7m70jkvF8PNBY5FGwkki4yJHtoXqMdYsujCC+k1IhIhitwdQVbUCYa/b48bnFfLGOxeZM2ctaxGEjv4DOR/B4Fkthq1kFTitmavOv3wpZ7ALw4O00Mrg=="];  
+    jsonBody.data.accredit_list = ["688cb04816dd41c59ac73f252a7e52d9"];  
     jsonBody.data.vip_expiration_time = "2099-12-01";
     // 修改 meta 中的 sign 和 key 字段
    // jsonBody.meta.sign = "new_sign_value"; // 修改 sign 的值
@@ -72,25 +72,3 @@ try {
     $done({});
 }
 
-    
-
- 
-
-
-
-
-
-
-      "days" : 9999,
-      "id" : 3,
-      "date_type" : "svip",
-      "title" : "专业版",
-      "oldprice" : "68.00",
-      "marketprice" : "28.00",
-      "vip_expiration_time" : "2099-12-01",
-      "status" : "ok",
-      "createtime" : 1695088494
-    }
-  ]
-console.log('解锁成功!!!')
-$done({body: JSON.stringify(body)})
