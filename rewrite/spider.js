@@ -39,29 +39,45 @@ try {
         // 修改 member/master 响应体
         jsonBody.data.vip_status = "ok"; // 设置为 VIP 状态
         jsonBody.data.is_master = "1";  
-        jsonBody.data.accredit_total = 4;
+        jsonBody.data.accredit_total = 5;
         jsonBody.data.parking_total = 0;
         jsonBody.data.accredit_list = [
-            {
-                "title": "抓包",
-                "content": "抓取 HTTP/HTTPS 流量"
-            },
-            {
-                "title": "重写",
-                "content": "实时修改 HTTP/HTTPS 的请求和响应"
-            },
-            {
-                "title": "数据共享",
-                "content": "多账户之间数据共享"
-            },
-            {
-                "title": "脚本",
-                "content": "支持自定义 JavaScript 语法进行接口的拓展编写"
-            },
-            {
-                "title": "重放",
-                "content": "支持接口依赖&断言的自定义 HTTP(S) 网络请求"
-            }];  
+           {
+      "product_id" : "com.zhuge.spider.professional",
+      "rights" : [
+        {
+          "title" : "抓包",
+          "content" : "抓取 HTTP/HTTPS流量"
+        },
+        {
+          "title" : "重写",
+          "content" : "实时修改HTTP/HTTPS的请求和响应"
+        },
+        {
+          "title" : "数据共享",
+          "content" : "多账户之间数据共享"
+        },
+        {
+          "title" : "脚本",
+          "content" : "支持自定义JavaScript语法进行接口的拓展编写"
+        },
+        {
+          "title" : "重放",
+          "content" : "支持接口依赖&断言的自定义HTTP(S)网络请求"
+        }
+      ],
+      "days" : 9999,
+      "id" : 3,
+      "date_type" : "svip",
+      "title" : "专业版",
+      "oldprice" : "68.00",
+      "marketprice" : "28.00",
+      "vip_expiration_time" : "2099-12-01",
+      "status" : "ok",
+      "createtime" : 1695088494
+    }
+
+            ];  
         jsonBody.data.vip_expiration_time = "2099-12-01";
         jsonBody.data.user_rights = [
             {
@@ -93,7 +109,7 @@ try {
         keyObj.vip_status = "ok";
         keyObj.createtime = 1695088494;
         keyObj.parking_total = 0;
-        keyObj.accredit_total = 4;
+        keyObj.accredit_total = 5;
         keyObj.accredit_list = jsonBody.data.accredit_list;
         
         jsonBody.meta.key = JSON.stringify(keyObj);
@@ -165,7 +181,7 @@ try {
         }
       ],
                   "days" : 9999,
-                   "id" : 3,
+                   "id" : 33370,
                    "date_type" : "svip",
                   "title" : "专业版",
                    "oldprice" : "68.00",
