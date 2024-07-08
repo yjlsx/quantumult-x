@@ -13,10 +13,10 @@
 6、如果任何单位或个人认为此脚本可能涉嫌侵犯其权利，应及时通知并提供身份证明，所有权证明，我们将在收到认证文件确认后删除此脚本。
 7、所有直接或间接使用、查看此脚本的人均应该仔细阅读此声明。本人保留随时更改或补充此声明的权利。一旦您使用或复制了此脚本，即视为您已接受此免责声明。
 [rewrite_local]
-^https:\/\/api\.zhugeculture\.com\/api\/member\/master$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
-^https:\/\/api\.zhugeculture\.com\/api\/order\/products$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
-^https:\/\/api\.zhugeculture\.com\/api\/sync\/addSync$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
-^https:\/\/business\.msstatic\.com\/advertiser\/material\/PV3Prfy3kzI9arXTduo-960x540\.jpg$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
+^https:\/\/api\.zhugeculture\.com\/api\/member\/master url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
+^https:\/\/api\.zhugeculture\.com\/api\/order\/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
+^https:\/\/api\.zhugeculture\.com\/api\/sync\/addSync url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
+^https:\/\/business\.msstatic\.com\/advertiser\/material\/PV3Prfy3kzI9arXTduo-960x540\.jpg url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
 
 [mitm]
 hostname = api.zhugeculture.com,bussiness.mastatic.com
@@ -44,6 +44,10 @@ try {
         jsonBody.data.accredit_list = [
            {
       "product_id" : "com.zhuge.spider.professional",
+      "date_type" : "svip",
+      "title" : "专业版",
+      "vip_expiration_time" : "2099-12-01",
+      "status" : "ok",
       "rights" : [
         {
           "title" : "抓包",
@@ -80,6 +84,10 @@ try {
             ];  
         jsonBody.data.vip_expiration_time = "2099-12-01";
         jsonBody.data.user_rights = [
+      "date_type" : "svip",
+      "title" : "专业版",
+      "vip_expiration_time" : "2099-12-01",
+      "status" : "ok",
             {
                 "title": "抓包",
                 "content": "抓取 HTTP/HTTPS 流量"
