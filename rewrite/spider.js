@@ -16,9 +16,10 @@
 ^https:\/\/api\.zhugeculture\.com\/api\/member\/master$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
 ^https:\/\/api\.zhugeculture\.com\/api\/order\/products$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
 ^https:\/\/api\.zhugeculture\.com\/api\/sync\/addSync$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
+^https:\/\/business\.msstatic\.com\/advertiser\/material\/PV3Prfy3kzI9arXTduo-960x540\.jpg$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/spider.js
 
 [mitm]
-hostname = api.zhugeculture.com
+hostname = api.zhugeculture.com,bussiness.mastatic.com
 
 ****************************/
 // Quantumult X Rewrite Script
@@ -26,6 +27,7 @@ hostname = api.zhugeculture.com
 const url1 = '^https://api\\.zhugeculture\\.com/api/member/master';
 const url2 = '^https://api\\.zhugeculture\\.com/api/order/products';
 const url3 = '^https://api\\.zhugeculture\\.com/api/sync/addSync';
+const url4 = '^https://business\\.msstatic\\.com/advertiser/material/PV3Prfy3kzI9arXTduo-960x540\\.jpg';
 
 const body = $response.body;
 const url = $request.url;
@@ -111,10 +113,83 @@ try {
         // 修改 sync/addSync 响应体
         jsonBody.msg = "操作成功";
         jsonBody.code = 0;
-    }
+    }else if (url.match(url4)) {
+        // 修改 business.msstatic 响应体
+        const responseBody = {
+            "request_date_ms": 1720394305190,
+            "request_date": "2024-07-07T23:18:25Z",
+            "subscriber": {
+                "last_seen": "2024-06-21T04:44:30Z",
+                "first_seen": "2024-06-21T04:44:30Z",
+                "original_application_version": null,
+                "other_purchases": {
+                    "com.zhuge.spider.professional": {
+                        "purchase_date": "2024-06-21T04:44:44Z"
+                    }
+                },
+                "management_url": null,
+                "subscriptions": {},
+                "entitlements": {
+                    "unlock all": {
+                        "expires_date": null,
+                        "purchase_date": "2024-06-21T04:44:44Z",
+                        "product_identifier": "com.zhuge.spider.professional",
+                        "grace_period_expires_date": null
+                    }
+                },
+                "original_purchase_date": "2024-06-21T04:44:14Z",
+                "original_app_user_id": "$RCAnonymousID:0400000000000000000000000000000",
+                "non_subscriptions": {
+                    "com.zhuge.spider.professional": [
+                        {
+      "rights" : [
+        {
+          "title" : "抓包",
+          "content" : "抓取 HTTP/HTTPS流量"
+        },
+        {
+          "title" : "重写",
+          "content" : "实时修改HTTP/HTTPS的请求和响应"
+        },
+        {
+          "title" : "数据共享",
+          "content" : "多账户之间数据共享"
+        },
+        {
+          "title" : "脚本",
+          "content" : "支持自定义JavaScript语法进行接口的拓展编写"
+        },
+        {
+          "title" : "重放",
+          "content" : "支持接口依赖&断言的自定义HTTP(S)网络请求"
+        }
+      ],
+                  "days" : 9999,
+                   "id" : 3,
+                   "date_type" : "svip",
+                  "title" : "专业版",
+                   "oldprice" : "68.00",
+                   "marketprice" : "28.00",
+                   "vip_expiration_time" : "2099-12-01",
+                  "status" : "ok",
+                   "createtime" : 1695088494
+                            "is_sandbox": false,
+                            "purchase_date": "2024-06-21T04:44:44Z",
+                            "original_purchase_date": "2024-06-21T04:44:44Z",
+                            "store": "app_store",
+                            "store_transaction_id": "280000000000000"
+                        }
+                    ]
+                }
+            }
+        };
 
-    $done({ body: JSON.stringify(jsonBody) });
+        $done({ body: JSON.stringify(responseBody) });
+    } else {
+        $done({ body });
+    }
 } catch (error) {
     console.log("Error parsing JSON:", error.message);
     $done({});
 }
+
