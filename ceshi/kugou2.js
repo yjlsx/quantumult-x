@@ -24,10 +24,8 @@ hostname = gateway.kugou.com,gateway3.kugou.com,vip.kugou.com
  */
 
 var body = $response.body;
-
-if (body) {
-    var url = $request.url;
-    var obj = JSON.parse(body);
+var url = $request.url;
+var obj = JSON.parse(body);
 
 
 const endpoints = {
@@ -262,6 +260,3 @@ if (url.includes(endpoints.path2)) {
 }
 
     $done({ body: JSON.stringify(obj) });
-} else {
-    $done({});
-}
