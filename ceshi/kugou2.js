@@ -24,13 +24,11 @@ hostname = gateway.kugou.com,gateway3.kugou.com,vip.kugou.com
  */
 
 var body = $response.body;
-if (!body) {
-    $done({});
-    return;
-}
 
-var url = $request.url;
-var obj = JSON.parse(body);
+if (body) {
+    var url = $request.url;
+    var obj = JSON.parse(body);
+
 
 const endpoints = {
     vip: '/ip/api/v1/overseas/check_v2',
@@ -60,7 +58,7 @@ if (url.includes(endpoints.user)) {
     obj.data.svip_score = 999999; 
     obj.data.vip_type = 0; 
     obj.data.svip_level = 20;    
-    body = JSON.stringify(obj);
+    
 }
 
 if (url.includes(endpoints.ads)) {
@@ -72,13 +70,13 @@ if (url.includes(endpoints.ads)) {
     for (let task of obj.data.tasks_info) {
         task.used_times = task.total_number;
     }
-    body = JSON.stringify(obj);
+   
 }
 
 if (url.includes(endpoints.vip)) {
     obj.info.is_special_vip = 1;
     obj.info.vip_switch = 1;
-    body = JSON.stringify(obj);
+    
 }
 
 if (url.includes(endpoints.vap)) {
@@ -105,7 +103,7 @@ if (url.includes(endpoints.vap)) {
     obj.data["su_vip_y_endtime"] = "2099-03-17 09:05:55";
     obj.data.producttype = "ssvip";
     obj.data.svip_level = 9;
-    body = JSON.stringify(obj);
+    
 }
 
 if (url.includes(endpoints.get)) {
@@ -204,7 +202,7 @@ obj.data["multiplatform_music_expire_prompt_myinfo_today_config_0"] = {
         "n": 1
     }]
 };
-body = JSON.stringify(obj);
+
 }
 
 if (url.includes(endpoints.svip)) {
@@ -212,7 +210,7 @@ if (url.includes(endpoints.svip)) {
     obj.data.svip_level = 20;
     obj.data.svip_expire_time = 4099365113;
     obj.data.svip_use_days = 9999999;
-    body = JSON.stringify(obj);
+    
 }
 
 if (url.includes(endpoints.token)) {
@@ -222,7 +220,7 @@ if (url.includes(endpoints.token)) {
     obj.data.vip_begintime = "2022-03-17 09:05:55";
     obj.data.svip_expire_time = 4099365113;
     obj.data.vip_level = 20;
-    body = JSON.stringify(obj);
+   
 }
 
 if (url.includes(endpoints.vipinfo)) {
@@ -233,14 +231,14 @@ if (url.includes(endpoints.vipinfo)) {
     obj.data.vip_type = 1;
     obj.data.svip_expire_time = 4099365113;
     obj.data.vip_level = 20;
-    body = JSON.stringify(obj);
+    
 }
 
 if (url.includes(endpoints.ssvip)) {
     obj.data.is_svip = 1;
     obj.data.vip_type = 1;
     obj.data.svip_expire_time = 4099365113;
-    body = JSON.stringify(obj);
+   
 }
 
 if (url.includes(endpoints.path1)) {
@@ -250,7 +248,7 @@ if (url.includes(endpoints.path1)) {
     obj.data.vip_type = 1;
     obj.data.vip_endtime = "2099-03-17 09:05:55";
     obj.data.svip_expire_time = 4099365113;
-    body = JSON.stringify(obj);
+    
 }
 
 if (url.includes(endpoints.path2)) {
@@ -260,7 +258,10 @@ if (url.includes(endpoints.path2)) {
     obj.data.vip_clearday = "2022-03-17 09:05:55";
     obj.data.svip_expire_time = 4099365113;
     obj.data.vip_level = 20;
-    body = JSON.stringify(obj);
+ 
 }
 
-$done({body});
+    $done({ body: JSON.stringify(obj) });
+} else {
+    $done({});
+}
