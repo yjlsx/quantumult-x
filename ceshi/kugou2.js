@@ -25,87 +25,86 @@ hostname = gateway.kugou.com,gateway3.kugou.com,vip.kugou.com
 
 var body = $response.body;
 var url = $request.url;
+var obj = JSON.parse(body);
 
-try {
-    var obj = JSON.parse(body);
+const endpoints = {
+    vip: '/ip/api/v1/overseas/check_v2',
+    vap: '/ads.gateway/v2/task_video/unlogin_guide',
+    get: '/v2/get_vip_config',
+    svip: '/updateservice/v1/get_dev_user',
+    time: '/list_v2',
+    ssvip: '/v6/login_by_openplat',
+    data: '/get_login_extend',
+    vipinfo: '/mobile/vipinfoV2',
+    inte: '/v1/fusion/userinfo',
+    coupon: '/listening/coupon_package',
+    prom: '/promotionvip',
+    ads: '/ads.gateway/v5/task_video/qualification',
+    user: 'userinfoservice/v2/get_login_extend_info', // path
+    token: '/v5/login_by_token',
+    path1: '/tools.mobile/api/v2/theme',
+    path2: '/v1/login_by_quick_token'
+};
 
-    const endpoints = {
-        vip: '/ip/api/v1/overseas/check_v2',
-        vap: '/ads.gateway/v2/task_video/unlogin_guide',
-        get: '/v2/get_vip_config',
-        svip: '/updateservice/v1/get_dev_user',
-        time: '/list_v2',
-        ssvip: '/v6/login_by_openplat',
-        data: '/get_login_extend',
-        vipinfo: '/mobile/vipinfoV2',
-        inte: '/v1/fusion/userinfo',
-        coupon: '/listening/coupon_package',
-        prom: '/promotionvip',
-        ads: '/ads.gateway/v5/task_video/qualification',
-        user: 'userinfoservice/v2/get_login_extend_info',
-        token: '/v5/login_by_token',
-        path1: '/tools.mobile/api/v2/theme',
-        path2: '/v1/login_by_quick_token'
-    };
+if (url.includes(endpoints.user)) {
+    obj.data.ads = {};
+    obj.data.vipinfo.su_vip_y_endtime = "2099-03-17 09:05:55"; 
+    obj.data.vipinfo.su_vip_clearday = "2022-03-17 09:05:55"; 
+    obj.data.vipinfo.su_vip_end_time = "2099-03-17 09:05:55"; 
+    obj.data.vipinfo.su_vip_begin_time = "2022-03-17 09:05:55"; 
+    obj.data.vipinfo.svip_score = 999999; 
+    obj.data.vipinfo.vip_type = 0; 
+    obj.data.vipinfo.svip_level = 20;    
+    body = JSON.stringify(obj);
+}
 
-    if (url.includes(endpoints.user)) {
-        obj.data.ads = {};
-        obj.data.vipinfo.su_vip_y_endtime = "2099-03-17 09:05:55"; 
-        obj.data.vipinfo.su_vip_clearday = "2022-03-17 09:05:55"; 
-        obj.data.vipinfo.su_vip_end_time = "2099-03-17 09:05:55"; 
-        obj.data.vipinfo.su_vip_begin_time = "2022-03-17 09:05:55"; 
-        obj.data.vipinfo.svip_score = 999999; 
-        obj.data.vipinfo.vip_type = 0; 
-        obj.data.vipinfo.svip_level = 20;    
-        body = JSON.stringify(obj);
+if (url.includes(endpoints.ads)) {
+    obj.data.ads = [];
+    obj.data.ad_show_freq = [];
+    obj.data.is_free_vip = 1;
+    obj.data.free_mode_user = 0;
+    obj.data.user_conf.is_auto_open_fm = 1;
+    for (let task of obj.data.tasks_info) {
+        task.used_times = task.total_number;
     }
+    body = JSON.stringify(obj);
+}
 
-    if (url.includes(endpoints.ads)) {
-        obj.data.ads = [];
-        obj.data.ad_show_freq = [];
-        obj.data.is_free_vip = 1;
-        obj.data.free_mode_user = 0;
-        obj.data.user_conf.is_auto_open_fm = 1;
-        for (let task of obj.data.tasks_info) {
-            task.used_times = task.total_number;
-        }
-        body = JSON.stringify(obj);
-    }
+if (url.includes(endpoints.vip)) {
+    obj.info.is_special_vip = 1;
+    obj.info.vip_switch = 1;
+    body = JSON.stringify(obj);
+}
 
-    if (url.includes(endpoints.vip)) {
-        obj.info.is_special_vip = 1;
-        obj.info.vip_switch = 1;
-        body = JSON.stringify(obj);
-    }
+if (url.includes(endpoints.vap)) {
+    obj.data.is_vip = 1;
+    obj.data["vip_end_time"] = "2099-03-17 09:05:55";
+    obj.data["m_end_time"] = "2099-03-17 09:05:55";
+    obj.data["vip_begin_time"] = "2022-03-17 09:05:55";
+    obj.data["vip_end_time"] = "2099-03-17 09:05:55";
+    obj.data["vip_y_endtime"] = "2099-03-17 09:05:55";
+    obj.data["su_vip_begin_time"] = "2022-03-17 09:05:55";
+    obj.data["su_vip_end_time"] = "2099-03-17 09:05:55";
+    obj.data["su_vip_y_endtime"] = "2099-03-17 09:05:55";
+    obj.data["vip_clearday"] = "2022-03-17 09:05:55";
+    obj.data["m_begin_time"] = "2022-03-17 09:05:55";
+    obj.data["m_end_time"] = "2099-03-17 09:05:55";
+    obj.data["m_y_endtime"] = "2099-03-17 09:05:55";
+    obj.data["m_clearday"] = "2022-03-17 09:05:55";
+    obj.data["h_begin_time"] = "2022-03-17 09:05:55";
+    obj.data["h_end_time"] = "2099-03-17 09:05:55";
+    obj.data["h_signed"] = "ssvip";
+    obj.data["vip_type"] = 1;
+    obj.data["su_vip_upgrade_days"] = 9999;
+    obj.data["su_vip_begin_time"] = "2022-03-17 09:05:55";
+    obj.data["su_vip_y_endtime"] = "2099-03-17 09:05:55";
+    obj.data.producttype = "ssvip";
+    obj.data.svip_level = 9;
+    body = JSON.stringify(obj);
+}
 
-    if (url.includes(endpoints.vap)) {
-        obj.data.is_vip = 1;
-        obj.data["vip_end_time"] = "2099-03-17 09:05:55";
-        obj.data["m_end_time"] = "2099-03-17 09:05:55";
-        obj.data["vip_begin_time"] = "2022-03-17 09:05:55";
-        obj.data["vip_end_time"] = "2099-03-17 09:05:55";
-        obj.data["vip_y_endtime"] = "2099-03-17 09:05:55";
-        obj.data["su_vip_begin_time"] = "2022-03-17 09:05:55";
-        obj.data["su_vip_end_time"] = "2099-03-17 09:05:55";
-        obj.data["su_vip_y_endtime"] = "2099-03-17 09:05:55";
-        obj.data["vip_clearday"] = "2022-03-17 09:05:55";
-        obj.data["m_begin_time"] = "2022-03-17 09:05:55";
-        obj.data["m_end_time"] = "2099-03-17 09:05:55";
-        obj.data["m_y_endtime"] = "2099-03-17 09:05:55";
-        obj.data["m_clearday"] = "2022-03-17 09:05:55";
-        obj.data["h_begin_time"] = "2022-03-17 09:05:55";
-        obj.data["h_end_time"] = "2099-03-17 09:05:55";
-        obj.data["h_signed"] = "ssvip";
-        obj.data["vip_type"] = 1;
-        obj.data["su_vip_upgrade_days"] = 9999;
-        obj.data["su_vip_begin_time"] = "2022-03-17 09:05:55";
-        obj.data["su_vip_y_endtime"] = "2099-03-17 09:05:55";
-        obj.data.producttype = "ssvip";
-        obj.data.svip_level = 9;
-        body = JSON.stringify(obj);
-    }
 
-    if (url.includes(endpoints.get)) {
+if (url.includes(endpoints.get)) {
         obj.data["multiplatform_vip_expire_prompt_myinfo_config_0"] = "{\"content\":{\"content\":\"您的会员9999天后到期\"},\"data\":[{\"value\":0,\"index\":1,\"n\":1}]}";
         obj.data["cache_expired_check"] = 0;
         obj.data["multiplatform_vip_text_user_label_contentv2_10"] = "{\"40\":[{\"k\":119,\"v\":{\"showH5Mode\":1,\"jumpUrl\":\"https://h5.kugou.com/vipfreemode/v-35ffb015/index.html\",\"jumpMode\":1,\"count\":0}}]}";
@@ -187,81 +186,157 @@ obj.data["multiplatform_vip_expire_prompt_myinfo_today_config_0"] = {
 body = JSON.stringify(obj);
 }
 
-if (url.indexOf(token) != -1) {    
-    obj.data.vip_end_time = "2099-03-17 09:05:55"; 
-    obj.data.su_vip_end_time = "2099-03-17 09:05:55"; 
-    obj.data.is_vip = 1;
-    obj.data.su_vip_clearday = "2022-03-17 09:05:55"; 
-    obj.data.vip_begin_time = "2022-03-17 09:05:55"; 
-    obj.data.m_end_time = "2099-03-17 09:05:55"; 
-    obj.data.su_vip_begin_time = "2022-03-17 09:05:55";
-    obj.data.su_vip_y_endtime = "2099-03-17 09:05:55"; 
-    obj.data.m_begin_time = "2022-03-17 09:05:55"; 
+if (url.includes(endpoints.get)) {
+    obj.data["multiplatform_vip_expire_prompt_myinfo_config_0"] = "{\"content\":{\"content\":\"您的会员9999天后到期\"},\"data\":[{\"value\":0,\"index\":1,\"n\":1}]}";
+    obj.data["cache_expired_check"] = 0;
+    obj.data["multiplatform_vip_text_user_label_contentv2_10"] = "{\"40\":[{\"k\":119,\"v\":{\"showH5Mode\":1,\"jumpUrl\":\"https://h5.kugou.com/vipfreemode/v-35ffb015/index.html\"}}],\"41\":[{\"k\":119,\"v\":{\"showH5Mode\":1,\"jumpUrl\":\"https://h5.kugou.com/vipfreemode/v-35ffb015/index.html\"}}]}";
     body = JSON.stringify(obj);
 }
-if (url.indexOf(inte) != -1) {    
-    obj.data.vip_integral = 99999;
-    obj.data.get_vip_info_v3.data.vip_list = [^0];
-    obj.data.get_vip_info_v3.data.m_list = [^0];
-    obj.data.get_vip_info_v3.data.auto_list = [^0];
-    obj.data.get_vip_info_v3.data.vip_type = 0;
-    obj.data.get_vip_info_v3.data.vip_y_endtime = "2099-03-17 09:05:55";
-    obj.data.get_vip_info_v3.data.su_vip_upgrade_days = 9999;
-    obj.data.get_vip_info_v3.data.su_vip_upgrade_month = 999;
-    obj.data.get_vip_info_v3.data.h_end_time = "2099-03-17 09:05:55"; 
-    obj.data.get_vip_info_v3.data.vip_end_time = "2099-03-17 09:05:55"; 
-    obj.data.get_vip_info_v3.data.promise.start_time = "2022-03-17 09:05:55"; 
-    obj.data.get_vip_info_v3.data.promise.end_time = "2099-03-17 09:05:55"; 
-    obj.data.get_vip_info_v3.data.svip99 = 1;
-    obj.data.get_vip_info_v3.data.svip_level = 20; 
-    obj.data.get_vip_info_v3.data.su_vip_clearday = "2022-03-17 09:05:55"; 
-    obj.data.get_vip_info_v3.data.m_y_endtime = "2099-03-17 09:05:55"; 
-    obj.data.get_vip_info_v3.data.svip7free = 1;
-    obj.data.get_vip_info_v3.data.svip_score = 99999;
-    obj.data.get_vip_info_v3.data.is_vip = 1;
-    obj.data.get_vip_info_v3.data.producttype = svip;
-    obj.data.get_vip_info_v3.data.su_vip_end_time = "2099-03-17 09:05:55"; 
-    obj.data.get_vip_info_v3.data.m_end_time = "2099-03-17 09:05:55"; 
-    obj.data.get_vip_info_v3.data.vip_clearday = "2022-03-17 09:05:55"; 
-    body = JSON.stringify(obj);
-}
-if (url.indexOf(coupon) != -1) {    
-    obj.data.gift_card_cnt = 1; 
-    obj.data.super_welfare = 1;
-    obj.data.super_welfare_v2_cnt = 1;
-    obj.data.download_cnt = 1;   
-    obj.data.hw_coupon_cnt = 1;
-    obj.data.mp3_download_cnt = 1;
-    obj.data.mcoupon_cnt = 1;
-    obj.data.vip_coupon_cnt = 1;
-    body = JSON.stringify(obj);
-}
-if (url.indexOf(prom) != -1) {    
-    obj.data.grade = 99; 
-    body = JSON.stringify(obj);
-}
-if (url.indexOf(path2) != -1) {    
-    obj.data.user_type = 1;
-    obj.data.vip_token = "9999999999";
-    obj.data.vip_end_time = "2099-03-17 09:05:55";
-    obj.data.su_vip_end_time = "2099-03-17 09:05:55";
-    obj.data.m_end_time = "2099-03-17 09:05:55";
-    obj.data.su_vip_y_endtime = "2099-03-17 09:05:55";
-    obj.data.t_expire_time = 4102444800;
-    obj.data.is_vip = 1;
-    obj.data.user_y_type = 1;
-    obj.data.m_type = 1;
-    obj.data.vip_type = 1;
-    body = JSON.stringify(obj);
-}
-var body2 = $response.body;
-var obj2 = JSON.parse(body2);
-obj2.data["vip_end_time"] = "2099-03-17 09:05:55";
-obj2.data["m_end_time"] = "2099-03-17 09:05:55";
 
-obj2.data.txvideo = "VIP";
-obj2.data.mangotv2021_mk_auto.bought = 1;
-obj2.data.mangotv2021_mk_auto.remain_quota = 9999;
-obj2.data.ykvideo.mobile = "18869097695";
+if (url.includes(endpoints.svip)) {
+    obj.data["exp_days"] = 9999;
+    obj.data["product_viplist"] = [
+        {
+            "is_auto_continue": 1,
+            "begin_time": "2022-03-17 09:05:55",
+            "end_time": "2099-03-17 09:05:55",
+            "id": 1,
+            "product_id": 1,
+            "auto_type": 1,
+            "product_name": "svip",
+            "is_exp": 0,
+            "auto_flg": 1,
+            "begin_time_text": "2022-03-17",
+            "end_time_text": "2099-03-17",
+            "sort": 2,
+            "user_vip_type": 1,
+            "user_product_type": "ssvip",
+            "begin_time_show_text": "2022年03月17日",
+            "end_time_show_text": "2099年03月17日",
+            "user_product_level": 9,
+            "is_user_subscribe_product": 1,
+            "product_type_name": "svip",
+            "sortname": "超级会员",
+            "auto_tip": "已开通自动续费",
+            "is_autopay_text": 1,
+            "renew_mode": 1,
+            "user_product_user_product_type": "ssvip",
+            "is_open_renew": 1,
+            "isautopayflag": 1
+        }
+    ];
+    body = JSON.stringify(obj);
+}
 
-$done({body: JSON.stringify(obj)});
+if (url.includes(endpoints.time)) {
+    obj.data.exp_time = 999999999;
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.ssvip)) {
+    obj.data.vipinfo.is_special_vip = 1;
+    obj.data.vipinfo.vip_level = 9;
+    obj.data.vipinfo.svip_level = 9;
+    obj.data.vipinfo.vip_exp = 9999;
+    obj.data.vipinfo.is_vip = 1;
+    obj.data.vipinfo.is_svip = 1;
+    obj.data.vipinfo.vip_exp_day = 9999;
+    obj.data.vipinfo.svip_exp = 9999;
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.data)) {
+    obj.data.vipinfo.is_special_vip = 1;
+    obj.data.vipinfo.vip_level = 9;
+    obj.data.vipinfo.svip_level = 9;
+    obj.data.vipinfo.vip_exp = 9999;
+    obj.data.vipinfo.is_vip = 1;
+    obj.data.vipinfo.is_svip = 1;
+    obj.data.vipinfo.vip_exp_day = 9999;
+    obj.data.vipinfo.svip_exp = 9999;
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.vipinfo)) {
+    obj.data.vipinfo.is_special_vip = 1;
+    obj.data.vipinfo.vip_level = 9;
+    obj.data.vipinfo.svip_level = 9;
+    obj.data.vipinfo.vip_exp = 9999;
+    obj.data.vipinfo.is_vip = 1;
+    obj.data.vipinfo.is_svip = 1;
+    obj.data.vipinfo.vip_exp_day = 9999;
+    obj.data.vipinfo.svip_exp = 9999;
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.inte)) {
+    obj.data.vipinfo.is_special_vip = 1;
+    obj.data.vipinfo.vip_level = 9;
+    obj.data.vipinfo.svip_level = 9;
+    obj.data.vipinfo.vip_exp = 9999;
+    obj.data.vipinfo.is_vip = 1;
+    obj.data.vipinfo.is_svip = 1;
+    obj.data.vipinfo.vip_exp_day = 9999;
+    obj.data.vipinfo.svip_exp = 9999;
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.coupon)) {
+    obj.data.list[0].endtime = "2099-03-17 09:05:55";
+    obj.data.list[0].expire_day = 9999;
+    obj.data.list[0].expire_end_day = 9999;
+    obj.data.list[0].is_expire = 0;
+    obj.data.list[0].start_time = "2022-03-17 09:05:55";
+    obj.data.list[0].end_time = "2099-03-17 09:05:55";
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.prom)) {
+    obj.data.vipinfo.is_special_vip = 1;
+    obj.data.vipinfo.vip_level = 9;
+    obj.data.vipinfo.svip_level = 9;
+    obj.data.vipinfo.vip_exp = 9999;
+    obj.data.vipinfo.is_vip = 1;
+    obj.data.vipinfo.is_svip = 1;
+    obj.data.vipinfo.vip_exp_day = 9999;
+    obj.data.vipinfo.svip_exp = 9999;
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.token)) {
+    obj.data.is_special_vip = 1;
+    obj.data.vip_level = 9;
+    obj.data.svip_level = 9;
+    obj.data.vip_exp = 9999;
+    obj.data.is_vip = 1;
+    obj.data.is_svip = 1;
+    obj.data.vip_exp_day = 9999;
+    obj.data.svip_exp = 9999;
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.path1)) {
+    obj.data.is_special_vip = 1;
+    obj.data.vip_level = 9;
+    obj.data.svip_level = 9;
+    obj.data.vip_exp = 9999;
+    obj.data.is_vip = 1;
+    obj.data.is_svip = 1;
+    obj.data.vip_exp_day = 9999;
+    obj.data.svip_exp = 9999;
+    body = JSON.stringify(obj);
+}
+
+if (url.includes(endpoints.path2)) {
+    obj.data.vipinfo.is_special_vip = 1;
+    obj.data.vipinfo.vip_level = 9;
+    obj.data.vipinfo.svip_level = 9;
+    obj.data.vipinfo.vip_exp = 9999;
+    obj.data.vipinfo.is_vip = 1;
+    obj.data.vipinfo.is_svip = 1;
+    obj.data.vipinfo.vip_exp_day = 9999;
+    obj.data.vipinfo.svip_exp = 9999;
+    body = JSON.stringify(obj);
+}
+
+$done({ body });
