@@ -22,7 +22,7 @@ if ($request.url.includes("/exam/order/create") || $request.url.includes("/ask/o
     obj.resultMsg = "支付成功";
 } else if ($request.url.includes("/exam/test/createExercisePaper") || $request.url.includes("/exam/common/checkPermission") || $request.url.includes("/exam/test/sequenceTestByQuestionIds") || $request.url.includes("/exam/test/content") || $request.url.includes("/exam/user/allAreaList")|| $request.url.includes("/exam/userupload/getUserTikuList")) {
     obj.resultCode = "SUCCESS";
-    obj.model = "+iQ00dAnf8/CIcXZbGc9b57sMgXXjNyc2szCVVHJjrPHFpui03F8FtdfF7gwAkhOofKW2nkvxWk2vibY09lViQ617Fb+1FCaTlFGqg8i8YkKjwvJNX+RTFLszY8tqRKMMTBYBPAI5P1evb23r3KZoQ==";
+    obj.model = "5jO8qunRszPmqbnH99Y6DC7NQSU99tm7v579Wu46rwk2LOhLH9c6KCnTTh3Ac/nUDqcSrBnr6SqOxQXu9D4VSd9Uv+b/zV3onBNAS3+CxFb6O0I5CEfvsfq2jHmURQjko9fz145Ps2J/qciX7iCdcjjz/jLCPmxMqJWAkYIw+yu35Fg9sLH3eyXKNPXsqIZO5JwUcJbrFuyhj5daZumo2g==";
     obj.resultMsg = "成功";
 }else if ($request.url.includes("/user/center/getUserInfo")) {
     obj.resultCode = "SUCCESS";
