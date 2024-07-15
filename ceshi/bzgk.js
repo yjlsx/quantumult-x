@@ -48,7 +48,7 @@ if (url.includes('/api/v2/goods/infoMaster')) {
 if (url.includes('/api/v2/userCourse/sxy')) {
     // 用户课程接口
     const newCourse = {
-        "id": 52,
+        "id": 102,
         "expire_tip": "",
         "course_type": 96,
         "is_expire": 0,
