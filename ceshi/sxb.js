@@ -1,7 +1,9 @@
 /**
  [rewrite_local]
  ^https:\/\/sxbapi\.xuesai\.net\/exam\/(test\/createExercisePaper|common\/checkPermission) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
- *
+ # 修改 sequenceTestByQuestionIds 接口的响应
+^https:\/\/sxbapi\.xuesai\.net\/exam\/test\/sequenceTestByQuestionIds url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+*
  [mitm]
  hostname = sxbapi.xuesai.net
  */
