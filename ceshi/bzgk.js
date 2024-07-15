@@ -89,10 +89,21 @@ if (orderObj.data && orderObj.data.finish !== undefined) {
 if (orderObj.data && orderObj.data.not_need_money !== undefined) {
     orderObj.data.not_need_money = 1;
     orderObj.data.total_amount = "0.00";
+    orderObj.data.bz_money = "999999999";
     orderObj.data.goods_list.forEach(goods => {
         goods.price = "0.00";
         goods.ori_price = "0.00";
     });
+    // 确保不显示支付失败信息
+    if (orderObj.data.failure_info) {
+        orderObj.data.failure_info = null;
+    }
+    // 修改 original_price 字段
+    orderObj.data.original_price = "0.00";
+    // 修改 gifts_list 字段为空数组
+    if (orderObj.data.gifts_list) {
+        orderObj.data.gifts_list = [];
+    }
 }
 
 $done({ body: JSON.stringify(orderObj) });
