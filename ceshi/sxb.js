@@ -22,7 +22,7 @@ if ($request.url.includes("/exam/order/create") || $request.url.includes("/ask/o
     obj.resultMsg = "支付成功";
 } else if ($request.url.includes("/exam/test/createExercisePaper") || $request.url.includes("/exam/common/checkPermission") || $request.url.includes("/exam/test/sequenceTestByQuestionIds") || $request.url.includes("/exam/test/content") || $request.url.includes("/exam/user/allAreaList")|| $request.url.includes("/exam/userupload/getUserTikuList")) {
     obj.resultCode = "SUCCESS";
-    obj.model = "5jO8qunRszPmqbnH99Y6DC7NQSU99tm7v579Wu46rwk2LOhLH9c6KCnTTh3Ac/nUDqcSrBnr6SqOxQXu9D4VSd9Uv+b/zV3onBNAS3+CxFb6O0I5CEfvsfq2jHmURQjko9fz145Ps2J/qciX7iCdcjjz/jLCPmxMqJWAkYIw+yu35Fg9sLH3eyXKNPXsqIZO5JwUcJbrFuyhj5daZumo2g==";
+    obj.model = "VtOFztFgGq//qfca2jpIH5sr+26l3eAzhd0Zhp9DiWI8WHojE1rLhxa80fjy0SfUxrMiwN0yw5f83XKvfU/1dSMlNFi+18RekFOaFlfnaBOV+ZIKWhYA58/mti+cfyjttPObm7Urvop1uuhr1k4Klep+N9Yterf78cNmWCLNuPxIUVK43G80lKzk90QqHE9UFi/WqZL8E0ps6z9xUBVLRrk/VVVzKfFB5OgTTCZd/IVYJMOFzPVNGnu3VfuvQiPE9I8whzH4o374JSRflTQPjSkUSx2m+OBTcsVImQN/N1k+IXUX34UDmcJpkypXrFjqURF+fiG30wSjOl4pdtpaj1j/EupxlSrBbbJlHn/LcjCGUSjpMrK3F8sO0xLPFkiDFtHzNHRqMP2b3ecsHAvf/A==";
     obj.resultMsg = "成功";
 }else if ($request.url.includes("/user/center/getUserInfo")) {
     obj.resultCode = "SUCCESS";
