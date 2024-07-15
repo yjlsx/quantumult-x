@@ -8,6 +8,7 @@
  ^http://api\.yaotia\.cn/api/v2/goods/infoMaster url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/userCourse/sxy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/goods/combo\?tag_id=0 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^http://api\.yaotia\.cn/api/v2/userCourse/recent url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 
  [mitm]
  hostname = api.yaotia.cn
@@ -48,9 +49,9 @@ if (url.includes('/api/v2/goods/infoMaster')) {
 if (url.includes('/api/v2/userCourse/sxy')) {
     // 用户课程接口
     const newCourse = {
-        "id": 102,
+        "id": 76,
         "expire_tip": "",
-        "course_type": 96,
+        "course_type": 5,
         "is_expire": 0,
         "cover": "https://img.yaotia.com/2023/10-13/1697161787037.png?size=188X224",
         "name": "行测三板斧-风暴羚羊",
@@ -85,6 +86,15 @@ if (url.includes('/api/v2/goods/combo?tag_id=0')) {
     obj.data.list.forEach(item => {
         item.is_buy = 1; // 将所有套餐的购买状态设为已购买
     });
+}
+
+if (url.includes('/api/v2/userCourse/recent')) {
+    // 最近课程接口
+    const newTab = {
+        "tab_name": "大咖课",
+        "course_type": 5
+    };
+    obj.data.tabs.push(newTab); // 添加新的 tab
 }
 
 $done({ body: JSON.stringify(obj) });
