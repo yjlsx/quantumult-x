@@ -14,54 +14,40 @@
 
 
 // 用户信息接口脚本 yaotia.js
-const userBody = $response.body;
-const userObj = JSON.parse(userBody);
+const url = $request.url;
+const body = $response.body;
+let obj = JSON.parse(body);
 
-// 修改 is_vip 字段为 1，表示用户是永久 VIP
-userObj.data.is_vip = 1;
-userObj.data.vip_txt = "永久VIP";
-userObj.data.vip_end_time = 4102415999; // 2099年12月31日 23:59:59 的时间戳
+if (url.includes('/user/v1/login') || url.includes('/user/v1/getUserInfo')) {
+    // 用户信息接口
+    obj.data.is_vip = 1;
+    obj.data.vip_txt = "永久VIP";
+    obj.data.vip_end_time = 4102415999; // 2099年12月31日 23:59:59 的时间戳
+    obj.data.bz_money = 999999999;
+}
 
-// 修改 bz_money 字段为很大的值
-userObj.data.bz_money = 999999999;
 
-$done({ body: JSON.stringify(userObj) });
+if (url.includes('/api/v1/upgrade/index')) {
+    // 升级信息接口
+    obj.data.user.vip = 3;
+    obj.data.user.vip_end_time = "2099-12-31";
+    obj.data.user.desc = "永久VIP，尽情享受所有功能！";
+    obj.data.info.power.forEach(item => {
+        item.vip = true;
+    });
+    obj.data.rights_url = "http://fed.midasjoy.com/Public/act/2021buzhi/vipequity/index.html?v=1";
+}
 
-// 升级信息接口脚本 yaotia_upgrade.js
-const upgradeBody = $response.body;
-const upgradeObj = JSON.parse(upgradeBody);
+if (url.includes('/api/v2/goods/infoMaster')) {
+    // 商品信息接口
+    obj.data.is_goods_bought = 1;
+    obj.data.need_buy = 0;
+    goodsObj.data.price = "0";
+    goodsObj.data.ori_price = "0";
+}
 
-// 修改 VIP 相关字段
-upgradeObj.data.user.vip = 3;
-upgradeObj.data.user.vip_end_time = "2099-12-31";
-upgradeObj.data.user.desc = "永久VIP，尽情享受所有功能！";
-
-// 修改 VIP 权益列表
-upgradeObj.data.info.power.forEach(item => {
-    item.vip = true;
-});
-
-// 修改 VIP 权益 URL
-upgradeObj.data.rights_url = "http://fed.midasjoy.com/Public/act/2021buzhi/vipequity/index.html?v=1";
-
-$done({ body: JSON.stringify(upgradeObj) });
-
-// 商品信息接口脚本 yaotia_goods.js
-const goodsBody = $response.body;
-const goodsObj = JSON.parse(goodsBody);
-
-// 修改商品信息为已购买状态
-goodsObj.data.is_goods_bought = 1;
-goodsObj.data.need_buy = 0;
-goodsObj.data.price = "0";
-goodsObj.data.ori_price = "0";
-$done({ body: JSON.stringify(goodsObj) });
-
-// 用户课程接口脚本 yaotia_courses.js
-const coursesBody = $response.body;
-const coursesObj = JSON.parse(coursesBody);
-
-// 新增课程信息到列表中
+if (url.includes('/api/v2/userCourse/sxy')) {
+    // 用户课程接口
 const newCourse = {
     "id": 52,
     "expire_tip": "",
@@ -71,39 +57,33 @@ const newCourse = {
     "name": "行测三板斧-风暴羚羊",
     "desc": "课程有效期截至:2099-12-22"
 };
-
-coursesObj.data.list.push(newCourse);
-
-$done({ body: JSON.stringify(coursesObj) });
-
-// 订单接口脚本 yaotia_order.js
-const orderBody = $response.body;
-const orderObj = JSON.parse(orderBody);
-
-// 修改订单完成状态为已完成（用于 wbuy 接口）
-if (orderObj.data && orderObj.data.finish !== undefined) {
-    orderObj.data.finish = 1;
+    obj.data.list.push(newCourse);
 }
 
-// 修改订单确认信息为不用花钱（用于 confirm 接口）
-if (orderObj.data && orderObj.data.not_need_money !== undefined) {
-    orderObj.data.not_need_money = 1;
-    orderObj.data.total_amount = "0.00";
-    orderObj.data.bz_money = "999999999";
-    orderObj.data.goods_list.forEach(goods => {
+if (url.includes('/api/v1/order/wbuy')) {
+    // 订单完成接口
+    if (obj.data && obj.data.finish !== undefined) {
+        obj.data.finish = 1;
+    }
+}
+
+if (url.includes('/api/v1/order/confirm')) {
+    // 订单确认接口
+    obj.data.not_need_money = 1;
+    obj.data.total_amount = "0.00";
+    obj.data.bz_money = "999999999";
+    obj.data.goods_list.forEach(goods => {
         goods.price = "0.00";
         goods.ori_price = "0.00";
     });
     // 确保不显示支付失败信息
-    if (orderObj.data.failure_info) {
-        orderObj.data.failure_info = null;
+    if (obj.data.failure_info) {
+        obj.data.failure_info = null;
     }
     // 修改 original_price 字段
-    orderObj.data.original_price = "0.00";
+    obj.data.original_price = "0.00";
     // 修改 gifts_list 字段为空数组
-    if (orderObj.data.gifts_list) {
-        orderObj.data.gifts_list = [];
-    }
+    obj.data.gifts_list = [];
 }
 
-$done({ body: JSON.stringify(orderObj) });
+$done({ body: JSON.stringify(obj) });
