@@ -1,10 +1,11 @@
 /**
  [rewrite_local]
  ^https:\/\/sxbapi\.xuesai\.net\/exam\/(order\/create|test\/createExercisePaper|common\/checkPermission|test\/sequenceTestByQuestionIds|test\/content|user\/allAreaList) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
-^https:\/\/sxbapi\.xuesai\.net\/user\/center\/getUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
-
- *
- [mitm]
+ ^https:\/\/sxbapi\.xuesai\.net\/user\/center\/getUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+ ^https:\/\/sxbapi\.xuesai\.net\/ask\/answer url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+ ^https:\/\/sxbapi\.xuesai\.net\/ask\/order\/submit url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+* 
+[mitm]
  hostname = sxbapi.xuesai.net
  */
 
@@ -16,7 +17,7 @@ if (!body) {
 
 var obj = JSON.parse(body);
 
-if ($request.url.includes("/exam/order/create")) {
+if ($request.url.includes("/exam/order/create") || $request.url.includes("/ask/order/submit")) {
     obj.resultCode = "SUCCESS";
     obj.resultMsg = "支付成功";
 } else if ($request.url.includes("/exam/test/createExercisePaper") || $request.url.includes("/exam/common/checkPermission") || $request.url.includes("/exam/test/sequenceTestByQuestionIds") || $request.url.includes("/exam/test/content") || $request.url.includes("/exam/user/allAreaList")) {
@@ -36,7 +37,11 @@ if ($request.url.includes("/exam/order/create")) {
         "receiveMkt": "Y",
         "askMemberExpireTime": "999999999999999"
     };
+}else if ($request.url.includes("/ask/answer")) {
+    obj.resultCode = "SUCCESS";
+    obj.resultMsg = "已是会员";
 }
+
 
 
 body = JSON.stringify(obj);
