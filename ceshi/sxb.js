@@ -1,11 +1,9 @@
 /**
- [rewrite_local]
- ^https:\/\/sxbapi\.xuesai\.net\/exam\/(test\/createExercisePaper|common\/checkPermission) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
- # 修改 sequenceTestByQuestionIds 接口的响应
-^https:\/\/sxbapi\.xuesai\.net\/exam\/test\/sequenceTestByQuestionIds url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
-*
- [mitm]
- hostname = sxbapi.xuesai.net
+ * [rewrite_local]
+ * ^https:\/\/sxbapi\.xuesai\.net\/exam\/(order\/create|test\/createExercisePaper|common\/checkPermission|test\/sequenceTestByQuestionIds) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+ *
+ * [mitm]
+ * hostname = sxbapi.xuesai.net
  */
 
 var body = $response.body;
@@ -16,7 +14,10 @@ if (!body) {
 
 var obj = JSON.parse(body);
 
-if ($request.url.includes("/exam/test/createExercisePaper") || $request.url.includes("/exam/common/checkPermission")) {
+if ($request.url.includes("/exam/order/create")) {
+    obj.resultCode = "SUCCESS";
+    obj.resultMsg = "支付成功";
+} else if ($request.url.includes("/exam/test/createExercisePaper") || $request.url.includes("/exam/common/checkPermission") || $request.url.includes("/exam/test/sequenceTestByQuestionIds")) {
     obj.resultCode = "SUCCESS";
     obj.resultMsg = "成功";
 }
