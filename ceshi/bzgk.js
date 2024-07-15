@@ -4,7 +4,7 @@
  [rewrite_local]
  ^http://api\.yaotia\.cn/user/v1/(login|getUserInfo) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/upgrade/index url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
- ^http://api\.yaotia\.cn/api/v1/order/wbuy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^http://api\.yaotia\.cn/api/v1/order/(wbuy|confirm) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/goods/infoMaster\?goods_id=52 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/userCourse/sxy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 *
@@ -63,7 +63,7 @@ const coursesObj = JSON.parse(coursesBody);
 
 // 新增课程信息到列表中
 const newCourse = {
-    "id": 102,
+    "id": 52,
     "expire_tip": "",
     "course_type": 96,
     "is_expire": 0,
@@ -80,8 +80,19 @@ $done({ body: JSON.stringify(coursesObj) });
 const orderBody = $response.body;
 const orderObj = JSON.parse(orderBody);
 
-// 修改订单完成状态为已完成
-orderObj.data.finish = 1;
+// 修改订单完成状态为已完成（用于 wbuy 接口）
+if (orderObj.data && orderObj.data.finish !== undefined) {
+    orderObj.data.finish = 1;
+}
+
+// 修改订单确认信息为不用花钱（用于 confirm 接口）
+if (orderObj.data && orderObj.data.not_need_money !== undefined) {
+    orderObj.data.not_need_money = 1;
+    orderObj.data.total_amount = "0.00";
+    orderObj.data.goods_list.forEach(goods => {
+        goods.price = "0.00";
+        goods.ori_price = "0.00";
+    });
+}
 
 $done({ body: JSON.stringify(orderObj) });
-
