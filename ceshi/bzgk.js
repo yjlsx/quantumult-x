@@ -53,7 +53,8 @@ const goodsObj = JSON.parse(goodsBody);
 // 修改商品信息为已购买状态
 goodsObj.data.is_goods_bought = 1;
 goodsObj.data.need_buy = 0;
-
+goodsObj.data.price = "0";
+goodsObj.data.ori_price = "0";
 $done({ body: JSON.stringify(goodsObj) });
 
 // 用户课程接口脚本 yaotia_courses.js
@@ -64,7 +65,7 @@ const coursesObj = JSON.parse(coursesBody);
 const newCourse = {
     "id": 52,
     "expire_tip": "",
-    "course_type": 5,
+    "course_type": 4,
     "is_expire": 0,
     "cover": "https://img.yaotia.com/2023/10-13/1697161787037.png?size=188X224",
     "name": "行测三板斧-风暴羚羊",
