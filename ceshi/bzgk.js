@@ -63,9 +63,9 @@ const coursesObj = JSON.parse(coursesBody);
 
 // 新增课程信息到列表中
 const newCourse = {
-    "id": 52,
+    "id": 102,
     "expire_tip": "",
-    "course_type": 4,
+    "course_type": 96,
     "is_expire": 0,
     "cover": "https://img.yaotia.com/2023/10-13/1697161787037.png?size=188X224",
     "name": "行测三板斧-风暴羚羊",
