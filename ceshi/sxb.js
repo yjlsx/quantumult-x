@@ -31,10 +31,10 @@ if ($request.url.includes("/exam/order/create")) {
         "canPhotoPaperSearch": "true",
         "canVoiceSearch": "true",
         "isAskMember": "true",
-        "askCount": "10",
+        "askCount": "99999",
         "canPhotoSearch": "true",
         "receiveMkt": "Y",
-        "askMemberExpireTime": "9999999999999"
+        "askMemberExpireTime": "999999999999999"
     };
 }
 
