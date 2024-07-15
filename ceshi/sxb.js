@@ -1,6 +1,6 @@
 /**
  * [rewrite_local]
- * ^https:\/\/sxbapi\.xuesai\.net\/exam\/(test\/createExercisePaper|common\/checkPermission) url script-response-body https://path/to/your/script.js
+ * ^https:\/\/sxbapi\.xuesai\.net\/exam\/(test\/createExercisePaper|common\/checkPermission) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
  *
  * [mitm]
  * hostname = sxbapi.xuesai.net
