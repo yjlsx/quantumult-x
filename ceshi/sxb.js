@@ -1,9 +1,9 @@
 /**
- * [rewrite_local]
- * ^https:\/\/sxbapi\.xuesai\.net\/exam\/(order\/create|test\/createExercisePaper|common\/checkPermission|test\/sequenceTestByQuestionIds|test\/content) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+ [rewrite_local]
+ ^https:\/\/sxbapi\.xuesai\.net\/exam\/(order\/create|test\/createExercisePaper|common\/checkPermission|test\/sequenceTestByQuestionIds|test\/content) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
  *
- * [mitm]
- * hostname = sxbapi.xuesai.net
+ [mitm]
+ hostname = sxbapi.xuesai.net
  */
 
 var body = $response.body;
