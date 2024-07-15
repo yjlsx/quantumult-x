@@ -7,6 +7,8 @@
  ^http://api\.yaotia\.cn/api/v1/order/(wbuy|confirm) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/goods/infoMaster url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/userCourse/sxy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^http://api\.yaotia\.cn/api/v2/goods/combo\?tag_id=0 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+
 *
  [mitm]
  hostname = api.yaotia.cn
@@ -68,7 +70,8 @@ if (url.includes('/api/v1/order/wbuy')) {
 }
 
 if (url.includes('/api/v1/order/confirm')) {
-    // 订单确认接口
+// 订单确认接口
+if (url.includes('/api/v1/order/confirm')) {
     obj.data.not_need_money = 1;
     obj.data.total_amount = "0.00";
     obj.data.bz_money = "999999999";
@@ -76,14 +79,16 @@ if (url.includes('/api/v1/order/confirm')) {
         goods.price = "0.00";
         goods.ori_price = "0.00";
     });
-    // 确保不显示支付失败信息
-    if (obj.data.failure_info) {
-        obj.data.failure_info = null;
-    }
-    // 修改 original_price 字段
+    obj.data.failure_info = null; // 确保不显示支付失败信息
     obj.data.original_price = "0.00";
-    // 修改 gifts_list 字段为空数组
     obj.data.gifts_list = [];
+}
+
+// 套餐购买状态接口
+if (url.includes('/api/v2/goods/combo?tag_id=0')) {
+    obj.data.list.forEach(item => {
+        item.is_buy = 1; // 将所有套餐的购买状态设为已购买
+    });
 }
 
 $done({ body: JSON.stringify(obj) });
