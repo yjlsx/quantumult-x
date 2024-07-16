@@ -10,7 +10,8 @@
  ^http://api\.yaotia\.cn/api/v2/goods/combo\?tag_id=0 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/userCourse/recent url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/goods/findByTeacher url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
- *
+ ^http://api\.yaotia\.cn/api/v1/course/sprintInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+*
  [mitm]
  hostname = api.yaotia.cn
  */
@@ -101,7 +102,7 @@ if (url.includes('/api/v2/userCourse/recent')) {
         "course_type": 4
     });
     obj.data.list.push({
-        "yta_goods_type": 1,
+        "yta_goods_type": 5,
         "yta_goods_id": 52,
         "subject": "大咖课",
         "course_type": 4,
@@ -118,6 +119,12 @@ if (url.includes('/api/v2/goods/findByTeacher')) {
             item.is_buy = 1;
         });
     });
+}
+
+// 课程冲刺信息接口
+if (url.includes('/api/v1/course/sprintInfo')) {
+    obj.code = 0;
+    obj.message = "成功";
 }
 
 $done({ body: JSON.stringify(obj) });
