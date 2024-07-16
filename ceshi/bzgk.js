@@ -13,7 +13,7 @@
  ^http://api\.yaotia\.cn/api/v1/course/sprintInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 ^http://api\.yaotia\.cn/api/v1/fm/authInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 ^http://api\.yaotia\.cn/api/v1/order/seaList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
-
+^https://api\.yaotia\.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 *
  [mitm]
  hostname = api.yaotia.cn
@@ -110,7 +110,7 @@ if (url.includes('/api/v2/userCourse/recent')) {
         "subject": "大咖课",
         "course_type": 4,
         "course_cover": "https://img.yaotia.com/2023/10-13/1697161787037.png?size=188X224",
-        "course_name": "行测三板斧-风暴羚羊",
+        "course_name": "行测三板斧·风暴羚羊",
         "course_id": 76
     });
 }
@@ -146,7 +146,7 @@ if (url.includes('/api/v1/order/seaList')) {
     "amount" : "1840",
     "goods_num" : 1,
     "btns" : [],
-    "order_title" : "行测三板斧-风暴羚羊",
+    "order_title" : "行测三板斧·风暴羚羊",
     "order_id" : 847210,
     "user_id" : 707802,
     "teachers" : "风暴羚羊",
@@ -169,5 +169,47 @@ if (url.includes('/api/v1/order/seaList')) {
     "status" : 1
   });
 }
+
+//加入课程
+if (url.includes('api.yaotia.com') && obj.result && obj.result[0].goods) {
+  obj.result[0].goods.push({
+    "course_type": 5,
+    "list": [
+      {
+        "mark_name": "",
+        "relation_id": "76",
+        "short_desc": "会员课程",
+        "teachers": [
+          {
+            "avatar": null,
+            "teacher_name": null,
+            "teacher_id": 2
+          }
+        ],
+        "brand": {},
+        "real_price": 1840,
+        "tags": [],
+        "desc": "永久会员",
+        "title": "行测三板斧·风暴羚羊",
+        "induce_text": "",
+        "right_bottom_text": "",
+        "price": "",
+        "is_my_course": 1,
+        "btns": [
+          {
+            "style": "hollow",
+            "txt": "立即学习",
+            "action": "to_pack"
+          }
+        ],
+        "goods_id": 52,
+        "goods_type": "5",
+        "left_bottom_link": 0,
+        "is_open": 1
+      }
+    ]
+  });
+}
+
 
 $done({ body: JSON.stringify(obj) });

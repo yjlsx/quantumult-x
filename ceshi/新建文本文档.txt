@@ -5,7 +5,7 @@ json
 		"service_url": "",  
 		"is_service": 0,  
 		"stage_list": [  
-			{  
+			{   
 				"id": 0,  
 				"name": "默认阶段",  
 				"des": "",  
