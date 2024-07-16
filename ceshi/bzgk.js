@@ -12,6 +12,7 @@
  ^http://api\.yaotia\.cn/api/v2/goods/findByTeacher url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/course/sprintInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 ^http://api\.yaotia\.cn/api/v1/fm/authInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+^http://api\.yaotia\.cn/api/v1/order/seaList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 
 *
  [mitm]
@@ -136,6 +137,37 @@ if (url.includes('/api/v1/fm/authInfo')) {
     obj.data.not_vip_text = "无限畅听";
  // 表示已经订阅
     obj.data.fm_info.is_auth = 1;
+}
+
+//修改订单详情
+if (url.includes('/api/v1/order/seaList')) {
+  response.data.list.push({
+    "buy_left_min" : 0,
+    "amount" : "1840",
+    "goods_num" : 1,
+    "btns" : [],
+    "order_title" : "行测三板斧-风暴羚羊",
+    "order_id" : 847210,
+    "user_id" : 707802,
+    "teachers" : "风暴羚羊",
+    "order_time" : "2024-05-06 21:55:16",
+    "order_no" : "E6859090283692d",
+    "status_name" : "已购买",
+    "goods" : [
+      {
+        "sku_id" : 102,
+        "desp" : "课程有效期截至：2099-12-31",
+        "checked" : 1,
+        "id" : 102,
+        "ori_price" : 1840,
+        "price" : 1840,
+        "avatar" : "https://img.yaotia.com/2021/09-10/1631235362167.png?size=120X120",
+        "name" : "行测三板斧·风暴羚羊",
+        "goods_id" : 52
+      }
+    ],
+    "status" : 1
+  });
 }
 
 $done({ body: JSON.stringify(obj) });
