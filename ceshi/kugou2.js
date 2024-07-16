@@ -8,10 +8,10 @@
 ^https://gateway3\.kugou\.com/listening/coupon_package url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://gateway3\.kugou\.com/ocean/v6/theme/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://gateway3\.kugou\.com/ip/api/v1/overseas/check_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
-^https://gateway3\.kugou\.com/ads\.gateway/v2/task_video\/unlogin_guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway3\.kugou\.com/ads\.gateway/v2/task_video/unlogin_guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://gateway3\.kugou\.com/v2/get_vip_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://gateway3\.kugou\.com/updateservice/v1/get_dev_user url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
-^https://gateway3\.kugou\.com/ads\.gateway/v5/task_video\/qualification url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway3\.kugou\.com/ads\.gateway/v5/task_video/qualification url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://gateway3\.kugou\.com/userinfoservice/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://gateway3\.kugou\.com/v5/login_by_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://gateway3\.kugou\.com/tools\.mobile/api/v2/theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
@@ -22,39 +22,16 @@
 ^https://vipuser\.kugou\.com/v2/get_vip_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://userinfoservice\.kugou\.com/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 ^https://vip\.kugou\.com/v1/fusion/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
-
-
+^https://gateway3\.kugou\.com/tools.mobile/api/v2/theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway3\.kugou\.com/v1/login_by_quick_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
 
 [mitm]
 hostname = gateway.kugou.com,gateway3.kugou.com,vip.kugou.com,vipuser.kygou.com,login.user.kugou.com,userinfoservice.kugou.com
  */
 
-var body = $response ? $response.body : null;
-
-if (!body) {
-    console.log("Error: Response body is undefined or null.");
-    $done({});
-    return;
-}
-
-var url = $request ? $request.url : null;
-
-if (!url) {
-    console.log("Error: Request URL is undefined or null.");
-    $done({});
-    return;
-}
-
-try {
-    var obj = JSON.parse(body);
-} catch (e) {
-    console.log("Error: Failed to parse response body. ", e);
-    $done({});
-    return;
-}
-
-var url = $request.url;
-var obj = JSON.parse(body);
+const url = $request.url;
+const body = $response.body;
+let obj = JSON.parse(body);
 
 const endpoints = {
     vip: '/ip/api/v1/overseas/check_v2',
@@ -75,7 +52,7 @@ const endpoints = {
     path2: '/v1/login_by_quick_token'
 };
 
-if (url.includes(endpoints.user)) {
+if (url.includes('/userinfoservice/v2/get_login_extend_info')) {
     obj.data.ads = {};
     obj.data.vipinfo.su_vip_y_endtime = "2099-03-17 09:05:55"; 
     obj.data.vipinfo.su_vip_clearday = "2022-03-17 09:05:55"; 
@@ -84,10 +61,9 @@ if (url.includes(endpoints.user)) {
     obj.data.svip_score = 999999; 
     obj.data.vip_type = 0; 
     obj.data.svip_level = 20;    
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.ads)) {
+if (url.includes('/ads.gateway/v5/task_video/qualification')) {
     obj.data.ads = [];
     obj.data.ad_show_freq = [];
     obj.data.is_free_vip = 1;
@@ -96,16 +72,15 @@ if (url.includes(endpoints.ads)) {
     for (let task of obj.data.tasks_info) {
         task.used_times = task.total_number;
     }
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.vip)) {
+if (url.includes( '/ip/api/v1/overseas/check_v2')) {
     obj.info.is_special_vip = 1;
     obj.info.vip_switch = 1;
     body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.vap)) {
+if (url.includes('/ads.gateway/v2/task_video/unlogin_guide')) {
     obj.data.is_vip = 1;
     obj.data["vip_end_time"] = "2099-03-17 09:05:55";
     obj.data["m_end_time"] = "2099-03-17 09:05:55";
@@ -129,10 +104,9 @@ if (url.includes(endpoints.vap)) {
     obj.data["su_vip_y_endtime"] = "2099-03-17 09:05:55";
     obj.data.producttype = "ssvip";
     obj.data.svip_level = 9;
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.get)) {
+if (url.includes('/v2/get_vip_config')) {
     obj.data["multiplatform_vip_expire_prompt_myinfo_config_0"] = "{\"content\":{\"content\":\"您的会员9999天后到期\"},\"data\":[{\"value\":0,\"index\":1,\"n\":1}]}";
     obj.data["cache_expired_check"] = 0;
     obj.data["multiplatform_vip_text_user_label_contentv2_10"] = "{\"40\":[{\"k\":119,\"v\":{\"showH5Mode\":1,\"jumpUrl\":\"https://h5.kugou.com/vipfreemode/v-35ffb015/index.html\",\"jumpMode\":1,\"count\":0}}]}";
@@ -228,17 +202,14 @@ obj.data["multiplatform_vip_expire_prompt_myinfo_today_config_0"] = {
         "n": 1
     }]
 };
-
-body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.svip)) {
+if (url.includes( '/updateservice/v1/get_dev_user')) {
     obj.data.is_dev_user = 1;
     obj.data.vip_left_days = 9999;
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.time)) {
+if (url.includes('/list_v2')) {
     obj.data.vip_end_time = "2099-03-17 09:05:55";
     obj.data.vip_begin_time = "2022-03-17 09:05:55";
     obj.data.svip_end_time = "2099-03-17 09:05:55";
@@ -246,19 +217,17 @@ if (url.includes(endpoints.time)) {
     obj.data.svip_left_days = 9999;
     obj.data.is_vip = 1;
     obj.data.is_svip = 1;
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.ssvip)) {
+if (url.includes(/v6/login_by_openplat)) {
     obj.data.vip_end_time = "2099-03-17 09:05:55";
     obj.data.vip_y_endtime = "2099-03-17 09:05:55";
     obj.data.vip_begin_time = "2022-03-17 09:05:55";
     obj.data.vip_clearday = "2022-03-17 09:05:55";
     obj.data.vip_type = 1;
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.data)) {
+if (url.includes('/userinfoservice/v2/get_login_extend_info')) {
     obj.data.vip_left_days = 9999;
     obj.data.svip_level = 9;
     obj.data.vip_type = 1;
@@ -266,60 +235,52 @@ if (url.includes(endpoints.data)) {
     obj.data.vip_y_endtime = "2099-03-17 09:05:55";
     obj.data.vip_begin_time = "2022-03-17 09:05:55";
     obj.data.vip_clearday = "2022-03-17 09:05:55";
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.vipinfo)) {
+if (url.includes('/mobile/vipinfoV2&code')) {
     obj.data.su_vip_y_endtime = "2099-03-17 09:05:55";
     obj.data.su_vip_clearday = "2022-03-17 09:05:55";
     obj.data.su_vip_end_time = "2099-03-17 09:05:55";
     obj.data.su_vip_begin_time = "2022-03-17 09:05:55";
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.inte)) {
+if (url.includes('/v1/fusion/userinfo')) {
     obj.data.is_vip = 1;
     obj.data.vip_end_time = "2099-03-17 09:05:55";
     obj.data.vip_y_endtime = "2099-03-17 09:05:55";
     obj.data.vip_begin_time = "2022-03-17 09:05:55";
     obj.data.vip_clearday = "2022-03-17 09:05:55";
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.coupon)) {
+if (url.includes('/listening/coupon_package')) {
     obj.data.coupon_num = 9999;
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.prom)) {
+if (url.includes('/promotionvip')) {
     obj.data.user_info.vip_type = 1;
     obj.data.user_info.vip_end_time = "2099-03-17 09:05:55";
     obj.data.user_info.vip_y_endtime = "2099-03-17 09:05:55";
     obj.data.user_info.vip_begin_time = "2022-03-17 09:05:55";
     obj.data.user_info.vip_clearday = "2022-03-17 09:05:55";
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.path1)) {
+if (url.includes('/tools.mobile/api/v2/theme')) {
     obj.data.is_vip = 1;
     obj.data.vip_type = 1;
     obj.data.vip_end_time = "2099-03-17 09:05:55";
     obj.data.vip_y_endtime = "2099-03-17 09:05:55";
     obj.data.vip_begin_time = "2022-03-17 09:05:55";
     obj.data.vip_clearday = "2022-03-17 09:05:55";
-    body = JSON.stringify(obj);
 }
 
-if (url.includes(endpoints.path2)) {
+if (url.includes('/v1/login_by_quick_token')) {
     obj.data.vip_end_time = "2099-03-17 09:05:55";
     obj.data.vip_y_endtime = "2099-03-17 09:05:55";
     obj.data.vip_begin_time = "2022-03-17 09:05:55";
     obj.data.vip_clearday = "2022-03-17 09:05:55";
-    body = JSON.stringify(obj);
 }
 
 if (url.includes("login_by_token") && method === "POST") {
-    let obj = JSON.parse(body);
     obj.data.is_vip = 1;
     obj.data.vip_token = "99999999999";
     obj.data.roam_end_time = "2099-12-31 23:59:59";
@@ -337,9 +298,6 @@ if (url.includes("login_by_token") && method === "POST") {
     obj.data.m_end_time = "2099-12-31 23:59:59";
     obj.data.m_begin_time = "2022-03-17 09:05:55";
     obj.data.vip_type = 1;
-
-    body = JSON.stringify(obj);
 }
 
-
-$done({body});
+$done({ body: JSON.stringify(obj) });
