@@ -9,7 +9,7 @@
  ^http://api\.yaotia\.cn/api/v2/userCourse/sxy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/goods/combo\?tag_id=0 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/userCourse/recent url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
-
+ ^http://api\.yaotia\.cn/api/v2/goods/findByTeacher url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  *
  [mitm]
  hostname = api.yaotia.cn
@@ -88,7 +88,7 @@ if (url.includes('/api/v1/order/confirm')) {
 }
 
 // 套餐购买状态接口
-if (url.includes('/api/v2/goods/combo?tag_id=0')) {
+if (url.includes('/api/v2/goods/combo')) {
     obj.data.list.forEach(item => {
         item.is_buy = 1;
     });
@@ -108,6 +108,15 @@ if (url.includes('/api/v2/userCourse/recent')) {
         "course_cover": "https://img.yaotia.com/2023/10-13/1697161787037.png?size=188X224",
         "course_name": "行测三板斧-风暴羚羊",
         "course_id": 76
+    });
+}
+
+// 老师课程状态接口
+if (url.includes('/api/v2/goods/findByTeacher')) {
+    obj.data.group.forEach(group => {
+        group.items.forEach(item => {
+            item.is_buy = 1;
+        });
     });
 }
 
