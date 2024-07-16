@@ -131,9 +131,11 @@ if (url.includes('/api/v1/course/sprintInfo')) {
 
 // fm畅听
 if (url.includes('/api/v1/fm/authInfo')) {
-    // 构建 not_vip_audio URL
+// 设置 not_vip_audio 字段，使非VIP用户可以免费畅听
     obj.data.not_vip_audio = `http://m.ask.buzhi.com/ask/fmShare/${obj.data.fm_info.id}`;
     obj.data.not_vip_text = "无限畅听";
+ // 忽略用户ID验证
+    obj.data.fm_info.user_id = 0;
 }
 
 $done({ body: JSON.stringify(obj) });
