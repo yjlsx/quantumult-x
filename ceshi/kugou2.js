@@ -33,25 +33,6 @@ const url = $request.url;
 const body = $response.body;
 let obj = JSON.parse(body);
 
-const endpoints = {
-    vip: '/ip/api/v1/overseas/check_v2',
-    vap: '/ads.gateway/v2/task_video/unlogin_guide',
-    get: '/v2/get_vip_config',
-    svip: '/updateservice/v1/get_dev_user',
-    time: '/list_v2',
-    ssvip: '/v6/login_by_openplat',
-    data: '/get_login_extend',
-    vipinfo: '/mobile/vipinfoV2',
-    inte: '/v1/fusion/userinfo',
-    coupon: '/listening/coupon_package',
-    prom: '/promotionvip',
-    ads: '/ads.gateway/v5/task_video/qualification',
-    user: 'userinfoservice/v2/get_login_extend_info',
-    token: '/v5/login_by_token',
-    path1: '/tools.mobile/api/v2/theme',
-    path2: '/v1/login_by_quick_token'
-};
-
 if (url.includes('/userinfoservice/v2/get_login_extend_info')) {
     obj.data.ads = {};
     obj.data.vipinfo.su_vip_y_endtime = "2099-03-17 09:05:55"; 
