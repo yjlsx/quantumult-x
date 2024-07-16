@@ -3,9 +3,9 @@
 [rewrite_local]
 /**
 # 重写 AI 教师会员信息
-^https:\/\/keapi\.fenbi\.com\/ai\/iphone\/entry url script-response-body https://path/to/your/script.js
+^https:\/\/keapi\.fenbi\.com\/ai\/iphone\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 修改用户余额为
-^https://ke\.fenbi\.com/iphone/v3/users/balance url script-response-body https://path/to/your/script.js
+^https://ke\.fenbi\.com/iphone/v3/users/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 *
 [mitm]
