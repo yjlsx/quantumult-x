@@ -141,7 +141,7 @@ if (url.includes('/api/v1/fm/authInfo')) {
 
 //修改订单详情
 if (url.includes('/api/v1/order/seaList')) {
-  response.data.list.push({
+  obj.data.list.push({
     "buy_left_min" : 0,
     "amount" : "1840",
     "goods_num" : 1,
