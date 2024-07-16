@@ -134,8 +134,8 @@ if (url.includes('/api/v1/fm/authInfo')) {
 // 设置 not_vip_audio 字段，使非VIP用户可以免费畅听
     obj.data.not_vip_audio = `http://m.ask.buzhi.com/ask/fmShare/${obj.data.fm_info.id}`;
     obj.data.not_vip_text = "无限畅听";
- // 忽略用户ID验证
-    obj.data.fm_info.user_id = 0;
+ // 表示已经订阅
+    obj.data.fm_info.is_auth = 1;
 }
 
 $done({ body: JSON.stringify(obj) });
