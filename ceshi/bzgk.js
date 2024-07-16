@@ -11,6 +11,8 @@
  ^http://api\.yaotia\.cn/api/v2/userCourse/recent url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/goods/findByTeacher url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/course/sprintInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+^http://api\.yaotia\.cn/api/v1/fm/authInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+
 *
  [mitm]
  hostname = api.yaotia.cn
@@ -125,6 +127,13 @@ if (url.includes('/api/v2/goods/findByTeacher')) {
 if (url.includes('/api/v1/course/sprintInfo')) {
     obj.code = 0;
     obj.message = "成功";
+}
+
+// fm畅听
+if (url.includes('/api/v1/fm/authInfo')) {
+    // 构建 not_vip_audio URL
+    obj.data.not_vip_audio = `http://m.ask.buzhi.com/ask/fmShare/${obj.data.fm_info.id}`;
+    obj.data.not_vip_text = "无限畅听";
 }
 
 $done({ body: JSON.stringify(obj) });
