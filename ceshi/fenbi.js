@@ -129,10 +129,11 @@ if (url.includes('/iphone/v3/user_member/home')) {
             }
         }
     });
+}
 
 // 修改每个都为SVIP
-    if (url.includes("ke.fenbi.com/iphone/v3/user_member/course_configs")) {
-        if (obj && obj.datas && Array.isArray(obj.datas)) {
+    if (url.includes("/iphone/v3/user_member/course_configs")) {
+        if (obj.datas && Array.isArray(obj.datas)) {
             obj.datas.forEach(course => {
                 if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
                     course.memberConfigs.forEach(member => {
@@ -143,6 +144,6 @@ if (url.includes('/iphone/v3/user_member/home')) {
             });
         }
     }
-}
+
 
 $done({body: JSON.stringify(obj)});
