@@ -61,6 +61,7 @@ if (url.indexOf("/yiwen_mobile/query_myOrder") !== -1) {
         for (let order of obj.data.list) {
             // 对每个订单的每个订单详情执行操作
             order.orderDetails.forEach(detail => {
+                order.status = 2;
                 detail.goodStatus = order.status;
                 order.sourceType = order.status;
             });
