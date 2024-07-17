@@ -3,7 +3,7 @@
 # 统一处理脚本
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/queryApp url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_classDetail_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
-^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_myMessage\?clientId= url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_myMessage url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/my_moneybag url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/ioscoin_buy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_useCoupon url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
@@ -52,14 +52,13 @@ if (url.indexOf("/yiwen_mobile/ioscoin_buy") !== -1) {
 if (url.indexOf("/yiwen_mobile/query_useCoupon") !== -1) {
     obj.data.account = 999999;
     obj.data.coin = 999999;
-} 
-if (url.indexOf("https://proxyweb.yiwenjy.com/yiwen_mobile/your_endpoint") != -1) {
+}
+ 
+if (url.indexOf("/yiwen_mobile/your_endpoint") != -1) {
     // 如果请求地址匹配特定的地址
     let response = {
         "msg": "查询成功",
         "data": {
-  "msg" : "成功",
-  "data" : {
     "endRow" : 20,
     "hasNextPage" : true,
     "pages" : 7,
