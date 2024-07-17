@@ -28,6 +28,8 @@ if (url.includes("/yiwen_mobile/queryApp") || url.includes("/yiwen_mobile/query_
         body = body.replace(/("leven"\s*:\s*)\d+/g, '$10');
         body = body.replace(/("isLook"\s*:\s*)\d+/g, '$11');
         body = body.replace(/("type"\s*:\s*)\d+/g, '$11');
+        body = body.replace(/("hasBuy"\s*:\s*)\d+/g, '$12');
+        body = body.replace(/("endTimeMonth"\s*:\s*)\d+/g, '$199');
     }
 } 
 
