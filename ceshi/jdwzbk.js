@@ -20,9 +20,10 @@ if (url.includes('/questionset/getInfo')) {
     // 修改 key 和会员类型名称
     if (obj && obj.data) {
         obj.data.key = 'i7';
-        obj.data.has = 4;
+        obj.data.usability = " ";
+        obj.data.has = ;
         obj.data.expire_time = "2099-12-31";
-        obj.data.buy_number = 3312; // 设置为已购买状态
+        obj.data.buy_number = ; // 设置为已购买状态
     }
 }
 
