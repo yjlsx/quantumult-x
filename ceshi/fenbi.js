@@ -95,17 +95,17 @@ if (url.includes('/iphone/v3/user_member/home')) {
 // 将所有电子书//课程设为已购买
  if (obj.data && obj.data.modules) {
         for (let module of obj.data.modules) {
-            if (module.memberModuleType === 1 && module.content.eBooks) {
+            if (module.content.eBooks) {
                 for (let ebook of module.content.eBooks) {
                     ebook.paid = true;
                 }
             }
-            if (module.memberModuleType === 4 && module.content.lectures) {
+            if (module.content.lectures) {
                 for (let lecture of module.content.lectures) {
                     lecture.hasAudition = true;
                 }
             }
-            if (module.memberModuleType === 2 && module.content.userMorningReading) {
+            if (module.content.userMorningReading) {
                 module.content.userMorningReading.trial = false;
                 module.content.userMorningReading.memberUserSummaryRet.readMemberArticle = true;
             }
