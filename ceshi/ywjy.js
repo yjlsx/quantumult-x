@@ -87,16 +87,17 @@ if (url.includes("/yiwen_mobile/queryAppProductDetail")) {
    }
 }
 
-if (obj && obj.data && obj.data.list && Array.isArray(obj.data.list)) {
-    for (let item of obj.data.list) {
+if (url.includes("/yiwen_mobile/queryAppProductList")) {
+    if (obj && obj.data && obj.data.list && Array.isArray(obj.data.list)) {
+       for (let item of obj.data.list) {
         if (item.hasBuy === 1 && item.hasAuth === false && item.endTimeMonth === 12) {
             item.hasBuy = 2;
             item.hasAuth = true;
             item.endTimeMonth = 99999;
         }
     }
+  }
 }
-
 
  $done({ body: JSON.stringify(obj) })
 
