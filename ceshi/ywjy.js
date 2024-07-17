@@ -63,7 +63,6 @@ if (url.indexOf("/yiwen_mobile/query_myOrder") !== -1) {
             order.orderDetails.forEach(detail => {
                 order.status = 2;
                 detail.goodStatus = order.status;
-                order.sourceType = order.status;
             });
         }
     }
