@@ -59,16 +59,15 @@ if (url.indexOf("/yiwen_mobile/query_myOrder") !== -1) {
     if (obj && obj.data && obj.data.list) {
         // 遍历订单列表
         for (let order of obj.data.list) {
-            // 如果订单状态为1，重写goodStatus和sourceType字段为1
-            if (order.status === 1) {
-                order.orderDetails.forEach(detail => {
-                    detail.goodStatus = 1;
-                    detail.sourceType = 1;
-                });
-            }
+            // 对每个订单的每个订单详情执行操作
+            order.orderDetails.forEach(detail => {
+                detail.goodStatus = order.status;
+                detail.sourceType = order.sourceType;
+            });
         }
     }
 }
+
 
  $done({ body: JSON.stringify(obj) })
 
