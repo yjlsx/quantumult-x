@@ -21,9 +21,9 @@ if (url.includes('/questionset/getInfo')) {
     if (obj && obj.data) {
         obj.data.key = 'i7';
         obj.data.usability = " ";
-        obj.data.has = ;
+        obj.data.has = [63, 64, 67,;
         obj.data.expire_time = "2099-12-31";
-        obj.data.buy_number = ; // 设置为已购买状态
+        obj.data.buy_number = obj.total_number; // 设置为已购买状态
     }
 }
 
