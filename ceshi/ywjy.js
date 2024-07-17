@@ -57,7 +57,7 @@ if (url.indexOf("/yiwen_mobile/query_useCoupon") !== -1) {
     obj.data.coin = 999999;
 }
 
-// 根据 URL 判断执行不同的处理逻辑
+// 根据 订单修改
 if (url.includes("/yiwen_mobile/query_myOrder")) {
     // 检查响应体中的data字段是否存在
     if (obj && obj.data && obj.data.list) {
@@ -86,11 +86,9 @@ if (url.includes("/yiwen_mobile/queryAppProductDetail")) {
 if (url.includes("/yiwen_mobile/queryAppProductList")) {
     if (obj && obj.data && obj.data.list && Array.isArray(obj.data.list)) {
        for (let item of obj.data.list) {
-        if (item.hasBuy === 1) {
             item.hasBuy = 2;
             item.hasAuth = true;
             item.endTimeMonth = 99999;
-        }
     }
   }
 }
