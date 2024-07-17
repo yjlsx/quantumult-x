@@ -9,6 +9,9 @@
 #改价格
 ^https://ke.fenbi\.com/iphone/v3/member_centers/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https://ke.fenbi.com/iphone/v3/user_member/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#会员显示
+^https://ke.fenbi.com/iphone/v3/user_member/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 *
 [mitm]
 hostname = keapi.fenbi.com
@@ -22,11 +25,11 @@ let url = $request.url;
 if (url.includes('/ai/iphone/entry')) {
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true;
-        obj.data.userMember.memberClass = 9;
+        obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52];
         obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员配置的类型为指定数组;
         obj.data.userMember.expireTime = 4102415999000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
-        obj.data.userMember.memberStatus = 1;
+        obj.data.userMember.memberStatus = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52];
         obj.data.userMember.createdTime = 1551873177267;
     }
 }
@@ -63,11 +66,11 @@ if (url.includes('https://ke.fenbi.com/iphone/v3/user_member/home')) {
     // 修改 userMember 部分
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true; // 开通会员
-        obj.data.userMember.memberClass = 9; // 设置会员级别为 3
+        obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员级别
         obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员类型为指定数组
         obj.data.userMember.expireTime = 4102415999000; // 设置过期时间
         obj.data.userMember.hasBeenMember = true; // 已经是会员
-        obj.data.userMember.memberStatus = 1; // 会员状态设为已开通
+        obj.data.userMember.memberStatus = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 会员状态设为已开通
         obj.data.userMember.createdTime = 1651873177267; // 设置创建时间
     }
 
@@ -75,6 +78,15 @@ if (url.includes('https://ke.fenbi.com/iphone/v3/user_member/home')) {
     if (obj.data && obj.data.memberConfig) {
         obj.data.memberConfig.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员配置的类型为指定数组
     }
+
+if (obj && obj.data && obj.data.memberConfig && Array.isArray(obj.data.memberConfig.memberBenefits)) {
+            obj.data.memberConfig.memberBenefits.forEach(benefit => {
+                // 修改视频解析和精选电子书的 native 为 false
+                if (benefit.title === "视频解析" || benefit.title === "精选电子书") {
+                    benefit.native = false;
+                }
+            });
+  }
 
 // 将所有电子书设为已购买
 if (obj.data && obj.data.modules) {
@@ -125,6 +137,21 @@ obj.data.modules.forEach(module => {
       }
   });
 }
+
+// 修改每个都为SVIP
+    if (url.includes("ke.fenbi.com/iphone/v3/user_member/course_configs")) {
+        if (obj && obj.datas && Array.isArray(obj.datas)) {
+            obj.datas.forEach(course => {
+                if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
+                    course.memberConfigs.forEach(member => {
+                        member.svipMemberType = 52;
+                        member.svipTitle = member.title + "SVIP";
+                    });
+                }
+            });
+          }
+}
+
 
 
 $done({body: JSON.stringify(obj)});
