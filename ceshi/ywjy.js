@@ -61,7 +61,7 @@ if (url.includes("/yiwen_mobile/query_myOrder")) {
         // 遍历订单列表
         for (let order of obj.data.list) {
             // 将每个订单的status字段重写为1
-            order.status = 1;
+            order.status = 2;
         }
     }
 }
