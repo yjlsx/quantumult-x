@@ -62,7 +62,7 @@ if (url.indexOf("/yiwen_mobile/query_myOrder") !== -1) {
             // 对每个订单的每个订单详情执行操作
             order.orderDetails.forEach(detail => {
                 detail.goodStatus = order.status;
-                detail.sourceType = order.sourceType;
+                order.sourceType = order.status;
             });
         }
     }
