@@ -41,10 +41,9 @@ if (url.indexOf("my_moneybag") !== -1) {
     obj.data.coin = 999999;  // 修改为你想要的 coin 值
 }
 
-if (url.indexOf("ioscoin_buy") !== -1) {
-    var json = JSON.parse(body);
-    json.msg = "成功支付";
-    json.code = 0;
+if (url.indexOf("/yiwen_mobile/ioscoin_buy") !== -1) {
+    obj.msg = "购买成功";
+    obj.code = 0;
 } 
 
 
