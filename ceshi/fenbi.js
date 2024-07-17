@@ -25,11 +25,12 @@ let url = $request.url;
 if (url.includes('/ai/iphone/entry')) {
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true;
-        obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52];
-        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员配置的类型为指定数组;
+        obj.data.aiteacherDisplayed = true;
+        obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
+        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 设置会员配置的类型为指定数组;
         obj.data.userMember.expireTime = 4102415999000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
-        obj.data.userMember.memberStatus = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52];
+        obj.data.userMember.memberStatus = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
         obj.data.userMember.createdTime = 1551873177267;
     }
 }
@@ -62,22 +63,28 @@ if (url.includes('/iphone/v3/member_centers/sale_center')) {
 }
 
 // 判断 URL 是否包含特定地址
-if (url.includes('https://ke.fenbi.com/iphone/v3/user_member/home')) {
+if (url.includes('/iphone/v3/user_member/home')) {
     // 修改 userMember 部分
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true; // 开通会员
-        obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员级别
-        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员类型为指定数组
+        obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 设置会员级别
+        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 设置会员类型为指定数组
         obj.data.userMember.expireTime = 4102415999000; // 设置过期时间
         obj.data.userMember.hasBeenMember = true; // 已经是会员
-        obj.data.userMember.memberStatus = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 会员状态设为已开通
+        obj.data.userMember.memberStatus = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 会员状态设为已开通
         obj.data.userMember.createdTime = 1651873177267; // 设置创建时间
     }
 
     // 修改 memberConfig 部分
     if (obj.data && obj.data.memberConfig) {
-        obj.data.memberConfig.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员配置的类型为指定数组
+        obj.data.memberConfig.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 设置会员配置的类型为指定数组
     }
+
+// 修改 memberConfig 的 shadowColor 和 textColor
+            if (obj.data.memberConfig) {
+                obj.data.memberConfig.shadowColor = "111111";
+                obj.data.memberConfig.textColor = "efb96d";
+            }
 
 if (obj && obj.data && obj.data.memberConfig && Array.isArray(obj.data.memberConfig.memberBenefits)) {
             obj.data.memberConfig.memberBenefits.forEach(benefit => {
