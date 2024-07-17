@@ -1,3 +1,4 @@
+/**
 # Quantumult X Rewrite
 
 [rewrite_local]
