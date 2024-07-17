@@ -1,6 +1,6 @@
 /**
-# Quantumult X Rewrite
-
+ * @fileoverview Quantumult X 脚本
+ *
 [rewrite_local]
 # 修改 AI 教师会员信息
 ^https:\/\/keapi\.fenbi\.com\/ai\/iphone\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -12,16 +12,16 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-
-
 *
 [mitm]
 hostname = keapi.fenbi.com, ke.fenbi.com,
-**/
+*/
 
-let obj = JSON.parse($response.body);
+const url = $request.url;
+const body = $response.body;
+let obj = JSON.parse(body);
 let currentTime = Date.now();
-let url = $request.url;
+
 
 // 修改 AI 教师会员信息
 if (url.includes('/ai/iphone/entry')) {

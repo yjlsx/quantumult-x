@@ -1,10 +1,13 @@
+/**
+ * @fileoverview Quantumult X 脚本
+ *
 [rewrite_local]
 # 修改 AI 教师会员信息
 ^https:\/\/keapi\.fenbi\.com\/ai\/iphone\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi1.js
 
 [mitm]
 hostname = keapi.fenbi.com, ke.fenbi.com
-
+*/
 let obj = JSON.parse($response.body);
 
 // 修改 AI 教师会员信息
