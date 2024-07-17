@@ -54,19 +54,18 @@ if (url.indexOf("/yiwen_mobile/query_useCoupon") !== -1) {
     obj.data.coin = 999999;
 }
 
-if (url.indexOf("/yiwen_mobile/query_myOrder") !== -1) {
+// 根据 URL 判断执行不同的处理逻辑
+if (url.includes("/yiwen_mobile/query_myOrder")) {
     // 检查响应体中的data字段是否存在
     if (obj && obj.data && obj.data.list) {
         // 遍历订单列表
         for (let order of obj.data.list) {
-            // 对每个订单的每个订单详情执行操作
-            order.orderDetails.forEach(detail => {
-                order.status = 2;
-                detail.goodStatus = order.status;
-            });
+            // 将每个订单的status字段重写为1
+            order.status = 1;
         }
     }
 }
+
 
 
  $done({ body: JSON.stringify(obj) })
