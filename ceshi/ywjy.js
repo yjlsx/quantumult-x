@@ -62,7 +62,7 @@ if (url.includes("/yiwen_mobile/query_myOrder")) {
         for (let order of obj.data.list) {
             // 将每个订单的status字段重写为2
             order.status = 2;
-
+            order.sourceType = 2;
             // 遍历订单详情列表
             for (let detail of order.orderDetails) {
                 // 将每个订单详情的goodStatus字段重写为1
