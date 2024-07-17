@@ -24,12 +24,12 @@ let obj = JSON.parse(body);
 if (url.includes("/yiwen_mobile/queryApp") || url.includes("/yiwen_mobile/query_classDetail_info")) {
     // 对应 queryApp 和 query_classDetail_info 的处理逻辑
     if (obj.msg === "查询成功" && obj.data) {
-        body = body.replace(/("tryBuy"\s*:\s*)\d+/g, '$12');
-        body = body.replace(/("leven"\s*:\s*)\d+/g, '$10');
-        body = body.replace(/("isLook"\s*:\s*)\d+/g, '$11');
-        body = body.replace(/("type"\s*:\s*)\d+/g, '$11');
-        body = body.replace(/("hasBuy"\s*:\s*)\d+/g, '$12');
-        body = body.replace(/("endTimeMonth"\s*:\s*)\d+/g, '$199');
+        body = body.replace(/("tryBuy"\s*:\s*)\d+/g, '2');
+        body = body.replace(/("leven"\s*:\s*)\d+/g, '0');
+        body = body.replace(/("isLook"\s*:\s*)\d+/g, '1');
+        body = body.replace(/("type"\s*:\s*)\d+/g, '1');
+        body = body.replace(/("hasBuy"\s*:\s*)\d+/g, '2');
+        body = body.replace(/("endTimeMonth"\s*:\s*)\d+/g, '99');
     }
 } 
 
