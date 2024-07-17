@@ -61,15 +61,11 @@ if (url.indexOf("/yiwen_mobile/query_useCoupon") !== -1) {
 if (url.includes("/yiwen_mobile/query_myOrder")) {
     // 检查响应体中的data字段是否存在
     if (obj && obj.data && obj.data.list) {
-        // 遍历订单列表
         for (let order of obj.data.list) {
-            // 将每个订单的status字段重写为2
             order.status = 2;
             order.sourceType = 2;
-            // 遍历订单详情列表
             for (let detail of order.orderDetails) {
-                // 将每个订单详情的goodStatus字段重写为1
-                detail.goodStatus = 1;
+                detail.goodStatus = 2;
             }
         }
     }
@@ -90,7 +86,7 @@ if (url.includes("/yiwen_mobile/queryAppProductDetail")) {
 if (url.includes("/yiwen_mobile/queryAppProductList")) {
     if (obj && obj.data && obj.data.list && Array.isArray(obj.data.list)) {
        for (let item of obj.data.list) {
-        if (item.hasBuy === 1 && item.hasAuth === false && item.endTimeMonth === 12) {
+        if (item.hasBuy === 1) {
             item.hasBuy = 2;
             item.hasAuth = true;
             item.endTimeMonth = 99999;
