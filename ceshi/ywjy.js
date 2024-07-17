@@ -9,7 +9,8 @@
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_useCoupon url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/queryAppSubjectMenu\?pageNum=1&pageSize=20 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/data.json
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_myOrder url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
-
+^https://proxyweb.\yiwenjy\.com/yiwen_mobile/queryAppProductDetail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb.\yiwenjy\.com/yiwen_mobile/queryAppProductList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 *
 [mitm]
 hostname = proxyweb.yiwenjy.com
@@ -74,7 +75,27 @@ if (url.includes("/yiwen_mobile/query_myOrder")) {
     }
 }
 
+if (url.includes("/yiwen_mobile/queryAppProductDetail")) {
+    // 检查响应体中的data字段是否存在
+    if (obj && obj.msg === "查询成功" && obj.data) {
+        // 修改响应体中的数据
+        obj.data.hasBuy = 2;
+        obj.data.hasAuth = true;
+        obj.data.downAuth = 1;
+        obj.data.endTime = "2099-12-31";
+        obj.data.endTimeMonth = 999999;
+   }
+}
 
+if (obj && obj.data && obj.data.list && Array.isArray(obj.data.list)) {
+    for (let item of obj.data.list) {
+        if (item.hasBuy === 1 && item.hasAuth === false && item.endTimeMonth === 12) {
+            item.hasBuy = 2;
+            item.hasAuth = true;
+            item.endTimeMonth = 99999;
+        }
+    }
+}
 
 
  $done({ body: JSON.stringify(obj) })
