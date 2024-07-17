@@ -23,7 +23,7 @@ if (url.includes('/ai/iphone/entry')) {
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true;
         obj.data.userMember.memberClass = 9;
-        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40]; // 设置会员配置的类型为指定数组;
+        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员配置的类型为指定数组;
         obj.data.userMember.expireTime = 4102415999000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
         obj.data.userMember.memberStatus = 1;
@@ -64,7 +64,7 @@ if (url.includes('https://ke.fenbi.com/iphone/v3/user_member/home')) {
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true; // 开通会员
         obj.data.userMember.memberClass = 9; // 设置会员级别为 3
-        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40]; // 设置会员类型为指定数组
+        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员类型为指定数组
         obj.data.userMember.expireTime = 4102415999000; // 设置过期时间
         obj.data.userMember.hasBeenMember = true; // 已经是会员
         obj.data.userMember.memberStatus = 1; // 会员状态设为已开通
@@ -73,9 +73,8 @@ if (url.includes('https://ke.fenbi.com/iphone/v3/user_member/home')) {
 
     // 修改 memberConfig 部分
     if (obj.data && obj.data.memberConfig) {
-        obj.data.memberConfig.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40]; // 设置会员配置的类型为指定数组
+        obj.data.memberConfig.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40,52]; // 设置会员配置的类型为指定数组
     }
-}
 
 // 将所有电子书设为已购买
 if (obj.data && obj.data.modules) {
@@ -108,5 +107,24 @@ if (obj.data && obj.data.modules) {
         }
     }
 }
+// 将所有已购买
+obj.data.modules.forEach(module => {
+    if (module.content) {
+        if (module.content.eBooks) {
+            module.content.eBooks.forEach(eBook => {
+                eBook.paid = true;
+                eBook.free = true;
+            });
+        }
+        if (module.content.lectures) {
+            module.content.lectures.forEach(lecture => {
+                lecture.paid = true;
+                lecture.free = true;
+            });
+        }
+      }
+  });
+}
+
 
 $done({body: JSON.stringify(obj)});
