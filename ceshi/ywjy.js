@@ -7,8 +7,8 @@
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/my_moneybag url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/ioscoin_buy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_useCoupon url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
-^https://proxyweb\.yiwenjy\.com/yiwen_mobile/queryAppSubjectMenu?pageNum=1&pageSize=20 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/data.json
-
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/queryAppSubjectMenu\?pageNum=1&pageSize=20 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/data.json
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_myOrder url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 
 *
 [mitm]
@@ -53,7 +53,22 @@ if (url.indexOf("/yiwen_mobile/query_useCoupon") !== -1) {
     obj.data.account = 999999;
     obj.data.coin = 999999;
 }
- 
+
+if (url.indexOf("/yiwen_mobile/query_myOrder") !== -1) {
+    // 检查响应体中的data字段是否存在
+    if (obj && obj.data && obj.data.list) {
+        // 遍历订单列表
+        for (let order of obj.data.list) {
+            // 如果订单状态为1，重写goodStatus和sourceType字段为1
+            if (order.status === 1) {
+                order.orderDetails.forEach(detail => {
+                    detail.goodStatus = 1;
+                    detail.sourceType = 1;
+                });
+            }
+        }
+    }
+}
 
  $done({ body: JSON.stringify(obj) })
 
