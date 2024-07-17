@@ -23,7 +23,7 @@ if (url.includes('/questionset/getInfo')) {
         obj.data.usability = " ";
         obj.data.has = 1;
         obj.data.expire_time = "2099-12-31";
-        obj.data.buy_number = obj.total_number; // 设置为已购买状态
+        obj.data.buy_number = obj.number; // 设置为已购买状态
     }
 }
 
@@ -44,12 +44,8 @@ if (url.includes('identity/getInfo') || url.includes('identity/listData') || url
 
 if (url.includes('home/getData')) {
     // 在这里对响应体进行修改或处理
-    if (obj && obj.data && obj.data.qs) {
-        for (let item of obj.data.qs) {
-            if (item.key === 'sj4') {
-                item.buy_number = 3312; // 设置为已购买状态
-            }
-        }
+    if (obj && obj.data && obj.data.qs) {   
+                item.buy_number = item.number; // 设置为已购买状态
     }
 }
 
@@ -57,15 +53,5 @@ if (url.includes('/identity/getInfo')) {
     obj.data.expire_time = "2099-12-31";
 }
 
-if (url.includes('/questionset/listData')) {
-    // 统一修改 buy_number
-    if (obj && obj.data && Array.isArray(obj.data)) {
-        obj.data.forEach(item => {
-            if (item.key === 'sj4') {
-                item.buy_number = [3312, 6231];
-            }
-        });
-    }
-}
 
 $done({ body: JSON.stringify(obj) });
