@@ -28,6 +28,7 @@ if (url.includes('/ai/iphone/entry')) {
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true;
         obj.data.aiteacherDisplayed = true;
+        obj.data.aiteacherActivated = true;
         obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
         obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 设置会员配置的类型为指定数组;
         obj.data.userMember.expireTime = 4102415999000;  // 2099-12-31
