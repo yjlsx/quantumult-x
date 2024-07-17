@@ -28,8 +28,6 @@ if (url.includes('/ai/iphone/entry')) {
         obj.data.userMember.hasBeenMember = true;
         obj.data.userMember.memberStatus = 1;
         obj.data.userMember.createdTime = 1551873177267;
-        
-        obj.data.svipMemberType = 52;  // 确保 svipMemberType 为 52
     }
 }
 
@@ -65,12 +63,12 @@ if (url.includes('https://ke.fenbi.com/iphone/v3/user_member/home')) {
     // 修改 userMember 部分
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true; // 开通会员
-        obj.data.userMember.memberClass = 3; // 设置会员级别为 3
+        obj.data.userMember.memberClass = 9; // 设置会员级别为 3
         obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40]; // 设置会员类型为指定数组
-        obj.data.userMember.expireTime = 1721145600000; // 设置过期时间
+        obj.data.userMember.expireTime = 4102415999000; // 设置过期时间
         obj.data.userMember.hasBeenMember = true; // 已经是会员
         obj.data.userMember.memberStatus = 1; // 会员状态设为已开通
-        obj.data.userMember.createdTime = 1700000000000; // 设置创建时间
+        obj.data.userMember.createdTime = 1651873177267; // 设置创建时间
     }
 
     // 修改 memberConfig 部分
