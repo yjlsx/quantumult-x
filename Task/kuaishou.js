@@ -104,10 +104,10 @@ function checkin() {
         subtitle = "签到成功";
         content = data.msg;
       } else if (data.result === 1) {
-        subtitle = "签到失败";
+        subtitle = "签到成功";
         content = data.msg;
       } else {
-        title = "签到失败";
+        title = "签到成功";
         subtitle = "";
         content = `错误信息: ${data.error_msg}`;
       }

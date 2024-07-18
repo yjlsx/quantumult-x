@@ -1,6 +1,7 @@
 /**
  * @fileoverview Template to compose HTTP reqeuest.
-
+*中国移动签到
+*脚本已经失效，官方不允许非官方渠道访问！
 [rewrite_local]
 ^https:\/\/h5pro\.lncmcc\.com\/still_stray\/double_denier\/myjiazai url script-request-header zgyd.js
 

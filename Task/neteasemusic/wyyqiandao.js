@@ -1,7 +1,26 @@
+
+/**
+ * App : 网易云音乐
+ * By @yjlsx
+ * 脚本功能：PC端和APP端签到，以及云贝签到，还包括打卡刷歌（不一定有效），使用前先需要获取cookie.
+ * 使用方法：添加相关规则到quantumult x，进入首页的金币主页，提示获取cookie成功，把rewrite和hostname关闭，以免每次运行都会获取cookie.
+ * Date: 2024.07.19
+ * 此脚本仅个人使用，请勿用于非法途径！
+ 
+*⚠️【免责声明】
+------------------------------------------
+1、此脚本仅用于学习研究，不保证其合法性、准确性、有效性，请根据情况自行判断，本人对此不承担任何保证责任。
+2、由于此脚本仅用于学习研究，您必须在下载后 24 小时内将所有内容从您的计算机或手机或任何存储设备中完全删除，若违反规定引起任何事件本人对此均不负责。
+3、请勿将此脚本用于任何商业或非法目的，若违反规定请自行对此负责。
+4、此脚本涉及应用与本人无关，本人对因此引起的任何隐私泄漏或其他后果不承担任何责任。
+5、本人对任何脚本引发的问题概不负责，包括但不限于由脚本错误引起的任何损失和损害。
+6、如果任何单位或个人认为此脚本可能涉嫌侵犯其权利，应及时通知并提供身份证明，所有权证明，我们将在收到认证文件确认后删除此脚本。
+7、所有直接或间接使用、查看此脚本的人均应该仔细阅读此声明。本人保留随时更改或补充此声明的权利。一旦您使用或复制了此脚本，即视为您已接受此免责声明。
+ * 
+ */
+
 const $ = new Env('网易云音乐');
 $.VAL_session = $.getdata('chavy_cookie_neteasemusic');
-$.CFG_retryCnt = ($.getdata('CFG_neteasemusic_retryCnt') || '10') * 1;
-$.CFG_retryInterval = ($.getdata('CFG_neteasemusic_retryInterval') || '500') * 1;
 $.notifications = [];
 
 !(async () => {
@@ -10,6 +29,7 @@ $.notifications = [];
   await signweb();
   await signapp();
   await listenDaily();  // 听歌量打卡
+  await checkCloudBean(); // 云贝签到
   await getInfo();
   await showmsg();
 })()
@@ -26,51 +46,45 @@ function init() {
 }
 
 async function signweb() {
-  for (let signIdx = 0; signIdx < $.CFG_retryCnt; signIdx++) {
-    await new Promise((resolve) => {
-      const url = { url: `http://music.163.com/api/point/dailyTask?type=1`, headers: {} };
-      url.headers['Cookie'] = $.Cookie;
-      url.headers['Host'] = 'music.163.com';
-      url.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15';
-      $.get(url, (error, response, data) => {
-        try {
-          $.isWebSuc = JSON.parse(data).code === -2;
-          $.log(`[Web] 第 ${signIdx + 1} 次: ${data}`);
-        } catch (e) {
-          $.isWebSuc = false;
-          $.log(` ${$.name}, 执行失败!`, ` error = ${error || e}`, `response = ${JSON.stringify(response)}`, '');
-        } finally {
-          resolve();
-        }
-      });
+  const url = { url: `http://music.163.com/api/point/dailyTask?type=1`, headers: {} };
+  url.headers['Cookie'] = $.Cookie;
+  url.headers['Host'] = 'music.163.com';
+  url.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15';
+
+  await new Promise((resolve) => {
+    $.get(url, (error, response, data) => {
+      try {
+        $.isWebSuc = JSON.parse(data).code === -2;
+        $.log(`[Web] 签到结果: ${data}`);
+      } catch (e) {
+        $.isWebSuc = false;
+        $.log(` ${$.name}, 执行失败!`, ` error = ${error || e}`, `response = ${JSON.stringify(response)}`, '');
+      } finally {
+        resolve();
+      }
     });
-    await new Promise($.wait($.CFG_retryInterval));
-    if ($.isWebSuc) break;
-  }
+  });
 }
 
 async function signapp() {
-  for (let signIdx = 0; signIdx < $.CFG_retryCnt; signIdx++) {
-    await new Promise((resolve) => {
-      const url = { url: `http://music.163.com/api/point/dailyTask?type=0`, headers: {} };
-      url.headers['Cookie'] = $.Cookie;
-      url.headers['Host'] = 'music.163.com';
-      url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1';
-      $.get(url, (error, response, data) => {
-        try {
-          $.isAppSuc = JSON.parse(data).code === 200;
-          $.log(`[App] 第 ${signIdx + 1} 次: ${data}`);
-        } catch (e) {
-          $.isAppSuc = false;
-          $.log(` ${$.name}, 执行失败!`, ` error = ${error || e}`, `response = ${JSON.stringify(response)}`, '');
-        } finally {
-          resolve();
-        }
-      });
+  const url = { url: `http://music.163.com/api/point/dailyTask?type=0`, headers: {} };
+  url.headers['Cookie'] = $.Cookie;
+  url.headers['Host'] = 'music.163.com';
+  url.headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1';
+
+  await new Promise((resolve) => {
+    $.get(url, (error, response, data) => {
+      try {
+        $.isAppSuc = JSON.parse(data).code === 200;
+        $.log(`[App] 签到结果: ${data}`);
+      } catch (e) {
+        $.isAppSuc = false;
+        $.log(` ${$.name}, 执行失败!`, ` error = ${error || e}`, `response = ${JSON.stringify(response)}`, '');
+      } finally {
+        resolve();
+      }
     });
-    await new Promise($.wait($.CFG_retryInterval));
-    if ($.isAppSuc) break;
-  }
+  });
 }
 
 async function listenDaily() {
@@ -99,11 +113,39 @@ async function listenDaily() {
     },
     onload: (res) => {
       if (res.code == 200) {
-        addNotification('今日听歌量+300首完成');
+        addNotification('今日听歌量+300首完成🎉');
       } else {
         addNotification('听歌量打卡失败。' + res);
       }
     }
+  });
+}
+
+async function checkCloudBean() {
+  const url = {
+    url: `https://music.163.com/api/point/dailyTask?type=3`,
+    headers: {
+      'Cookie': $.Cookie,
+      'Host': 'music.163.com',
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15'
+    }
+  };
+
+  await new Promise((resolve) => {
+    $.get(url, (error, response, data) => {
+      try {
+        const result = JSON.parse(data);
+        if (result.code === 200) {
+          addNotification('云贝签到成功🎉');
+        } else {
+          addNotification('云贝签到失败：' + data);
+        }
+      } catch (e) {
+        addNotification('云贝签到异常：' + e.message);
+      } finally {
+        resolve();
+      }
+    });
   });
 }
 
@@ -160,13 +202,13 @@ function addNotification(message) {
 
 function showmsg() {
   return new Promise((resolve) => {
-    $.subt = $.isWebSuc ? 'PC: 成功' : 'PC: 失败';
-    $.subt += $.isAppSuc ? ', APP: 成功' : ', APP: 失败';
+    $.subt = $.isWebSuc ? 'PC: 成功🎉' : 'PC: 失败';
+    $.subt += $.isAppSuc ? ', APP: 成功🎉' : ', APP: 失败';
     if ($.isNewCookie && $.userInfo) {
       $.desc = `等级: ${$.userInfo.data.level}, 听歌: ${$.userInfo.data.nowPlayCount} => ${$.userInfo.data.nextPlayCount} 升级 (首)`;
       $.desc = $.userInfo.data.level === 10 ? `等级: ${$.userInfo.data.level}, 你的等级已爆表!` : $.desc;
     }
-    $.desc += '\n' + $.notifications.join('\n');
+    $.desc += '\n' + $.notifications.join('\n'); // 将云贝签到的信息加入推送内容
     resolve();
   });
 }
