@@ -25,10 +25,11 @@
  ^http://api\.yaotia\.cn/api/v2/userCourse/recent url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v2/goods/findByTeacher url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/course/sprintInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
-^http://api\.yaotia\.cn/api/v1/fm/authInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
-^http://api\.yaotia\.cn/api/v1/order/seaList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
-^https://api\.yaotia\.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
-^http://api.\yaotia\.cn/api/v1/live/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^http://api\.yaotia\.cn/api/v1/fm/authInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^http://api\.yaotia\.cn/api/v1/order/seaList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^https://api\.yaotia\.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^http://api\.yaotia\.cn/api/v1/live/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^http://api\.yaotia\.cn/api/v1/live/historyLive url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 *
  [mitm]
  hostname = api.yaotia.cn
@@ -228,6 +229,9 @@ if (url.includes('api.yaotia.com') && obj.result && obj.result[0].goods) {
 
 if (url.includes('/api/v1/live/home')) {
     obj.data.is_bz_vip = true;
+}
+if (url.includes('/api/v1/live/historyLive')) {
+    obj.data.vip = 1;
 }
 
 $done({ body: JSON.stringify(obj) });
