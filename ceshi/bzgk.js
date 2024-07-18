@@ -232,6 +232,10 @@ if (url.includes('/api/v1/live/home')) {
 }
 if (url.includes('/api/v1/live/historyLive')) {
     obj.data.vip = 1;
+    obj.data.list.forEach(item => {
+        // 将每个课程的 course_name_arr 设置为空数组
+        item.course_name_arr = [];
+      });
 }
 
 $done({ body: JSON.stringify(obj) });
