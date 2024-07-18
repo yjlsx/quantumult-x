@@ -8,14 +8,15 @@
  */
 
 const dataUrl = 'https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fbly.json'; 
+
 // 判断请求 URL
-if (url.includes('http://api.yaotia.cn/api/v1/course/sprintInfo?course_id=76')) {
-  // 获取 `` 文件的内容
+if ($request.url.includes('http://api.yaotia.cn/api/v1/course/sprintInfo?course_id=76')) {
   $http.get(dataUrl).then(response => {
+    // 替换响应体
     $response.body = response.body;
     $done();
   }).catch(() => {
-    // 如果请求 失败，返回错误信息
+    // 如果请求失败，返回错误信息
     $response.body = JSON.stringify({ error: 'Failed to fetch fbly.json' });
     $done();
   });
