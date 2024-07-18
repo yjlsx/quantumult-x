@@ -1,7 +1,8 @@
 [rewrite_local]
 # 统一处理脚本
 ^https://m\.zhaopin\.com/bapi/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
-^https://m\.zhaopin\.com/bapi/wap/gray/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://m\.zhaopin\.com/bapi/wap/gray/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https://m\.zhaopin\.com/bapi/template/user-vip-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 
 
 *
@@ -36,7 +37,7 @@ if (url.includes("/bapi/products") ) {
 
 if (url.includes("/bapi/wap/gray/config") {
     // 修改需要重写的字段值
-    obj.data.old_resumetop_thirdpartypayment = 0;
+    obj.data.Cold_resumetop_thirdpartypayment = 0;
     obj.data.zq_test_98yuan = 0;
     obj.data.capp_vip_paid_popup_effect = 1;
     obj.data.zq_resume_optimization_returnbutton = 1;
@@ -52,6 +53,12 @@ if (url.includes("/bapi/wap/gray/config") {
     obj.data.ExpResumeTopAndUpgrade = 1;
     obj.data.capp_vip_register_popup_15day = 1;
 } 
+
+if (url.includes("/bapi/template/user-vip-status") {
+   obj.data.showText = "免费使用所有模板";
+   obj.data.vipStatus = 1;
+}
+
 
 
 $done({ body: JSON.stringify(obj) });
