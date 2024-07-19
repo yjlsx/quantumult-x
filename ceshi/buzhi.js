@@ -751,360 +751,456 @@ const newFields = [
     "course_id": 113
   }，
  {
+    "second": 1478,
     "title": "7.1 075卷：主旨意图之首尾讨巧可破题（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af1bb3c2520af2d6698548fe_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1164,
     "title": "7.2 076卷：主旨意图之对策首先圈起来（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af17559e56e3c627f9e3775f_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1057,
     "title": "7.3 077卷：主旨意图之转折之后为重点（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af9bbf7cfd0919f7daf9ac56_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 777,
     "title": "7.4 078卷：主旨意图之递进也要看后面（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afb3734d10ede2320e78932c_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1126,
     "title": "7.5 079卷：主旨意图之因果关注结论词（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af8c50d799999f1638af75bc_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 968,
     "title": "7.6 080卷：主旨意图之并列关系看全面（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05affb01dcd71c5f84fa3b102c_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 904,
     "title": "7.7 081卷：标题选用之标题概括为首要（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af2f2a7cec8324b25ff34cab_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1178,
     "title": "7.8 082卷：细节理解之细节一一找照应（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af6ebba29cb5c7ca7208aed9_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1253,
     "title": "7.9 083卷：下文推断之下文重点看尾句（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afa038f3e44ee501f90d7cc0_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1290,
     "title": "7.10 084卷：语句排序之选项首句要先看（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af9ea3cfd5d395feda5a3b9d_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1281,
     "title": "7.11 085卷：语句排序之选项对比可加速（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af19fb3b958fb57a08005cd0_1",
+   "cover": "",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1392,
     "title": "7.12 086卷：语句填空之首尾重总结（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af44822505c4c90666ef9189_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   }，
  {
+    "second": 1085,
     "title": "7.13 087卷：语句填空之句中要承上启下（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af10a63392af602a8f3db971_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 382,
     "title": "7.14 088卷：语句填空之形式前后要一致（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af856a0e1a9de8b601f817a1_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 2172,
     "title": "8.1 089卷：转折前后为相对（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af778dc5498fd02db1317578_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 793,
     "title": "8.2 090卷：并列关系为相近（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af06002ccea198b3771a8184_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 685,
     "title": "8.3 091卷：递进关系有轻重（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af1502b5a08a5658cc256b4e_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   }，
 {
+    "second": 881,
     "title": "8.4 092卷：标点符号是提示（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af86802df9abcd4d5b2875e5_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 2228,
     "title": "9.1 093卷：代入排除法（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af70f5836ef8c2abad90f6de_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 2392,
     "title": "9.2 094卷：数字特性法（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afb6b6d74dd74c00f7dcca00_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1508,
     "title": "9.3 095卷：比例法（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05aff7925441494e997271c35f_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 2446,
     "title": "9.4 096卷：赋值法（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afe072a0b31005bafeef85ff_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1590,
     "title": "9.5 097卷：十字交叉法（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af33ed7f39d2fc6da34edfc3_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 1248,
     "title": "9.6 098卷：盈亏思维（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af0a23de78744e21ee3248d9_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   },
   {
+    "second": 2591,
     "title": "9.7 099卷：基本计算问题（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afa8a3e94ba635d612a3a99b_1",
+    "cover": "",
     "course_name": "技法提速",
     "course_id": 113
   }，
-{
+ {
+        "second": 2053,
         "title": "9.8 100卷：经济利润问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af1182727d7094d4188cc35f_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 4187,
         "title": "9.9 101卷：工程问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afc4535998cc00723d79c117_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 3564,
         "title": "9.10 102卷：行程问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af57079c4d67c8178a86ab36_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 1842,
         "title": "9.11 103卷：排列组合问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af37d5fbc52c9f5c981f4182_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 2259,
         "title": "9.12 104卷：概率问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af5c0102394d1b5c2d598d9e_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 1579,
         "title": "9.13 105卷：最值问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af10ee0dc48538c81e6f73ee_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 2334,
         "title": "9.14 106卷：几何问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af7be5f997a6e4d579bebc53_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 2300,
         "title": "9.15 107卷：容斥原理（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af56ec8b023697c2875c0b10_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 1831,
         "title": "9.16 108卷：日期问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afa2f129ebbcafa904ab4a00_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 1023,
         "title": "9.17 109卷：浓度问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af18313430ed64fe355ec951_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 1323,
         "title": "9.18 110卷：鸡兔同笼问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afaa5e48cfa578d8d29fd433_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     }，
  {
+        "second": 924,
         "title": "10.1 111卷：重要的历史事件（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afee4549cf0cd4153fb41c02_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 709,
         "title": "10.2 112卷：重要的文学成就（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af222f8e24161da1934ee603_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 605,
         "title": "10.3 113卷：重要的科技发明（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af9e9828f1e6823a3c4b8b9b_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 800,
         "title": "10.4 114卷：重要的政治理论（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af4d18a8c8c631f706a0c158_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 800,
         "title": "10.5 115卷：重要的经济理论（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af3f7b4a9d6c83c91715e9b5_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     }，
 {
+        "second": 585,
         "title": "10.5 115卷：哲学常识（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af6a9010048e1f7417aeca76_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 741,
         "title": "10.6 116卷：经济常识（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af9fef5504fcd14423215cff_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 781,
         "title": "10.7 117卷：经济和管理学效应（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afabea2f351f5fba7eed9de3_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 663,
         "title": "10.8 118卷：宪法（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af43bb37239428203f960a7c_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 1274,
         "title": "10.9 119卷：三大根本法（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af5c5f9d365af0d70c3da60f_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 2333,
         "title": "11.1 120卷：5类基础规律（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af20b73a59b1bb87333f67be_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 2644,
         "title": "11.2 121卷：5类形式规律（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af9d4ee913bde61b0be51970_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     }，
     {
+        "second": 1422,
         "title": "12.1 122卷：篇章阅读的阅读思维（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af1d0421d30690c53b6c0c1b_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
+        "second": 1750,
         "title": "12.2 123卷：篇章阅读的3类考法（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af59fcd72bbdcebb6515dacf_1",
+        "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     }
-
-
-
-
-
 
 ];
 
