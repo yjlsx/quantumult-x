@@ -1,7 +1,7 @@
 /**
 *正课，三板斧
  [rewrite_local]
-^http://api\.yaotia\.cn/api/v1/course/sprintInfo\?course_id=76 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111.js
+^http://api\.yaotia\.cn/api/v1/course/sprintInfo\?course_id=76 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/buzhi/sanbanfu.js
 *
 *
  [mitm]
