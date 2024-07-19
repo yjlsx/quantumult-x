@@ -14,7 +14,7 @@ const newResponse = {
   "code": 0,
   "message": "成功",
   "data": {
-    "service_url": "http://fed.midasjoy.com/Public/act/2021act/sprintTeacher/index.html?cid=76",
+    "service_url": "http://fed.midasjoy.com/Public/act/2023act/sprintTeacher/index.html?cid=76",
     "is_service": 1,
     "stage_list": [
       {
@@ -26,7 +26,8 @@ const newResponse = {
         "node_num": 0,
         "desc": "共2节课程",
         "node_list": [
-          {
+     /**    
+           {
             "equity": [
               {
                 "is_finish": 0,
@@ -59,6 +60,7 @@ const newResponse = {
             "node_name": "2.1 002卷：如何正确阅读材料（新）",
             "ti_type": 1
           },
+*/
           {
             "equity": [
               {
