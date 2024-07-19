@@ -652,7 +652,7 @@ const newFields = [
     "course_id": 113
   }，
 {
-    "second": 553,
+    "second": 1684,
     "title": "6.4 064卷：“且”“或”“要么”的推理规则（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afae0413670ad568eb58adac_1",
@@ -661,7 +661,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1084,
     "title": "6.5 065卷：且、或、要么的矛盾命题（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af876ddf33935a2f9db66d8e_1",
@@ -670,7 +670,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1149,
     "title": "6.6 066卷：条件命题的翻译（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afc840592a58c1d06280baf1_1",
@@ -679,7 +679,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1397,
     "title": "6.7 067卷：条件命题的推理规则（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af65ad73f3bd2e3d9bae339c_1",
@@ -688,7 +688,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1725,
     "title": "6.8 068卷：条件命题的矛盾命题（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afd036c1646c20562fffd54b_1",
@@ -697,7 +697,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1889,
     "title": "6.9 069卷：代入法破解朴素逻辑（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af544d7b41e0376f19011ac9_1",
@@ -706,7 +706,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1023,
     "title": "6.10 070卷：论证的概述（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af1335378225096aaf183f66_1",
@@ -715,7 +715,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 2129,
     "title": "6.11 071卷：基础论证的削弱（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af8e67709e14d94bab666834_1",
@@ -724,7 +724,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1019,
     "title": "6.12 072卷：基础论证的加强（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afea5c3cf57237c121f77aeb_1",
@@ -733,7 +733,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1855,
     "title": "6.13 073卷：因果论证的削弱（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afee09d89ea63196567b7d52_1",
@@ -742,7 +742,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 553,
+    "second": 1161,
     "title": "6.14 074卷：因果论证的加强（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af2ba944e404088854e1c04c_1",
@@ -814,7 +814,7 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 1178,
+    "second": 1172,
     "title": "7.8 082卷：细节理解之细节一一找照应（新）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af6ebba29cb5c7ca7208aed9_1",
