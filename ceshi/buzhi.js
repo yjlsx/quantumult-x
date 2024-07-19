@@ -326,7 +326,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
   {
     "second": 924,
     "title": "3.11 029卷：属性规律之对称性（新）",
