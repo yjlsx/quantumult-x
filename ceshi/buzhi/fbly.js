@@ -1672,7 +1672,7 @@ const newFields = [
     {
         "second": 1057,
         "title": "5.6 排列组合：基本考法",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af60d9b1d327a323e466701d_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1681,7 +1681,7 @@ const newFields = [
     {
         "second": 1106,
         "title": "5.7 排列组合·基本运用",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af0ba91c7ab00dad06028e04_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1690,7 +1690,7 @@ const newFields = [
     {
         "second": 1643,
         "title": "5.8 排列组合：4种模型",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afbdd0d430e6be40c69473b5_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1699,7 +1699,7 @@ const newFields = [
     {
         "second": 985,
         "title": "5.9 统筹规划：最优方案",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afaee1cba86db0fac0a4ac73_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1708,7 +1708,7 @@ const newFields = [
     {
         "second": 1209,
         "title": "5.10 必备提速思维：代入排除",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af8749ffee7197d173b57826_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1717,7 +1717,7 @@ const newFields = [
     {
         "second": 1084,
         "title": "5.11 必备提速技巧：数字特性法",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af5a15ab6451454229c1b435_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1726,7 +1726,7 @@ const newFields = [
     {
         "second": 864,
         "title": "5.12 数字特性法：实战运用",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af9d4ad2f474a2761221578e_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1735,7 +1735,7 @@ const newFields = [
     {
         "second": 1200,
         "title": "5.13 必会技巧：巧妙且正确“赋值”",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af3efeafe7872ff14b720547_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1744,7 +1744,7 @@ const newFields = [
     {
         "second": 1199,
         "title": "5.14 必会技巧：善用“比例思想”",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af54c278b96a25180e836343_1",
         "cover": "",
         "course_name": "技法提速",
@@ -1753,25 +1753,1182 @@ const newFields = [
     {
         "second": 1292,
         "title": "6.1 认识数推的5类基础规律",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afc2754075b6df44b7554258_1",
         "cover": "",
-        "course_name": "重点锤炼",
+        "course_name": "技法提速",
         "course_id": 76
     },
     {
         "second": 1353,
         "title": "6.2 认识数列的5类形式规律",
-        "teacher_name": "",
+        "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af6413384e6a5843433dc0bc_1",
         "cover": "",
-        "course_name": "重点锤炼",
+        "course_name": "技法提速",
         "course_id": 76
-    }
-
-
-
-
+    },
+ {
+    "second": 651,
+    "title": "6.3 可辨析的“幂次数列”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af26d3395f89df319e2d03ba_1",
+    "cover": "",
+    "course_name": "数字推理",
+    "course_id": 76
+  },
+  {
+    "second": 623,
+    "title": "6.4 多重数列",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afb90600999cbae1837ba17c_1",
+    "cover": "",
+    "course_name": "数字推理",
+    "course_id": 76
+  },
+  {
+    "second": 957,
+    "title": "6.5 分数数列",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afc10245958e85397571611c_1",
+    "cover": "",
+    "course_name": "数字推理",
+    "course_id": 76
+  },
+  {
+    "second": 1076,
+    "title": "6.6 机械数列",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af653af0946236fd1523e4b3_1",
+    "cover": "",
+    "course_name": "数字推理",
+    "course_id": 76
+  },
+  {
+    "second": 755,
+    "title": "6.7 多级数列",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af3a86a3b685e0f358f68a29_1",
+    "cover": "",
+    "course_name": "数字推理",
+    "course_id": 76
+  },
+  {
+    "second": 880,
+    "title": "6.8 递推数列",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af06835075936d623a3e2cd9_1",
+    "cover": "",
+    "course_name": "数字推理",
+    "course_id": 76
+  },
+  {
+    "second": 920,
+    "title": "6.9 图形数列",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af61529753faef34f1c888a3_1",
+    "cover": "",
+    "course_name": "数字推理",
+    "course_id": 76
+  },
+  {
+    "second": 1610,
+    "title": "7.1 光的传播和反射",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afb1bc33160766af8fda487f_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 149
+  },
+  {
+    "second": 1462,
+    "title": "7.2 光的折射和色散",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afc965b7dbdf19b449429c92_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 149
+  },
+  {
+    "second": 2273,
+    "title": "7.3 力学（上）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af255dfc7279952d60072d18_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 149
+  },
+  {
+    "second": 2320,
+    "title": "7.4 力学（下）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af8f021f72e3faf142763289_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 149
+  },
+  {
+    "second": 1723,
+    "title": "7.5 功与机械能",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afff0574826b2bb9aa305655_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1142,
+    "title": "7.6 简单机械-杠杆",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af2e3561c9c81d528162262f_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1003,
+    "title": "7.7 声学",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afbdefdb9fd397ff1366dfd2_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1356,
+    "title": "7.8 电学的基本概念",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afd30930f51321fd98a09c8a_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 2298,
+    "title": "7.9 电学-欧姆定律",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af0f246057095f1bd3880a3e_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1270,
+    "title": "7.10 电学-电功率",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af4499df21d3b987ce4a080e_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1632,
+    "title": "7.11 运动学-直线运动",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af955d7764cd5ebc8e56ecdd_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 634,
+    "title": "7.12 运动学-圆周运动",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afae37ab8a4a4b6fdbfee9ee_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1146,
+    "title": "8.1 公式复盘：增长的4类公式",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afd476f45e5f2cd68c9e1a8b_1",
+    "cover": "https://img.yaotia.com/2022/09-22/1663814180891.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1106,
+    "title": "8.2 公式复盘：比重的3个公式",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af1c943cc4e512fa6f395a3f_1",
+    "cover": "https://img.yaotia.com/2022/09-06/1662454473431.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 672,
+    "title": "8.3 公式复盘：平均数的4个公式",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afd1d4b92f2f591cea2173de_1",
+    "cover": "https://img.yaotia.com/2023/07-05/1688543362798.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1139,
+    "title": "8.4 口诀复盘：套模型的3个口诀",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05aff1004acb9397c5f24b7d23_1",
+    "cover": "https://img.yaotia.com/2022/09-06/1662454533979.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 884,
+    "title": "8.5 计算“现期量”的3类考法",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af0e8315726186d7e1f75f7c_1",
+    "cover": "https://img.yaotia.com/2022/09-06/1662454694222.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 992,
+    "title": "8.6 如何巧算“基期量”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05aff4a4fa673dd6928d25cf11_1",
+    "cover": "https://img.yaotia.com/2022/09-06/1662454703574.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1090,
+    "title": "8.7 如何快速计算并比较“增长量”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af5843cce979f17642433749_1",
+    "cover": "https://img.yaotia.com/2022/09-06/1662454710891.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 871,
+    "title": "8.8 如何快速计算并比较“增长率”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afb0b98733ace045712be8b6_1",
+    "cover": "https://img.yaotia.com/2022/09-22/1663808609645.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 700,
+    "title": "8.9 速度升级：套公式速解“间隔增长”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af1ffad5206ccaa27c6bd96d_1",
+    "cover": "https://img.yaotia.com/2022/09-06/1662454722714.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1079,
+    "title": "8.10 难度升级：用口诀+方法快速破解“混合增速”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af613c6112d25ecad3770ee1_1",
+    "cover": "https://img.yaotia.com/2022/10-09/1665302825793.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+ {
+    "second" : 1161,
+    "title" : "8.11 难度升级：如何快速计算“年均增长率”",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05afabf3efafd6fba42c150b14_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 958,
+    "title" : "8.12 拿下“现期比重”的3类考法",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05af508746314b64a7b763c919_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 1191,
+    "title" : "8.13 如何巧算“基期比重”",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05af958c5878956f242b5c6272_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 1084,
+    "title" : "8.14 速度升级：套公式速解“两期比重比较”",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05afb824ce6200bb5ab789b4fe_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 949,
+    "title" : "8.15 快速算出“平均数”题",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05afece5fdad448d1887e40fcb_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 1133,
+    "title" : "8.16 速度升级：套公式速解“平均数增长”",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05afa0bb555ef1c2aa52295dbe_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 1090,
+    "title" : "8.17 长见识：“倍数计算”也能套公式解题",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05af98dd9d5259e4792c6c8974_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 492,
+    "title" : "9.1 言语理解与表达概述",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05af454bc223e70c990f454608_1",
+    "cover" : "",
+    "course_name" : "言语基础思维",
+    "course_id" : 76
+  },
+  {
+    "second" : 305,
+    "title" : "10.1 逻辑填空概述",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05afd046b0eb6485fce80945a9_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 866,
+    "title" : "10.2 如何利用“选项设置思维”破题（上）",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05af753dce0b65d5b1c77c167a_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second" : 949,
+    "title" : "10.3 如何利用“选项设置思维”破题（下）",
+    "teacher_name" : "",
+    "polyv_id" : "1e6eaa05af8de6b67498f14828978d9c_1",
+    "cover" : "",
+    "course_name": "技法提速",
+    "course_id" : 76
+  },
+  {
+    "second": 951,
+    "title": "10.4 如何利用关键词破题（关联词）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afb72fd9891c9d3efd7ebdf4_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 984,
+    "title": "10.5 如何利用关键词破题（重点词）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af48aefe04d5e8973015539d_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 487,
+    "title": "10.6 如何借助“标点符号”破题（冒号+破折号）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af1425fac4f171985bf46363_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 455,
+    "title": "10.7 如何借助“标点符号”破题（顿号和分号）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af05cb6284dbb913dd47645b_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 668,
+    "title": "10.8 如何借助“标点符号”破题（引号）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af784dcad8dc6b80c507074b_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 801,
+    "title": "10.9 如何破“2选1”纠结思维（逻辑填空）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af83615e5472e91c6b2a99dc_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1031,
+    "title": "10.10 遇到题目“无头绪”，如何破解（逻辑填空）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afd3e9c304073d342b2f3937_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+ {
+    "second": 508,
+    "title": "11.1 片段阅读概述",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afc242c62619ed95aa872ba8_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1191,
+    "title": "11.2 如何通过文段结构找重点（上）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af331f18f9bc6cbe306db3a8_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1048,
+    "title": "11.3 如何通过文段结构找重点（下）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afca1486c159d519e55217b3_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1024,
+    "title": "11.4 如何借助关键词破题（转、因、并）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af6bf44d19f0e288483941ec_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 887,
+    "title": "11.5 如何借助“关键词”破题（递、程、对）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af716254cc9230349c2233f0_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+    {
+        "second": 717,
+        "title": "11.6 如何运用“主题词”破题",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af75bd8010febef79135976c_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 899,
+        "title": "11.7 如何对比“选项”择优（主旨意图题）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afcbd7b4784fe1f028e4a514_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 976,
+        "title": "11.8 细节理解题的“解题思维”",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afab90769bac09831aebc603_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1075,
+        "title": "11.9 利用行文逻辑破解排序题",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af4f5694c983980e65dc31f3_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 923,
+        "title": "11.10 利用“关键词”思维破解排序题",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af87998dfe65b63e3f9a7226_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1193,
+        "title": "11.11 如何找话题落脚点（下文推断题）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af2f08f2abe6f631c5c8ade4_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 817,
+        "title": "11.12 语句填空题的解题思维",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af6f29899afef26de105d6d6_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 688,
+        "title": "11.13 标题选用题如何定选项",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afec90f0d99f13e82bcc1080_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 761,
+        "title": "11.14 如何破解词句理解题（词）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af09071ca94285203e6b7dd3_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 404,
+        "title": "11.15 如何破解词句理解题（句）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af8b0c08f85a4acf4dfdb72d_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+ {
+        "second": 365,
+        "title": "12.1 篇章阅读（考情及题型介绍）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afa8a2da6bd726728bf22d80_1",
+        "cover": "",
+        "course_name": "篇章阅读",
+        "course_id": 76
+    },
+    {
+        "second": 392,
+        "title": "12.2 篇章阅读（如何阅读）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af3f98d9a97a9f6dc1dad49d_1",
+        "cover": "",
+        "course_name": "篇章阅读",
+        "course_id": 76
+    },
+    {
+        "second": 1010,
+        "title": "12.3 篇章阅读（如何做题）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af7371a830c190cf8e48aac8_1",
+        "cover": "",
+        "course_name": "篇章阅读",
+        "course_id": 76
+    },
+    {
+        "second": 978,
+        "title": "13.1 图推到底应该怎么学",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af26c5af4f2db6743abc3c0f_1",
+        "cover": "https://img.yaotia.com/2022/10-09/1665303042135.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1363,
+        "title": "13.2 位置规律",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af2ccef448ac1a721971815b_1",
+        "cover": "https://img.yaotia.com/2022/10-09/1665302250926.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1190,
+        "title": "13.3 样式规律",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05affe2203c5b0339d4ff1a7dc_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665302238826.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1006,
+        "title": "13.4 属性规律",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afa0c7564d35213be2405552_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665302257933.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+  {
+    "second": 1188,
+    "title": "13.5 轴对称的非常规考法",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af76e2f45ef1d9226d318a33_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1052,
+    "title": "13.6 数量规律",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afc74559ce44e2ae29b84ab2_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1053,
+    "title": "13.7 几笔画完这个图",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af0a66ff09805df216479725_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1256,
+    "title": "13.8 数量的特殊规律上",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af7bc3232a675ba45d61f05a_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1183,
+    "title": "13.9 数量的特殊规律中",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afa9fb55918d319dd6b42ecd_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1173,
+    "title": "13.10 数量的特殊规律下",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afda78b0868b78529d76b6a2_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 917,
+    "title": "13.11 多规律综合解题",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afe0c07e5ea6c9ba43b90451_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1176,
+    "title": "13.12 带你了解“折纸盒”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af463c29bd7881ec79818720_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 984,
+    "title": "13.13 三大方法解决“折纸盒”上",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af25119aaf2672cef84ec6c4_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 972,
+    "title": "13.14 三大方法解决“折纸盒”下",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afa2fb8edb2737d75c250a14_1",
+    "cover": "https://img.yaotia.com/2022/10-10/1665388582787.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 943,
+    "title": "13.15 四面体“折纸盒”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af21ea39161fe42ced4dfb4a_1",
+    "cover": "https://img.yaotia.com/2022/10-10/1665389661649.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 576,
+    "title": "13.16 多面体“折纸盒”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afef45f657fc445992025873_1",
+    "cover": "https://img.yaotia.com/2022/10-10/1665389668055.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 943,
+    "title": "13.17 图推中的“七巧板”上",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af19f28c1293235d39f3a640_1",
+    "cover": "https://img.yaotia.com/2022/10-10/1665389729071.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 950,
+    "title": "13.18 图推中的“七巧板”下",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af0a601245fc8383856fa9ba_1",
+    "cover": "https://img.yaotia.com/2022/10-10/1665389735454.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1339,
+    "title": "13.19 立体拼合如何解题",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afdcfb3cd2b719a4dbb505f2_1",
+    "cover": "https://img.yaotia.com/2022/10-10/1665389792350.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1496,
+    "title": "13.20 如何切好“蛋糕”",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af97167581ac5ab792289244_1",
+    "cover": "https://img.yaotia.com/2022/10-10/1665388568170.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1318,
+    "title": "13.21 六方看图",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af0b623e76b47631488c740f_1",
+    "cover": "https://img.yaotia.com/2024/01-09/1704778007796.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+    {
+        "second": 377,
+        "title": "14.1 定义判断如何解题",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afff0e94eee3da67f8f82b70_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 800,
+        "title": "14.2 定义判断“要点”分析",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afc61dcd57f48191e2b9c240_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 870,
+        "title": "14.3 如何“浓缩”长定义",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af60aa80d37a4572eaa44874_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+ {
+        "second": 382,
+        "title": "15.1 类比推理正确解题思维",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afa0c6d482227ce10b3bd0a6_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665391837108.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 395,
+        "title": "15.2 类比推理“重点”梳理",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af8477f5c5c8efad3828ecf8_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665302283682.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 763,
+        "title": "15.3 概念外延之全同关系和交叉关系",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af1760dd2ae3ce7dded8c02e_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665302293981.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 568,
+        "title": "15.4 如何区分种属关系和组成关系",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af402bc09574e82bf847ee0d_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665391852982.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 709,
+        "title": "15.5 什么是全异关系",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af51189ade5cdb03264c812c_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665391859819.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 720,
+        "title": "15.6 逻辑关系",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af0af0ae72e4fdbefb3f0ce4_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665302342706.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 827,
+        "title": "15.7 常考的对应关系（上）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af576cf185302d3a43f477ed_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665302349329.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1116,
+        "title": "15.8 常考的对应关系（下）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af2cad617ab07e3e6ada5fce_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665302355561.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 942,
+        "title": "15.9 语义关系",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afa266e628794dfa8c61c78f_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665302361945.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 751,
+        "title": "15.10 语法关系的辨析",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afbb16a54fa79211a0bfc09e_1",
+        "cover": "https://img.yaotia.com/2022/10-10/1665391870748.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+  {
+    "second": 629,
+    "title": "16.1 可能性推理概述",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af55ac7209c27f12e8af84e5_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1171,
+    "title": "16.2 基础论证的削弱方式及力度比较",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afa49b5e7d93d3bc8015eab6_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 944,
+    "title": "16.3 因果论证的削弱方式及力度比较",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af0749d6d9796b00a03b3735_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1096,
+    "title": "16.4 基础论证的加强方式及力度比较",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af9b09e970007b099ce215d6_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1054,
+    "title": "16.5 因果论证的加强方式及力度比较",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af14e219b49d79b163f14765_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 610,
+    "title": "16.6 加强题的特殊变化形式——原因解释",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afbe9e698389dcdd720ec379_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1087,
+    "title": "16.7 加强题的特殊变化形式——前提假设",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af3b2dff752c663738f0a9a9_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1000,
+    "title": "16.8 日常推理题常见错误思路",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05aff0bd97b3c2be4835ed0af1_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 912,
+    "title": "16.9 可能性推理中的形式比较怎么考",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afdb6f81c95d12a50da24c70_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 344,
+    "title": "16.10 可能性推理全考点梳理回顾",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af189bc707a76c27417bc316_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 407,
+    "title": "16.11 直言命题的2组推出关系",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af754f054ace39e9606cf6cd_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1104,
+    "title": "16.12 直言命题的3对矛盾和2组反对",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afbe1e910fa420c71e618207_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 503,
+    "title": "16.13 联言命题“且”的N种考法",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af2cd2965ff06c37418f6226_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 899,
+    "title": "16.14 选言命题“或”与“要么”的实战辨析",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af340b6cfe503164eda60c50_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 805,
+    "title": "16.15 联言与选言命题的综合考查",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afbc63505cbd6b2a31c1c100_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 569,
+    "title": "16.16 三段论的判别方法和速解技巧",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afa30dc29036f618a393ea91_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1132,
+    "title": "16.17 条件命题的翻译推理与变形剖析",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afdeec4ae4717c0da190e862_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 752,
+    "title": "16.18 条件命题的矛盾与等价命题破解",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afaeff66eb316ec99b7eed62_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1189,
+    "title": "16.19 代入排除法与假设法巧解朴素逻辑",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afa68338a7ea909bc7ec5b27_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 656,
+    "title": "16.20 图表法破解多信息朴素逻辑",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af0f0b5be22979b045a869a9_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1432,
+    "title": "16.21 朴素逻辑一拖N如何破题",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af97839cabbbdfcd22811add_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1011,
+    "title": "16.22 必然性推理中的形式比较怎么考",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af6946a83ebfc1974f5b4aef_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 431,
+    "title": "16.23 必然性推理全考点梳理回顾",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afb989cd969a481b87273d03_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1495,
+    "title": "17.1 环保知识",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af428b2b89ef7f4ccc8af24a_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1499,
+    "title": "17.2 航天知识",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afe0f9fe681c64d2def2d970_1",
+    "cover": "https://img.yaotia.com/2023/06-17/1686972841551.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1477,
+    "title": "17.3 诸子百家",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af45930e01495903f3c1376a_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1449,
+    "title": "17.4 中国地理（一）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05aff0d1d362a3bbc00f7c9f01_1",
+    "cover": "https://img.yaotia.com/2023/06-17/1686971967851.pdf",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1497,
+    "title": "17.5 中国地理（二）",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af131352c712c2c2a173f53f_1",
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1319,
+    "title": "18.1 光学-光沿直线传播与光的反射",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af2ded712fa0d4e16fc59a51_1",
+    "cover": "https://img.yaotia.com/2022/10-25/1666659852974.pdf",
+   "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1320,
+    "title": "18.2 光学-光的折射与凹凸镜",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af899800f358973743a4d8c4_1",
+    "cover": "https://img.yaotia.com/2022/10-25/1666659844209.pdf",
+   "course_name": "技法提速",
+    "course_id": 76
+  }
 
 
 
