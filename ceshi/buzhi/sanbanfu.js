@@ -1,4 +1,5 @@
 /**
+*正课，三板斧
  [rewrite_local]
 ^http://api\.yaotia\.cn/api/v1/course/sprintInfo\?course_id=76 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111.js
 *
@@ -13,8 +14,8 @@ const newResponse = {
   "code": 0,
   "message": "成功",
   "data": {
-    "service_url": "http://fed.midasjoy.com/Public/act/2021act/sprintTeacher/index.html?cid=29",
-    "is_service": 0,
+    "service_url": "http://fed.midasjoy.com/Public/act/2021act/sprintTeacher/index.html?cid=76",
+    "is_service": 1,
     "stage_list": [
       {
         "id": 29,
