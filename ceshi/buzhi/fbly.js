@@ -2928,7 +2928,124 @@ const newFields = [
     "cover": "https://img.yaotia.com/2022/10-25/1666659844209.pdf",
    "course_name": "技法提速",
     "course_id": 76
-  }
+  }，
+  {
+    "second": 1081,
+    "title": "18.3 声学",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af6aff363e36a5f70377d185_1",  
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1231,
+    "title": "18.4 力学-牛顿三大定律",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afca9d4567b2c10598e5ba53_1", 
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1951,
+    "title": "18.5 力学-常见力与受力分析",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af441667fa6aa607283e496d_1",  
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 826,
+    "title": "18.6 压力与压强-固体的压力与压强",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afdd4cfe7a908cbc3ad404c5_1", 
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 18
+  },
+  {
+    "second": 1092,
+    "title": "18.7 压力与压强-浮力",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05afd8ccbbaf7629d1cf666013_1",  
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 997,
+    "title": "18.8 简单机械-杠杆",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af0f10fbfc64522487171cf4_1",  
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1434,
+    "title": "18.9 简单机械-滑轮",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af01bb04b20f88ea2a29f030_1", 
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 1430,
+    "title": "18.10 运动学-直线运动",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af6162cec995ceb606ff97f2_1",  
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  },
+  {
+    "second": 864,
+    "title": "18.11 运动学-圆周运动",
+    "teacher_name": "风暴羚羊",
+    "polyv_id": "1e6eaa05af6a47ac426cecb74668e25b_1",  
+    "cover": "",
+    "course_name": "技法提速",
+    "course_id": 76
+  }，
+  {
+        "second": 1161,
+        "title": "18.12 功与机械能",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af5d33906b08a322cbf8244e_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1113,
+        "title": "18.13 电学-电学基础知识",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afb272976f49a545bc59fbcd_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1464,
+        "title": "18.14 电学-欧姆定律",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af3995c0361280953f0fb1f1_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1419,
+        "title": "18.15 电学-电功率",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af87b6b56ba5ddce826c9500_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    }
 
 
 
