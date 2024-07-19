@@ -19,7 +19,7 @@ const newFields = {
       "chapter_name": "夯实基础：羚羊行测123卷带练课",
       "video_num": 2,
       "stage_id": 0,
-      "node_num": 0,  // 练习描述
+      "node_num": 2,
       "desc": "共2节课程",
       "node_list": [
         {
@@ -117,7 +117,7 @@ if ($request.url === requestUrl) {
 
   // 替换 data 属性
   if (responseJson && typeof responseJson === 'object') {
-    responseJson.data = newFields;  // 确保 newFields 的结构与原始响应匹配
+    responseJson.data = newFields;
     $done({ body: JSON.stringify(responseJson) });
   } else {
     $done({ body });
@@ -126,4 +126,3 @@ if ($request.url === requestUrl) {
   // URL 不匹配时，返回原始响应体
   $done();
 }
-
