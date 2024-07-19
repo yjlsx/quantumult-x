@@ -373,10 +373,10 @@ const newFields = [
     "course_id": 113
   },
   {
-    "second": 0,
+    "second": 793,
     "title": "3.16 034卷：数量规律之点（新）",
     "teacher_name": "风暴羚羊",
-    "polyv_id": "1e6eaa05afc9d6f475d29e12cd816c0a_1",
+    "polyv_id": "1e6eaa05af361830d7812658dedd7bbc_1",
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
@@ -468,7 +468,7 @@ const newFields = [
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05affd17b248fd005ec51c78e7_1",
     "cover": "",
-    "course_name": "图形推理（27卷，103题）",
+    "course_name": "技法提速",
     "course_id": 113
   },
   {
@@ -477,7 +477,7 @@ const newFields = [
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af6bf003e6fbea104a6a2c4c_1",
     "cover": "",
-    "course_name": "图形推理（27卷，103题）",
+    "course_name": "技法提速",
     "course_id": 113
   },
   {
@@ -486,7 +486,7 @@ const newFields = [
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afeb533cd3dcb1722c221340_1",
     "cover": "",
-    "course_name": "定义判断（2卷，14题）",
+    "course_name": "技法提速",
     "course_id": 113
   },
   {
@@ -495,7 +495,7 @@ const newFields = [
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af1c56ebdf8e337888076e0b_1",
     "cover": "",
-    "course_name": "定义判断（2卷，14题）",
+    "course_name": "技法提速",
     "course_id": 113
   },
   {
@@ -504,7 +504,7 @@ const newFields = [
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afcf2cb55f46c26bb4a976b7_1",
     "cover": "",
-    "course_name": "类比规律那些必考的“关系”",
+    "course_name": "技法提速",
     "course_id": 113
   },
   {
@@ -513,7 +513,7 @@ const newFields = [
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05af5249330e19e33609dba09f_1",
     "cover": "",
-    "course_name": "类比规律那些必考的“关系”",
+    "course_name": "技法提速",
     "course_id": 113
   }，
   {
