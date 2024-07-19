@@ -541,7 +541,198 @@ const newFields = [
     "cover": "",
     "course_name": "申论实战",
     "course_id": 149
-  }
+  },
+  {
+    "second":1651,
+    "title": "3.2.7 分析小吴的变化（17/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af394247d49abe2ce0bde46f_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":1776,
+    "title": "3.2.8 谈多肉强县的做法（18/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af4287083eec75659dcaf993_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":1721,
+    "title": "3.2.9 谈背二歌的变化（19/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af9d8ca6b761bdce88116568_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2313,
+    "title": "3.2.10 分析T县热议的原因（20/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05afcd4b98526597c84749d6eb_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2745,
+    "title": "3.3.1 谈对塑新貌、塑新人的理解（21/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af4c464b17e3c357dd9ff67d_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":1963,
+    "title": "3.3.2 谈谈“错位”又“对位”的理解（22/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af0bf3bf6e0498408d8c396f_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":1753,
+    "title": "3.3.3 谈谈40年巨变的理解（23/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af764fb2a2a8b8f196a241b7_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2120,
+    "title": "3.3.4 谈谈40年民生改善的理解（24/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05afa98e3001479135558ab690_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":1843,
+    "title": "3.3.5 谈新技术是毁灭力量的理解（25/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af6848df38cb93f9b2dbd6fd_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2717,
+    "title": "3.3.6 谈城市建设的理解（26/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05aff3044dc5a7544a1f34ab39_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2434,
+    "title": "3.3.7 谈有居民方有民居的理解（27/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af7f86ae9e35d7f1264f4353_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":1793,
+    "title": "3.3.8 谈城市水系像指纹的意思（28/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05affcc6664f31fc15777f255d_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2556,
+    "title": "3.3.9 谈预先失败的含义（29/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05aff89c85af593cc3db0174ea_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":1703,
+    "title": "3.3.10 谈儒之柔的理解（30/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af11695f2898a919170f4e60_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2297,
+    "title": "3.4.1 评价ISO9000质量管理体系（31/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05affb6fbc983b23e20509f345_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2325,
+    "title": "3.4.2 评价火车站广场晒谷（32/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af2600b9fc63a789c6fa4e81_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2610,
+    "title": "3.4.3 评价快递员参与治理的做法（33/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05afa8bd89f89926db39fc867e_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2247,
+    "title": "3.4.4 评价微领队（34/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af5d7bd40b76aeb87adab41a_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2743,
+    "title": "3.4.5 谈京剧商业化的看法（35/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af54ea89670046b5d31acdf2_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":1970,
+    "title": "3.4.6 谈新技术能否突破屏障（36/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05afcbf9b1272dcefdcfbf856e_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+  {
+    "second":2571,
+    "title": "3.4.7 评价网红观点（37/80）",
+    "teacher_name": "北楚",
+    "polyv_id": "1e6eaa05af105e93691dcbbe6b6f5e11_1",
+    "cover": "",
+    "course_name": "申论实战",
+    "course_id": 149
+  },
+
+
 
 
 
