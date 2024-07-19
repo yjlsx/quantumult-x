@@ -30,6 +30,7 @@
  ^http://api\.yaotia\.cn/api/v1/live/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/live/historyLive url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 ^http://api\.yaotia\.cn/api/v2/goods/lesson\?goods_id=52 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/buzhi/fbly.js
+^http://api\.yaotia\.cn/api/v2/goods/lesson\?goods_id=66 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/buzhi/shenlun.js
 *
  [mitm]
  hostname = api.yaotia.cn

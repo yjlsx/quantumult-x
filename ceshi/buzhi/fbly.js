@@ -7,8 +7,7 @@
  hostname = api.yaotia.cn
  */
 
-const requestUrl1 = 'http://api.yaotia.cn/api/v1/course/sprintInfo?course_id=76'; 
-const requestUrl2 = 'http://api.yaotia.cn/api/v2/goods/lesson?goods_id=52';
+const requestUrl = 'http://api.yaotia.cn/api/v2/goods/lesson?goods_id=52';
 
 // 需要添加到 data 数组中的字段
 const newFields = [
@@ -1779,7 +1778,7 @@ const newFields = [
 
 ];
 
-if ($request.url.includes(requestUrl1) || $request.url.includes(requestUrl2)) {
+if ($request.url.includes(requestUrl)) {
   // 获取原始的响应体
   let body = $response.body;
   let responseJson = JSON.parse(body);
