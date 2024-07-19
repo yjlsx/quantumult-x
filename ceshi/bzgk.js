@@ -29,7 +29,7 @@
  ^https://api\.yaotia\.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/live/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/live/historyLive url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
-^http://api\.yaotia\.cn/api/v1/course/sprintInfo\?course_id=76 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+^http://api\.yaotia\.cn/api/v2/goods/lesson\?goods_id=52 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/buzhi/fbly.js
 *
  [mitm]
  hostname = api.yaotia.cn
@@ -138,14 +138,6 @@ if (url.includes('/api/v2/goods/findByTeacher')) {
             item.is_buy = 1;
         });
     });
-}
-
-
-// 课程冲刺信息接口
-if (url.includes('/api/v1/course/sprintInfo')) {
-    obj.code = 0;
-    obj.data.is_service = 1;
-    obj.message = "成功";
 }
 
 
