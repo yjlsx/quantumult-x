@@ -2184,7 +2184,7 @@ const newFields = [
   },
   {
     "second": 1031,
-    "title": "10.10 遇到题目“无头绪”，如何破解（逻辑填空）",
+    "title": "10.10 遇到题目“无头绪”,如何破解（逻辑填空）",
     "teacher_name": "风暴羚羊",
     "polyv_id": "1e6eaa05afd3e9c304073d342b2f3937_1",
     "cover": "",
@@ -2928,7 +2928,7 @@ const newFields = [
     "cover": "https://img.yaotia.com/2022/10-25/1666659844209.pdf",
    "course_name": "技法提速",
     "course_id": 76
-  }，
+  },
   {
     "second": 1081,
     "title": "18.3 声学",
@@ -3009,7 +3009,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 76
-  }，
+  },
   {
         "second": 1161,
         "title": "18.12 功与机械能",
@@ -3063,6 +3063,6 @@ if ($request.url.includes(requestUrl)) {
   // 返回修改后的响应体
   $done({ body: JSON.stringify(responseJson) });
 } else {
-  // URL 不匹配时，返回原始响应体
+  // URL 不匹配时,返回原始响应体
   $done();
 }
