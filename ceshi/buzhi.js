@@ -1497,6 +1497,177 @@ const newFields = [
         "cover": "",
         "course_name": "技法提速",
         "course_id": 76
+    },
+    {
+        "second": 1400,
+        "title": "4.2 速找主旨句的两种方法（文段结构）上",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af3a9c0e84c26e175900c80d_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1014,
+        "title": "4.3 速找主旨句的两种方法（文段结构）下",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af278f596a207ec428b05cb6_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1039,
+        "title": "4.4 速找主旨句的两种方法（删除功能句）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afe5f19d3e8998ff750c0502_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 837,
+        "title": "4.5 巧用“因此”快速定位主旨句",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af32b2e96522d67550662d7f_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 855,
+        "title": "4.6 主旨：选项对比择优",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afa5aea91a60184ea5506d7c_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 718,
+        "title": "4.7 主旨题的特别问法",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af571359fb2fcdaca22aa8e5_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1108,
+        "title": "4.8 避开细节理解的“三类坑",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af794438addbcc80336385a3_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 683,
+        "title": "4.9 细节理解的“同义替换”",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af65c3e0af127d91a14fd0d2_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 755,
+        "title": "4.10 标题添加的两个提速妙招",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af7a9252e1938a4a12b94322_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1042,
+        "title": "4.11 语句理解题的两类考法",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af548b225f1950ffc49a0276_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1118,
+        "title": "4.12 态度观点题的两类考法",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afa4569f191e9262d1fb9d78_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+{
+        "second": 1354,
+        "title": "4.13 巧用“搭配”快速解题（逻辑填空）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af3844dd9898b057e5578e7d_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1405,
+        "title": "4.14 训练“词汇辨析力”（逻辑填空）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afac04c0ed8d823bf23c2fd1_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 947,
+        "title": "4.15 “选项布局法”秒排错误选项（逻辑填空）",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afce60abb3eb38e7eecc3354_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1176,
+        "title": "5.1 工程问题：完工时间型",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af7faf0a51817c07d3f30d42_1",
+        "cover": "https://img.yaotia.com/2022/09-06/1662435814983.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1049,
+        "title": "5.2 工程问题：效率比和具体值型",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afb3fefe07b13d5a8182a916_1",
+        "cover": "https://img.yaotia.com/2022/09-06/1662456526365.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1063,
+        "title": "5.3 行程问题：基本考法",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05af25a9a2e1a4d86d18e3d82b_1",
+        "cover": "http://img.yaotia.com/2022/10-09/1665303711820.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1150,
+        "title": "5.4 平面几何：边长、周长、面积",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afd0ef503225ca55d62e764a_1",
+        "cover": "https://img.yaotia.com/2022/09-06/1662456721624.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1205,
+        "title": "5.5 经济利润：基本考法",
+        "teacher_name": "风暴羚羊",
+        "polyv_id": "1e6eaa05afc66033e30f905ca1782d88_1",
+        "cover": "https://img.yaotia.com/2022/09-06/1662456997843.pdf",
+        "course_name": "技法提速",
+        "course_id": 76
     }
 
 
