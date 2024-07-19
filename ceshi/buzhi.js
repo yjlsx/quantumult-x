@@ -1668,7 +1668,112 @@ const newFields = [
         "cover": "https://img.yaotia.com/2022/09-06/1662456997843.pdf",
         "course_name": "技法提速",
         "course_id": 76
+    },
+
+    {
+        "second": 1057,
+        "title": "5.6 排列组合：基本考法",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05af60d9b1d327a323e466701d_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1106,
+        "title": "5.7 排列组合·基本运用",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05af0ba91c7ab00dad06028e04_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1643,
+        "title": "5.8 排列组合：4种模型",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05afbdd0d430e6be40c69473b5_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 985,
+        "title": "5.9 统筹规划：最优方案",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05afaee1cba86db0fac0a4ac73_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1209,
+        "title": "5.10 必备提速思维：代入排除",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05af8749ffee7197d173b57826_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1084,
+        "title": "5.11 必备提速技巧：数字特性法",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05af5a15ab6451454229c1b435_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 864,
+        "title": "5.12 数字特性法：实战运用",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05af9d4ad2f474a2761221578e_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1200,
+        "title": "5.13 必会技巧：巧妙且正确“赋值”",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05af3efeafe7872ff14b720547_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1199,
+        "title": "5.14 必会技巧：善用“比例思想”",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05af54c278b96a25180e836343_1",
+        "cover": "",
+        "course_name": "技法提速",
+        "course_id": 76
+    },
+    {
+        "second": 1292,
+        "title": "6.1 认识数推的5类基础规律",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05afc2754075b6df44b7554258_1",
+        "cover": "",
+        "course_name": "重点锤炼",
+        "course_id": 76
+    },
+    {
+        "second": 1353,
+        "title": "6.2 认识数列的5类形式规律",
+        "teacher_name": "",
+        "polyv_id": "1e6eaa05af6413384e6a5843433dc0bc_1",
+        "cover": "",
+        "course_name": "重点锤炼",
+        "course_id": 76
     }
+
+
+
+
+
 
 
 
