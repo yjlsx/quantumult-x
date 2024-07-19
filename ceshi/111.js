@@ -95,7 +95,7 @@ const newFields = [
 
             ]
           }
-        ]
+        ]，
     "course_type" : 4,
     "is_resource" : 0,
     "progress" : {
@@ -124,7 +124,7 @@ if ($request.url === requestUrl) {
   }
 
   // 替换 data 数组
-  if (responseJson && Array.isArray(responseJson.data)) {
+  if (responseJson && typeof responseJson === 'object') {
     responseJson.data = newFields;
     $done({ body: JSON.stringify(responseJson) });
   } else {
