@@ -986,7 +986,7 @@ const newFields = [
         "course_id": 113
     },
     {
-        "second": 4187,
+        "second": 4127,
         "title": "9.9 101卷：工程问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afc4535998cc00723d79c117_1",
@@ -1067,7 +1067,7 @@ const newFields = [
         "course_id": 113
     },
     {
-        "second": 1323,
+        "second": 1313,
         "title": "9.18 110卷：鸡兔同笼问题（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05afaa5e48cfa578d8d29fd433_1",
@@ -1095,31 +1095,22 @@ const newFields = [
     },
     {
         "second": 605,
-        "title": "10.3 113卷：重要的科技发明（新）",
+        "title": "10.3 113卷：基本的物理、化学常识（新）",
         "teacher_name": "风暴羚羊",
-        "polyv_id": "1e6eaa05af9e9828f1e6823a3c4b8b9b_1",
+        "polyv_id": "1e6eaa05af4a0130fff69b7b0865a2b7_1",
         "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
     {
         "second": 800,
-        "title": "10.4 114卷：重要的政治理论（新）",
+        "title": "10.4 114卷：基本的生物、地理常识（新）",
         "teacher_name": "风暴羚羊",
-        "polyv_id": "1e6eaa05af4d18a8c8c631f706a0c158_1",
+        "polyv_id": "1e6eaa05af7d179d149525a451213ef9_1",
         "cover": "",
         "course_name": "技法提速",
         "course_id": 113
     },
-    {
-        "second": 800,
-        "title": "10.5 115卷：重要的经济理论（新）",
-        "teacher_name": "风暴羚羊",
-        "polyv_id": "1e6eaa05af3f7b4a9d6c83c91715e9b5_1",
-        "cover": "",
-        "course_name": "技法提速",
-        "course_id": 113
-    }，
 {
         "second": 585,
         "title": "10.5 115卷：哲学常识（新）",
@@ -1148,7 +1139,7 @@ const newFields = [
         "course_id": 113
     },
     {
-        "second": 663,
+        "second": 573,
         "title": "10.8 118卷：宪法（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af43bb37239428203f960a7c_1",
@@ -1193,7 +1184,7 @@ const newFields = [
         "course_id": 113
     },
     {
-        "second": 1750,
+        "second": 1790,
         "title": "12.2 123卷：篇章阅读的3类考法（新）",
         "teacher_name": "风暴羚羊",
         "polyv_id": "1e6eaa05af59fcd72bbdcebb6515dacf_1",
