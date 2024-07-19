@@ -380,7 +380,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
 {
     "second": 636,
     "title": "3.17 035卷：数量规律之角（新）",
@@ -461,7 +461,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
   {
     "second": 956,
     "title": "3.26 044卷：视图（新）",
@@ -515,7 +515,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
   {
     "second": 617,
     "title": "5.3 050卷：概念外延之交叉关系（新）",
@@ -596,7 +596,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
   {
     "second": 620,
     "title": "5.12 059卷：语义关系之近、反义关系（新）",
@@ -650,7 +650,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
 {
     "second": 1684,
     "title": "6.4 064卷：“且”“或”“要么”的推理规则（新）",
@@ -749,7 +749,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
  {
     "second": 1478,
     "title": "7.1 075卷：主旨意图之首尾讨巧可破题（新）",
@@ -858,7 +858,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
  {
     "second": 1085,
     "title": "7.13 087卷：语句填空之句中要承上启下（新）",
@@ -903,7 +903,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
 {
     "second": 881,
     "title": "8.4 092卷：标点符号是提示（新）",
@@ -975,7 +975,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
  {
         "second": 2053,
         "title": "9.8 100卷：经济利润问题（新）",
@@ -1074,7 +1074,7 @@ const newFields = [
         "cover": "",
         "course_name": "技法提速",
         "course_id": 113
-    }，
+    },
  {
         "second": 924,
         "title": "10.1 111卷：重要的历史事件（新）",
@@ -1173,7 +1173,7 @@ const newFields = [
         "cover": "",
         "course_name": "技法提速",
         "course_id": 113
-    }，
+    },
     {
         "second": 1422,
         "title": "12.1 122卷：篇章阅读的阅读思维（新）",
