@@ -45,7 +45,7 @@ const newFields = [
       "polyv_id" : "1e6eaa05af62f12d40b542f1887c0aba_1",
       "cover" : "",
       "course_name" : "申论实战",
-      "course_id" : 148
+      "course_id" : 138
     },
     {
       "second" : 679,
@@ -54,7 +54,7 @@ const newFields = [
       "polyv_id" : "1e6eaa05af89f59d84abe8a6134a0e12_1",
       "cover" : "",
       "course_name" : "申论实战",
-      "course_id" : 148
+      "course_id" : 138
     },
     {
       "second" : 870,
@@ -63,7 +63,7 @@ const newFields = [
       "polyv_id" : "1e6eaa05af05a710375d8bcb32397ea2_1",
       "cover" : "",
       "course_name" : "申论实战",
-      "course_id" : 148
+      "course_id" : 138
     },
     {
       "second" : 744,
@@ -72,7 +72,7 @@ const newFields = [
       "polyv_id" : "1e6eaa05aff4fc1d43a7b9827d2a0c5e_1",
       "cover" : "",
       "course_name" : "申论实战",
-      "course_id" : 148
+      "course_id" : 138
     },
     {
       "second" : 838,
@@ -126,7 +126,7 @@ const newFields = [
 
 ];
 
-if ($request.url.includes(requestUrl1) || $request.url.includes(requestUrl2)) {
+if ($request.url.includes(requestUrl)) {
   // 获取原始的响应体
   let body = $response.body;
   let responseJson = JSON.parse(body);
