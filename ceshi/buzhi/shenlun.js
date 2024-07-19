@@ -7,7 +7,7 @@
  hostname = api.yaotia.cn
  */
 
-const requestUrl2 = 'http://api.yaotia.cn/api/v2/goods/lesson?goods_id=66';
+const requestUrl = 'http://api.yaotia.cn/api/v2/goods/lesson?goods_id=66';
 
 // 需要添加到 data 数组中的字段
 const newFields = [
