@@ -21,7 +21,7 @@ const newFields = [
             "video_num" : 2,
             "stage_id" : 0,
             "node_num" : 1,
-            "desc" : "共1节课程",
+            "desc" : "共2节课程",
             "node_list" : [
               {
                 "equity" : [
@@ -96,8 +96,6 @@ const newFields = [
             ]
           }
         ]
-      }
-    ],
     "course_type" : 4,
     "is_resource" : 0,
     "progress" : {
@@ -113,16 +111,25 @@ const newFields = [
   }
 ];
 
-if ($request.url.includes(requestUrl)) {
+if ($request.url === requestUrl) {
   // 获取原始的响应体
   let body = $response.body;
-  let responseJson = JSON.parse(body);
+  let responseJson;
+
+  try {
+    responseJson = JSON.parse(body);
+  } catch (e) {
+    $done({ body });
+    return;
+  }
 
   // 替换 data 数组
-  responseJson.data = newFields;
-
-  // 返回修改后的响应体
-  $done({ body: JSON.stringify(responseJson) });
+  if (responseJson && Array.isArray(responseJson.data)) {
+    responseJson.data = newFields;
+    $done({ body: JSON.stringify(responseJson) });
+  } else {
+    $done({ body });
+  }
 } else {
   // URL 不匹配时，返回原始响应体
   $done();
