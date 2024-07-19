@@ -129,15 +129,6 @@ if (url.includes('/api/v2/userCourse/recent')) {
         "course_cover": "https://img.yaotia.com/2023/10-13/1697161787037.png?size=188X224",
         "course_name": "行测三板斧·风暴羚羊",
         "course_id": 76
-    }，
-        {
-        "yta_goods_type": 5,
-        "yta_goods_id": 66,
-        "subject": "大咖课",
-        "course_type": 4,
-        "course_cover": "https://img.yaotia.com/2023/10-17/1697533000581.png?size=282X336",
-        "course_name": "北楚·申论三大策",
-        "course_id": 149
     }
    );
 }
