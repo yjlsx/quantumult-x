@@ -23,7 +23,7 @@ const newResponse = {
         "chapter_name": "夯实基础：羚羊行测123卷带练课",
         "video_num": 2,
         "stage_id": 0,
-        "node_num": 2,
+        "node_num": 0,
         "desc": "共2节课程",
         "node_list": [
           {
@@ -54,7 +54,7 @@ const newResponse = {
             "teacher_avatar": "https://img.yaotia.com/teacher/dGpYrA8NeS5ScKtQ_0.png?size=180X180",
             "start_time": "",
             "teacher_name": "风暴羚羊",
-            "node_id": 113,
+            "node_id": 0,
             "ti_type_name": "行测",
             "node_name": "2.1 002卷：如何正确阅读材料（新）",
             "ti_type": 1
@@ -87,7 +87,7 @@ const newResponse = {
             "teacher_avatar": "https://img.yaotia.com/teacher/dGpYrA8NeS5ScKtQ_0.png?size=180X180",
             "start_time": "",
             "teacher_name": "风暴羚羊",
-            "node_id": 113,
+            "node_id": 0,
             "ti_type_name": "行测",
             "node_name": "2.2 003卷：如何正确判断选项（新）",
             "ti_type": 1
