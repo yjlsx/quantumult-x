@@ -18,7 +18,7 @@ const newResponse = {
     "is_service": 1,
     "stage_list": [
       {
-        "id": 29,
+        "id": 113,
         "instruct": "第一阶段",
         "chapter_name": "夯实基础：羚羊行测123卷带练课",
         "video_num": 2,
@@ -48,7 +48,7 @@ const newResponse = {
                 "video_id": "1e6eaa05afc3757f316558e95016f444_1",
                 "type": 4,
                 "orientation": 1,
-                "bl_channel_id": 202956
+                "bl_channel_id": 0
               }
             ],
             "teacher_avatar": "https://img.yaotia.com/teacher/dGpYrA8NeS5ScKtQ_0.png?size=180X180",
@@ -73,7 +73,7 @@ const newResponse = {
               },
               {
                 "is_finish": 0,
-                "channel_id": 1,
+                "channel_id": 2,
                 "live_status": 4,
                 "title": "观看课程",
                 "live_id": 0,
@@ -81,7 +81,7 @@ const newResponse = {
                 "video_id": "1e6eaa05afaed9fce49785ad828ddff0_1",
                 "type": 4,
                 "orientation": 1,
-                "bl_channel_id": 202956
+                "bl_channel_id": 0
               }
             ],
             "teacher_avatar": "https://img.yaotia.com/teacher/dGpYrA8NeS5ScKtQ_0.png?size=180X180",
