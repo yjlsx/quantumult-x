@@ -101,7 +101,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
   {
     "second": 853,
     "title": "2.5 006卷：用“差分数”快速比较分数（新）",
@@ -191,7 +191,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
   {
     "second": 1306,
     "title": "2.15 015卷：比重的基本计算（上）",
@@ -236,7 +236,7 @@ const newFields = [
     "cover": "",
     "course_name": "技法提速",
     "course_id": 113
-  }，
+  },
 {
     "second": 1334,
     "title": "3.1 019卷：动态位置之平移（新）",
