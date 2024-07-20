@@ -39,9 +39,9 @@ if (url.includes('/v3.php/api/ios/mobile/v1/coupon')) {
   }
 } else if (url.includes('/api/v3/islogin')) { // 替换为实际的路径
   if (obj.companyid !== undefined) {
-    obj.is_company_account = true;
-    obj.companyid = 999999;
-    obj.current_companyid = 999999;
+    obj.is_company_account = false;
+    obj.companyid =  ;
+    obj.current_companyid =  ;
   }
 }else if (url.includes('/api/pay/notify/couponpay')) {
   obj.result = ok;
