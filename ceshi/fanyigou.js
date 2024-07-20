@@ -7,6 +7,7 @@
 ^https:\/\/www\.fanyigou\.com\/sdoc\/web\/getMyTranslate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
 ^https:\/\/www\.fanyigou\.com\/payment\/iosPay\/afterBuyTimeChick url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
 ^https:\/\/www\.fanyigou\.com\/qxscore\/trans\/getComputeInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+^https:\/\/www\.fanyigou\.com\/sdoc\/web\/checkReTransForBilingual url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
 
 [mitm]
 hostname = www.fanyigou.com
@@ -39,12 +40,13 @@ if (url.includes('users/userInfoNew/app/getNewIndexInfo')) {
     obj.data.userScoreDetail.vipPageTime = 999999;
     obj.data.userScoreDetail.permanentScore = 99999;
     obj.data.userScoreDetail.vipScore = 99999;
+    obj.data.userScoreDetail.preMonthExprie = 99;
     obj.data.userScoreDetail.score = 99999;
     obj.data.memberCoin = 999999;
     obj.data.memberType.expireTime = "2099-12-31";
     obj.data.memberType.memberType = "vip";
     obj.data.expireDays = 99999999;
-    obj.data.mothExpire = 99999;
+    obj.data.mothExprie = 99999;
     obj.data.userVoApp.type = 1;
 } 
 if (url.includes('/userInfoNew/app/getBaseUserInfo')) {
@@ -84,6 +86,12 @@ if (url.includes('/qxscore/trans/getComputeInfo')) {
    obj.data.scoreAccountInfoVo.page = 9999;
 }
 
+if (url.includes('/sdoc/web/checkReTransForBilingual')) {
+    obj.code = 0;
+    obj.data.canReTrans = 999999;
+    obj.msg = "已付费";
+    obj.ok = true;
+} 
 
 body = JSON.stringify(obj);
 $done({body});
