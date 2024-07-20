@@ -53,39 +53,3 @@ $done({body});
 
 
 
-
-
-
-
-
-
-let body = $response.body;
-let obj = JSON.parse(body);
-
-// Check if the response is from the coupon API and modify 'total'
-if (obj.data && obj.data.total !== undefined) {
-  obj.data.total = 999999;
-} 
-// Check if the response is from the coupon pay API and modify 'result' and 'msg'
-else if (obj.result && obj.msg) {
-  obj.result = "ok";
-  obj.msg = "使用优惠券成功";
-} 
-// Check if the response is from the product or service detail API and modify 'enable_coupon'
-else if (obj.data && obj.data.type) {
-  obj.data.type.forEach(item => {
-    if (item.id === 400008 && item.payunit === "页") {
-      // Modify the necessary fields
-      item.enable_coupon = 999999;
-    }
-  });
-}
-
-// Check if the response has a specific structure indicating an error message and modify 'result', 'code', and 'msg'
-if (obj.result === "ok" && obj.code === 5005003 && obj.msg === "用户不属于任何人群活动") {
-  obj.code = 0;
-  obj.msg = "用户属于人群活动";
-}
-
-body = JSON.stringify(obj);
-$done({body});
