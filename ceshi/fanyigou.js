@@ -8,6 +8,8 @@
 ^https:\/\/www\.fanyigou\.com\/payment\/iosPay\/afterBuyTimeChick url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
 ^https:\/\/www\.fanyigou\.com\/qxscore\/trans\/getComputeInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
 ^https:\/\/www\.fanyigou\.com\/sdoc\/web\/checkReTransForBilingual url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+^https:\/\/www\.fanyigou\.com\/sdoc\/free\/getNewUserDocFreeTimes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+^https:\/\/www\.fanyigou\.com\/sdoc\/image\/getImage url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
 
 [mitm]
 hostname = www.fanyigou.com
@@ -94,6 +96,15 @@ if (url.includes('/sdoc/web/checkReTransForBilingual')) {
     obj.msg = "已付费";
     obj.ok = true;
 } 
+if (url.includes('/sdoc/free/getNewUserDocFreeTimes')) {
+    obj.data.remainTimes = 999999;
+} 
+if (url.includes('/sdoc/image/getImage')) {
+    obj.code = 0;
+    obj.ok = true;
+} 
+
+
 
 body = JSON.stringify(obj);
 $done({body});
