@@ -3,7 +3,9 @@
 [rewrite_local]
 ^https:\/\/www\.fanyigou\.com\/users\/userInfoNew\/app\/getNewIndexInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
 ^https:\/\/www\.fanyigou\.com\/users\/userInfoNew\/app\/getBaseUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
-^https:\/\/www\.fanyigou\.com\/payment\/vipTypeSpecial\/getIosList  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+^https:\/\/www\.fanyigou\.com\/payment\/vipTypeSpecial\/getIosList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+^https:\/\/www\.fanyigou\.com\/sdoc\/web\/getMyTranslate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+^https:\/\/www\.fanyigou\.com\/payment\/iosPay\/afterBuyTimeChick url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
 
 [mitm]
 hostname = www.fanyigou.com
@@ -29,11 +31,13 @@ if (url.includes('users/userInfoNew/app/getNewIndexInfo')) {
     obj.data.memberAuthority.freeRecover = 1;
     obj.data.memberAuthority.drawWorldCount =  -1;
     obj.data.transRead = 1;
+    obj.data.userScoreDetail.tempNotContainVipScore = 9999;
     obj.data.userScoreDetail.latelyTempScore = 9999;
     obj.data.userScoreDetail.latelyDays = 35;
-    obj.data.userScoreDetail.vipPage = 1;
-    obj.data.userScoreDetail.vipPageTime = "2099-12-31"
+    obj.data.userScoreDetail.vipPage = 999999;
+    obj.data.userScoreDetail.vipPageTime = "2099-12-31";
     obj.data.userScoreDetail.permanentScore = 9999;
+    obj.data.userScoreDetail.vipScore = 9999;
     obj.data.userScoreDetail.score = 9999;
     obj.data.memberCoin = 999999;
     obj.data.memberType.expireTime = "2099-12-31";
@@ -43,7 +47,8 @@ if (url.includes('users/userInfoNew/app/getNewIndexInfo')) {
     obj.data.userVoApp.type = 1;
 } 
 if (url.includes('/userInfoNew/app/getBaseUserInfo')) {
-   obj.data.memberStatus.memberType = "Vip";
+   obj.data.memberStatus.memberType = "vip";
+  obj.data.memberStatus.memberUpgradeBoxStatus = 1;
 }
 if (url.includes('/userInfoNew/app/getBaseUserInfo')) {
    obj.data.forEach(item => {
@@ -54,6 +59,16 @@ if (url.includes('/userInfoNew/app/getBaseUserInfo')) {
      item.isNewUser = 1;
   });
 }
+
+if (url.includes('/sdoc/web/getMyTranslate')) {
+   obj.data.total = 99999;
+}
+if (url.includes('/payment/iosPay/afterBuyTimeChick')) {
+   obj.code = 0;
+   obj.ok = true;
+   obj.msg = "请求成功";
+}
+
 
 body = JSON.stringify(obj);
 $done({body});
