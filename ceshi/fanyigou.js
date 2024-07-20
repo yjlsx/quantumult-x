@@ -46,8 +46,10 @@ if (url.includes('users/userInfoNew/app/getNewIndexInfo')) {
     obj.data.memberType.expireTime = "2099-12-31";
     obj.data.memberType.memberType = "vip";
     obj.data.expireDays = 99999999;
+    obj.data.commonWeal = "1";
     obj.data.mothExprie = 99999;
     obj.data.userVoApp.type = 1;
+    obj.data.userVoApp.ticket = "vip";
 } 
 if (url.includes('/userInfoNew/app/getBaseUserInfo')) {
    obj.data.memberStatus.memberType = "vip";
