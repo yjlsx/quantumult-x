@@ -16,7 +16,7 @@ let obj = JSON.parse(body);
 
 // Check if the response is from the coupon API and modify 'total'
 if (obj.data && obj.data.total !== undefined) {
-  obj.data.total = 899999;
+  obj.data.total = 999999;
 } 
 // Check if the response is from the coupon pay API and modify 'result' and 'msg'
 else if (obj.result && obj.msg) {
@@ -28,7 +28,7 @@ else if (obj.data && obj.data.type) {
   obj.data.type.forEach(item => {
     if (item.id === 400008 && item.payunit === "页") {
       // Modify the necessary fields
-      item.enable_coupon = [10, 20, 30, 50, 75, 100, 150, 1000];
+      item.enable_coupon = 999999;
     }
   });
 }
