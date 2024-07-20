@@ -10,7 +10,7 @@
 ^https:\/\/softbus-device\.wps\.cn\/api\/v1\/device\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyi.js
 
 [mitm]
-hostname = docer.wps.cn, docer-api.wps.cn, tiance.wps.cn,softbus-device.wps.cn
+hostname = docer.wps.cn, docer-api.wps.cn, tiance.wps.cn,softbus-device.wps.cn, pay.wps.cn
 */
 let body = $response.body;
 let obj = JSON.parse(body);
