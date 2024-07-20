@@ -1,0 +1,60 @@
+// Quantumult X rewrite script
+/*
+[rewrite_local]
+^https:\/\/www\.fanyigou\.com\/users\/userInfoNew\/app\/getNewIndexInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+^https:\/\/www\.fanyigou\.com\/users\/userInfoNew\/app\/getBaseUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+^https:\/\/www\.fanyigou\.com\/payment\/vipTypeSpecial\/getIosList  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fanyigou.js
+
+[mitm]
+hostname = www.fanyigou.com
+*/
+let body = $response.body;
+let obj = JSON.parse(body);
+
+// 获取请求 URL
+let url = $request.url;
+
+// 根据不同的 URL 修改响应体内容
+if (url.includes('users/userInfoNew/app/getNewIndexInfo')) {
+    obj.data.vipScore = 999999;
+    obj.data.transalteNum = 9999;
+    obj.data.orserEarnScore = 9999;
+    obj.data.memberAuthority.exclusiveCustomerService = 1;
+    obj.data.memberAuthority.fastTransPower = 1;
+    obj.data.memberAuthority.termCount = 1000;
+    obj.data.memberAuthority.rubbishTime = 20;
+    obj.data.memberAuthority.transAllLanguage = 1;
+    obj.data.memberAuthority.corpusCount = 1000;
+    obj.data.memberAuthority.pdfCount = -1;
+    obj.data.memberAuthority.freeRecover = 1;
+    obj.data.memberAuthority.drawWorldCount =  -1;
+    obj.data.transRead = 1;
+    obj.data.userScoreDetail.latelyTempScore = 9999;
+    obj.data.userScoreDetail.latelyDays = 35;
+    obj.data.userScoreDetail.vipPage = 1;
+    obj.data.userScoreDetail.vipPageTime = "2099-12-31"
+    obj.data.userScoreDetail.permanentScore = 9999;
+    obj.data.userScoreDetail.score = 9999;
+    obj.data.memberCoin = 999999;
+    obj.data.memberType.expireTime = "2099-12-31";
+    obj.data.memberType.memberType = "vip";
+    obj.data.expireDays = 99999999;
+    obj.data.mothExpire = 99999;
+    obj.data.userVoApp.type = 1;
+} 
+if (url.includes('/userInfoNew/app/getBaseUserInfo')) {
+   obj.data.memberStatus.memberType = "Vip";
+}
+if (url.includes('/userInfoNew/app/getBaseUserInfo')) {
+   obj.data.forEach(item => {
+     item.vipMoney = "0";
+     item.isVip = 1;
+     item.newUserMoney = "0";
+     item.money = "0";
+     item.isNewUser = 1;
+  });
+}
+
+body = JSON.stringify(obj);
+$done({body});
+
