@@ -97,14 +97,14 @@ if (url.includes('/sdoc/web/checkReTransForBilingual')) {
     obj.ok = true;
 } 
 if (url.includes('/sdoc/free/getNewUserDocFreeTimes')) {
-    obj.data.remainTimes = 999999;
+    obj.data.remainTimes = 999;
 } 
-/*
+
 if (url.includes('/sdoc/image/getImage')) {
     obj.code = 0;
     obj.ok = true;
 } 
-*/
+
 
 
 body = JSON.stringify(obj);
