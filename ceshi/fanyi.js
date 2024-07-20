@@ -33,33 +33,36 @@ if (url.includes('/v3.php/api/ios/mobile/v1/coupon')) {
   if (obj.data && obj.data.type) {
     obj.data.type.forEach(item => {
       if (item.id === 400008 && item.payunit === "页") {
-        item.enable_coupon = 999999;
+        item.enable_coupon = [10, 20, 30, 50, 75, 100, 150, 1000];
       }
     });
   }
 } else if (url.includes('/api/v3/islogin')) { // 替换为实际的路径
   if (obj.companyid !== undefined) {
     obj.is_company_account = false;
-    obj.companyid =  ;
-    obj.current_companyid =  ;
+    obj.companyid = 999999; // 填入正确的值
+    obj.current_companyid = 999999; // 填入正确的值
   }
-}else if (url.includes('/api/pay/notify/couponpay')) {
-  obj.result = ok;
-  obj.msg = "success";
-}else if (url.includes('/api/v1/device/list')) {
-// 修改 transfer_helper 为 1
-  obj.data.devices.forEach(device => {
-    if (device.additional_info && device.additional_info.allow_notifies) {
-      device.additional_info.allow_notifies.transfer_helper = 1;
-      device.additional_info.dsc_version = 1;
-    }
-    if (device.x_report) {
-      device.x_report.is_mark_chan = 1;
-    }
-  });
+} else if (url.includes('/api/pay/notify/couponpay')) {
+  if (obj.result && obj.msg) {
+    obj.result = "ok";
+    obj.msg = "使用优惠券成功";
+  }
+} else if (url.includes('/api/v1/device/list')) {
+  // 修改 transfer_helper 为 1 和 dsc_version 为 1
+  if (obj.data && obj.data.devices) {
+    obj.data.devices.forEach(device => {
+      if (device.additional_info && device.additional_info.allow_notifies) {
+        device.additional_info.allow_notifies.transfer_helper = 1;
+        device.additional_info.dsc_version = 1; // 这里的值需要根据实际需求填充
+      }
+      if (device.x_report) {
+        device.x_report.is_mark_chan = 1;
+      }
+    });
+  }
 }
-
-
 
 body = JSON.stringify(obj);
 $done({body});
+
