@@ -51,6 +51,7 @@ if (url.includes('/v3.php/api/ios/mobile/v1/coupon')) {
   obj.data.devices.forEach(device => {
     if (device.additional_info && device.additional_info.allow_notifies) {
       device.additional_info.allow_notifies.transfer_helper = 1;
+      device.additional_info.dsc_version = 1;
     }
     if (device.x_report) {
       device.x_report.is_mark_chan = 1;
