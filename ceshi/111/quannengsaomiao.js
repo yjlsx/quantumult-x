@@ -2,10 +2,11 @@
 /*
 [rewrite_local]
 ^https:\/\/api-cs\.intsig\.net\/purchase\/cs\/query_property\?app_type=CamScanner_IP_FREE&client_app=CamScanner_IP_FREE.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quannengsaomiao.js
-
+# 修改 PDF 转 Word 任务状态为成功
+^https:\/\/cs8\.intsig\.net\/sync\/bigfile\/pdf2office\/status\?file_id=.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quannengsaomiao.js
 
 [mitm]
-hostname = api-cs.intsig.net
+hostname = api-cs.intsig.net, cs8.intsig.net
 */
 
 let body = $response.body;
@@ -49,7 +50,12 @@ if (url.includes('/query_property?app_type')) {
      obj.data.points_exchange_cfgrs.CamScanner_Translation = 0;
      obj.data.points_exchange_cfgrs.CamScanner_AlbumImport = 0;
 }
-
+if (url.includes('/sync/bigfile/pdf2office/status')) {
+    obj.ret = 0;
+     if( obj.err){
+   obj.err = "success";
+  }
+}
 
 body = JSON.stringify(obj);
 $done({body});

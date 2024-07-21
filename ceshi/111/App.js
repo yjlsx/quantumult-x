@@ -1,9 +1,10 @@
 #
-hostname = api-cs.intsig.net, docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, pay.wps.cn, data.camscanner.com 
+hostname = api-cs.intsig.net, docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, pay.wps.cn, data.camscanner.com, cs8.intsig.net 
 
 
 #全能扫描积分
 ^https:\/\/api-cs\.intsig\.net\/purchase\/cs\/query_property\?app_type=CamScanner_IP_FREE&client_app=CamScanner_IP_FREE.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quannengsaomiao.js
+^https:\/\/cs8\.intsig\.net\/sync\/bigfile\/pdf2office\/status\?file_id=.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quannengsaomiao.js
 #广告
 ^https:\/\/data\.camscanner\.com\/ad url reject
 
