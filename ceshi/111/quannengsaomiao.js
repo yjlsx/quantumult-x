@@ -16,6 +16,7 @@ let obj = JSON.parse(body);
 let url = $request.url;
 if (url.includes('/query_property?app_type')) {
      obj.data.points = "999999";
+/*
      obj.data.server_time = "1721551611";
      obj.data.psnl_vip_property.product_id = "com.intsig.camscanner.premiums.oneyear.autorenewable.svip.low";
      obj.data.psnl_vip_property.initial_tm = "1614867690";
@@ -34,6 +35,7 @@ if (url.includes('/query_property?app_type')) {
      obj.data.renew_type = "year";
      obj.data.expiry = 8487890487;
      obj.data.grade = 2;
+*/
      obj.data.pdfword_balance = "999999";
      obj.data.points_exchange_cfgrs.CamScanner_ID_Card_Credit = 0;
      obj.data.points_exchange_cfgrs.CamScanner_Pdf2ppt = 0;
