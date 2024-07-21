@@ -26,7 +26,7 @@ if (url.includes('/query_property?app_type')) {
      obj.data.psnl_vip_property.group2_paid = 0;
      obj.data.psnl_vip_property.inherited_flag = 0;
      obj.data.psnl_vip_property.nxt_renew_tm = "9915126887";
-     obj.data.psnl_vip_property.level_info.level = : 9;
+     obj.data.psnl_vip_property.level_info.level = 9;
      obj.data.psnl_vip_property.level_info.days = 1;
      obj.data.psnl_vip_property.level_info.end_days = 30;
      obj.data.group1_paid = 1;
