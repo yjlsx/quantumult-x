@@ -55,7 +55,7 @@ if (url.includes('/query_property?app_type')) {
 if (url.includes('/sync/bigfile/pdf2office/status')) {
     obj.ret = 0;
      if( obj.err){
-   obj.err = "success";
+   obj.err = "";
   }
 }
 
