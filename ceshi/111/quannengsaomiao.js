@@ -21,7 +21,7 @@ if (url.includes('/query_property?app_type')) {
      obj.data.psnl_vip_property.initial_tm = "1614867690";
      obj.data.psnl_vip_property.svip = 1;
      obj.data.psnl_vip_property.auto_renewal = true;
-     obj.data.psnl_vip_property.ms_first_pay = : 0;
+     obj.data.psnl_vip_property.ms_first_pay = 0;
      obj.data.psnl_vip_property.pending = 0;
      obj.data.psnl_vip_property.group2_paid = 0;
      obj.data.psnl_vip_property.inherited_flag = 0;
@@ -41,7 +41,7 @@ if (url.includes('/query_property?app_type')) {
      obj.data.points_exchange_cfgrs.CamScanner_ID_Card_Authenticity = 0;
      obj.data.points_exchange_cfgrs.CamScanner_Excel = 0;
      obj.data.points_exchange_cfgrs.CamScanner_Watermarks = 0;
-     obj.data.points_exchange_cfgrs.CamScanner_Profile_Card_Format = 0
+     obj.data.points_exchange_cfgrs.CamScanner_Profile_Card_Format = 0;
      obj.data.points_exchange_cfgrs.CamScanner_CertMode = 0;
      obj.data.points_exchange_cfgrs.CamScanner_Pdf2excel = 0;
      obj.data.points_exchange_cfgrs.CamScanner_Pdfword = 0;
