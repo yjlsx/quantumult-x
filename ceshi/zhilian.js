@@ -7,7 +7,7 @@
 
 *
 [mitm]
-hostname = proxyweb.yiwenjy.com
+hostname = m.zhaopin.com
 
 */
 const url = $request.url;

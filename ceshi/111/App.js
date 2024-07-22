@@ -1,13 +1,110 @@
-#
-hostname = api-cs.intsig.net, docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, pay.wps.cn, data.camscanner.com, cs8.intsig.net 
+# 名称：自用脚本
+# 功能：仅供自用，滥用造成脚本冲突，后果自负！
+# 作者：GitHub-yjlsx
+# 重写地址：https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/App.js
+
+# > 主机名合并
+hostname =docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, pay.wps.cn, gateway.kugou.com, gateway3.kugou.com, vip.kugou.com, vipuser.kygou.com, login.user.kugou.com, userinfoservice.kugou.com, richapi.yestiku.com, sxbapi.xuesai.net, 
+keapi.fenbi.com, ke.fenbi.com, proxyweb.yiwenjy.com, m.zhaopin.com, app.thwlqy.com, appss.baomingding.com, apis.lifeweek.com.cn, app.yinxiang.com, appss.rhinoxlab.com, appss.rhinoxlab.com, 39.107.159.85, dynamicentry.kugou.com
+
+# >>>>>>>>>>>>>>> ✅ A ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ B ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ C ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ D ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ E ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ F ✅ <<<<<<<<<<<<<<
+#粉笔
+# 修改 AI 教师会员信息
+^https:\/\/keapi\.fenbi\.com\/ai\/iphone\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/users\/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+# >>>>>>>>>>>>>>> ✅ G ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ H ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ I ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ J ✅ <<<<<<<<<<<<<<
+#军队文职备考题库
+^http://richapi.yestiku.com/api/identity/getInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/jdwzbk.js
+^http://richapi.yestiku.com/api/identity/listData url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/jdwzbk.js
+^http://richapi.yestiku.com/api/home/getData$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/jdwzbk.js
+^http://richapi.yestiku.com/api/pay/getPayInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/jdwzbk.js
+^http://richapi.yestiku.com/api/questionset/listData url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/jdwzbk.js
+^http://richapi.yestiku.com/api/questionset/getInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/jdwzbk.js
+# >>>>>>>>>>>>>>> ✅ K ✅ <<<<<<<<<<<<<<
+# Kugou Music Rewrite Rules
+^https://gateway\.kugou\.com/v6/login_by_openplat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/mobile/vipinfoV2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/v1/fusion/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/listening/coupon_package url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/ocean/v6/theme/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/ip/api/v1/overseas/check_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/ads\.gateway/v2/task_video/unlogin_guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/v2/get_vip_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/updateservice/v1/get_dev_user url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/ads\.gateway/v5/task_video/qualification url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/userinfoservice/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/v5/login_by_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/tools\.mobile/api/v2/theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/mobile/vipinfoV2&code url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/ads\.gateway/v2/task_video/unlogin_guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://vip\.kugou\.com/v1/union/list_quota_plus url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^http://login\.user\.kugou\.com/v5/login_by_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://vipuser\.kugou\.com/v2/get_vip_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway.kugou\.com/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://vip\.kugou\.com/v1/fusion/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/tools.mobile/api/v2/theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/v1/login_by_quick_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+^https://gateway\.kugou\.com/ip/api/v1/overeas/check_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou2.js
+#开屏广告
+^http://dynamicentry\.kugou\.com/api/v1/entry/index url reject
+
+# >>>>>>>>>>>>>>> ✅ L ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ M ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ N ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ O ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ P ✅ <<<<<<<<<<<<<<
+# >pdf转换助手-智能pdf处理编辑软件（永久会员）
+^https?:\/\/pdfnew-api.shoujicad.com.+\/api\/user url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/pdf.js
 
 
-#全能扫描积分
-^https:\/\/api-cs\.intsig\.net\/purchase\/cs\/query_property\?app_type=CamScanner_IP_FREE&client_app=CamScanner_IP_FREE.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quannengsaomiao.js
-^https:\/\/cs8\.intsig\.net\/sync\/bigfile\/pdf2office\/status\?file_id=.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quannengsaomiao.js
-#广告
-^https:\/\/data\.camscanner\.com\/ad url reject
+# >>>>>>>>>>>>>>> ✅ Q ✅ <<<<<<<<<<<<<<
+# > 千亦视界 解锁永久vip
+^https?:\/\/app.thwlqy.com\/(login\/login\/sign|login\/login\/veifys).html.*$ url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/qysj.js
+# >>>>>>>>>>>>>>> ✅ R ✅ <<<<<<<<<<<<<<
 
+# >>>>>>>>>>>>>>> ✅ S ✅ <<<<<<<<<<<<<<
+#上学吧 文职题库
+^https:\/\/sxbapi\.xuesai\.net\/exam\/(order\/create|test\/createExercisePaper|common\/checkPermission|test\/sequenceTestByQuestionIds|test\/content|user\/allAreaList|userupload\/getUserTikuList) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+ ^https:\/\/sxbapi\.xuesai\.net\/user\/center\/getUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+ ^https:\/\/sxbapi\.xuesai\.net\/ask\/answer url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+ ^https:\/\/sxbapi\.xuesai\.net\/ask\/order\/submit url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/sxb.js
+# >试卷扫描-拍照清除笔迹，还原空白试卷，错题标记重组（永久会员）
+^https?:\/\/appss.baomingding.com\/\/app\/account\/getAccountInfo url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/sjsm.js
+# > 三联中读,知识会员+数字刊会员
+^https?:\/\/apis\.lifeweek\.com\.cn\/(vip\/loadMyVipV2\?|index\/home.do\?).*$ url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/slzd.js
+# >扫描宝（永久会员）
+^https?:\/\/app.yinxiang.com\/third\/scanner\/scanner\/app\/userInfo\/get url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/smb.js
+
+# >>>>>>>>>>>>>>> ✅ T ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ U ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ V ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ W ✅ <<<<<<<<<<<<<<
 #wps积分
 ^https:\/\/docer\.wps\.cn\/v3\.php\/api\/ios\/mobile\/v1\/coupon\?status=unused url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps.js
 ^https:\/\/docer-api\.wps\.cn\/proxy\/docer\/v3\.php\/api\/ios\/mobile\/v1\/coupon url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps.js
@@ -16,4 +113,30 @@ hostname = api-cs.intsig.net, docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, sof
 ^https:\/\/tiance\.wps\.cn\/dce\/exec\/api\/market\/activity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps.js
 ^https:\/\/account\.wps\.cn\/api\/v3\/islogin url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps.js
 ^https:\/\/softbus-device\.wps\.cn\/api\/v1\/device\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps.js
+# > WallpaperTree
+# hostname = buy.itunes.apple.com
+^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ url script-response-body https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes/WallpaperTree.js
+
+# >>>>>>>>>>>>>>> ✅ X ✅ <<<<<<<<<<<<<<
+
+# >>>>>>>>>>>>>>> ✅ Y ✅ <<<<<<<<<<<<<<
+# 羿文教育
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/queryApp url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_classDetail_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_myMessage url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/my_moneybag url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/ioscoin_buy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_useCoupon url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_myOrder url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb.\yiwenjy\.com/yiwen_mobile/queryAppProductDetail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+^https://proxyweb.\yiwenjy\.com/yiwen_mobile/queryAppProductList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+# >>>>>>>>>>>>>>> ✅ Z ✅ <<<<<<<<<<<<<<
+#智联招聘（暂未测试）
+^https://m\.zhaopin\.com/bapi/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https://m\.zhaopin\.com/bapi/wap/gray/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https://m\.zhaopin\.com/bapi/template/user-vip-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+# >证件照相馆-美颜证件照&一寸证件照相机（永久会员）
+^https?:\/\/appss.rhinoxlab.com\/app\/account\/getAccountInfo url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/zjzxg.js
+# >作业批改-家长辅导作业工具（永久会员）
+https?:\/\/appss.rhinoxlab.com\/app\/account\/getAccountInfo url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/zypg.js
 
