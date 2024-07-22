@@ -131,9 +131,10 @@ hostname =docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, 
 ^https://proxyweb.\yiwenjy\.com/yiwen_mobile/queryAppProductList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 # >>>>>>>>>>>>>>> ✅ Z ✅ <<<<<<<<<<<<<<
 #智联招聘（暂未测试）
-^https://m\.zhaopin\.com/bapi/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https://m\.zhaopin\.com/bapi/products?at=1a31460223c04d00b888142d700fad43&rt=0f9afb358f85429ba54f4de4e041612a&platform=7&channel=&utmsource=&_v=0.97495892 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https://m\.zhaopin\.com/bapi/wap/gray/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https://m\.zhaopin\.com/bapi/template/user-vip-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https://m\.zhaopin\.com/bapi/raise/coin/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 # >证件照相馆-美颜证件照&一寸证件照相机（永久会员）
 ^https?:\/\/appss.rhinoxlab.com\/app\/account\/getAccountInfo url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/zjzxg.js
 # >作业批改-家长辅导作业工具（永久会员）

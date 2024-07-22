@@ -1,10 +1,9 @@
 [rewrite_local]
 # 统一处理脚本
-^https://m\.zhaopin\.com/bapi/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https://m\.zhaopin\.com/bapi/products?at=1a31460223c04d00b888142d700fad43&rt=0f9afb358f85429ba54f4de4e041612a&platform=7&channel=&utmsource=&_v=0.97495892 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https://m\.zhaopin\.com/bapi/wap/gray/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https://m\.zhaopin\.com/bapi/template/user-vip-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
-
-
+^https://m\.zhaopin\.com/bapi/raise/coin/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 *
 [mitm]
 hostname = m.zhaopin.com
@@ -17,24 +16,14 @@ try {
     let obj = JSON.parse(body);
 
     // 根据 URL 判断执行不同的处理逻辑
-    if (url.includes("/bapi/products")) {
-        if (obj && obj.productName === "30天单月卡") {
-            // 第一个产品的设置
-            if (obj.productActionDTOList && obj.productActionDTOList.length > 0) {
-                obj.productActionDTOList.forEach(action => {
-                    action.discountAmount = "275.2";
-                    action.discountRatio = "1";
-                    action.productRealPrice = "0";
-                });
-            }
-        } else if (obj && obj.productName === "60天双月卡") {
-            // 第二个产品的设置
-            if (obj.productActionDTOList && obj.productActionDTOList.length > 1) {
-                obj.productActionDTOList[1].discountAmount = "550.4";
-                obj.productActionDTOList[1].discountRatio = "1";
-                obj.productActionDTOList[1].productRealPrice = "0";
-            }
-        }
+    if (url.includes("/bapi/products?at=1a31460223c04d00b888142d700fad43&rt=0f9afb358f85429ba54f4de4e041612a&platform=7&channel=&utmsource=&_v=0.97495892")) {
+        if (obj && obj.code) {
+    // 遍历每个产品，修改serviceType为1
+    obj.data.forEach(product => {
+        product.serviceType = 1;
+        product.productRealPrice = 0;
+           });
+        } 
     } else if (url.includes("/bapi/wap/gray/config")) {
         // 修改需要重写的字段值
         if (obj.data) {
@@ -58,6 +47,14 @@ try {
         if (obj.data) {
             obj.data.showText = "免费使用所有模板";
             obj.data.vipStatus = 1;
+        }
+    }else if (url.includes("bapi/raise/coin/info")) {
+        if (obj.data) {
+// 修改字段值
+    obj.data.allBalance = 99999;  // 你可以根据需要修改这个值
+    obj.data.buyBalance = 99900;   // 你可以根据需要修改这个值
+    obj.data.giveBalance = 99;
+
         }
     }
 
