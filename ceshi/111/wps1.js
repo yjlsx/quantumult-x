@@ -40,42 +40,42 @@ obj.data["merchandises"] = [
       {
         "sku_key" : "20",
         "expire_time" : 4092599349,
-        "effect_time" : 1721720125,
+        "effect_time" : 4092599349,
         "name" : "WPS会员",
         "type" : "vip"
       },
       {
         "sku_key" : "vip_pro",
         "expire_time" : 4092599349,
-        "effect_time" : 1721720125,
+        "effect_time" : 4092599349,
         "name" : "超级会员",
         "type" : "vip"
       },
       {
         "sku_key" : "vip_pro_plus",
         "expire_time" : 4092599349,
-        "effect_time" : 1721720125,
+        "effect_time" : 4092599349,
         "name" : "超级会员Pro",
         "type" : "vip"
       },
       {
         "sku_key" : "cloud_space",
         "expire_time" : 4092599349,
-        "effect_time" : 1721720125,
+        "effect_time" : 4092599349,
         "name" : "超级会员空间",
         "type" : "vip"
       },
       {
         "sku_key" : "vip_ai",
         "expire_time" : 4092599349,
-        "effect_time" : 1721720125,
+        "effect_time" : 4092599349,
         "name" : "WPS AI会员",
         "type" : "vip"
       },
       {
         "sku_key" : "vip_365",
         "expire_time" : 4092599349,
-        "effect_time" : 1721720125,
+        "effect_time" : 4092599349,
         "name" : "WPS大会员",
         "type" : "vip"
       }
