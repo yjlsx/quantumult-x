@@ -33,7 +33,7 @@ obj.data["merchandises"] = [
       {
         "sku_key" : "12",
         "expire_time" : 4092599349,
-        "effect_time" : 1721720125,
+        "effect_time" : 4092599349,
         "name" : "稻壳会员",
         "type" : "vip"
       },
