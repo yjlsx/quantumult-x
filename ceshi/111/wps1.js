@@ -355,8 +355,8 @@ obj.data[0].config = {
           }
         ]
     };
-  }
 */
+  }
 }
 
 if ($request.url.indexOf(vips) != -1){
