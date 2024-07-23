@@ -268,6 +268,8 @@ if ($request.url.indexOf(pri) != -1){
 
 if ($request.url.indexOf(act) != -1){
   if(obj.data[0].config&&obj.data[0].package_id){
+  obj.data[0].id = 4835;
+  obj.data[0].channel_code = "SCDBT3001";
   obj.data[0].package_id = 101945;
   obj.data[0].config = {
         "material" : [
@@ -339,7 +341,7 @@ if ($request.url.indexOf(act) != -1){
                         "#FFFFFF"
                       ]
                     },
-                    "bottom_content" : "有效期至2099-12-31",
+                    "bottom_content" : "有效期至2099-09-09",
                     "bottom_jump_url" : "https://personal-act.wps.cn/vcl/h5_usercenter/?csource=ios_vip_icon&hideNavigation=1&mk_key=cZXZrDeOG2FNMQMvOuGAxxWXA&position=vip_pro_tips&vcl_cli=ios",
                     "bottom_content_color" : "#805128FF",
                     "bottom_full_screen" : false,
@@ -356,6 +358,15 @@ if ($request.url.indexOf(act) != -1){
 }
 
 if ($request.url.indexOf(vips) != -1){
+   obj.["vips"] = [
+       {
+      "enabled" : null,
+      "expire_time" : 4092599349,
+      "memberid" : 365,
+      "had_id" : 0,
+      "name" : "大会员"
+       }
+   ];
    obj["enabled"] = [
      {
         "name" : "超级会员Pro",
