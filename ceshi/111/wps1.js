@@ -1,8 +1,7 @@
 /*************************************
 项目名称：WPS Office
-下载地址：https://t.cn/A6KOhd30
-脚本作者：obj
-电报频道：https://t.me/obj
+日期： 2024.07.23
+脚本作者：@yjlsx
 使用声明：⚠️仅供参考，🈲转载与售卖！
 
 **************************************
@@ -22,9 +21,9 @@ hostname = *.wps.cn
 var obj = JSON.parse($response.body);
 const vip1 = '/list_purchase_info';
 const vip2 = '/overview';
-const vip3 ='/v3/userinfo'
-const vips ='/mine/vips'
-const pri ='/my/privilege'
+const vip3 ='/v3/userinfo';
+const vips ='/mine/vips';
+const pri ='/my/privilege';
 const flkj = '/spaces';
 const act = '/market/activity';
 
@@ -352,7 +351,7 @@ if ($request.url.indexOf(act) != -1){
             "style_id" : 671
           }
         ]
-    };
+    }
   }
 }
 
