@@ -358,7 +358,7 @@ if ($request.url.indexOf(act) != -1){
 }
 
 if ($request.url.indexOf(vips) != -1){
-   obj.["vips"] = [
+   obj["vips"] = [
        {
       "enabled" : null,
       "expire_time" : 4092599349,
