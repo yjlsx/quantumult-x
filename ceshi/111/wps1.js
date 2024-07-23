@@ -31,21 +31,21 @@ const act = '/market/activity';
 if ($request.url.indexOf(vip1) != -1){
 obj.data["merchandises"] = [
       {
-        "sku_key" : "docer_vip",
+        "sku_key" : "12",
         "expire_time" : 4092599349,
         "effect_time" : 4092599349,
         "name" : "稻壳会员",
         "type" : "vip"
       },
       {
-        "sku_key" : "wps_vip",
+        "sku_key" : "20",
         "expire_time" : 4092599349,
         "effect_time" : 4092599349,
         "name" : "WPS会员",
         "type" : "vip"
       },
       {
-        "sku_key" : "super_vip",
+        "sku_key" : "vip_pro",
         "expire_time" : 4092599349,
         "effect_time" : 4092599349,
         "name" : "超级会员",
@@ -405,4 +405,4 @@ if ($request.url.indexOf(flkj) != -1){
   obj["total"] = 1100585369600;
 }
 
-$done({body : JSON.stringify(obj)});
+$done({body: JSON.stringify(obj)});
