@@ -351,12 +351,12 @@ if ($request.url.indexOf(act) != -1){
             "style_id" : 671
           }
         ]
-    }
+    };
   }
 }
 
 if ($request.url.indexOf(vips) != -1){
-   obj["enabled"] : [
+   obj["enabled"] = [
      {
         "name" : "超级会员Pro",
         "expire_time" : 4092599349,
@@ -387,7 +387,7 @@ if ($request.url.indexOf(vips) != -1){
         "memberid" : 365,
         "expire_time" : 4092599349
       }
- ]
+ ];
 }
 
 if ($request.url.indexOf(flkj) != -1){
