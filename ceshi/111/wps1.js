@@ -271,7 +271,8 @@ if ($request.url.indexOf(act) != -1){
   obj.data[0].id = 4835;
   obj.data[0].channel_code = "SCDBT3001";
   obj.data[0].package_id = 101945;
-  obj.data[0].config = {
+  /*
+obj.data[0].config = {
         "material" : [
           {
             "id" : 14213,
@@ -355,6 +356,7 @@ if ($request.url.indexOf(act) != -1){
         ]
     };
   }
+*/
 }
 
 if ($request.url.indexOf(vips) != -1){
