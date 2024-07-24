@@ -26,6 +26,7 @@ body = body.replace(/"price"\s*:\s*\d+/g, '"price": 0');
 body = body.replace(/"totalOriginPayFee"\s*:\s*\d+/g, '"totalOriginPayFee": 0');
 body = body.replace(/"payFee"\s*:\s*\d+/g, '"payFee": 0');
 body = body.replace(/"totalFee"\s*:\s*\d+/g, '"totalFee": 0');
+body = body.replace(/"code": -18/g, '"code": 1');
 
 $done({body: body});
 
