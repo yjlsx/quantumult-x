@@ -351,9 +351,7 @@ obj.data[0].config = {
               ]
             },
             "style_id" : 671
-          }
-        ]
-    };
+          }；
           {
             "id" : 14211,
             "name" : "【iOS】个人中心卡片（AI会员）_在期NEW",
@@ -432,6 +430,10 @@ obj.data[0].config = {
             },
             "style_id" : 671
           }
+
+        ]
+    };
+
   }
 }
 
