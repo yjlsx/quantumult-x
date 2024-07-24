@@ -24,6 +24,8 @@ hostname =docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, 
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
 # >>>>>>>>>>>>>>> ✅ G ✅ <<<<<<<<<<<<<<
 
 # >>>>>>>>>>>>>>> ✅ H ✅ <<<<<<<<<<<<<<
