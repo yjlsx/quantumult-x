@@ -9,7 +9,7 @@
 [rewrite_local]
 ^https?:\/\/(vas|account|drive)\.wps\.cn\/(query\/api\/.+\/list_purchase_info|api\/(v\d\/spaces|users\/.+\/overview)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 ^https:\/\/drive\.wps\.cn\/api\/v3\/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
-^https:\/\/vip\.wp\s.cn\/v2\/vip_center\/my\/privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
+^https:\/\/vip\.wps\.cn\/v2\/vip_center\/my\/privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 ^https:\/\/tiance\.wps\.cn\/dce\/exec\/api\/market\/activity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 ^https:\/\/account\.wps\.cn\/api\/v3\/mine\/vips url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 [mitm]
@@ -25,7 +25,7 @@ const vip3 ='/v3/userinfo';
 const vips ='/mine/vips';
 const pri ='/my/privilege';
 const flkj = '/spaces';
-const act = '/market/activity';
+const act = '/activity';
 
 
 if ($request.url.indexOf(vip1) != -1){
@@ -271,7 +271,6 @@ if ($request.url.indexOf(act) != -1){
   obj.data[0].id = 4835;
   obj.data[0].channel_code = "SCDBT3001";
   obj.data[0].package_id = 101945;
-  /*
 obj.data[0].config = {
         "material" : [
           {
@@ -355,7 +354,84 @@ obj.data[0].config = {
           }
         ]
     };
-*/
+          {
+            "id" : 14211,
+            "name" : "【iOS】个人中心卡片（AI会员）_在期NEW",
+            "element" : {
+              "card_list" : [
+                {
+                  "sub_material_common" : {
+                    "property_content_color" : "#60307DFF",
+                    "property_title_color" : "#725A81FF",
+                    "type_image_url" : "https://img8.file.cache.docer.com/storage/official/file/2024/03/25/c65ff01f625c6316e5081775d643c726.png",
+                    "card_bg_colors" : {
+                      "colors" : [
+                        "#E5E1FF",
+                        "#FCF2FF"
+                      ]
+                    },
+                    "card_left_bgimage_url" : "",
+                    "jump_url" : "https://personal-act.wps.cn/vcl/h5_usercenter/?csource=ios_vip_icon&hideNavigation=1&mk_key=cZXZrDeOG33Hlk4sNMofVhlcu&position=vip_ai_card&vcl_cli=ios",
+                    "card_right_image_url" : "https://img8.file.cache.docer.com/storage/official/file/2024/03/25/36627ddf72216895bacdec22305ff9f1.png",
+                    "property_list" : [
+                      {
+                        "jump_url" : "",
+                        "name" : "一键生成",
+                        "num" : "PPT"
+                      },
+                      {
+                        "jump_url" : "",
+                        "name" : "内容生产",
+                        "num" : "文字"
+                      },
+                      {
+                        "jump_url" : "",
+                        "name" : "AI写公式",
+                        "num" : "表格"
+                      },
+                      {
+                        "jump_url" : "",
+                        "name" : "AI权益",
+                        "num" : "10+"
+                      }
+                    ],
+                    "card_bg_colors_dark" : {
+
+                    }
+                  },
+                  "type" : "aiVip",
+                  "sub_material_bottom" : {
+                    "bottom_bgColors" : {
+                      "colors" : [
+                        "#F6EAFF"
+                      ]
+                    },
+                    "bottom_bgColors_dark" : {
+
+                    },
+                    "bottom_button_color" : "#FFFFFFFF",
+                    "bottom_button_bgColors" : {
+                      "colors" : [
+                        "#A27BFF",
+                        "#6A43D6"
+                      ]
+                    },
+                    "bottom_topline_colors" : {
+                      "colors" : [
+                        "#FFFFFF"
+                      ]
+                    },
+                    "bottom_content" : "有效期至2099-09-09",
+                    "bottom_jump_url" : "https://personal-act.wps.cn/vcl/h5_usercenter/?csource=ios_vip_icon&hideNavigation=1&mk_key=cZXZrDeOG33Hlk4sNMofVhlcu&position=vip_ai_tips&vcl_cli=ios",
+                    "bottom_content_color" : "#2A0645FF",
+                    "bottom_full_screen" : false,
+                    "bottom_button" : "会员中心"
+                  }
+                }
+              ]
+            },
+            "style_id" : 671
+          }
   }
 }
 
