@@ -7,9 +7,9 @@
 # 修改用户余额为
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/users\/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 修改课程价格
-^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 修改会员显示
-#^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -48,6 +48,7 @@ if (url.includes('/iphone/v3/users/balance')) {
     }
 }
 
+/*
 // 课程价格修改
 if (url.includes('/iphone/v3/member_centers/sale_center')) {
     for (let item of obj.data) {
@@ -65,7 +66,7 @@ if (url.includes('/iphone/v3/member_centers/sale_center')) {
         }
     }
 }
-
+*/
 /*
 // 判断 URL 是否包含特定地址
 if (url.includes('/iphone/v3/user_member/home')) {
