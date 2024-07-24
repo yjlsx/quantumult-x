@@ -24,7 +24,7 @@ body = body.replace(/"svipMemberType": 0/g, '"svipMemberType": 20');
 body = body.replace(/"payPrice"\s*:\s*\d+/g, '"payPrice": 0');
 body = body.replace(/"price"\s*:\s*\d+/g, '"price": 0');
 body = body.replace(/"totalOriginPayFee"\s*:\s*\d+/g, '"totalOriginPayFee": 0');
-body = body.replace(/"PayFee"\s*:\s*\d+/g, '"PayFee": 0');
+body = body.replace(/"payFee"\s*:\s*\d+/g, '"payFee": 0');
 body = body.replace(/"totalFee"\s*:\s*\d+/g, '"totalFee": 0');
 
 $done({body: body});
