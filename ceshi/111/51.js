@@ -4,6 +4,8 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/my-page\/v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/competitiveness url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
+^https:\/\/cupid\.51jobapp\.com\/open\/vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
+
 *
 [mitm]
 hostname = cupid.51jobapp.com
@@ -18,6 +20,7 @@ let url = $request.url;
 if (url.includes('/open/my-page/v2')) {
   if (obj.resultbody ) {
      obj.resultbody.vipInfo.isVip = true;
+     obj.resultbody.vipInfo.effectiveDate = "2099-12-31T23:59:59Z"; 
      obj.resultbody.showManagementPage = 2;
   }
 } else if (url.includes('/open/vip/competitiveness')) {
@@ -29,6 +32,16 @@ if (url.includes('/open/my-page/v2')) {
 }else if (url.includes('/open/vip/info')) {
   if (obj.resultbody) {
     obj.resultbody.isVip = true;
+  }
+}else if (url.includes('/open/vip')) {
+  if (obj.resultbody.interestedInVO) {
+    obj.resultbody.interestedInVO.maxViewedCount = 99999;
+    obj.resultbody.vipInfoVO.isVip = true;  // 修改为 true
+    obj.resultbody.vipInfoVO.effectiveDate = "2099-12-31T23:59:59Z";  
+    obj.resultbody.competitivenessVO.maxViewedCount = 99999;
+    obj.resultbody.competitivenessVO.isCompetitivenessAnalysis = true; 
+    obj.resultbody.competitivenessVO.maxViewedCount = 99999; 
+    obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
   }
 }
 
