@@ -5,11 +5,8 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/competitiveness url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
-
-*
-[mitm]
-hostname = cupid.51jobapp.com
 */
+
 let body = $response.body;
 let obj = JSON.parse(body);
 
@@ -17,35 +14,43 @@ let obj = JSON.parse(body);
 let url = $request.url;
 
 // 根据不同的 URL 修改响应体内容
-if (url.includes('/open/my-page/v2')) {
-  if (obj.resultbody ) {
-     obj.resultbody.vipInfo.isVip = true;
-     obj.resultbody.vipInfo.effectiveDate = "2099-12-31T23:59:59Z"; 
-     obj.resultbody.showManagementPage = 2;
-  }
-} else if (url.includes('/open/vip/competitiveness')) {
-  if (obj.resultbody) {
-    obj.resultbody.hasCompetitivenessService = true;
-    obj.resultbody.remainCompetitivenessCount = true;
-    obj.resultbody.isVip = true;
-  }
-}else if (url.includes('/open/vip/info')) {
-  if (obj.resultbody) {
-    obj.resultbody.isVip = true;
-  }
-}else if (url.includes('/open/vip')) {
-  if (obj.resultbody.interestedInVO) {
-    obj.resultbody.interestedInVO.maxViewedCount = 99999;
-    obj.resultbody.vipInfoVO.isVip = true;  // 修改为 true
-    obj.resultbody.vipInfoVO.effectiveDate = "2099-12-31T23:59:59Z";  
-    obj.resultbody.competitivenessVO.maxViewedCount = 99999;
-    obj.resultbody.competitivenessVO.isCompetitivenessAnalysis = true; 
-    obj.resultbody.competitivenessVO.maxViewedCount = 99999; 
-    obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
-  }
+try {
+    if (url.includes('/open/my-page/v2')) {
+        if (obj.resultbody) {
+            obj.resultbody.vipInfo.isVip = true;
+            obj.resultbody.vipInfo.effectiveDate = "2099-12-31T23:59:59Z";
+            obj.resultbody.showManagementPage = 2;
+        }
+    } else if (url.includes('/open/vip/competitiveness')) {
+        if (obj.resultbody) {
+            obj.resultbody.hasCompetitivenessService = true;
+            obj.resultbody.remainCompetitivenessCount = true;
+            obj.resultbody.isVip = true;
+        }
+    } else if (url.includes('/open/vip/info')) {
+        if (obj.resultbody) {
+            obj.resultbody.isVip = true;
+        }
+    } else if (url.includes('/open/vip')) {
+        if (obj.resultbody.interestedInVO) {
+            obj.resultbody.interestedInVO.maxViewedCount = 99999;
+        }
+        if (obj.resultbody.vipInfoVO) {
+            obj.resultbody.vipInfoVO.isVip = true;
+            obj.resultbody.vipInfoVO.effectiveDate = "2099-12-31T23:59:59Z";
+        }
+        if (obj.resultbody.competitivenessVO) {
+            obj.resultbody.competitivenessVO.maxViewedCount = 99999;
+            obj.resultbody.competitivenessVO.isCompetitivenessAnalysis = true;
+        }
+        if (obj.resultbody.resumeRefreshVO) {
+            obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
+        }
+    }
+} catch (e) {
+    // 忽略错误，继续处理其他部分
 }
-
-
 
 body = JSON.stringify(obj);
 $done({body});
+
