@@ -14,5 +14,7 @@ body = body.replace(/("showManagementPage" : )false/g, '$1true');
 body = body.replace(/"isfree" : 0/g, '"isfree" : 1');
 body = body.replace(/"price" : \d+/g, '"price" : 0');
 body = body.replace(/"rice" : \d+/g, '"price" : 0');
+console.log("Modified Response Body: ", body);
+
 $done({body: body});
 
