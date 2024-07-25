@@ -6,6 +6,7 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/equity\/equity\/duration url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51jobapp\.com\/open\/product\/product-list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 */
 
 let body = $response.body;
@@ -31,6 +32,7 @@ try {
     } else if (url.includes('/open/vip/info')) {
         if (obj.resultbody) {
             obj.resultbody.isVip = true;
+            obj.resultbody.effectiveDate = "2099-12-31T23:59:59Z";
         }
     } else if (url.includes('/open/vip')) {
         if (obj.resultbody.interestedInVO) {
@@ -51,7 +53,17 @@ try {
         if (obj.resultbody) {
             obj.resultbody.opened = true;
         }
-     }
+    }else if (url.includes('/open/product/product-list')) {
+    if (obj.resultbody && obj.resultbody.productDetailList) {
+    obj.resultbody.productDetailList.forEach(product => {
+        if (product.skuList) {
+            product.skuList.forEach(sku => {
+                sku.price = 0;
+            });
+        }
+    });
+    }   
+  }
 } catch (e) {
     // 忽略错误，继续处理其他部分
 }
