@@ -3,7 +3,6 @@
 [rewrite]
 ^https:\/\/cupid\.51jobapp\.com\/open\/my-page\/v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/competitiveness url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
-^https:\/\/cupid\.51jobapp\.com\/open\/vip\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/equity\/equity\/duration url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/product\/product-list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
@@ -29,7 +28,7 @@ try {
             obj.resultbody.remainCompetitivenessCount = true;
             obj.resultbody.isVip = true;
         }
-    } else if (url.includes('/open/vip/info')) {
+    } else if (url.includes('/open/vip')) {
         if (obj.resultbody) {
             obj.resultbody.isVip = true;
             obj.resultbody.effectiveDate = "2099-12-31T23:59:59Z";
@@ -45,6 +44,7 @@ try {
         if (obj.resultbody.competitivenessVO) {
             obj.resultbody.competitivenessVO.maxViewedCount = 99999;
             obj.resultbody.competitivenessVO.isCompetitivenessAnalysis = true;
+            obj.resultbody.competitivenessVO.viewedCount = 99999;
         }
         if (obj.resultbody.resumeRefreshVO) {
             obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
