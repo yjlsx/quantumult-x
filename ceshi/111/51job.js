@@ -1,33 +1,51 @@
-/**
- * @fileoverview Quantumult X 脚本
- *
+// Quantumult X rewrite script
+/*
 [rewrite]
 ^https:\/\/cupid\.51jobapp\.com\/open\/my-page\/v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/competitiveness url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51jobapp\.com\/open\/vip\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+
 *
 [mitm]
 hostname = cupid.51jobapp.com
 */
-var body = $response.body;
-console.log("Original Response Body: ", body);
+let body = $response.body;
+let obj = JSON.parse(body);
 
-// 替换 isVip 字段的值为 true
-body = body.replace(/("isVip" : )false/g, '$1true');
-body = body.replace(/("showManagementPage" : )false/g, '$1true');
-body = body.replace(/"isfree" : 0/g, '"isfree" : 1');
-body = body.replace(/"price" : \d+/g, '"price" : 0');
-body = body.replace(/"rice" : \d+/g, '"price" : 0');
-body = body.replace(/("ihasCompetitivenessService" : )false/g, '$1true');
-body = body.replace(/("remainCompetitivenessCount" : )false/g, '$1true');
-body = body.replace(/"maxViewedCount" : 0/g, '"maxViewedCount" : 9999');
-body = body.replace(/"maxRefreshCount" : 0/g, '"maxRefreshCount" : 9999');
-body = body.replace(/"maxResumeCount" : 0/g, '"maxResumeCount" : 9999');
-body = body.replace(/"showManagementyRecruit" : 1/g, '"showManagementyRecruit" : 0');
-// 在 vipInfoVO 中添加 effectiveDate 字段并设置值
-body = body.replace(/("vipInfoVO" : \{)/, '$1"effectiveDate" : "2099-12-31T23:59:59Z", ');
+// 获取请求 URL
+let url = $request.url;
 
-console.log("Modified Response Body: ", body);
+// 根据不同的 URL 修改响应体内容
+if (url.includes('/open/my-page/v2')) {
+  if (obj.resultbody ) {
+     obj.resultbody.vipInfo.isVip = true;
+     obj.resultbody.vipInfo.effectiveDate = "2099-12-31T23:59:59Z"; 
+     obj.resultbody.showManagementPage = 2;
+  }
+} else if (url.includes('/open/vip/competitiveness')) {
+  if (obj.resultbody) {
+    obj.resultbody.hasCompetitivenessService = true;
+    obj.resultbody.remainCompetitivenessCount = true;
+    obj.resultbody.isVip = true;
+  }
+}else if (url.includes('/open/vip/info')) {
+  if (obj.resultbody) {
+    obj.resultbody.isVip = true;
+  }
+}else if (url.includes('/open/vip')) {
+  if (obj.resultbody.interestedInVO) {
+    obj.resultbody.interestedInVO.maxViewedCount = 99999;
+    obj.resultbody.vipInfoVO.isVip = true;  // 修改为 true
+    obj.resultbody.vipInfoVO.effectiveDate = "2099-12-31T23:59:59Z";  
+    obj.resultbody.competitivenessVO.maxViewedCount = 99999;
+    obj.resultbody.competitivenessVO.isCompetitivenessAnalysis = true; 
+    obj.resultbody.competitivenessVO.maxViewedCount = 99999; 
+    obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
+  }
+}
 
-$done({body: body});
 
+
+body = JSON.stringify(obj);
+$done({body});
