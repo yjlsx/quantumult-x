@@ -5,6 +5,7 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/competitiveness url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51jobapp\.com\/open\/equity\/equity\/duration url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 */
 
 let body = $response.body;
@@ -46,7 +47,11 @@ try {
         if (obj.resultbody.resumeRefreshVO) {
             obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
         }
-    }
+    }else if (url.includes('/open/equity/equity/duration')) {
+        if (obj.resultbody) {
+            obj.resultbody.opened = true;
+        }
+     }
 } catch (e) {
     // 忽略错误，继续处理其他部分
 }
