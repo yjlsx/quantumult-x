@@ -87,6 +87,10 @@ if (url.includes('/mobile/vipinfoV2')) {
         obj.data.viptype = 4;
         obj.data.user_type = 20;
         obj.data.su_vip_upgrade_days = 99999;
+        obj.data.vip_begin_time = "2024-07-26 15:14:09";
+        obj.data.svip_begin_time = "2024-07-26 15:14:09";
+        obj.data.m_begin_time = "2024-07-26 15:14:09";
+        obj.data.m_clearday = "2024-07-26 15:14:09";
         obj.data.su_vip_y_endtime = "2099-12-31 23:59:59";
         obj.data.super_vip_upgrade_month = 9999;
         obj.data.h_end_time = "2098-12-31 23:59:59";
@@ -99,6 +103,11 @@ if (url.includes('/mobile/vipinfoV2')) {
         obj.data.su_vip_end_time = "2099-12-31 23:59:59";
         obj.data.m_end_time = "2098-12-31 23:59:59";
         obj.error.vip_type = 4;
+        obj.error.vip_begin_time = "2024-07-26 15:14:09";
+        obj.error.svip_begin_time = "2024-07-26 15:14:09";
+        obj.error.m_begin_time = "2024-07-26 15:14:09";
+        obj.error.m_clearday = "2024-07-26 15:14:09";
+        obj.error.vip_clearday = "2024-07-26 15:14:09";
         obj.error.vip_y_endtime = "2099-12-31 23:59:59";
         obj.error.user_type = 20;
         obj.error.m_type = 1;
@@ -158,6 +167,7 @@ if (url.includes('/v1/fusion/userinfo')) {
         obj.data.get_vip_info_v3.data.su_vip_clearday = "2024-07-26 15:14:09";
         obj.data.get_vip_info_v3.data.vip_clearday = "2024-07-26 15:14:09";
         obj.data.get_vip_info_v3.data.su_vip_end_time = "2099-12-31 23:59:59";
+        obj.data.get_vip_info_v3.data.vip_end_time = "2099-12-31 23:59:59";
         obj.data.get_vip_info_v3.data.is_vip = 1;
         obj.data.get_vip_info_v3.data.svip99 = 1;
         obj.data.get_vip_info_v3.data.svip_level = 8;
