@@ -1,12 +1,14 @@
 [rewrite_local]
 # 统一处理脚本
 ^https://m\.zhaopin\.com/bapi/products?at=1a31460223c04d00b888142d700fad43&rt=0f9afb358f85429ba54f4de4e041612a&platform=7&channel=&utmsource=&_v=0.97495892 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
-^https://m\.zhaopin\.com/bapi/wap/gray/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
-^https://m\.zhaopin\.com/bapi/template/user-vip-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
-^https://m\.zhaopin\.com/bapi/raise/coin/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https:\/\/m\.zhaopin\.com\/bapi\/wap\/gray\/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https:\/\/m\.zhaopin\.com\/bapi\/template\/user-vip-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https:\/\/m\.zhaopin\.com\/bapi\/raise\/coin\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https:\/\/ask\.zhaopin\.com\/plat-zqa-server\/user\/0\.1\.0\/whoIAm url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+
 *
 [mitm]
-hostname = m.zhaopin.com
+hostname = m.zhaopin.com, ask.zhaopin.com
 
 */
 const url = $request.url;
@@ -55,6 +57,11 @@ try {
     obj.data.buyBalance = 99900;   // 你可以根据需要修改这个值
     obj.data.giveBalance = 99;
 
+        }
+    }else if (url.includes("/plat-zqa-server/user/0.1.0/whoIAm")) {
+        if (obj.data.user) {
+    obj.data.user.userCredits = 99999;  
+    obj.data.user.vipStatus = 1;
         }
     }
 
