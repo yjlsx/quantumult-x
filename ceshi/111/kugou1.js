@@ -9,6 +9,9 @@
 ^https://gateway\.kugou\.com/ocean/v6/theme/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/v1/get_remain_quota url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/goodsmstore/v1/get_remain_quota url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https://gateway\.kugou\.com/promotionvip/v3/vip_level/detail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https://gateway\.kugou\.com/promotionvip/v3/vip_level/welfare_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https://vip\.kugou\.com/v1/fusion/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
@@ -190,5 +193,17 @@ if (url.includes('/v1/get_remain_quota') || url.includes('/goodsmstore/v1/get_re
     obj.data.m_clearday = "4102444799";
     obj.data.m_type = 1;
 }
+
+if (url.includes('/promotionvip/v3/vip_level/detail')) {
+    obj.data.grade = 8;
+    obj.data.growth = 999999;
+    obj.data.level_start_growth = 108000;
+    obj.data.next_level_growth = 99999;
+}
+
+if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
+    obj.data.grade = 8;
+}
+
 
 $done({ body: JSON.stringify(obj) });
