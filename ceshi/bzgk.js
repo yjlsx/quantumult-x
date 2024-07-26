@@ -251,6 +251,12 @@ if (url.includes('/api/v1/live/historyLive')) {
                 if (item.is_vip !== undefined) {
                     item.is_vip = 1;
                 }
+                if (item.role !== undefined) {
+                    item.role = 1;
+                }
+                if (item.bzb !== undefined) {
+                    item.bzb = 999999;
+                }
                 if (item.user_info) {
                     item.user_info.button_name = "永久会员";
                     item.user_info.role = 1;
