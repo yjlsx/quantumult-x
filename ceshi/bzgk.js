@@ -253,11 +253,16 @@ if (url.includes('/api/v1/live/historyLive')) {
                     item.is_vip = 1;
                     item.need_card = 0;
                     item.video_auth = 1;
-       item.question_list.forEach(question => {
-             question.can_correct = 1; // 设置可以批改为1，表示可以批改
-               });
-
+                    item.can_correct = 1; 
+                    item.sl_card_num = 99999;
                 }
+               if (item.question_list) {
+                 item.question_list.forEach(question => {
+                  question.video_auth = 1;  // 设置视频权限
+                  question.can_correct = 1; // 设置可以批改
+                  });
+            }
+
                 if (item.role !== undefined) {
                     item.role = 1;
                 }
