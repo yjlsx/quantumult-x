@@ -236,25 +236,29 @@ if (url.includes('/api/v1/live/historyLive')) {
         item.is_auth = true;
       });
 }
-if (url.includes('/Community/v3/Home/index')) {
-     obj.data.list.forEach(item => {
-       item.is_bz_vip = true; // 将 is_bz_vip 设置为 true
-    });
-}
-if (url.includes('api.yaotia.com') {
-        if (obj && obj.result && Array.isArray(obj.result)) {
+    // 针对特定的 URL 做不同的处理
+    if (url.includes('/Community/v3/Home/index')) {
+        if (obj.data && Array.isArray(obj.data.list)) {
+            obj.data.list.forEach(item => {
+                item.is_bz_vip = 1;
+            });
+        }
+    }
+
+    if (url.includes('api.yaotia.com')) {
+        if (obj.result && Array.isArray(obj.result)) {
             obj.result.forEach(item => {
                 if (item.is_vip !== undefined) {
-                    // 将 "is_vip" 字段的值改为 1
                     item.is_vip = 1;
                 }
-          if (item.user_info) {
+                if (item.user_info) {
                     item.user_info.button_name = "永久会员";
                     item.user_info.role = 1;
                     item.user_info.vip_desc = "2099-12-31 到期";
                 }
             });
-}
+        }
+    }
 
 
 $done({ body: JSON.stringify(obj) });
