@@ -1,3 +1,11 @@
+[rewrite_local]
+# 统一处理脚本
+^https:\/\/m\.zhaopin\.com\/business\/vip\/v3 url script=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilianvip.js
+
+*
+[mitm]
+hostname = m.zhaopin.com
+*/
 const modifyResponseBody = () => {
     // 这里是你希望替换的 HTML 内容
     let newhtml = `
