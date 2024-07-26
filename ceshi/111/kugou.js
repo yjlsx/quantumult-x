@@ -10,7 +10,7 @@
 ^https:\/\/vipos\.kugou\.com url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 *
 [mitm]
-hostname = gateway.kugou.com, gateway3.kugou.com, vip.kugou.com, vipuser.kygou.com, login.user.kugou.com, userinfoservice.kugou.com, vipos.kugou.com
+hostname = gateway.kugou.com, gateway3.kugou.com, vip.kugou.com, vipuser.kygou.com, login.user.kugou.com, userinfoservice.kugou.com, vipos.kugou.com,  gatewayretry.kugou.com
 */
 var body = $response.body;
 body = body.replace(/"is_special_vip" : 0/g, '"is_special_vip" : 1');
@@ -41,18 +41,18 @@ body = body.replace(/("multiplatform_vip_text_vip_link_vipexpire" : )\[[^\]]*\]/
 // 替换 vipinfo 对象内各字段的值为 1，假设字段名是唯一的且不重复
 body = body.replace(/("is_vip" : )\d+/g, '$1 1');
 body = body.replace(/("y_type" : )\d+/g, '$1 1');
-body = body.replace(/("vip_type" : )\d+/g, '$1 1');
+body = body.replace(/("vip_type" : )\d+/g, '$1 6');
 body = body.replace(/("m_type" : )\d+/g, '$1 1');
 body = body.replace(/("svip_level" : )\d+/g, '$1 8');
 body = body.replace(/("svip_score" : )\d+/g, '$1 99999');
 body = body.replace(/("vip_statu" : )\d+/g, '$1 1');
-body = body.replace(/("user_type" : )\d+/g, '$1 1');
+body = body.replace(/("user_type" : )\d+/g, '$1 13');
 body = body.replace(/("user_y_type" : )\d+/g, '$1 1');
 // 修改会员到期天数
 body = body.replace(/("content\":\"您的会员)(\*\*\*)(天后到期")/g, '$1 99999 $3');
 
 // 替换空字符串情况
-body = body.replace(/("vip_type" : "")/g, '"vip_type" : 1');
+body = body.replace(/("vip_type" : "")/g, '"vip_type" : 6');
 body = body.replace(/("m_type" : "")/g, '"m_type" : 1');
 body = body.replace(/("originalPrice" : )\d+|"originalPrice" : ""/g, '$1 0');
 body = body.replace(/("price_text" : )\"d+|"price_text" : ""/g, '$1 0');

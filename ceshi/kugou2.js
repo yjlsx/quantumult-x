@@ -72,11 +72,8 @@ if (url.includes('/v2/get_login_extend_info')) {
 
 
 if (url.includes('/ads.gateway/v5/task_video/qualification')) {
-    obj.data.ads = [];
-    obj.data.ad_show_freq = [];
     obj.data.is_free_vip = 1;
-    obj.data.free_mode_user = 0;
-    obj.data.user_conf.is_auto_open_fm = 1;
+    obj.data.free_mode_user = 1;
     for (let task of obj.data.tasks_info) {
         task.used_times = task.total_number;
     }
