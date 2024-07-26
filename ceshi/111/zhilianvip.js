@@ -1,6 +1,6 @@
 [rewrite_local]
 # 统一处理脚本
-^https:\/\/m\.zhaopin\.com\/business\/vip\/v3 url script=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilianvip.js
+^https:\/\/m\.zhaopin\.com\/business\/vip\/v3 url script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilianvip.js
 
 *
 [mitm]
