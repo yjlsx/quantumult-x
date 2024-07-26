@@ -1,13 +1,17 @@
 [rewrite_local]
 # 统一处理脚本
-^https:\/\/m\.zhaopin\.com\/business\/vip\/v3 url script-path=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilianvip.js
+^https:\/\/m\.zhaopin\.com\/business\/vip\/v3 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilianvip.js
 
 *
 [mitm]
 hostname = m.zhaopin.com
 */
-const modifyResponseBody = () => {
-    // 这里是你希望替换的 HTML 内容
+// Quantumult X Script
+(function() {
+    // 获取原始响应体（可选，当前示例未使用）
+    const responseBody = $response.body;
+
+    // 新的 HTML 内容
     let newhtml = `
 <html>
   <head>
@@ -65,24 +69,12 @@ const modifyResponseBody = () => {
     <script src="//fecdn3.zhaopin.cn/m_zhaopin_com/business/vip.v3.web.c4d114c1510619217d6b12da5b83ec30.js"></script>
   </body>
 </html>
-
 `;
 
-    // 返回修改后的 HTML 内容
-    return newhtml;
-};
-
-// 捕获并修改响应体
-(function() {
-    // 获取原始响应体
-    const responseBody = $response.body;
-
-    // 使用 `modifyResponseBody` 函数来生成新的响应体
-    const modifiedBody = modifyResponseBody();
-    
-    // 返回修改后的响应体
+     // 返回修改后的响应体
     $done({
-        body: modifiedBody
+        body: newhtml
     });
 })();
+
 
