@@ -1,6 +1,6 @@
-// 定义新的 HTML 内容
-let newHtml = `
-<!DOCTYPE html>
+const modifyResponseBody = () => {
+    // 这里是你希望替换的 HTML 内容
+    let newhtml = `
 <html>
   <head>
     <title>VIP</title>
@@ -60,5 +60,21 @@ let newHtml = `
 
 `;
 
-// 返回修改后的 HTML
-$done({ body: newHtml });
+    // 返回修改后的 HTML 内容
+    return newhtml;
+};
+
+// 捕获并修改响应体
+(function() {
+    // 获取原始响应体
+    const responseBody = $response.body;
+
+    // 使用 `modifyResponseBody` 函数来生成新的响应体
+    const modifiedBody = modifyResponseBody();
+    
+    // 返回修改后的响应体
+    $done({
+        body: modifiedBody
+    });
+})();
+
