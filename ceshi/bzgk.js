@@ -26,12 +26,13 @@
  ^http://api\.yaotia\.cn/api/v2/goods/findByTeacher url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/fm/authInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/order/seaList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
- ^https://api\.yaotia\.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
+ ^https://api\.yaotia\.cn/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/live/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
  ^http://api\.yaotia\.cn/api/v1/live/historyLive url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 ^http://api\.yaotia\.cn/api/v2/goods/lesson\?goods_id=52 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/buzhi/fbly.js
 ^http://api\.yaotia\.cn/api/v2/goods/lesson\?goods_id=66 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/buzhi/shenlun.js
 ^http://api\.yaotia\.cn/api/v2/goods/lesson\?goods_id=67 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/buzhi/mianshi.js
+ ^https://api\.yaotia\.cn/Community/v3/Home/index url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/bzgk.js
 *
  [mitm]
  hostname = api.yaotia.cn
@@ -43,6 +44,14 @@ const url = $request.url;
 const body = $response.body;
 let obj = JSON.parse(body);
 
+if (url.includes('api.yaotia.cn')) {
+  // 例如，修改 user_info 中的 vip_desc 和 isVip 字段
+  obj.result.forEach(item => {
+    if (item.user_info) {
+      item.user_info.vip_desc = "2099-12-31 到期";  // 设置 VIP 到期时间
+      item.user_info.role = 1;
+}
+
 if (url.includes('/user/v1/login') || url.includes('/user/v1/getUserInfo')) {
     // 用户信息接口
     obj.data.is_vip = 1;
@@ -50,7 +59,6 @@ if (url.includes('/user/v1/login') || url.includes('/user/v1/getUserInfo')) {
     obj.data.vip_end_time = 4102415999; // 2099年12月31日 23:59:59 的时间戳
     obj.data.bz_money = 999999999;
 }
-
 
 if (url.includes('/api/v1/upgrade/index')) {
     // 升级信息接口
@@ -236,5 +244,11 @@ if (url.includes('/api/v1/live/historyLive')) {
         item.is_auth = true;
       });
 }
+if (url.includes('/Community/v3/Home/index')) {
+     obj.data.list.forEach(item => {
+       item.is_bz_vip = true; // 将 is_bz_vip 设置为 true
+    });
+}
+
 
 $done({ body: JSON.stringify(obj) });
