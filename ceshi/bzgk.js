@@ -241,14 +241,19 @@ if (url.includes('/Community/v3/Home/index')) {
        item.is_bz_vip = true; // 将 is_bz_vip 设置为 true
     });
 }
-if (url.includes('api.yaotia.com')&& obj.result && obj.result.user_info.vip_desc ) {
-  // 例如，修改 user_info 中的 vip_desc 和 isVip 字段
-  obj.result.forEach(item => {
-   if (item.user_info.vip_desc) {
-      item.user_info.vip_desc = "2099-12-31 到期";  // 设置 VIP 到期时间
-      item.user_info.role = 1;
-         } 
-     })
+if (url.includes('api.yaotia.com') {
+        if (obj && obj.result && Array.isArray(obj.result)) {
+            obj.result.forEach(item => {
+                if (item.is_vip !== undefined) {
+                    // 将 "is_vip" 字段的值改为 1
+                    item.is_vip = 1;
+                }
+          if (item.user_info) {
+                    item.user_info.button_name = "永久会员";
+                    item.user_info.role = 1;
+                    item.user_info.vip_desc = "2099-12-31 到期";
+                }
+            });
 }
 
 
