@@ -33,9 +33,9 @@ if (url.includes('v5/login_by_token')) {
 if (url.includes('/v2/get_login_extend_info')) {
     obj.data.vipinfo.su_vip_end_time = "2099-12-31 23:59:59";
     obj.data.vipinfo.su_vip_y_endtime = "2099-12-31 23:59:59";
-    obj.data.vipinfo.su_vip_begin_time = "2022-03-17 09:05:55";
-    obj.data.vipinfo.user_type = 13;
-    obj.data.vipinfo.svip_level = 9;
+    obj.data.vipinfo.su_vip_begin_time = "2024-07-26 15:14:09";
+    obj.data.vipinfo.user_type = 20;
+    obj.data.vipinfo.svip_level = 8;
     obj.data.vipinfo.m_type = 1;
 }
 
@@ -102,8 +102,8 @@ if (url.includes('/mobile/vipinfoV2')) {
         obj.error.vip_y_endtime = "2099-12-31 23:59:59";
         obj.error.user_type = 20;
         obj.error.m_type = 1;
-        obj..error.su_vip_upgrade_days = 99999;
-        obj..error.super_vip_upgrade_month = 9999;
+        obj.error.su_vip_upgrade_days = 99999;
+        obj.error.super_vip_upgrade_month = 9999;
         obj.error.su_vip_end_time = "2099-12-31 23:59:59";
         obj.error.h_end_time = "2098-12-31 23:59:59";
         obj.error.vip_end_time = "2099-12-31 23:59:59";
@@ -160,7 +160,7 @@ if (url.includes('/v1/fusion/userinfo')) {
         obj.data.get_vip_info_v3.data.su_vip_end_time = "2099-12-31 23:59:59";
         obj.data.get_vip_info_v3.data.is_vip = 1;
         obj.data.get_vip_info_v3.data.svip99 = 1;
-        obj.data.get_vip_info_v3.data.svip_level = 9;
+        obj.data.get_vip_info_v3.data.svip_level = 8;
         obj.data.get_vip_info_v3.data.svip_score = 999999;
 
     }
