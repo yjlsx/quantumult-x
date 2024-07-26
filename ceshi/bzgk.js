@@ -50,6 +50,8 @@ if (url.includes('api.yaotia.cn')) {
     if (item.user_info) {
       item.user_info.vip_desc = "2099-12-31 到期";  // 设置 VIP 到期时间
       item.user_info.role = 1;
+         } 
+     }
 }
 
 if (url.includes('/user/v1/login') || url.includes('/user/v1/getUserInfo')) {
