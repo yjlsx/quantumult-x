@@ -44,16 +44,6 @@ const url = $request.url;
 const body = $response.body;
 let obj = JSON.parse(body);
 
-if (url.includes('api.yaotia.cn')) {
-  // 例如，修改 user_info 中的 vip_desc 和 isVip 字段
-   if (item.user_info.vip_desc) {
-  obj.result.forEach(item => {
-      item.user_info.vip_desc = "2099-12-31 到期";  // 设置 VIP 到期时间
-      item.user_info.role = 1;
-         } 
-     })
-}
-
 if (url.includes('/user/v1/login') || url.includes('/user/v1/getUserInfo')) {
     // 用户信息接口
     obj.data.is_vip = 1;
@@ -250,6 +240,14 @@ if (url.includes('/Community/v3/Home/index')) {
      obj.data.list.forEach(item => {
        item.is_bz_vip = true; // 将 is_bz_vip 设置为 true
     });
+}else if (url.includes('api.yaotia.cn')) {
+  // 例如，修改 user_info 中的 vip_desc 和 isVip 字段
+   if (item.user_info.vip_desc) {
+  obj.result.forEach(item => {
+      item.user_info.vip_desc = "2099-12-31 到期";  // 设置 VIP 到期时间
+      item.user_info.role = 1;
+         } 
+     })
 }
 
 
