@@ -251,6 +251,7 @@ if (url.includes('/api/v1/live/historyLive')) {
             obj.result.forEach(item => {
                 if (item.is_vip !== undefined) {
                     item.is_vip = 1;
+                    iten.need_card = 0;
                 }
                 if (item.role !== undefined) {
                     item.role = 1;
