@@ -247,6 +247,7 @@ if (url.includes('/api/v1/live/historyLive')) {
 
     if (url.includes('api.yaotia.com')) {
         if (obj.result && Array.isArray(obj.result)) {
+            obj.status = 200;
             obj.result.forEach(item => {
                 if (item.is_vip !== undefined) {
                     item.is_vip = 1;
