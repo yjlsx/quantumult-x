@@ -17,15 +17,15 @@ const body = $response.body;
 let obj = JSON.parse(body);
 
 if (url.includes('v5/login_by_token')) {
-    obj.data.user_type = 13;
+    obj.data.user_type = 20;
     obj.data.vip_end_time = "2099-12-31 15:14:48";
     obj.data.su_vip_end_time = "2099-12-31 15:14:48";
-    obj.data.m_end_time = "2099-12-31 15:14:48";
+    obj.data.m_end_time = "2099-10-31 15:14:48";
     obj.data.su_vip_y_endtime = "2099-12-31 15:14:48";
     obj.data.t_expire_time = 1724570088;
     obj.data.is_vip = 1;
     obj.data.m_type = 1;
-    obj.data.vip_type = 6;   
+    obj.data.vip_type = 4;   
 }
 
 if (url.includes('/v2/get_login_extend_info')) {
@@ -65,12 +65,12 @@ if (url.includes('/mobile/vipinfoV2')) {
         });
         obj.data.vip_y_endtime = "2099-12-31 23:59:59";
         obj.data.m_type = 1;
-        obj.data.viptype = 6;
-        obj.data.user_type = 13;
+        obj.data.viptype = 4;
+        obj.data.user_type = 20;
         obj.data.su_vip_upgrade_days = 9999;
         obj.data.su_vip_y_endtime = "2099-12-31 23:59:59";
         obj.data.super_vip_upgrade_month = 9999;
-        obj.data.h_end_time = "2099-12-31 23:59:59";
+        obj.data.h_end_time = "2098-12-31 23:59:59";
         obj.data.vip_end_time = "2099-12-31 23:59:59";
         obj.data.svip_level = 1;
         obj.data.is_vip = 1;
@@ -88,7 +88,7 @@ if (url.includes('/v1/fusion/userinfo')) {
             item.begin_time = "2024-07-26 15:14:09";
             item.type = 1;
         });
-        obj.data.get_vip_info_v3.vip_type = 6;
+        obj.data.get_vip_info_v3.vip_type = 4;
         obj.data.get_vip_info_v3.vip_y_endtime = "2099-12-31 23:59:59";
         obj.data.get_vip_info_v3.m_type = 1; 
         obj.data.get_vip_info_v3.su_vip_upgrade_days = 9999;
