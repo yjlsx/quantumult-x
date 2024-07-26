@@ -176,7 +176,7 @@ if (url.includes('/ocean/v6/theme/list')) {
     }
 }
 
-if (url.includes('/v1/get_remain_quota') || /url.includes('goodsmstore/v1/get_remain_quota')) {
+if (url.includes('/v1/get_remain_quota') || url.includes('/goodsmstore/v1/get_remain_quota')) {
     obj.data.m_clearday = "4102444799";
     obj.data.m_type = 1;
 }
