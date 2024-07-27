@@ -63,43 +63,83 @@ if (url.includes('/mobile/vipinfoV2')) {
         if (!Array.isArray(obj.data.vip_list)) {
             obj.data.vip_list = [];
         }
-        obj.data.vip_list.forEach(item => {
-            item.end_time = "2099-12-31 23:59:59";
-            item.type = 1;
-            item.begin_time = "2024-07-26 15:14:09";
-        });
+        if (obj.data.vip_list.length === 0) {
+            obj.data.vip_list.push({
+                end_time: "2099-12-31 23:59:59",
+                type: 1,
+                begin_time: "2024-07-26 15:14:09"
+            });
+        } else {
+            obj.data.vip_list.forEach(item => {
+                item.end_time = "2099-12-31 23:59:59";
+                item.type = 1;
+                item.begin_time = "2024-07-26 15:14:09";
+            });
+        }
         if (!Array.isArray(obj.data.m_list)) {
             obj.data.m_list = [];
         }
-        obj.data.m_list.forEach(item => {
-            item.end_time = "2099-12-31 23:59:59";
-            item.type = 1;
-            item.begin_time = "2024-07-26 15:14:09";
-        });
+        if (obj.data.m_list.length === 0) {
+            obj.data.m_list.push({
+                end_time: "2099-12-31 23:59:59",
+                type: 1,
+                begin_time: "2024-07-26 15:14:09"
+            });
+        } else {
+            obj.data.m_list.forEach(item => {
+                item.end_time = "2099-12-31 23:59:59";
+                item.type = 1;
+                item.begin_time = "2024-07-26 15:14:09";
+            });
+        }
         if (!Array.isArray(obj.data.h_list)) {
             obj.data.h_list = [];
         }
-        obj.data.h_list.forEach(item => {
-            item.end_time = "2099-12-31 23:59:59";
-            item.type = 1;
-            item.begin_time = "2024-07-26 15:14:09";
-        });
+        if (obj.data.h_list.length === 0) {
+            obj.data.h_list.push({
+                end_time: "2099-12-31 23:59:59",
+                type: 1,
+                begin_time: "2024-07-26 15:14:09"
+            });
+        } else {
+            obj.data.h_list.forEach(item => {
+                item.end_time = "2099-12-31 23:59:59";
+                item.type = 1;
+                item.begin_time = "2024-07-26 15:14:09";
+            });
+        }
         if (!Array.isArray(obj.error.vip_list)) {
             obj.error.vip_list = [];
         }
-        obj.error.vip_list.forEach(item => {
-            item.end_time = "2099-12-31 23:59:59";
-            item.type = 1;
-            item.begin_time = "2024-07-26 15:14:09";
-        });
+        if (obj.error.vip_list.length === 0) {
+            obj.error.vip_list.push({
+                end_time: "2099-12-31 23:59:59",
+                type: 1,
+                begin_time: "2024-07-26 15:14:09"
+            });
+        } else {
+            obj.error.vip_list.forEach(item => {
+                item.end_time = "2099-12-31 23:59:59";
+                item.type = 1;
+                item.begin_time = "2024-07-26 15:14:09";
+            });
+        }
         if (!Array.isArray(obj.error.m_list)) {
             obj.error.m_list = [];
         }
-        obj.error.m_list.forEach(item => {
-            item.end_time = "2099-12-31 23:59:59";
-            item.type = 1;
-            item.begin_time = "2024-07-26 15:14:09";
-        });
+        if (obj.error.m_list.length === 0) {
+            obj.error.m_list.push({
+                end_time: "2099-12-31 23:59:59",
+                type: 1,
+                begin_time: "2024-07-26 15:14:09"
+            });
+        } else {
+            obj.error.m_list.forEach(item => {
+                item.end_time = "2099-12-31 23:59:59";
+                item.type = 1;
+                item.begin_time = "2024-07-26 15:14:09";
+            });
+        }
         obj.data.vip_y_endtime = "2099-12-31 23:59:59";
         obj.data.m_type = 1;
         obj.data.vip_type = 4;
@@ -229,7 +269,7 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
                 if (obj.data.list.hasOwnProperty(key) && Array.isArray(obj.data.list[key])) {
                     obj.data.list[key].forEach(item => {
                         if ('recv_limit' in item) {
-                            item.receive = 1;
+                            item.receive = 0;
                             item.recv_limit = 999;
                             item.welfare_num = 20;
                         }

@@ -11,14 +11,14 @@
 *******************************
 [rewrite_local]
 # > 微信读书vip(需重新用微信登陆，无法刷新->关闭脚本进入) 
-^https://i.\weread\.qq\.com/(login|user/profile|mobileSync).*$  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
+^https://i.\weread\.qq\.com/(login|user/profile).*$  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i\.weread\.qq\.com/pay/memberCardSummary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i.\weread\.qq\.com/weekly/exchange url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i.\weread\.qq\.com/storyfeed/getRecentBooks  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i.\weread\.qq\.com/pay/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i\.weread\.qq\.com/pay/membercardexitems url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i\.weread\.qq\.com/pay/membercardfrozen url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
-^https://i\.weread\.qq\.com/book/getProgress url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
+^https://i\.weread\.qq\.com/mobileSync url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js^https://i\.weread\.qq\.com/book/getProgress url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i\.weread\.qq\.com/updateConfig url reject
 [mitm] 
 hostname = i.weread.qq.com
@@ -46,11 +46,12 @@ if (url.includes('/pay/memberCardSummary')) {
     obj.mcardHint = "永久会员";
     obj.payingRemainTime = 99999;
     obj.shareForCardIsActive = 1; // 分享卡片状态为激活
-    obj.payingUsedDay = 1;
     obj.permanent = 1; // 标记为永久会员
     obj.expiredTime = 4102444799; // 永久会员没有过期时间
     obj.expired = 0; // 永久会员状态未过期
-    obj.remainTime = 99999;
+    obj.giftRemainCount = 3;
+    obj.remainTime = 2380380074;
+    obj.payingRemainTime = 2380380074;
     obj.isPaying = 1;
 }
 
@@ -64,6 +65,7 @@ if (url.includes('/weekly/exchange')) {
         });
     }
     if (obj.infiniteCard) {
+        obj.infiniteCard.itemId = "8";
         obj.infiniteCard.day = 9999;
         obj.infiniteCard.paying = 1;
     }
