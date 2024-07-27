@@ -408,6 +408,7 @@ if (url.includes('/v1/get_res_privilege/lite')) {
 
 if (url.includes('/v1/b_res_vip')) {
     obj.error_code = 0;
+    obj.status = 1;
     obj.message = "开始下载";
 }
 
