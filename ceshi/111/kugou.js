@@ -429,6 +429,7 @@ if (url.includes('/v1/get_res_privilege/lite')) {
 }
 if (url.includes('/v1/get_b_info')) {
     obj.data.buy = 1;
+    obj.data.pay_type = 2;
 }
 if (url.includes('/ocean/v6/theme/get_res_privilege')) {
     obj.data.forbid_type =5;
