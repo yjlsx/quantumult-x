@@ -5,8 +5,9 @@
 ^https://drive-m\.quark\.cn/1/clouddrive/member url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 ^https://drive-m\.quark\.cn/1/clouddrive/products/sold/scene url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 ^https://drive-m\.quark\.cn/1/clouddrive/act/growth/reward url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js 
-
- [mitm]
+^https://drive-m\.quark\.cn/1/clouddrive/auth/identity/get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js 
+ 
+[mitm]
  hostname = drive-m.quark.cn
  */
 
@@ -53,6 +54,12 @@ if (url.includes('/1/clouddrive/act/growth/reward')) {
      obj.data.autopay_reward_info.reward_left_chance = 99;
 }
 
+if (url.includes('/1/clouddrive/auth/identity/get')) {
+    // 重写expire_time字段
+    obj.data.forEach(item => {
+        item.expire_time = 4102014158000; // 设置新的过期时间
+    });
+}
 
 
 $done({ body: JSON.stringify(obj) });
