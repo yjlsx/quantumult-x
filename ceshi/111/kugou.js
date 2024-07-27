@@ -230,7 +230,7 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
                     obj.data.list[key].forEach(item => {
                         if ('recv_limit' in item) {
                             item.receive = 1;
-                            item.recv_limit = 20;
+                            item.recv_limit = 999;
                             item.welfare_num = 20;
                         }
                     });
