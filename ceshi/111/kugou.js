@@ -195,10 +195,12 @@ if (url.includes('/mobile/vipinfoV2')) {
 }
 
 if (url.includes('/v1/fusion/userinfo')) {
-    if (obj.data && obj.data.get_vip_info_v3)) {
-        if (!Array.isArray( obj.data.get_vip_info_v3.data.vip_list)) {
+    if (obj.data && obj.data.get_vip_info_v3) {
+        // 确保 vip_list 是一个数组
+        if (!Array.isArray(obj.data.get_vip_info_v3.data.vip_list)) {
             obj.data.get_vip_info_v3.data.vip_list = [];
         }
+        // 更新 vip_list 的元素或添加新元素
         if (obj.data.get_vip_info_v3.data.vip_list.length === 0) {
             obj.data.get_vip_info_v3.data.vip_list.push({
                 end_time: "2099-12-31 23:59:59",
@@ -212,9 +214,12 @@ if (url.includes('/v1/fusion/userinfo')) {
                 item.begin_time = "2024-07-26 15:14:09";
             });
         }
-        if (!Array.isArray( obj.data.get_vip_info_v3.data.m_list)) {
+
+        // 确保 m_list 是一个数组
+        if (!Array.isArray(obj.data.get_vip_info_v3.data.m_list)) {
             obj.data.get_vip_info_v3.data.m_list = [];
         }
+        // 更新 m_list 的元素或添加新元素
         if (obj.data.get_vip_info_v3.data.m_list.length === 0) {
             obj.data.get_vip_info_v3.data.m_list.push({
                 end_time: "2099-12-31 23:59:59",
@@ -228,9 +233,12 @@ if (url.includes('/v1/fusion/userinfo')) {
                 item.begin_time = "2024-07-26 15:14:09";
             });
         }
-        if (!Array.isArray( obj.data.get_vip_info_v3.data.h_list)) {
+
+        // 确保 h_list 是一个数组
+        if (!Array.isArray(obj.data.get_vip_info_v3.data.h_list)) {
             obj.data.get_vip_info_v3.data.h_list = [];
         }
+        // 更新 h_list 的元素或添加新元素
         if (obj.data.get_vip_info_v3.data.h_list.length === 0) {
             obj.data.get_vip_info_v3.data.h_list.push({
                 end_time: "2099-12-31 23:59:59",
@@ -244,13 +252,15 @@ if (url.includes('/v1/fusion/userinfo')) {
                 item.begin_time = "2024-07-26 15:14:09";
             });
         }
+
+        // 更新 vip_info_v3 的其他属性
         obj.data.get_vip_info_v3.data.vip_type = 4;
         obj.data.get_vip_info_v3.data.vip_y_endtime = "2099-12-31 23:59:59";
         obj.data.get_vip_info_v3.data.vip_begin_time = "2024-07-26 15:14:09";
         obj.data.get_vip_info_v3.data.svip_begin_time = "2024-07-26 15:14:09";
         obj.data.get_vip_info_v3.data.m_begin_time = "2024-07-26 15:14:09";
-        obj.data.get_vip_info_v3.data.m_type = 1; 
-        obj.data.get_vip_info_v3.data.user_type = 20; 
+        obj.data.get_vip_info_v3.data.m_type = 1;
+        obj.data.get_vip_info_v3.data.user_type = 20;
         obj.data.get_vip_info_v3.data.su_vip_upgrade_days = 9999;
         obj.data.get_vip_info_v3.data.super_vip_upgrade_month = 9999;
         obj.data.get_vip_info_v3.data.svip_upgrade_month = 9999;
@@ -266,9 +276,9 @@ if (url.includes('/v1/fusion/userinfo')) {
         obj.data.get_vip_info_v3.data.svip99 = 1;
         obj.data.get_vip_info_v3.data.svip_level = 8;
         obj.data.get_vip_info_v3.data.svip_score = 999999;
-
     }
 }
+
 
 if (url.includes('/ocean/v6/theme/list')) {
     if (obj.data && Array.isArray(obj.data.info)) {
