@@ -222,6 +222,18 @@ if (url.includes('/promotionvip/v3/vip_level/detail')) {
 
 if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
     obj.data.grade = 8;
+if (obj.data && obj.data.list) {
+    for (let key in obj.data.list) {
+      if (obj.data.list.hasOwnProperty(key) && Array.isArray(obj.data.list[key])) {
+        obj.data.list[key].forEach(item => {
+          // 仅修改 recv_limit 的项
+          if ('recv_limit' in item) {
+            item.recv_limit = 20; // 设置接收上限值为 20
+          }
+        });
+       }
+     }
+   }
 }
 
 if (url.includes('/v3/get_my_info')) {
