@@ -18,7 +18,7 @@
 ^https://gateway\.kugou\.com/promotionvip/v3/vip_level/welfare_recv url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/listening/coupon_package url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/ocean/v6/theme/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-
+^https://gateway\.kugou\.com/tools.mobile/v2/theme/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
  */
@@ -381,6 +381,12 @@ if (url.includes('/ocean/v6/theme/list')) {
   }
 }
 
+if (url.includes('/tools.mobile/v2/theme/info')) {
+     if (obj.data && obj.data.limit_free_info) {
+  obj.data.limit_free_info.limit_free_status = 1;
+  obj.data.limit_free_info.free_end_time = 4102415999;
+    }
+}
 
 if (url.includes('/listening/coupon_package')) {
     obj.data.gift_card_cnt = 9;
