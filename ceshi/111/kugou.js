@@ -379,6 +379,8 @@ if (url.includes('/ocean/v6/theme/list')) {
       }
     });
   }
+}
+
 
 if (url.includes('/listening/coupon_package')) {
     obj.data.gift_card_cnt = 9;
