@@ -16,6 +16,8 @@
 ^https://gateway\.kugou\.com/v4/follow_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/promotionvip/v3/vip_level/welfare_recv url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/listening/coupon_package url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
  */
@@ -41,12 +43,14 @@ if (url.includes('v5/login_by_token')) {
 
 if (url.includes('/v2/get_login_extend_info')) {
     obj.data.vipinfo.su_vip_end_time = "2099-12-31 23:59:59";
+    obj.data.vipinfo.bookvip_end_time = "2099-12-31 23:59:59";
     obj.data.vipinfo.su_vip_y_endtime = "2099-12-31 23:59:59";
     obj.data.vipinfo.su_vip_begin_time = "2024-07-26 15:14:09";
     obj.data.vipinfo.su_vip_clearday = "2024-07-26 15:14:09";
     obj.data.vipinfo.user_type = 20;
     obj.data.vipinfo.svip_level = 8;
     obj.data.vipinfo.m_type = 1;
+    obj.data.vipinfo.vip_type = 4;
 if(obj.data.vipinfo.svip_score){
     obj.data.vipinfo.svip_score = 999999;
       }
@@ -151,6 +155,8 @@ if (url.includes('/mobile/vipinfoV2')) {
         obj.data.su_vip_begin_time = "2024-07-26 15:14:09";
         obj.data.m_begin_time = "2024-07-26 15:14:09";
         obj.data.m_clearday = "2024-07-26 15:14:09";
+        obj.data.vip_clearday = "2024-07-26 15:14:09";
+        obj.data.su_vip_clearday = "2024-07-26 15:14:09";
         obj.data.su_vip_y_endtime = "2099-12-31 23:59:59";
         obj.data.super_vip_upgrade_month = 9999;
         obj.data.h_end_time = "2099-12-31 23:59:59";
@@ -165,15 +171,18 @@ if (url.includes('/mobile/vipinfoV2')) {
         obj.error.vip_type = 4;
         obj.error.vip_begin_time = "2024-07-26 15:14:09";
         obj.error.svip_begin_time = "2024-07-26 15:14:09";
+        obj.error.su_vip_begin_time = "2024-07-26 15:14:09";
         obj.error.m_begin_time = "2024-07-26 15:14:09";
         obj.error.m_clearday = "2024-07-26 15:14:09";
         obj.error.vip_clearday = "2024-07-26 15:14:09";
+        obj.error.su_vip_clearday = "2024-07-26 15:14:09";
         obj.error.vip_y_endtime = "2099-12-31 23:59:59";
         obj.error.user_type = 20;
         obj.error.m_type = 1;
         obj.error.su_vip_upgrade_days = 99999;
         obj.error.super_vip_upgrade_month = 9999;
         obj.error.su_vip_end_time = "2099-12-31 23:59:59";
+        obj.error.su_vip_y_endtime = "2099-12-31 23:59:59";
         obj.error.h_end_time = "2099-12-31 23:59:59";
         obj.error.vip_end_time = "2099-12-31 23:59:59";
         obj.error.svip_end_time = "2099-12-31 23:59:59";
@@ -249,6 +258,7 @@ if (url.includes('/ocean/v6/theme/list')) {
 
 if (url.includes('/v1/get_remain_quota') || url.includes('/goodsmstore/v1/get_remain_quota')) {
     obj.data.m_clearday = "4102444799";
+    obj.data.upgrade = 4;
     obj.data.m_type = 1;
     obj.data.total = 99999;
     obj.data.remain = 99998;
@@ -256,6 +266,7 @@ if (url.includes('/v1/get_remain_quota') || url.includes('/goodsmstore/v1/get_re
 
 if (url.includes('/promotionvip/v3/vip_level/detail')) {
     obj.data.grade = 8;
+    obj.data.daily_growth = 15;
     obj.data.growth = 999999;
     obj.data.level_start_growth = 108000;
     obj.data.next_level_growth = 99;
@@ -323,6 +334,15 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_recv')) {
     obj.errcode = 0;
     obj.status = 1;
     obj.errmsg = "";
+}
+
+if (url.includes('/listening/coupon_package')) {
+    obj.data.gift_card_cnt = 99;
+    obj.data.listen_coupon_cnt = 10;
+    obj.data.super_welfare = 1;
+    obj.data.super_welfare_v2_cnt = 1;
+    obj.data.download_cnt = 999;
+    obj.data.mp3_download_cnt = 999;
 }
 
 
