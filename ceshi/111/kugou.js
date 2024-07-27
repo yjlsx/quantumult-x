@@ -195,32 +195,55 @@ if (url.includes('/mobile/vipinfoV2')) {
 }
 
 if (url.includes('/v1/fusion/userinfo')) {
-    if (obj.data && obj.data.get_vip_info_v3 && Array.isArray(obj.data.get_vip_info_v3.data.vip_list)) {
-         if (!Array.isArray(obj.data.get_vip_info_v3.data.vip_list)) {
+    if (obj.data && obj.data.get_vip_info_v3)) {
+        if (!Array.isArray( obj.data.get_vip_info_v3.data.vip_list)) {
             obj.data.get_vip_info_v3.data.vip_list = [];
         }
-       obj.data.get_vip_info_v3.data.vip_list.forEach(item => {
-            item.end_time = "2099-12-31 23:59:59";
-            item.begin_time = "2024-07-26 15:14:09";
-            item.type = 1;
-        });
-         if (!Array.isArray(obj.data.get_vip_info_v3.data.m_list)) {
+        if (obj.data.get_vip_info_v3.data.vip_list.length === 0) {
+            obj.data.get_vip_info_v3.data.vip_list.push({
+                end_time: "2099-12-31 23:59:59",
+                type: 1,
+                begin_time: "2024-07-26 15:14:09"
+            });
+        } else {
+            obj.data.get_vip_info_v3.data.vip_list.forEach(item => {
+                item.end_time = "2099-12-31 23:59:59";
+                item.type = 1;
+                item.begin_time = "2024-07-26 15:14:09";
+            });
+        }
+        if (!Array.isArray( obj.data.get_vip_info_v3.data.m_list)) {
             obj.data.get_vip_info_v3.data.m_list = [];
         }
-       obj.data.get_vip_info_v3.data.m_list.forEach(item => {
-            item.end_time = "2099-12-31 23:59:59";
-            item.begin_time = "2024-07-26 15:14:09";
-            item.type = 1;
-        });
-         if (!Array.isArray(obj.data.get_vip_info_v3.data.h_list)) {
+        if (obj.data.get_vip_info_v3.data.m_list.length === 0) {
+            obj.data.get_vip_info_v3.data.m_list.push({
+                end_time: "2099-12-31 23:59:59",
+                type: 1,
+                begin_time: "2024-07-26 15:14:09"
+            });
+        } else {
+            obj.data.get_vip_info_v3.data.m_list.forEach(item => {
+                item.end_time = "2099-12-31 23:59:59";
+                item.type = 1;
+                item.begin_time = "2024-07-26 15:14:09";
+            });
+        }
+        if (!Array.isArray( obj.data.get_vip_info_v3.data.h_list)) {
             obj.data.get_vip_info_v3.data.h_list = [];
         }
-       obj.data.get_vip_info_v3.data.h_list.forEach(item => {
-            item.end_time = "2099-12-31 23:59:59";
-            item.begin_time = "2024-07-26 15:14:09";
-            item.type = 1;
-        });
-
+        if (obj.data.get_vip_info_v3.data.h_list.length === 0) {
+            obj.data.get_vip_info_v3.data.h_list.push({
+                end_time: "2099-12-31 23:59:59",
+                type: 1,
+                begin_time: "2024-07-26 15:14:09"
+            });
+        } else {
+            obj.data.get_vip_info_v3.data.h_list.forEach(item => {
+                item.end_time = "2099-12-31 23:59:59";
+                item.type = 1;
+                item.begin_time = "2024-07-26 15:14:09";
+            });
+        }
         obj.data.get_vip_info_v3.data.vip_type = 4;
         obj.data.get_vip_info_v3.data.vip_y_endtime = "2099-12-31 23:59:59";
         obj.data.get_vip_info_v3.data.vip_begin_time = "2024-07-26 15:14:09";
