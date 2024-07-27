@@ -17,6 +17,7 @@
 ^https://gateway\.kugou\.com/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/promotionvip/v3/vip_level/welfare_recv url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/listening/coupon_package url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/ocean/v6/theme/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
@@ -336,13 +337,23 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_recv')) {
     obj.errmsg = "";
 }
 
+if (url.includes('/ocean/v6/theme/list')) {
+  if (obj.data && Array.isArray(obj.data.info)) {
+    obj.data.info.forEach(item => {
+      if (item.limit_free_info) {
+        item.limit_free_info.limit_free_status = 1;
+        item.limit_free_info.free_end_time = 4102415999;
+      }
+    });
+  }
+
 if (url.includes('/listening/coupon_package')) {
-    obj.data.gift_card_cnt = 99;
+    obj.data.gift_card_cnt = 9;
     obj.data.listen_coupon_cnt = 10;
     obj.data.super_welfare = 1;
     obj.data.super_welfare_v2_cnt = 1;
-    obj.data.download_cnt = 999;
-    obj.data.mp3_download_cnt = 999;
+    obj.data.download_cnt = 9;
+    obj.data.mp3_download_cnt = 9;
 }
 
 
