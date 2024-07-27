@@ -385,6 +385,7 @@ if (url.includes('/tools.mobile/v2/theme/info')) {
      if (obj.data && obj.data.limit_free_info) {
   obj.data.limit_free_info.limit_free_status = 1;
   obj.data.limit_free_info.free_end_time = 4102415999;
+  obj.data.vip_level = 8;
     }
 }
 
