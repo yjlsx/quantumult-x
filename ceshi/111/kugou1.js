@@ -15,6 +15,7 @@
 ^https://gateway\.kugou\.com/v3/get_my_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/v4/follow_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https://gateway\.kugou\.com/promotionvip/v3/vip_level/welfare_recv url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
@@ -279,6 +280,11 @@ if (url.includes('/v4/follow_list')) {
     }
 }
 
+if (url.includes('/promotionvip/v3/vip_level/welfare_recv')) {
+    obj.errcode = 0;
+    obj.status = 1;
+    obj.error = "";
+}
 
 
 $done({ body: JSON.stringify(obj) });
