@@ -229,7 +229,9 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
                 if (obj.data.list.hasOwnProperty(key) && Array.isArray(obj.data.list[key])) {
                     obj.data.list[key].forEach(item => {
                         if ('recv_limit' in item) {
-                            item.recv_limit = 20; // 设置接收上限值为 20
+                            item.receive = 1;
+                            item.recv_limit = 20;
+                            item.welfare_num = 20;
                         }
                     });
                 }
