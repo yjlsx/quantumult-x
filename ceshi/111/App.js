@@ -44,6 +44,8 @@ hostname =docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, 
 ^http://dynamicentry\.kugou\.com/api/v1/entry/index url reject
 #夸克
 ^https://drive-m\.quark\.cn/1/clouddrive/member url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
+^https://drive-m\.quark\.cn/1/clouddrive/products/sold/scene url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
+^https://drive-m\.quark\.cn/1/clouddrive/act/growth/reward url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js 
 # >>>>>>>>>>>>>>> ✅ L ✅ <<<<<<<<<<<<<<
 
 # >>>>>>>>>>>>>>> ✅ M ✅ <<<<<<<<<<<<<<
