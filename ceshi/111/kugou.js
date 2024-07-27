@@ -22,8 +22,11 @@
 ^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/b_res_vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/welfare/diy/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://sentry\.kugou\.com/api/89/store reject-200
+^https://gateway.kugou.com/v5/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+
 [mitm]
-hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
+hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com
  */
 
 const url = $request.url;
@@ -416,5 +419,9 @@ if (url.includes('/welfare/diy/v1')) {
     obj.error_code = 0;
     obj.status = 1;
 }
+if (url.includes('/v5/url')) {
+    obj.status = 1;
+}
+
 
 $done({ body: JSON.stringify(obj) });
