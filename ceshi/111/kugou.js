@@ -19,6 +19,7 @@
 ^https://gateway\.kugou\.com/listening/coupon_package url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/ocean/v6/theme/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/tools.mobile/v2/theme/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
  */
@@ -396,6 +397,12 @@ if (url.includes('/listening/coupon_package')) {
     obj.data.super_welfare_v2_cnt = 1;
     obj.data.download_cnt = 9;
     obj.data.mp3_download_cnt = 9;
+}
+
+if (url.includes('/v1/get_res_privilege/lite')) {
+    obj.userinfo.m_type = 1;
+    obj.userinfo.vip_type = 4;
+    obj.userinfo.quota_remain = 999999;
 }
 
 
