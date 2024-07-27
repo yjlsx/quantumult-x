@@ -26,7 +26,7 @@
 ^https://gateway\.kugou\.com/v5/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_b_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-
+^https://gateway\.kugou\.com/ocean/v6/theme/get_res_privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com
  */
@@ -429,6 +429,10 @@ if (url.includes('/v1/get_res_privilege/lite')) {
 }
 if (url.includes('/v1/get_b_info')) {
     obj.data.buy = 1;
+}
+if (url.includes('/ocean/v6/theme/get_res_privilege')) {
+    obj.data.forbid_type =5;
+    obj.data.is_privilege = 1;
 }
 
 $done({ body: JSON.stringify(obj) });
