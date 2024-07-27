@@ -283,7 +283,8 @@ if (url.includes('/v4/follow_list')) {
 if (url.includes('/promotionvip/v3/vip_level/welfare_recv')) {
     obj.errcode = 0;
     obj.status = 1;
-    obj.error = "";
+    obj.errmsg = "";
+    obj.data.id = 16;
 }
 
 
