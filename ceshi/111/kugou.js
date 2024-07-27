@@ -25,6 +25,7 @@
 ^https://sentry\.kugou\.com/api/89/store reject-200
 ^https://gateway\.kugou\.com/v5/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/v1/get_b_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com
@@ -426,6 +427,8 @@ if (url.includes('/v5/url')) {
 if (url.includes('/v1/get_res_privilege/lite')) {
     obj.vip_user_type = 3;
 }
-
+if (url.includes('/v1/get_b_info')) {
+    obj.data.buy = 1;
+}
 
 $done({ body: JSON.stringify(obj) });
