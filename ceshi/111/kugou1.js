@@ -15,6 +15,7 @@
 ^https://gateway\.kugou\.com/v3/get_my_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/v4/follow_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
  */
@@ -221,52 +222,61 @@ if (url.includes('/promotionvip/v3/vip_level/detail')) {
 }
 
 if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
-    obj.data.grade = 8;
-if (obj.data && obj.data.list) {
-    for (let key in obj.data.list) {
-      if (obj.data.list.hasOwnProperty(key) && Array.isArray(obj.data.list[key])) {
-        obj.data.list[key].forEach(item => {
-          // 仅修改 recv_limit 的项
-          if ('recv_limit' in item) {
-            item.recv_limit = 20; // 设置接收上限值为 20
-          }
-        });
-       }
-     }
-   }
+    if (obj && obj.data) {
+        obj.data.grade = 8;       
+        if (obj.data.list) {
+            for (let key in obj.data.list) {
+                if (obj.data.list.hasOwnProperty(key) && Array.isArray(obj.data.list[key])) {
+                    obj.data.list[key].forEach(item => {
+                        if ('recv_limit' in item) {
+                            item.recv_limit = 20; // 设置接收上限值为 20
+                        }
+                    });
+                }
+            }
+        }
+    }
 }
+
+
 
 if (url.includes('/v3/get_my_info')) {
-    obj.data.svip_score = 999999;
-    obj.data.svip_level = 8;
-    obj.data.vip_type = 4;
-    obj.data.user_type = 20;
-    obj.data.musical_visible = 1;
-    obj.data.timbre_visible = 1;
-    obj.data.1ting_visible = 1;
-    obj.data.1video_visible = 1;
-    obj.data.usermedal_visible = 1;
-    obj.data.yaicreation_visible = 1;
-    obj.data.collectlist_visible = 1;
-    obj.data.su_vip_begin_time = "2024-07-26 15:14:09";
-    obj.data.su_vip_y_endtime = "2099-12-31 23:59:59";
-    obj.data.su_vip_clearday = "2024-07-26 15:14:09";
-    obj.data.su_vip_end_time = "2099-12-31 23:59:59";
+    if (obj.data) {
+        obj.data.svip_score = 999999;
+        obj.data.svip_level = 8;
+        obj.data.vip_type = 4;
+        obj.data.user_type = 20;
+        obj.data.musical_visible = 1;
+        obj.data.timbre_visible = 1;
+        obj.data["1ting_visible"] = 1;
+        obj.data["1video_visible"] = 1;
+        obj.data.usermedal_visible = 1;
+        obj.data.yaicreation_visible = 1;
+        obj.data.collectlist_visible = 1;
+        obj.data.su_vip_begin_time = "2024-07-26 15:14:09";
+        obj.data.su_vip_y_endtime = "2099-12-31 23:59:59";
+        obj.data.su_vip_clearday = "2024-07-26 15:14:09";
+        obj.data.su_vip_end_time = "2099-12-31 23:59:59";
+    }
 }
 
+
 if (url.includes('/v4/follow_list')) {
-  for (let item of obj['data']['lists']) {
-    if ('vip_type' in item) {
-      item['vip_type'] = 4; 
+    if (obj.data && Array.isArray(obj.data.lists)) {
+        obj.data.lists.forEach(item => {
+            if ('vip_type' in item) {
+                item.vip_type = 4; 
+            }
+            if ('m_type' in item) {
+                item.m_type = 1; 
+            }
+            if ('svip_level' in item) {
+                item.svip_level = 8; 
+            }
+        });
     }
-    if ('m_type' in item) {
-      item['m_type'] = 1; 
-    }
-    if ('svip_level' in item) {
-      item['svip_level'] = 8; 
-    }
-  }
 }
+
 
 
 $done({ body: JSON.stringify(obj) });
