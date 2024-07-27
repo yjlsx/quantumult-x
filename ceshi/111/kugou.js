@@ -21,7 +21,7 @@
 ^https://gateway\.kugou\.com/tools.mobile/v2/theme/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/b_res_vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-^https://gateway\.kugou\.com/welfare/diy/v1/check_set_user_theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/welfare/diy/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com
  */
@@ -412,7 +412,7 @@ if (url.includes('/v1/b_res_vip')) {
     obj.status = 1;
     obj.message = "开始下载";
 }
-if (url.includes('/welfare/diy/v1/check_set_user_theme')) {
+if (url.includes('/welfare/diy/v1')) {
     obj.error_code = 0;
     obj.status = 1;
 }
