@@ -17,7 +17,7 @@
 ^https://i.\weread\.qq\.com/storyfeed/getRecentBooks  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i.\weread\.qq\.com/pay/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i\.weread\.qq\.com/pay/membercardexitems url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
-
+^https://i\.weread\.qq\.com/pay/membercardfrozen url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i\.weread\.qq\.com/updateConfig url reject
 [mitm] 
 hostname = i.weread.qq.com
@@ -109,5 +109,12 @@ if (url.includes('/pay/membercardexitems')) {
      });
    obj.remainFreeDays = 99999;
 }
+
+if (url.includes('/pay/membercardfrozen')) {
+    obj.errcode = 0;
+    obj.errlog = "";
+    obj.errmsg = "兑换成功";
+}
+
 
 $done({ body: JSON.stringify(obj) });
