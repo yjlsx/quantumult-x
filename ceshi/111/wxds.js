@@ -11,10 +11,12 @@
 *******************************
 [rewrite_local]
 # > 微信读书vip(需重新用微信登陆，无法刷新->关闭脚本进入) 
-^https://i.\weread\.qq\.com/(login|pay/balance|user/profile).*$  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
+^https://i.\weread\.qq\.com/(login|user/profile|mobileSync).*$  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i\.weread\.qq\.com/pay/memberCardSummary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i.\weread\.qq\.com/weekly/exchange url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 ^https://i.\weread\.qq\.com/storyfeed/getRecentBooks  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
+^https://i.\weread\.qq\.com/pay/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
+^https://i\.weread\.qq\.com/pay/membercardexitems url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wxds.js
 
 ^https://i\.weread\.qq\.com/updateConfig url reject
 [mitm] 
@@ -90,6 +92,22 @@ if (url.includes('pay/balance')) {
 
 if (url.includes('user/profile')) {
     obj.role = 1;
+}
+
+if (url.includes('mobileSync')) {
+    obj.gift = true;
+    obj.giftCount = 99999;
+}
+
+if (url.includes('/pay/membercardexitems')) {
+   obj.items.forEach(item => {
+     item.canExchange = 1;
+     item.buttonText = "免费兑换 ${item.days} 天付费会员卡";
+     item.description = "免费兑换";
+     item.price = 0;
+     item.needFreeCardCnt = 0;
+     });
+   obj.remainFreeDays = 99999;
 }
 
 $done({ body: JSON.stringify(obj) });
