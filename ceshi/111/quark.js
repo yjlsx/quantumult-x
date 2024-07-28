@@ -1,5 +1,5 @@
 
-**************************************
+/**************************************
 
 [rewrite_local]
 https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|capacity\/growth\/info) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
