@@ -458,11 +458,14 @@ if (url.includes('/v1/get_res_privilege')) {
         item.trans_param.pay_block_tpl = 0;
         item._msg = "Allow: the audio is free(copyright).";
         item.privilege = 0;
+        item.buy_count_vip = 1;
+        item.buy_count = 1;
         item.status = 1;
         item.price = 0;
         item.pkg_price = 0;
         item.pay_type = 0;
         item.fail_process = 0;
+        item.pay_block_tpl = 0;
         item.buy_count_kubi = 999999;
         delete item.popup;
     }
