@@ -445,15 +445,26 @@ if (url.includes('/welfare/diy/v1') || url.includes('/v1/consumption')) {
 if (url.includes('/v5/url')) {
     obj.status = 1;
 }
-if (url.includes('/v1/get_res_privilege/lite')) {
+if (url.includes('/v1/get_res_privilege')) {
        if (obj && obj.data) {
             obj.data.forEach(item => {
+                    item._msg = "Allow: the audio is free(copyright).";
+                    item.buy_count_vip = 1;
+                    item.privilege = 8;
+                    item.status = 1;
+                    item.price = 0;
+                    item.buy_count = 1;
+                    item.pkg_price = 0;
+                    item.pay_type = 0;
+                    item.fail_process = 0;
+                    item.buy_count_audios = 1;
+                    delete item.popup
                 if (item.hasOwnProperty('buy_count_kubi')) {
                     item.buy_count_kubi = 999999;
                 }
             });
         }
-     if( obj.vip_user_type) {
+     if(obj.vip_user_type) {
      obj.vip_user_type = 3;
        }
 }
@@ -461,7 +472,7 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
     if (obj && obj.data && Array.isArray(obj.data)) {
         obj.data.forEach(item => {
             item.buy = 1; 
-            item.pay_type = 2;
+            item.pay_type = 0;
             item.addtime = timestamp;
             });
         }
