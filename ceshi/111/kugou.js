@@ -451,6 +451,9 @@ if (url.includes('/v5/url')) {
 if (url.includes('/v1/get_res_privilege')) {
     function modifyFields(item) {
         // 修改指定的字段
+        item.trans_param.cpy_level = 0;
+        item.trans_param.cpy_grade = 5;
+        item.trans_param.cpy_attr0 = 0;
         item._msg = "Allow: the audio is free(copyright).";
         item.privilege = 0;
         item.status = 1;
@@ -511,6 +514,8 @@ if (url.includes('/v3/search/mixed')) {
               item.pay_block_tpl = 0;
               item.PayType = 0;
               item.AlbumPrivilege = 0;
+              item.trans_param.cpy_level = 0;
+              item.trans_param.cpy_attr0 = 0;
         if (item.HQ) {
           item.HQ.Privilege = 0;
              }
