@@ -428,9 +428,14 @@ if (url.includes('/v1/get_res_privilege/lite')) {
     obj.vip_user_type = 3;
 }
 if (url.includes('/v1/get_b_info')) {
-    obj.data.buy = 1;
-    obj.data.pay_type = 2;
+    if (obj && obj.data && Array.isArray(obj.data)) {
+        obj.data.forEach(item => {
+            item.buy = 1; 
+            item.pay_type = 2;
+            });
+        }
 }
+
 if (url.includes('/ocean/v6/theme/get_res_privilege')) {
     obj.data.forbid_type =5;
     obj.data.is_privilege = 1;
