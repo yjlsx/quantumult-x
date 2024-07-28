@@ -22,6 +22,8 @@
 ^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/b_res_vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/welfare/diy/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/v1/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/v1/userbalance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://sentry\.kugou\.com/api/89/store reject-200
 ^https://gateway\.kugou\.com/v5/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
@@ -48,6 +50,20 @@ if (url.includes('v5/login_by_token')) {
     obj.data.is_vip = 1;
     obj.data.m_type = 1;
     obj.data.vip_type = 4;   
+}
+
+if (url.includes('/v1/userinfo')) {
+    obj.data.vip_type = 4;   
+    obj.data.user_type = 20;
+    obj.data.m_type = 1;
+    obj.data.vip_end_time = "2099-12-31 15:14:48";
+    obj.data.su_vip_y_endtime = "2099-12-31 15:14:48";
+    obj.data.su_vip_end_time = "2099-12-31 15:14:48";
+    obj.data.su_vip_begin_time = "2024-07-26 15:14:09";
+    obj.data.svip_level = 8;
+    obj.data.svip_score = 999999;
+    obj.data.su_vip_clearday = "2024-07-26 15:14:09";
+    obj.data.m_end_time = "2099-12-31 15:14:48";
 }
 
 if (url.includes('/v2/get_login_extend_info')) {
@@ -439,6 +455,9 @@ if (url.includes('/v1/get_b_info')) {
 if (url.includes('/ocean/v6/theme/get_res_privilege')) {
     obj.data.forbid_type =5;
     obj.data.is_privilege = 1;
+}
+if (url.includes('/v1/userbalance')) {
+    obj.data = 999999;
 }
 
 $done({ body: JSON.stringify(obj) });
