@@ -18,6 +18,7 @@ let obj = JSON.parse(body);
 if (url.includes('/1/clouddrive/member')) {
     obj.data.super_vip_exp_at = 4102014158000;
     obj.data.total_capacity = 10995116277760;
+    obj.data.is_new_user = true;
     obj.data.member_status.SUPER_VIP = "PAID";
     obj.data.member_status.VIP = "PAID";
     obj.data.member_status.MINI_VIP = "PAID";
@@ -31,7 +32,7 @@ if (url.includes('/1/clouddrive/member')) {
     obj.data.acc_status = 1;
     obj.data.identity = obj.data.identity.map(item => ({
         ...item,
-        user_identity_type: 1,  // 设置新的 user_identity_type
+        user_identity_type: 2,  // 设置新的 user_identity_type
         expire_time: 4102014158000,
         expire_type: 2,  // 修正赋值语法
         extra: {
@@ -43,6 +44,7 @@ if (url.includes('/1/clouddrive/member')) {
 }
 
 if (url.includes('/1/clouddrive/products/sold/scene')) {
+   obj.data.frontend.is_open_two_year_exp = 1;
    obj.data.frontend.six_gear_exp_style = 1;
    obj.data.frontend.allow_pay_iquiry = 1;
 }
@@ -52,6 +54,13 @@ if (url.includes('/1/clouddrive/act/growth/reward')) {
      obj.data.autopay_reward_info.cur_reward_start = true;
      obj.data.autopay_reward_info.during_act = true;
      obj.data.autopay_reward_info.reward_left_chance = 99;
+    if (obj.data && obj.data.autopay_reward_list) {
+        obj.data.autopay_reward_list.forEach(item => {
+            item.reward_left_chance = 99;
+            item.cur_reward_start = true;
+        });
+    }
+
 }
 
 if (url.includes('/1/clouddrive/auth/identity/get')) {
