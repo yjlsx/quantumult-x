@@ -31,6 +31,7 @@
 ^https://gateway\.kugou\.com/ocean/v6/theme/get_res_privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/consumption url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com
@@ -430,6 +431,7 @@ if (url.includes('/v1/get_res_privilege/lite')) {
     obj.userinfo.m_type = 1;
     obj.userinfo.vip_type = 4;
     obj.userinfo.quota_remain = 999999;
+    obj.vip_user_type = 3;
 }
 
 if (url.includes('/v1/b_res_vip')) {
@@ -457,10 +459,6 @@ if (url.includes('/v1/get_res_privilege')) {
         item.pay_type = 0;
         item.fail_process = 0;
         item.buy_count_kubi = 999999;
-        item.buy_count_audios = 0;
-        item.buy_count_vip = 0;
-
-        // 删除 popup 字段
         delete item.popup;
     }
 
@@ -502,5 +500,31 @@ if (url.includes('/ocean/v6/theme/get_res_privilege')) {
 if (url.includes('/v1/userbalance')) {
     obj.data = 999999;
 }
+
+if (url.includes('/v3/search/mixed')) {
+      if (obj.data && obj.data.lists) {
+             obj.data.lists.forEach(list => {
+      if (list.istagresult && list.lists) {
+          list.lists.forEach(item => {
+              item.FailProcess = 0;
+              item.Privilege = 0;
+              item.pay_block_tpl = 0;
+              item.PayType = 0;
+              item.AlbumPrivilege = 0;
+        if (item.HQ) {
+          item.HQ.Privilege = 0;
+             }
+        if (item.SQ) {
+          item.SQ.Privilege = 0;
+             }
+        if (item.Res) {
+          item.Res.Privilege = 0;
+               }
+          });
+       }
+    });
+  }
+}
+
 
 $done({ body: JSON.stringify(obj) });
