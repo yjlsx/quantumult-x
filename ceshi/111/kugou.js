@@ -446,6 +446,7 @@ if (url.includes('/welfare/diy/v1') || url.includes('/v1/consumption')) {
 }
 if (url.includes('/v5/url')) {
     obj.status = 1;
+    obj.fail_process = 0
 }
 
 if (url.includes('/v1/get_res_privilege')) {
@@ -454,6 +455,7 @@ if (url.includes('/v1/get_res_privilege')) {
         item.trans_param.cpy_level = 0;
         item.trans_param.cpy_grade = 5;
         item.trans_param.cpy_attr0 = 0;
+        item.trans_param.pay_block_tpl = 0;
         item._msg = "Allow: the audio is free(copyright).";
         item.privilege = 0;
         item.status = 1;
