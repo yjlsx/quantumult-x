@@ -436,7 +436,7 @@ if (url.includes('/v1/b_res_vip')) {
     obj.error_code = 0;
     obj.status = 1;
     obj.message = "开始下载";
-    obj.mstore_location = "hxy:${timestamp}";
+    obj.mstore_location = 'hxy:${timestamp}';
 }
 if (url.includes('/welfare/diy/v1') || url.includes('/v1/consumption')) {
     obj.error_code = 0;
@@ -462,7 +462,7 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
         obj.data.forEach(item => {
             item.buy = 1; 
             item.pay_type = 2;
-            item.addtime = ${timestamp};
+            item.addtime = timestamp;
             });
         }
 }
