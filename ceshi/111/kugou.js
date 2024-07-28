@@ -460,7 +460,6 @@ if (url.includes('/v1/get_res_privilege')) {
                             good.fail_process = 0;
                             delete.good.popup
                             good.buy_count_kubi = 999999;
-                        }
                     });
                 }
                     item._msg = "Allow: the audio is free(copyright).";
