@@ -450,7 +450,7 @@ if (url.includes('/v1/get_res_privilege')) {
     function modifyFields(item) {
         // 修改指定的字段
         item._msg = "Allow: the audio is free(copyright).";
-        item.privilege = 8;
+        item.privilege = 0;
         item.status = 1;
         item.price = 0;
         item.pkg_price = 0;
