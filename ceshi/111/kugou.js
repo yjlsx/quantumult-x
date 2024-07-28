@@ -331,7 +331,7 @@ if (url.includes('/promotionvip/v3/vip_level/detail')) {
     obj.data.daily_growth = 15;
     obj.data.growth = 999999;
     obj.data.level_start_growth = 108000;
-    obj.data.next_level_growth = 99;
+    obj.data.next_level_growth = 0;
 }
 
 if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
