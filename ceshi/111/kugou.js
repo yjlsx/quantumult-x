@@ -26,7 +26,7 @@
 ^https://gateway\.kugou\.com/v1/userbalance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://sentry\.kugou\.com/api/89/store reject-200
 ^https://gateway\.kugou\.com/v5/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/v1/get_res_privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_b_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/ocean/v6/theme/get_res_privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 [mitm]
@@ -441,7 +441,16 @@ if (url.includes('/v5/url')) {
     obj.status = 1;
 }
 if (url.includes('/v1/get_res_privilege/lite')) {
-    obj.vip_user_type = 3;
+       if (obj && obj.data) {
+            obj.data.forEach(item => {
+                if (item.hasOwnProperty('buy_count_kubi')) {
+                    item.buy_count_kubi = 999999;
+                }
+            });
+        }
+     if( obj.vip_user_type) {
+     obj.vip_user_type = 3;
+       }
 }
 if (url.includes('/v1/get_b_info')) {
     if (obj && obj.data && Array.isArray(obj.data)) {
