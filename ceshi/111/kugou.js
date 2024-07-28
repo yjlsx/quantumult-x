@@ -445,44 +445,45 @@ if (url.includes('/welfare/diy/v1') || url.includes('/v1/consumption')) {
 if (url.includes('/v5/url')) {
     obj.status = 1;
 }
-if (url.includes('/v1/get_res_privilege')) {
-            if (obj && obj.data && Array.isArray(obj.data)) {
-                obj.data.forEach(item => {
-                    if (item.relate_goods && Array.isArray(item.relate_goods)) {
-                        // 修改 relate_goods 数组中每个对象的字段
-                        item.relate_goods.forEach(good => {
-                            good._msg = "Allow: the audio is free(copyright).";
-                            good.privilege = 8;
-                            good.status = 1;
-                            good.price = 0;
-                            good.pkg_price = 0;
-                            good.pay_type = 0;
-                            good.fail_process = 0;
-                            delete good.popup;
-                            good.buy_count_kubi = 999999;
-                        });
-                    }
 
-                    item._msg = "Allow: the audio is free(copyright).";
-                    item.buy_count_vip = 0;
-                    item.privilege = 8;
-                    item.status = 1;
-                    item.price = 0;
-                    item.buy_count = 0;
-                    item.pkg_price = 0;
-                    item.pay_type = 0;
-                    item.fail_process = 0;
-                    item.buy_count_audios = 0;
-                    delete item.popup;
-                    if (item.hasOwnProperty('buy_count_kubi')) {
-                        item.buy_count_kubi = 999999;
-                    }
+if (url.includes('/v1/get_res_privilege')) {
+    function modifyFields(item) {
+        // 修改指定的字段
+        item._msg = "Allow: the audio is free(copyright).";
+        item.privilege = 8;
+        item.status = 1;
+        item.price = 0;
+        item.pkg_price = 0;
+        item.pay_type = 0;
+        item.fail_process = 0;
+        item.buy_count_kubi = 999999;
+        item.buy_count_audios = 0;
+        item.buy_count_vip = 0;
+
+        // 删除 popup 字段
+        delete item.popup;
+    }
+
+    if (obj && obj.data && Array.isArray(obj.data)) {
+        obj.data.forEach(item => {
+            // 修改主对象的字段
+            modifyFields(item);
+
+            // 修改 relate_goods 数组中每个对象的字段
+            if (item.relate_goods && Array.isArray(item.relate_goods)) {
+                item.relate_goods.forEach(good => {
+                    modifyFields(good);
                 });
             }
-            if (obj.vip_user_type) {
-                obj.vip_user_type = 3;
-         }
- }
+        });
+    }
+
+    // 修改顶层的 vip_user_type 字段
+    if (obj.vip_user_type) {
+        obj.vip_user_type = 3;
+    }
+}
+
 
 if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
     if (obj && obj.data && Array.isArray(obj.data)) {
