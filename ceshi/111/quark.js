@@ -31,7 +31,7 @@ if (url.includes('/1/clouddrive/member')) {
     obj.data.acc_status = 1;
     obj.data.identity = obj.data.identity.map(item => ({
         ...item,
-        user_identity_type: 5,  // 设置新的 user_identity_type
+        user_identity_type: 1,  // 设置新的 user_identity_type
         expire_time: 4102014158000,
         expire_type: 2,  // 修正赋值语法
         extra: {
