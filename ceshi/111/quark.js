@@ -6,7 +6,7 @@
 ^https://drive-m\.quark\.cn/1/clouddrive/products/sold/scene url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 ^https://drive-m\.quark\.cn/1/clouddrive/act/growth/reward url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js 
 ^https://drive-m\.quark\.cn/1/clouddrive/auth/identity/get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js 
- 
+^https://drive-m\.quark\.cn/1/clouddrive/act/student/auth/identity/get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js 
 [mitm]
  hostname = drive-m.quark.cn
  */
@@ -30,6 +30,15 @@ if (url.includes('/1/clouddrive/member')) {
     obj.data.member_info.offline_download_remains = 9999;
     obj.data.exp_svip_exp_at = 4102014158000;
     obj.data.acc_status = 1;
+    obj.data.member_info.member_type_map = {
+        "MINI_VIP": {
+            "video_save_to_total": 10
+        },
+        "SUPER_VIP": {
+            "video_save_to_total": 9999,
+        }
+    };
+
     obj.data.identity = obj.data.identity.map(item => ({
         ...item,
         user_identity_type: 2,  // 设置新的 user_identity_type
@@ -70,5 +79,10 @@ if (url.includes('/1/clouddrive/auth/identity/get')) {
     });
 }
 
+if (url.includes('/1/clouddrive/act/student/auth/identity/get')) {
+    obj.data.alipay_status = 1;
+    obj.data.student_status = 1;
+
+}
 
 $done({ body: JSON.stringify(obj) });
