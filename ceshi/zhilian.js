@@ -21,7 +21,7 @@ hostname = m.zhaopin.com, ask.zhaopin.com
 
         // 根据 URL 判断执行不同的处理逻辑
         if (url.includes("/bapi/products")) {
-            if (obj && obj.code) {
+            if (obj && obj.code && obj.data) {
                 // 遍历每个产品，修改字段值
                 obj.data.forEach(product => {
                     product.serviceType = 1;
@@ -58,7 +58,7 @@ hostname = m.zhaopin.com, ask.zhaopin.com
                 obj.data.giveBalance = 99;
             }
         } else if (url.includes("/plat-zqa-server/user/0.1.0/whoIAm")) {
-            if (obj.data.user) {
+            if (obj.data && obj.data.user) {
                 obj.data.user.userCredits = 99999;
                 obj.data.user.vipStatus = 1;
             }
