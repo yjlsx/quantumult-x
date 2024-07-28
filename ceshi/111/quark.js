@@ -11,14 +11,14 @@ hostname = drive*.quark.cn
 
 
 var body = $response.body;
-var chxm1023 = JSON.parse(body);
+var yjlsx = JSON.parse(body);
 
 const vipa = '/clouddrive/member';
 const vipb = '/clouddrive/distribute/detail';
 const vipc = '/clouddrive/capacity/growth/info';
 
 if ($request.url.indexOf(vipa) != -1){
-  chxm1023.data = {
+  yjlsx.data = {
     "member_type": "SUPER_VIP",
     "image_backup": 1,
     "deep_recycle_stat": {
@@ -60,7 +60,7 @@ if ($request.url.indexOf(vipa) != -1){
 }
 
 if ($request.url.indexOf(vipb) != -1){
-  chxm1023.data = {
+  yjlsx.data = {
     "last_id": 0,
     "last_page": true,
     "distribute_detail": [{
@@ -76,7 +76,7 @@ if ($request.url.indexOf(vipb) != -1){
 }
 
 if ($request.url.indexOf(vipc) != -1){
-  chxm1023.data = {
+  yjlsx.data = {
     "member_type": "SUPER_VIP",
     "super_vip_exp_at": 4092599349000,
     "use_capacity": 55029395707,
@@ -119,3 +119,13 @@ if ($request.url.indexOf(vipc) != -1){
         "highlight": "翻十倍",
         "reward_cap": 1073741824
       }]
+    },
+    "cap_composition": {
+      "other": 0,
+      "member_own": 109951162777600
+    },
+    "total_capacity": 109951162777600
+  };
+}
+
+$done({body : JSON.stringify(yjlsx)});
