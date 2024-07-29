@@ -77,7 +77,7 @@ hostname = m.zhaopin.com, ask.zhaopin.com
                 obj.data.deliveryReplySurplusCount = 99999;
                 obj.data.resumeTopSurplusDays = 99999;
             }
-
+       } 
 
 
         // 返回修改后的响应体
