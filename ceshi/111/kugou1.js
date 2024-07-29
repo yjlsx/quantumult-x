@@ -8,7 +8,7 @@
 ^https://gateway\.kugou\.com/ocean/v6/theme/get_res_privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/ocean/v6/theme/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/ocean/v6/theme/record_save url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
-
+^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com
@@ -125,6 +125,31 @@ if (url.includes('/ocean/v6/theme/list')) {
     });
   }
 }
+
+if (url.includes('/v3/search/mixed')) {
+    if (obj.data && obj.data.lists) {
+        obj.data.lists.forEach(list => {
+            if (list.istagresult === 0 && list.lists) { // 注意这里调整了条件
+                list.lists.forEach(item => {
+                    item.FailProcess = 0;
+                    item.Privilege = 1;
+                    item.PayType = 2;
+                    if (item.HQ) {
+                        item.HQ.Privilege = 1;
+                    }
+                    if (item.SQ) {
+                        item.SQ.Privilege = 1;
+                    }
+                    if (item.Res) {
+                        item.Res.Privilege = 1;
+                    }
+                });
+            }
+        });
+    }
+}
+
+
 
 if (url.includes('/ocean/v6/theme/record_save')) {
     obj.errcode =0;

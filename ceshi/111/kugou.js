@@ -30,7 +30,7 @@
 ^https://gateway\.kugou\.com/v1/get_b_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/consumption url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com
@@ -308,16 +308,6 @@ if (url.includes('/v1/fusion/userinfo')) {
 }
 
 
-if (url.includes('/ocean/v6/theme/list')) {
-    if (obj.data && Array.isArray(obj.data.info)) {
-        obj.data.info.forEach(item => {
-            if (item.limit_free_info && typeof item.limit_free_info.free_end_time !== 'undefined') {
-                item.limit_free_info.free_end_time = 4102415999;
-            }
-        });
-    }
-}
-
 if (url.includes('/v1/get_remain_quota') || url.includes('/goodsmstore/v1/get_remain_quota')) {
     obj.data.m_clearday = "4102444799";
     obj.data.upgrade = 4;
@@ -462,29 +452,7 @@ if (url.includes('/v1/userbalance')) {
     obj.data = 999999;
 }
 
-if (url.includes('/v3/search/mixed')) {
-      if (obj.data && obj.data.lists) {
-             obj.data.lists.forEach(list => {
-      if (list.istagresult && list.lists) {
-          list.lists.forEach(item => {
-              item.FailProcess = 0;
-              item.Privilege = 1;
-              item.AlbumPrivilege = 1;
-              item.PayType = 2;
-        if (item.HQ) {
-          item.HQ.Privilege = 1;
-             }
-        if (item.SQ) {
-          item.SQ.Privilege = 1;
-             }
-        if (item.Res) {
-          item.Res.Privilege = 1;
-               }
-          });
-       }
-    });
-  }
-}
+
 
 
 $done({ body: JSON.stringify(obj) });
