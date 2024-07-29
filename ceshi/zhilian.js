@@ -6,6 +6,8 @@
 ^https:\/\/m\.zhaopin\.com\/bapi\/template\/user-vip-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/raise\/coin\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https:\/\/ask\.zhaopin\.com\/plat-zqa-server\/user\/0\.1\.0\/whoIAm url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https://m\.zhaopin\.com/bapi/resume/top/order/info/v3 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https://m\.zhaopin\.com/bapi/vip/privilege/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 
 
 *
@@ -63,7 +65,20 @@ hostname = m.zhaopin.com, ask.zhaopin.com
                 obj.data.user.userCredits = 99999;
                 obj.data.user.vipStatus = 1;
             }
-        }
+        }else if (url.includes("/bapi/resume/top/order/info/v3")) {
+            if (obj.data && obj.data.serviceEndTime) {
+                obj.data.serviceEndTime = 4102415999000;
+                obj.data.serviceStatus = 1;
+                obj.data.orderResumeTopStatus = 1;
+            }
+        }else if (url.includes("/bapi/vip/privilege/info")) {
+            if (obj.data && obj.data.resumeRefreshSurplusDays) {
+                obj.data.resumeRefreshSurplusDays = 99999;
+                obj.data.deliveryReplySurplusCount = 99999;
+                obj.data.resumeTopSurplusDays = 99999;
+            }
+
+
 
         // 返回修改后的响应体
         $done({ body: JSON.stringify(obj) });
