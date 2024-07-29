@@ -50,7 +50,7 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
             };
         }
 
-if (url.includes("/api/com.liepin.usercx.user.base-prop")) {
+        if (url.includes("/api/com.liepin.usercx.user.base-prop")) {
             if (obj.data) {
                 // 修改用户状态为金卡用户，并标记为已认证
                 obj.data.goldCardUser = true;
@@ -58,35 +58,34 @@ if (url.includes("/api/com.liepin.usercx.user.base-prop")) {
             }
         }
 
-//去广告
-if (url.includes("/api/com.liepin.cbp.baizhong.op.v2-show-4app")) {
+        // 去广告
+        if (url.includes("/api/com.liepin.cbp.baizhong.op.v2-show-4app")) {
             if (obj.data) {
                 obj.data.adList = []; // 关闭广告，通过将 adList 置为空数组
             }
         }
 
-
-   if (url.includes("/api/com.liepin.wenqu.list-user-gray-status")) {
+        if (url.includes("/api/com.liepin.wenqu.list-user-gray-status")) {
             // 开启 AI 功能
             if (obj.data) {
                 obj.data["C_AI_LILY"] = true;
             }
         }
 
-   if (url.includes("/api/com.liepin.usercx.pc.user.base-property")) {
+        if (url.includes("/api/com.liepin.usercx.pc.user.base-property")) {
             if (obj.data) {
                 obj.data.goldCardUser = true;
             }
         }
 
-   if (url.includes("api/com.liepin.cbusi.goldcard.get-activity")) {
+        if (url.includes("api/com.liepin.cbusi.goldcard.get-activity")) {
             if (obj.data) {
                 obj.data.startTime = "2024-07-28";
                 obj.data.endTime = "2099-12-31";
             }
         }
 
-   if (url.includes("api/com.liepin.cbusi.sale.get-goldcard-dict-h5")) {
+        if (url.includes("api/com.liepin.cbusi.sale.get-goldcard-dict-h5")) {
             // 遍历所有的 goldcardItemForms 并将价格字段设置为 0
             if (obj.data && obj.data.goldcardItemForms) {
                 obj.data.goldcardItemForms.forEach(item => {
@@ -98,12 +97,10 @@ if (url.includes("/api/com.liepin.cbp.baizhong.op.v2-show-4app")) {
             }
         }
 
-
-
         // 返回修改后的响应体
         $done({ body: JSON.stringify(obj) });
-    } 
+    } catch (e) {
+        // 如果解析失败，则返回原始响应体
+        $done({ body: body });
+    }
 })();
-
-
-
