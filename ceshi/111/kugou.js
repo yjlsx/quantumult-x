@@ -452,20 +452,19 @@ if (url.includes('/v5/url')) {
 if (url.includes('/v1/get_res_privilege')) {
     function modifyFields(item) {
         // 修改指定的字段
-        item.trans_param.cpy_level = 0;
-        item.trans_param.cpy_grade = 5;
-        item.trans_param.cpy_attr0 = 0;
-        item.trans_param.pay_block_tpl = 0;
+        item.trans_param.cpy_level = 1;
+        item.trans_param.cpy_grade = 20;
+        item.trans_param.pay_block_tpl = 1;
         item._msg = "Allow: the audio is free(copyright).";
-        item.privilege = 0;
+        item.privilege = 8;
         item.buy_count_vip = 1;
         item.buy_count = 1;
         item.status = 1;
         item.price = 0;
-        item.pkg_price = 0;
+        item.pkg_price = 1;
         item.pay_type = 0;
         item.fail_process = 0;
-        item.pay_block_tpl = 0;
+        item.pay_block_tpl = 1;
         item.buy_count_kubi = 999999;
         delete item.popup;
     }
@@ -495,7 +494,7 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
     if (obj && obj.data && Array.isArray(obj.data)) {
         obj.data.forEach(item => {
             item.buy = 1; 
-            item.pay_type = 0;
+            item.pay_type = 2;
             item.addtime = timestamp;
             });
         }
@@ -503,7 +502,7 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
 
 if (url.includes('/ocean/v6/theme/get_res_privilege')) {
     obj.data.forbid_type =5;
-    obj.data.is_privilege = 1;
+    obj.data.is_privilege = 8;
 }
 if (url.includes('/v1/userbalance')) {
     obj.data = 999999;
@@ -515,20 +514,17 @@ if (url.includes('/v3/search/mixed')) {
       if (list.istagresult && list.lists) {
           list.lists.forEach(item => {
               item.FailProcess = 0;
-              item.Privilege = 0;
-              item.pay_block_tpl = 0;
-              item.PayType = 0;
-              item.AlbumPrivilege = 0;
-              item.trans_param.cpy_level = 0;
-              item.trans_param.cpy_attr0 = 0;
+              item.Privilege = 8;
+              item.PayType = 2;
+              item.trans_param.cpy_level = 1;
         if (item.HQ) {
-          item.HQ.Privilege = 0;
+          item.HQ.Privilege = 8;
              }
         if (item.SQ) {
-          item.SQ.Privilege = 0;
+          item.SQ.Privilege = 8;
              }
         if (item.Res) {
-          item.Res.Privilege = 0;
+          item.Res.Privilege = 8;
                }
           });
        }
