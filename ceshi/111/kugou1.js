@@ -132,17 +132,17 @@ if (url.includes('/v3/search/mixed')) {
             if (list.istagresult === 0 && list.lists) { // 注意这里调整了条件
                 list.lists.forEach(item => {
                     item.FailProcess = 0;
-                    item.Privilege = 8;
-                    item.AlbumPrivilege = 8;
+                    item.Privilege = 10;
+                    item.AlbumPrivilege = 10;
                     item.PayType = 2;
                     if (item.HQ) {
-                        item.HQ.Privilege = 8;
+                        item.HQ.Privilege = 10;
                     }
                     if (item.SQ) {
-                        item.SQ.Privilege = 8;
+                        item.SQ.Privilege = 10;
                     }
                     if (item.Res) {
-                        item.Res.Privilege = 8;
+                        item.Res.Privilege = 10;
                     }
                 });
             }
