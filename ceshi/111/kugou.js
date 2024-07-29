@@ -10,15 +10,15 @@
 ^https://gateway\.kugou\.com/v1/get_remain_quota url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/goodsmstore/v1/get_remain_quota url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/promotionvip/v3/vip_level/detail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-^https://gateway\.kugou\.com/promotionvip/v3/vip_level/welfare_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/promotionvip/v3/vip_level/welfare_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://vip\.kugou\.com/v1/fusion/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v3/get_my_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v4/follow_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v2/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/promotionvip/v3/vip_level/welfare_recv url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/listening/coupon_package url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-^https://gateway\.kugou\.com/ocean/v6/theme/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-^https://gateway\.kugou\.com/tools.mobile/v2/theme/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/ocean/v6/theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/tools.mobile/v2/theme/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/v1/get_res_privilege/lite url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/b_res_vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/welfare/diy/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
@@ -28,7 +28,6 @@
 ^https://gateway\.kugou\.com/v5/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_res_privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_b_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-^https://gateway\.kugou\.com/ocean/v6/theme/get_res_privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/consumption url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
@@ -335,27 +334,6 @@ if (url.includes('/promotionvip/v3/vip_level/detail')) {
     obj.data.next_level_growth = 0;
 }
 
-if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
-    if (obj && obj.data) {
-        obj.data.grade = 8;       
-        if (obj.data.list) {
-            for (let key in obj.data.list) {
-                if (obj.data.list.hasOwnProperty(key) && Array.isArray(obj.data.list[key])) {
-                    obj.data.list[key].forEach(item => {
-                        if ('recv_limit' in item) {
-                            item.receive = 0;
-                            item.recv_limit = 999;
-                            item.welfare_num = 20;
-                        }
-                    });
-                }
-            }
-        }
-    }
-}
-
-
-
 if (url.includes('/v3/get_my_info')) {
     if (obj.data) {
         obj.data.svip_score = 999999;
@@ -399,25 +377,6 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_recv')) {
     obj.errmsg = "";
 }
 
-if (url.includes('/ocean/v6/theme/list')) {
-  if (obj.data && Array.isArray(obj.data.info)) {
-    obj.data.info.forEach(item => {
-      if (item.limit_free_info) {
-        item.limit_free_info.limit_free_status = 1;
-        item.limit_free_info.free_end_time = 4102415999;
-      }
-    });
-  }
-}
-
-if (url.includes('/tools.mobile/v2/theme/info')) {
-     if (obj.data && obj.data.limit_free_info) {
-  obj.data.limit_free_info.limit_free_status = 1;
-  obj.data.limit_free_info.free_end_time = 4102415999;
-  obj.data.vip_level = 8;
-    }
-}
-
 if (url.includes('/listening/coupon_package')) {
     obj.data.gift_card_cnt = 9;
     obj.data.listen_coupon_cnt = 10;
@@ -454,14 +413,9 @@ if (url.includes('/v1/get_res_privilege')) {
         // 修改指定的字段
         item.trans_param.cpy_level = 1;
         item.trans_param.cpy_grade = 20;
-        item.trans_param.pay_block_tpl = 1;
         item._msg = "Allow: the audio is free.";
         item.privilege = 8;
         item.rebuy_pay_type = 2;
-/*
-        item.buy_count_vip = 1;
-        item.buy_count = 1;
-*/
         item.status = 2;
         item.price = 0;
         item.pkg_price = 1;
@@ -503,10 +457,7 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
         }
 }
 
-if (url.includes('/ocean/v6/theme/get_res_privilege')) {
-    obj.data.forbid_type =5;
-    obj.data.is_privilege = 8;
-}
+
 if (url.includes('/v1/userbalance')) {
     obj.data = 999999;
 }
