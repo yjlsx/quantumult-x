@@ -9,6 +9,8 @@
 ^https://api-c\.liepin\.com/api/com.liepin.usercx.pc.user.base-property url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.goldcard.get-activity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.sale.get-goldcard-dict-h5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+^https://api-ac\.liepin\.com/api/com.liepin.cresume.register.app.need-improve-info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+
 
 
 *
@@ -96,6 +98,17 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
                 });
             }
         }
+
+        if (url.includes("/api/com.liepin.cresume.register.app.need-improve-info")) {
+            if (obj.data) {
+                obj.data.idCardCertStatus = 1;
+                obj.data.parseStatus = 1;
+                obj.data.needUserCard = true;
+                obj.data.showLable = true;
+                obj.data.needGuide = true;
+            }
+        }
+
 
         // 返回修改后的响应体
         $done({ body: JSON.stringify(obj) });
