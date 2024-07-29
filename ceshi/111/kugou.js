@@ -457,6 +457,7 @@ if (url.includes('/v1/get_res_privilege')) {
         item.trans_param.pay_block_tpl = 1;
         item._msg = "Allow: the audio is free(copyright).";
         item.privilege = 8;
+        item.rebuy_pay_type = 2;
         item.buy_count_vip = 1;
         item.buy_count = 1;
         item.status = 1;
