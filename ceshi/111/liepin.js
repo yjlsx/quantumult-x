@@ -5,10 +5,15 @@
 ^https://api-ac\.liepin\.com/api/com.liepin.cresume.list-user-gray-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-ac\.liepin\.com/api/com.liepin.usercx.user.base-prop url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-wanda\.liepin\.com/api/com.liepin.cbp.baizhong.op.v2-show-4app url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+^https://api-ac\.liepin\.com/api/com.liepin.wenqu.list-user-gray-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+^https://api-c\.liepin\.com/api/com.liepin.usercx.pc.user.base-property url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+^https://api-c\.liepin\.com/api/com.liepin.cbusi.goldcard.get-activity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+^https://api-c\.liepin\.com/api/com.liepin.cbusi.sale.get-goldcard-dict-h5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+
 
 *
 [mitm]
-hostname = api-ac.liepin.com, api-wanda.liepin.com
+hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
 */
 
 
@@ -57,6 +62,39 @@ if (url.includes("/api/com.liepin.usercx.user.base-prop")) {
 if (url.includes("/api/com.liepin.cbp.baizhong.op.v2-show-4app")) {
             if (obj.data) {
                 obj.data.adList = []; // 关闭广告，通过将 adList 置为空数组
+            }
+        }
+
+
+   if (url.includes("/api/com.liepin.wenqu.list-user-gray-status")) {
+            // 开启 AI 功能
+            if (obj.data) {
+                obj.data["C_AI_LILY"] = true;
+            }
+        }
+
+   if (url.includes("/api/com.liepin.usercx.pc.user.base-property")) {
+            if (obj.data) {
+                obj.data.goldCardUser = true;
+            }
+        }
+
+   if (url.includes("api/com.liepin.cbusi.goldcard.get-activity")) {
+            if (obj.data) {
+                obj.data.startTime = "2024-07-28";
+                obj.data.endTime = "2099-12-31";
+            }
+        }
+
+   if (url.includes("api/com.liepin.cbusi.sale.get-goldcard-dict-h5")) {
+            // 遍历所有的 goldcardItemForms 并将价格字段设置为 0
+            if (obj.data && obj.data.goldcardItemForms) {
+                obj.data.goldcardItemForms.forEach(item => {
+                    item.price = 0;
+                    item.originalPrice = 0;
+                    item.priceText = "0.0元";
+                    item.originalPriceText = "0.0元";
+                });
             }
         }
 
