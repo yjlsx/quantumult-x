@@ -134,7 +134,7 @@ if (url.includes('/v3/search/mixed')) {
                     item.FailProcess = 0;
                     item.Privilege = 8;
                     item.AlbumPrivilege = 8;
-                    item.PayType = 2;
+                    item.PayType = 3;
                     if (item.HQ) {
                         item.HQ.Privilege = 8;
                     }
