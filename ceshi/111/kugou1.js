@@ -48,6 +48,8 @@ if (url.includes('/ocean/v6/theme/category')) {
 if (url.includes('/tools.mobile/v2/theme/info')) {
      if (obj.data && obj.data.vip_level) {
     obj.data.vip_level = 0;
+    }
+     if (obj.data && obj.data.privilege) {
     obj.data.privilege = 1;
     obj.data.privileges = [
              1,
