@@ -414,7 +414,7 @@ if (url.includes('/v1/get_res_privilege')) {
         item.trans_param.cpy_level = 1;
         item.trans_param.cpy_grade = 20;
         item._msg = "Allow: the audio is free.";
-        item.privilege = 8;
+        item.privilege = 1;
         item.rebuy_pay_type = 2;
         item.status = 2;
         item.price = 0;
@@ -468,16 +468,16 @@ if (url.includes('/v3/search/mixed')) {
       if (list.istagresult && list.lists) {
           list.lists.forEach(item => {
               item.FailProcess = 0;
-              item.Privilege = 8;
+              item.Privilege = 1;
               item.PayType = 2;
         if (item.HQ) {
-          item.HQ.Privilege = 8;
+          item.HQ.Privilege = 1;
              }
         if (item.SQ) {
-          item.SQ.Privilege = 8;
+          item.SQ.Privilege = 1;
              }
         if (item.Res) {
-          item.Res.Privilege = 8;
+          item.Res.Privilege = 1;
                }
           });
        }
