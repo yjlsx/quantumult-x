@@ -97,8 +97,10 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
 
 if (url.includes('/ocean/v6/theme/get_res_privilege')) {
     obj.data.forbid_type =0;
-    obj.data.extra_info.extra_type = 0;
     obj.data.is_privilege = 1; //原来8
+    if(obj.data.extra_info.extra_type) {
+    obj.data.extra_info.extra_type = 0;
+         }
 }
 
 if (url.includes('/ocean/v6/theme/list')) {
