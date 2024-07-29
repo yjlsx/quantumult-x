@@ -25,7 +25,10 @@ if (url.includes('/ocean/v6/theme/category')) {
     if (section.themes) {
       section.themes.forEach(theme => {
         theme.privilege = 1;
-        theme.privileges = [1];
+        theme.privileges = [
+             1,
+             99
+        ];
     if(theme.toast_title) {
         delete theme.toast_title
         delete theme.toast_content
@@ -46,12 +49,28 @@ if (url.includes('/tools.mobile/v2/theme/info')) {
      if (obj.data && obj.data.vip_level) {
     obj.data.vip_level = 0;
     obj.data.privilege = 1;
-    obj.data.privileges = [1];
+    obj.data.privileges = [
+             1,
+             99
+        ];
     }
-     if (obj.data && obj.data.vip_levelobj.data.limit_free_info) {
-    obj.data.limit_free_info.limit_free_status = 1;
-    obj.data.limit_free_info.free_end_time = 4102415999;
-    }
+    if (!obj.data.limit_free_info) {
+      obj.data.limit_free_info = {
+         "toast_type": 4,
+         "free_start_time": 1721908800,
+         "limit_free_status": 1,
+         "free_end_time": 4102415999,
+         "free_end_offline": 0
+    };
+} else {
+    obj.data.limit_free_info = {
+        "toast_type": 4,
+        "free_start_time": 1721908800,
+        "limit_free_status": 1,
+        "free_end_time": 4102415999,
+        "free_end_offline": 0
+      };
+   }
 }
 
 if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
@@ -76,7 +95,8 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
 
 if (url.includes('/ocean/v6/theme/get_res_privilege')) {
     obj.data.forbid_type =0;
-    obj.data.is_privilege = 8;
+    obj.data.extra_info.extra_type = 0;
+    obj.data.is_privilege = 1; //原来8
 }
 
 if (url.includes('/ocean/v6/theme/list')) {
