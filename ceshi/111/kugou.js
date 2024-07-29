@@ -460,10 +460,10 @@ if (url.includes('/v1/get_res_privilege')) {
         item.rebuy_pay_type = 2;
         item.buy_count_vip = 1;
         item.buy_count = 1;
-        item.status = 1;
+        item.status = 2;
         item.price = 0;
         item.pkg_price = 1;
-        item.pay_type = 0;
+        item.pay_type = 2;
         item.fail_process = 0;
         item.pay_block_tpl = 1;
         item.buy_count_kubi = 999999;
@@ -495,7 +495,7 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
     if (obj && obj.data && Array.isArray(obj.data)) {
         obj.data.forEach(item => {
             item.buy = 1; 
-            item.pay_type = 0;
+            item.pay_type = 2;
             item.addtime = timestamp;
             });
         }
@@ -516,8 +516,7 @@ if (url.includes('/v3/search/mixed')) {
           list.lists.forEach(item => {
               item.FailProcess = 0;
               item.Privilege = 8;
-              item.PayType = 0;
-              item.trans_param.cpy_level = 1;
+              item.PayType = 2;
         if (item.HQ) {
           item.HQ.Privilege = 8;
              }
