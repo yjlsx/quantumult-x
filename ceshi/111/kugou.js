@@ -469,6 +469,7 @@ if (url.includes('/v3/search/mixed')) {
           list.lists.forEach(item => {
               item.FailProcess = 0;
               item.Privilege = 1;
+              item.AlbumPrivilege = 1;
               item.PayType = 2;
         if (item.HQ) {
           item.HQ.Privilege = 1;
