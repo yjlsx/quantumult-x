@@ -125,7 +125,7 @@ if (url.includes('/ocean/v6/theme/list')) {
     });
   }
 }
-
+/*
 if (url.includes('/v3/search/mixed')) {
     if (obj.data && obj.data.lists) {
         obj.data.lists.forEach(list => {
@@ -148,7 +148,7 @@ if (url.includes('/v3/search/mixed')) {
         });
     }
 }
-
+*/
 
 
 if (url.includes('/ocean/v6/theme/record_save')) {
