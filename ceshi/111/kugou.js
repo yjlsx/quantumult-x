@@ -458,8 +458,10 @@ if (url.includes('/v1/get_res_privilege')) {
         item._msg = "Allow: the audio is free.";
         item.privilege = 8;
         item.rebuy_pay_type = 2;
+/*
         item.buy_count_vip = 1;
         item.buy_count = 1;
+*/
         item.status = 2;
         item.price = 0;
         item.pkg_price = 1;
