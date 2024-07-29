@@ -96,12 +96,19 @@ if (url.includes('/promotionvip/v3/vip_level/welfare_list')) {
 }
 
 if (url.includes('/ocean/v6/theme/get_res_privilege')) {
-    obj.data.forbid_type =0;
-    obj.data.is_privilege = 1; //原来8
-    if(obj.data.extra_info.extra_type) {
+    // 确保 `extra_info` 存在
+    if (!obj.data.extra_info) {
+        obj.data.extra_info = {};
+    }
+    
+    // 设置 `forbid_type` 和 `is_privilege`
+    obj.data.forbid_type = 0;
+    obj.data.is_privilege = 1;
+
+    // 设置 `extra_info.extra_type`
     obj.data.extra_info.extra_type = 0;
-         }
 }
+
 
 if (url.includes('/ocean/v6/theme/list')) {
   if (obj.data && Array.isArray(obj.data.info)) {
