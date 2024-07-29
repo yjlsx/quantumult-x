@@ -495,7 +495,7 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
     if (obj && obj.data && Array.isArray(obj.data)) {
         obj.data.forEach(item => {
             item.buy = 1; 
-            item.pay_type = 2;
+            item.pay_type = 0;
             item.addtime = timestamp;
             });
         }
@@ -516,7 +516,7 @@ if (url.includes('/v3/search/mixed')) {
           list.lists.forEach(item => {
               item.FailProcess = 0;
               item.Privilege = 8;
-              item.PayType = 2;
+              item.PayType = 0;
               item.trans_param.cpy_level = 1;
         if (item.HQ) {
           item.HQ.Privilege = 8;
