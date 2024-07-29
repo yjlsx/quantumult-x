@@ -403,6 +403,7 @@ if (url.includes('/v1/get_res_privilege')) {
         // 修改指定的字段
         item.trans_param.cpy_level = 1;
         item.trans_param.cpy_grade = 20;
+        item.trans_param.musicpack_advance = 0;
         item._msg = "Allow: the audio is free.";
         item.privilege = 1;
         item.rebuy_pay_type = 2;
