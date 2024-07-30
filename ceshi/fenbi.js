@@ -269,8 +269,8 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 
 
 // 我的课程
-if (url.includes("/v3/my/lectures")) {
-    if (obj.data && obj.data.code) {
+if (url.includes("/jdwz/v3/my/lectures")) {
+    if (obj.data && obj.data.title) {
         obj.data.hasUserFormAfterOrder = true;
         obj.data.hasWatchStatPanel = true;
         obj.data.hasUserContentInfo = true;
@@ -278,6 +278,7 @@ if (url.includes("/v3/my/lectures")) {
         obj.data.code = 1;
     } else if (obj.msg && obj.code) {
         obj.code = 1;
+        obj.msg = "";
     }
 }
 
