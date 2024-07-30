@@ -13,7 +13,10 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/655114\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 修改会员显示
-#
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -38,11 +41,11 @@ if (url.includes('/ai/iphone/entry')) {
         obj.data.userMember.member = true;
         obj.data.aiteacherDisplayed = true;
         obj.data.aiteacherActivated = true;
-        obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
-        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 设置会员配置的类型为指定数组;
+        obj.data.userMember.memberClass = 52;    //[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
+        obj.data.userMember.memberType = 52;  // 设置会员配置的类型为指定数组;
         obj.data.userMember.expireTime = 4102415999000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
-        obj.data.userMember.memberStatus = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
+        obj.data.userMember.memberStatus = 1;
         obj.data.userMember.createdTime = 1551873177267;
     }
 }
@@ -74,23 +77,23 @@ if (url.includes('/iphone/v3/member_centers/sale_center')) {
     }
 }
 */
-/*
+
 // 判断 URL 是否包含特定地址
 if (url.includes('/iphone/v3/user_member/home')) {
     // 修改 userMember 部分
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true; // 开通会员
-        obj.data.userMember.memberClass = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 设置会员级别
-        obj.data.userMember.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 设置会员类型为指定数组
-        obj.data.userMember.expireTime = 4102415999000; // 设置过期时间
+        obj.data.userMember.memberClass = 3; // 设置会员级别[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
+        obj.data.userMember.memberType = 52; // 设置会员类型为指定数组
+        obj.data.userMember.expireTime = 4102444799000; // 设置过期时间
         obj.data.userMember.hasBeenMember = true; // 已经是会员
-        obj.data.userMember.memberStatus = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]; // 会员状态设为已开通
+        obj.data.userMember.memberStatus = 1; // 会员状态设为已开通
         obj.data.userMember.createdTime = 1651873177267; // 设置创建时间
     }
 
     // 修改 memberConfig 部分
   if (obj.data && obj.data.memberConfig) {
-        obj.data.memberConfig.memberType = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
+        obj.data.memberConfig.memberType = 20;
         obj.data.memberConfig.shadowColor = "111111";
         obj.data.memberConfig.textColor = "efb96d";
     // 遍历 memberBenefits 数组，将每个元素的 svip 属性设置为 true
@@ -148,14 +151,14 @@ if (url.includes('/iphone/v3/user_member/home')) {
         }
     });
 }
-*/
+
 // 修改每个都为SVIP
     if (url.includes("/iphone/v3/user_member/course_configs")) {
         if (obj.datas && Array.isArray(obj.datas)) {
             obj.datas.forEach(course => {
                 if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
                     course.memberConfigs.forEach(member => {
-                        member.svipMemberType = 52;
+                        member.svipMemberType = 20;
                         member.svipTitle = member.title + "SVIP";
                     });
                 }
@@ -212,6 +215,21 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
        obj.data.payPrice = 0;
 
    }
+
+    if (url.includes("/v3/members/member_static_config")) {
+      if (obj && obj.data) {
+        obj.data.forEach(item => {
+        item.svipMemberType = 20;
+    });
+}
+
+    if (url.includes("/v3/user_member/course_configs")) {
+     obj.datas.forEach(course => {
+    course.memberConfigs.forEach(config => {
+    config.svipMemberType = 20;
+         });
+    });
+}
 
 
 
