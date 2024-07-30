@@ -24,6 +24,9 @@
 ^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#电子书
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/list_by_cat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 
 *
 [mitm]
@@ -236,15 +239,15 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 
    }
 
-/*
-    if (url.includes("/v3/members/member_static_config")) {
-      if (obj && obj.data) {
-        obj.data.forEach(item => {
-        item.svipMemberType = 20;
-        });
-      }
+#电子书
+    if (url.includes("/iphone/v3/ebook/list_by_cat")) {
+    obj.datas.forEach(item => {
+      item.paid = true; 
+      item.free = true; 
+    });
+
 }
-*/
+
 
     if (url.includes("/iphone/v3/member_lectures")) {
     obj.datas.forEach(item => {
