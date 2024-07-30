@@ -19,14 +19,17 @@
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-//^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
 # 检查试听权限
 //^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#我的课程
+//^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/keapi\.fenbi\.com\/school\/iphone\/offline_classes\/config\/get_by_biz url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 #电子书
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/list_by_cat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -38,6 +41,10 @@
 #教室权限
 ^https:\/\/live\.fenbi\.com\/iphone\/sydw\/v3\/livereplay\/replay\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/primelecture\/iphone\/user_prime_lectures\/is_user_prime_lecture url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#异常处理
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/(\d+)\/episode_sets url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/user_content_forms\/is_filled url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 
 
 *
@@ -295,10 +302,13 @@ if (url.includes("/jdwz/v3/my/lectures/")) { // 检查 URL 是否匹配
         // 针对summary的处理
         if (obj.data && obj.data.title) {
             obj.data.hasUserFormAfterOrder = true;
+            obj.data.enrollStatus = 1;
             obj.data.hasWatchStatPanel = true;
             obj.data.hasUserContentInfo = true;
-            obj.data.hasRedirectInstructorAfterPaid = true;
+            obj.data.needAgreement = true;
+            obj.data.hasRedirectInstructorAfterPaid = false;
             obj.data.code = 1;
+            obj.data.groupType = 1;
         } else if (obj.msg && obj.code) {
             obj.code = 1;
             obj.msg = "";
@@ -335,5 +345,25 @@ if (url.includes("/sydw/v3/episodes")) {
     obj.data.status = 1;
        }
 }
+
+if (url.includes("/school/iphone/offline_classes/config/get_by_biz")) {
+    obj.data.seatConfig.enable = true;
+    obj.data.seatConfig.seatStatus = 1;
+    obj.data.seatConfig.openTime = 1;
+    obj.data.seatConfig.supportSelectSet = 1;
+    obj.data.leaveConfig.enable = true;
+}
+
+if (url.includes("/jdwz/v3/my/lectures/") && url.includes("/episode_sets")) {
+    if (obj.data) {
+      obj.msg = "";
+      obj.code = 1;
+     }
+}
+
+if (url.includes("/sydw/v3/user_content_forms/is_filled")) {
+    obj.data = true;
+}
+
 
 $done({body: JSON.stringify(obj)});
