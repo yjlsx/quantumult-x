@@ -19,7 +19,10 @@
 
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 # 检查试听权限
 ^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -260,6 +263,22 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
     });
 }
 
+#我的课程
+    if (url.includes("/v3/my/lectures")) {
+   if(obj.data.code) {
+    obj.data.hasUserFormAfterOrder = true;
+    obj.data.code = 1;
+    obj.data.hasWatchStatPanel = true;
+    obj.data.hasUserContentInfo = true;
+    obj.data.hasRedirectInstructorAfterPaid = true;
+     }else if (obj.msg && obj.code) {
+          obj.code = 1;
+      }
+}
+
+    if (url.includes("/im/iphone/signatures/signature")) {
+          obj.code = 1;
+   }
 
 
 $done({body: JSON.stringify(obj)});
