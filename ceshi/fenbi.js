@@ -315,6 +315,7 @@ if (url.includes("/sydw/v3/episodes")) {
     obj.data.liveConfig.useIntelligentRoom =true;
     obj.data.playStatus = 1;
     obj.data.status = 1;
+       }
 }
 
 $done({body: JSON.stringify(obj)});
