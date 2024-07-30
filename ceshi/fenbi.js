@@ -10,22 +10,20 @@
 #^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/pre_best url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/summary\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 修改会员显示
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
-^https:\/\/ke\.fenbi\.com\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-
+//^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
 # 检查试听权限
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+//^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -121,6 +119,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
          });
      }
 
+
         if (Array.isArray(obj.data.memberConfig.memberBenefits)) {
             obj.data.memberConfig.memberBenefits.forEach(benefit => {
                 if (benefit.title === "视频解析" || benefit.title === "精选电子书") {
@@ -209,21 +208,13 @@ if (obj.datas && Array.isArray(obj.datas)) {
 
  }
 
-if (\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes/.test(url)) {
-    // 检查对象结构
-    if (obj && obj.datas && Array.isArray(obj.datas)) {
-        obj.datas.forEach(item => {
-            // 确保 payload 存在
-            if (item.payload) {
-                item.payload.hasAudition = true; 
-                item.payload.playStatus = 3;
-                item.payload.status = 3;
-            }
-        });
-    }
+if (url.includes("/iphone/jdwz/v3/lectures")) {
+    if (obj.datas) {
+       obj.datas.forEach(item => {
+              item.payload.hasAudition = true;
+                });
+        }
 }
-
-
 
     if (url.includes("/iphone/sydw/v3/orders/unpaid_order")) {
        obj.data.orderId = 999999999;
@@ -244,20 +235,17 @@ if (\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes/.test(url)) {
        obj.data.totalFee = 0;
    }
 
-if (\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2/.test(url)) {
-    if (obj.data) {
-        obj.data.hasRedirectInstructorAfterPaid = true;
-        obj.data.promotionPrice = 0;
-        obj.data.distributionId = 1;
-        obj.data.price = 0;
-        obj.data.topPrice = 0;
-        obj.data.floorPrice = 0;
-        obj.data.bestDiscount = obj.data.bestDiscount || {}; // 确保 bestDiscount 存在
-        obj.data.bestDiscount.discountedPrice = 0;
-        obj.data.payPrice = 0;
-    }
-}
+    if (url.includes("/jdwz/v3/lectures/655114/detail_for_sale_v2")) {
+       obj.data.hasRedirectInstructorAfterPaid = true;
+       obj.data.promotionPrice = 0;
+       obj.data.distributionId = 1;
+       obj.data.price = 0;
+       obj.data.topPrice = 0;
+       obj.data.floorPrice = 0;
+       obj.data.bestDiscount.discountedPrice = 0;
+       obj.data.payPrice = 0;
 
+   }
 
 //电子书
     if (url.includes("/iphone/v3/ebook/list_by_cat")) {
@@ -279,28 +267,33 @@ if (\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2/.test(url)) {
 }
 
     if (url.includes("/iphone/v3/member_lectures")) {
-     if (Array.isArray(obj.datas)) {
     obj.datas.forEach(item => {
       item.hasAudition = true;
       item.episodeDetail.hasAudition = true;
       item.episodeDetail.status = 1;
+      item.privilegePopInfo = "永久会员";
     });
 }
 
 
 // 我的课程
-if (url.includes("/jdwz/v3/my/lectures/(\d+)/summary")) {
-    if (obj.data && obj.data.title) {
-        obj.data.hasUserFormAfterOrder = true;
-        obj.data.hasWatchStatPanel = true;
-        obj.data.hasUserContentInfo = true;
-        obj.data.hasRedirectInstructorAfterPaid = true;
-        obj.data.code = 1;
-    } else if (obj.msg && obj.code) {
-        obj.code = 1;
-        obj.msg = "";
+if (url.includes("/jdwz/v3/my/lectures/")) { // 检查 URL 是否匹配
+    // 判断是否是期望的课程ID的URL
+    if (url.includes("/summary")) {
+        // 针对summary的处理
+        if (obj.data && obj.data.title) {
+            obj.data.hasUserFormAfterOrder = true;
+            obj.data.hasWatchStatPanel = true;
+            obj.data.hasUserContentInfo = true;
+            obj.data.hasRedirectInstructorAfterPaid = true;
+            obj.data.code = 1;
+        } else if (obj.msg && obj.code) {
+            obj.code = 1;
+            obj.msg = "";
+        }
     }
 }
+
 
 // 处理 "/im/iphone/signatures/signature" 的响应
 if (url.includes("/im/iphone/signatures/signature")) {
@@ -319,7 +312,6 @@ if (url.includes("/sydw/v3/livereplay/replay/lectures")) {
 if (url.includes("/user_prime_lectures/is_user_prime_lecture") || url.includes("/v3/ebook/update/user_books")) {
     obj.data = true;
 }
-//课程试听
 if (url.includes("/sydw/v3/episodes")) {
      if (obj.data.hasVideo && obj.data.hasAudition) {
     obj.data.hasAudition = true;
@@ -327,13 +319,8 @@ if (url.includes("/sydw/v3/episodes")) {
     obj.data.videoDisplayType = true;
     obj.data.supportMultiGroup = true;
     obj.data.liveConfig.useIntelligentRoom =true;
-    obj.data.liveConfig.hasStrokeKeynote =true;
-    obj.data.playStatus = 3;
-    obj.data.status = 3;
-    obj.data.bizType = 200;
-    obj.data.recordingType = 1;
-    obj.data.replayDataVersion = 1;
-    obj.data.enterRoomTimeInterval = 0;
+    obj.data.playStatus = 1;
+    obj.data.status = 1;
        }
 }
 
