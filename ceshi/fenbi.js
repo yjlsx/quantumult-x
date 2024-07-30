@@ -209,12 +209,17 @@ if (obj.datas && Array.isArray(obj.datas)) {
  }
 
 if (url.includes("/iphone/jdwz/v3/lectures")) {
-    if (obj.datas) {
-       obj.datas.forEach(item => {
-              item.payload.hasAudition = true;
-                });
+    if (url.includes("/summary")) {
+        if (obj.datas && Array.isArray(obj.datas)) {
+            obj.datas.forEach(item => {
+                if (item.payload) {
+                    item.payload.hasAudition = true;
+                }
+            });
         }
+    }
 }
+
 
     if (url.includes("/iphone/sydw/v3/orders/unpaid_order")) {
        obj.data.orderId = 999999999;
@@ -235,17 +240,24 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
        obj.data.totalFee = 0;
    }
 
-    if (url.includes("/jdwz/v3/lectures/655114/detail_for_sale_v2")) {
-       obj.data.hasRedirectInstructorAfterPaid = true;
-       obj.data.promotionPrice = 0;
-       obj.data.distributionId = 1;
-       obj.data.price = 0;
-       obj.data.topPrice = 0;
-       obj.data.floorPrice = 0;
-       obj.data.bestDiscount.discountedPrice = 0;
-       obj.data.payPrice = 0;
+if (url.includes("/jdwz/v3/lectures/") && url.includes("/detail_for_sale_v2")) {
+    if (obj.data) {
+        // 确保 obj.data 和其属性存在
+        obj.data.hasRedirectInstructorAfterPaid = true;
+        obj.data.promotionPrice = 0;
+        obj.data.distributionId = 1;
+        obj.data.price = 0;
+        obj.data.topPrice = 0;
+        obj.data.floorPrice = 0;
+        
+        // 确保 bestDiscount 存在
+        if (obj.data.bestDiscount) {
+            obj.data.bestDiscount.discountedPrice = 0;
+        }        
+        obj.data.payPrice = 0;
+    }
+}
 
-   }
 
 //电子书
     if (url.includes("/iphone/v3/ebook/list_by_cat")) {
