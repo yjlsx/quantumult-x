@@ -214,8 +214,8 @@ if (url.includes("/iphone/jdwz/v3/lectures/(\d+)/episode_nodes")) {
     if (obj.datas) {
        obj.datas.forEach(item => {
               item.payload.hasAudition = true;
-              item.payload.playStatus = 3;
-              item.payload.status = 3;
+              item.payload.playStatus = 1;
+              item.payload.status = 1;
                 });
         }
 }
