@@ -70,7 +70,7 @@ if (url.includes('/iphone/v3/member_centers/sale_center')) {
     }
 }
 */
-///*
+/*
 // 判断 URL 是否包含特定地址
 if (url.includes('/iphone/v3/user_member/home')) {
     // 修改 userMember 部分
@@ -144,7 +144,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
         }
     });
 }
-//*/
+*/
 // 修改每个都为SVIP
     if (url.includes("/iphone/v3/user_member/course_configs")) {
         if (obj.datas && Array.isArray(obj.datas)) {
