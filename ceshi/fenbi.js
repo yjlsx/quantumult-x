@@ -239,7 +239,7 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 
    }
 
-#电子书
+//电子书
     if (url.includes("/iphone/v3/ebook/list_by_cat")) {
      if (Array.isArray(obj.datas)) {
         obj.datas.forEach(item => {
