@@ -198,15 +198,11 @@ if (obj.datas && Array.isArray(obj.datas)) {
  }
 
 if (url.includes("/iphone/jdwz/v3/lectures")) {
-    if (obj && obj.datas) {
-        obj.datas.forEach(item => {
-            if (item.payload && item.payload.hasAudition) {
-                // 将有试听权限的记录标记为true
-                item.payload.recordingType = 1; // 设置录制类型
-                item.payload.hasAudition = true; // 确保试听权限为true
-            }
-        });
-    }
+    if (obj.datas) {
+       obj.datas.forEach(item => {
+              item.payload.hasAudition = true;
+                });
+        }
 }
 
     if (url.includes("/iphone/sydw/v3/orders/unpaid_order")) {
