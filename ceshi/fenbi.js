@@ -32,6 +32,8 @@
 #电子书
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/list_by_cat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/detail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/update\/user_books url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 #订单处理
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/red_packet_share\/activities\/detail\/by_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 #教室权限
@@ -303,7 +305,7 @@ if (url.includes("/sydw/v3/livereplay/replay/lectures")) {
     obj.code = 1;
     obj.msg = "";
 }
-if (url.includes("/user_prime_lectures/is_user_prime_lecture")) {
+if (url.includes("/user_prime_lectures/is_user_prime_lecture") || url.includes("/v3/ebook/update/user_books")) {
     obj.data = true;
 }
 if (url.includes("/sydw/v3/episodes")) {

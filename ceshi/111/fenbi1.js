@@ -159,7 +159,7 @@ if (url.includes("/jdwz/v3/my/lectures/visible")) {
         "saleStatus" : 0,
         "classStartTime" : 1724670475000,
         "startSaleTime" : 1721642400000
-      }
+      };
 
   // 添加新数据到 datas 数组中
   obj.datas.push(newData);
