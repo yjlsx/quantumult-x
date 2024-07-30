@@ -11,6 +11,11 @@ hostname = keapi.fenbi.com, ke.fenbi.com,
 const url = $request.url;
 const obj = JSON.parse($response.body);
 
+// 确保数据对象存在
+if (!Array.isArray(obj.datas)) {
+  obj.datas = [];
+}
+
 if (url.includes("/jdwz/v3/my/lectures/visible")) { 
   // 将新数据合并到现有的 data.datas 数组中
   const newData = {
