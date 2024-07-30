@@ -19,11 +19,10 @@
 
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/(\d+)\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3/my\/lectures\/(\d+)\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 # 检查试听权限
 ^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures\/(\d+)\/episode_nodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -44,7 +43,7 @@
 
 *
 [mitm]
-hostname = keapi.fenbi.com, ke.fenbi.com,
+hostname = keapi.fenbi.com, ke.fenbi.com, live.fenbi.com
 */
 
 const url = $request.url;
@@ -120,7 +119,6 @@ if (url.includes('/iphone/v3/user_member/home')) {
               item.svip = true;
          });
      }
-
 
         if (Array.isArray(obj.data.memberConfig.memberBenefits)) {
             obj.data.memberConfig.memberBenefits.forEach(benefit => {
@@ -211,11 +209,11 @@ if (obj.datas && Array.isArray(obj.datas)) {
  }
 
 if (url.includes("/iphone/jdwz/v3/lectures/(\d+)/episode_nodes")) {
-    if (obj.datas) {
+    if (obj && obj.datas && Array.isArray(obj.datas)) {
        obj.datas.forEach(item => {
               item.payload.hasAudition = true;
-              item.payload.playStatus = 1;
-              item.payload.status = 1;
+              item.payload.playStatus = 3;
+              item.payload.status = 3;
                 });
         }
 }
@@ -275,7 +273,6 @@ if (url.includes("/iphone/jdwz/v3/lectures/(\d+)/episode_nodes")) {
       item.hasAudition = true;
       item.episodeDetail.hasAudition = true;
       item.episodeDetail.status = 1;
-      item.privilegePopInfo = "永久会员";
     });
 }
 
@@ -311,6 +308,7 @@ if (url.includes("/sydw/v3/livereplay/replay/lectures")) {
 if (url.includes("/user_prime_lectures/is_user_prime_lecture") || url.includes("/v3/ebook/update/user_books")) {
     obj.data = true;
 }
+//课程试听
 if (url.includes("/sydw/v3/episodes")) {
      if (obj.data.hasVideo && obj.data.hasAudition) {
     obj.data.hasAudition = true;
