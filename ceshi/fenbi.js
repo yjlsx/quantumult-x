@@ -267,8 +267,8 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
     });
 }
 
-#我的课程
-// 处理 "/v3/my/lectures" 的响应
+
+// 我的课程
 if (url.includes("/v3/my/lectures")) {
     if (obj.data && obj.data.code) {
         obj.data.hasUserFormAfterOrder = true;
