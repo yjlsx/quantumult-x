@@ -26,6 +26,7 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 #电子书
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/list_by_cat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/detail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 
 *
@@ -245,9 +246,14 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
       item.paid = true; 
       item.free = true; 
     });
-
 }
 
+    if (url.includes("/iphone/v3/ebook/list_by_cat")) {
+    obj.data.paid = true;
+    obj.data.free = true;
+    obj.data.payPrice = 0;
+    obj.data.price = 0;
+}
 
     if (url.includes("/iphone/v3/member_lectures")) {
     obj.datas.forEach(item => {
