@@ -186,26 +186,10 @@ if (obj.datas && Array.isArray(obj.datas)) {
     }
 
     if (url.includes("/members/member_static_config")) {
-     var memberCatDict = {};
+  obj.data.forEach(item => {
+  item.svipMemberType = item.memberType;
+});
 
-// 遍历 data 数组，记录每个 memberCat 的 memberType
-if (obj.data && Array.isArray(obj.data)) {
-    obj.data.forEach(item => {
-        if (item.memberCat !== undefined && item.memberType !== undefined) {
-            // 如果 memberCat 还没有记录，创建一个新的条目
-            if (!memberCatDict[item.memberCat]) {
-                memberCatDict[item.memberCat] = item.memberType;
-            }
-        }
-    });
-
-    // 遍历 data 数组，将每个对象的 svipMemberType 设置为对应 memberCat 的 memberType
-    obj.data.forEach(item => {
-        if (item.memberCat !== undefined && memberCatDict[item.memberCat] !== undefined) {
-            item.svipMemberType = memberCatDict[item.memberCat];
-        }
-     });
-    }
  }
 
 if (url.includes("/iphone/jdwz/v3/lectures")) {
