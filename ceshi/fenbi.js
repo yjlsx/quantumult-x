@@ -30,6 +30,10 @@
 #电子书
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/list_by_cat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/detail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#订单处理
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/red_packet_share\/activities\/detail\/by_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#教室权限
+^https:\/\/live\.fenbi\.com\/iphone\/sydw\/v3\/livereplay\/replay\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 
 *
@@ -251,7 +255,7 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
     }
 }
 
-    if (url.includes("/iphone/v3/ebook/list_by_cat")) {
+    if (url.includes("/iphone/v3/ebook/detail")) {
     obj.data.paid = true;
     obj.data.free = true;
     obj.data.payPrice = 0;
@@ -287,6 +291,15 @@ if (url.includes("/im/iphone/signatures/signature")) {
     obj.code = 1;
 }
 
+if (url.includes("/v3/red_packet_share/activities/detail/by_order")) {
+    obj.code = 1;
+    obj.msg = "";
+}
+
+if (url.includes("/sydw/v3/livereplay/replay/lectures")) {
+    obj.code = 1;
+    obj.msg = "";
+}
 
 
 $done({body: JSON.stringify(obj)});
