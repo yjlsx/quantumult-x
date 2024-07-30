@@ -45,7 +45,7 @@
 #异常处理
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/(\d+)\/episode_sets url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/user_content_forms\/is_filled url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 
 *
@@ -342,7 +342,7 @@ if (url.includes("/v3/red_packet_share/activities/detail/by_order")) {
     obj.msg = "";
 }
 
-if (url.includes("/sydw/v3/livereplay/replay/lectures")) {
+if (url.includes("/sydw/v3/livereplay/replay/lectures") || url.includes("/iphone/jdwz/v3/ticket")) {
     obj.code = 1;
     obj.msg = "";
 }
