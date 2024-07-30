@@ -154,24 +154,58 @@ if (url.includes('/iphone/v3/user_member/home')) {
 
 // 修改每个都为SVIP
     if (url.includes("/iphone/v3/user_member/course_configs")) {
-        if (obj.datas && Array.isArray(obj.datas)) {
-            obj.datas.forEach(course => {
-                if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
-                    course.memberConfigs.forEach(member => {
-                        member.svipMemberType = member.memberType;
-                        member.svipTitle = member.title + "SVIP";
-                    });
+var memberTypeDict = {};
+
+// 遍历 datas 数组中的每个 course
+if (obj.datas && Array.isArray(obj.datas)) {
+    obj.datas.forEach(course => {
+        if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
+            course.memberConfigs.forEach(config => {
+                if (config.memberType !== undefined) {
+                    // 记录每个 memberType 的 svipMemberType
+                    if (!memberTypeDict[config.memberType]) {
+                        memberTypeDict[config.memberType] = config.svipMemberType;
+                    }
                 }
             });
         }
+    });
+
+    // 遍历 datas 数组中的每个 course，再次设置 svipMemberType 和 svipTitle
+    obj.datas.forEach(course => {
+        if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
+            course.memberConfigs.forEach(config => {
+                if (config.memberType !== undefined && memberTypeDict[config.memberType] !== undefined) {
+                    config.svipMemberType = memberTypeDict[config.memberType];
+                    config.svipTitle = config.title + "SVIP"; // 设置 svipTitle
+                       }
+                });
+            }
+        });
+      }
     }
 
     if (url.includes("/members/member_static_config")) {
-        if (obj.data && Array.isArray(obj.data)) {
-               obj.data.forEach(item => {
-                    item.svipMemberType = item.memberType;
-                           });
-                    }
+     var memberCatDict = {};
+
+// 遍历 data 数组，记录每个 memberCat 的 memberType
+if (obj.data && Array.isArray(obj.data)) {
+    obj.data.forEach(item => {
+        if (item.memberCat !== undefined && item.memberType !== undefined) {
+            // 如果 memberCat 还没有记录，创建一个新的条目
+            if (!memberCatDict[item.memberCat]) {
+                memberCatDict[item.memberCat] = item.memberType;
+            }
+        }
+    });
+
+    // 遍历 data 数组，将每个对象的 svipMemberType 设置为对应 memberCat 的 memberType
+    obj.data.forEach(item => {
+        if (item.memberCat !== undefined && memberCatDict[item.memberCat] !== undefined) {
+            item.svipMemberType = memberCatDict[item.memberCat];
+        }
+     });
+    }
  }
 
 if (url.includes("/iphone/jdwz/v3/lectures")) {
@@ -217,6 +251,7 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 
    }
 
+/*
     if (url.includes("/v3/members/member_static_config")) {
       if (obj && obj.data) {
         obj.data.forEach(item => {
@@ -232,7 +267,7 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
          });
     });
 }
-
+*/
 
 
 $done({body: JSON.stringify(obj)});
