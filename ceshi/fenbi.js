@@ -381,14 +381,13 @@ if (url.includes("/jdwz/v3/my/lectures/") && url.includes("/episode_sets")) {
      }
 }
 
-if (url.includes("/iphone/jdwz/v3/episodes")) {
+if (url.includes("/sydw/v3/user_content_forms/is_filled")) {
     obj.data = true;
 }
-if (url.includes("/mediafile\/meta")) { 
-    if (url.includes("/summary")) {
-      obj.msg = "";
-      obj.code = 1;
-     }
+
+if (url.includes("/iphone/jdwz/v3/episodes") && url.includes("/mediafile/meta")) {
+        obj.msg = "";
+        obj.code = 1;
 }
 
 
