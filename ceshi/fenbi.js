@@ -10,6 +10,7 @@
 #^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/pre_best url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/655114\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 修改会员显示
 #
@@ -170,19 +171,17 @@ if (url.includes('/iphone/v3/user_member/home')) {
                     }
  }
 
-    if (url.includes("/iphone/jdwz/v3/lectures")) {
-     if (obj && obj.datas) {
-       obj.datas.forEach(item => {
-          if (item.payload && item.payload.hasAudition) {
-            // 将有试听权限的记录标记为true
-            item.payload.recordingType = 1;
-            item.payload.hasAudition = true;
-                   }
-             });
-       }
-
- }
-
+if (url.includes("/iphone/jdwz/v3/lectures")) {
+    if (obj && obj.datas) {
+        obj.datas.forEach(item => {
+            if (item.payload && item.payload.hasAudition) {
+                // 将有试听权限的记录标记为true
+                item.payload.recordingType = 1; // 设置录制类型
+                item.payload.hasAudition = true; // 确保试听权限为true
+            }
+        });
+    }
+}
 
     if (url.includes("/iphone/sydw/v3/orders/unpaid_order")) {
        obj.data.orderId = 999999999;
@@ -200,6 +199,18 @@ if (url.includes('/iphone/v3/user_member/home')) {
        obj.data.dealRelief = obj.data.payFee;
        obj.data.cutFee = obj.data.payFee;
        obj.data.totalFee = 0;
+   }
+
+    if (url.includes("/jdwz/v3/lectures/655114/detail_for_sale_v2")) {
+       obj.data.hasRedirectInstructorAfterPaid = true;
+       obj.data.promotionPrice = 0;
+       obj.data.distributionId = 1;
+       obj.data.price = 0;
+       obj.data.topPrice = 0;
+       obj.data.floorPrice = 0;
+       obj.data.bestDiscount.discountedPrice = 0;
+       obj.data.payPrice = 0;
+
    }
 
 
