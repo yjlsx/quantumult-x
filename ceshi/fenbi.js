@@ -264,21 +264,24 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 }
 
 #我的课程
-    if (url.includes("/v3/my/lectures")) {
-   if(obj.data.code) {
-    obj.data.hasUserFormAfterOrder = true;
-    obj.data.code = 1;
-    obj.data.hasWatchStatPanel = true;
-    obj.data.hasUserContentInfo = true;
-    obj.data.hasRedirectInstructorAfterPaid = true;
-     }else if (obj.msg && obj.code) {
-          obj.code = 1;
-      }
+// 处理 "/v3/my/lectures" 的响应
+if (url.includes("/v3/my/lectures")) {
+    if (obj.data && obj.data.code) {
+        obj.data.hasUserFormAfterOrder = true;
+        obj.data.hasWatchStatPanel = true;
+        obj.data.hasUserContentInfo = true;
+        obj.data.hasRedirectInstructorAfterPaid = true;
+        obj.data.code = 1;
+    } else if (obj.msg && obj.code) {
+        obj.code = 1;
+    }
 }
 
-    if (url.includes("/im/iphone/signatures/signature")) {
-          obj.code = 1;
-   }
+// 处理 "/im/iphone/signatures/signature" 的响应
+if (url.includes("/im/iphone/signatures/signature")) {
+    obj.code = 1;
+}
+
 
 
 $done({body: JSON.stringify(obj)});
