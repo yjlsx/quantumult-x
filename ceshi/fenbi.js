@@ -8,6 +8,8 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/users\/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 修改课程价格
 #^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 # 修改会员显示
 #
 # 修改课程配置
@@ -184,6 +186,14 @@ if (url.includes('/iphone/v3/user_member/home')) {
        obj.data.orderId = 999999999;
        obj.code = 1;
    }
+
+    if (url.includes("/iphone/jdwz/v3/orders/uni")) {
+       obj.data.orderId = 999999999;
+       obj.data.order_id_str = "99999999";
+       obj.code = 1;
+       obj.msg = "购买成功";
+   }
+
 
 
 $done({body: JSON.stringify(obj)});
