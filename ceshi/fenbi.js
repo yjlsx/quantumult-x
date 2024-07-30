@@ -22,7 +22,7 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
-^https:\/\/ke\.fenbi\.com\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi.js
+^https:\/\/ke\.fenbi\.com\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 检查试听权限
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
