@@ -168,14 +168,11 @@ if (url.includes('/iphone/v3/user_member/home')) {
  }
 
     if (url.includes("/iphone/jdwz/v3/lectures")) {
-     if (obj.datas) {
+     if (obj && obj.datas) {
        obj.datas.forEach(item => {
           if (item.payload && item.payload.hasAudition) {
             // 将有试听权限的记录标记为true
             item.payload.hasAudition = true;
-            //item.payload.playStatus = 3;
-           // item.payload.status = 3;
-
                    }
              });
        }
