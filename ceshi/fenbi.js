@@ -241,10 +241,14 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 
 #电子书
     if (url.includes("/iphone/v3/ebook/list_by_cat")) {
-    obj.datas.forEach(item => {
-      item.paid = true; 
-      item.free = true; 
-    });
+     if (Array.isArray(obj.datas)) {
+        obj.datas.forEach(item => {
+            if (item) { // 确保 item 存在
+                item.paid = true; 
+                item.free = true; 
+            }
+        });
+    }
 }
 
     if (url.includes("/iphone/v3/ebook/list_by_cat")) {
