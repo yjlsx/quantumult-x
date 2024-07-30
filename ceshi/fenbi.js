@@ -23,6 +23,7 @@
 # 检查试听权限
 ^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 *
 [mitm]
@@ -243,15 +244,17 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
         });
       }
 }
+*/
 
-    if (url.includes("/v3/user_member/course_configs")) {
-     obj.datas.forEach(course => {
-    course.memberConfigs.forEach(config => {
-    config.svipMemberType = 20;
-         });
+    if (url.includes("/iphone/v3/member_lectures")) {
+    obj.datas.forEach(item => {
+      item.hasAudition = true;
+      item.episodeDetail.hasAudition = true;
+      item.episodeDetail.status = 1;
+      item.privilegePopInfo = "永久会员";
     });
 }
-*/
+
 
 
 $done({body: JSON.stringify(obj)});
