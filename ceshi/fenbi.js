@@ -10,7 +10,7 @@
 #^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/pre_best url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/(\d+)\/summary\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/summary\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 修改会员显示
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -19,9 +19,10 @@
 
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/(\d+)\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
+^^https:\/\/ke\.fenbi\.com\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
 
 # 检查试听权限
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -208,7 +209,7 @@ if (obj.datas && Array.isArray(obj.datas)) {
 
  }
 
-if (/\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes/.test(url)) {
+if (\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes/.test(url)) {
     // 检查对象结构
     if (obj && obj.datas && Array.isArray(obj.datas)) {
         obj.datas.forEach(item => {
@@ -243,17 +244,20 @@ if (/\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes/.test(url)) {
        obj.data.totalFee = 0;
    }
 
-    if (url.includes("/jdwz/v3/lectures/(\d+)/detail_for_sale_v2")) {
-       obj.data.hasRedirectInstructorAfterPaid = true;
-       obj.data.promotionPrice = 0;
-       obj.data.distributionId = 1;
-       obj.data.price = 0;
-       obj.data.topPrice = 0;
-       obj.data.floorPrice = 0;
-       obj.data.bestDiscount.discountedPrice = 0;
-       obj.data.payPrice = 0;
+if (\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2/.test(url)) {
+    if (obj.data) {
+        obj.data.hasRedirectInstructorAfterPaid = true;
+        obj.data.promotionPrice = 0;
+        obj.data.distributionId = 1;
+        obj.data.price = 0;
+        obj.data.topPrice = 0;
+        obj.data.floorPrice = 0;
+        obj.data.bestDiscount = obj.data.bestDiscount || {}; // 确保 bestDiscount 存在
+        obj.data.bestDiscount.discountedPrice = 0;
+        obj.data.payPrice = 0;
+    }
+}
 
-   }
 
 //电子书
     if (url.includes("/iphone/v3/ebook/list_by_cat")) {
