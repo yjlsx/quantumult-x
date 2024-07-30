@@ -34,6 +34,7 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/red_packet_share\/activities\/detail\/by_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 #教室权限
 ^https:\/\/live\.fenbi\.com\/iphone\/sydw\/v3\/livereplay\/replay\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/keapi\.fenbi\.com\/primelecture\/iphone\/user_prime_lectures\/is_user_prime_lecture url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 
 *
@@ -299,6 +300,9 @@ if (url.includes("/v3/red_packet_share/activities/detail/by_order")) {
 if (url.includes("/sydw/v3/livereplay/replay/lectures")) {
     obj.code = 1;
     obj.msg = "";
+}
+if (url.includes("/user_prime_lectures/is_user_prime_lecture")) {
+    obj.data = true;
 }
 
 
