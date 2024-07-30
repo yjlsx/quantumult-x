@@ -46,6 +46,7 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/(\d+)\/episode_sets url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/user_content_forms\/is_filled url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/live\.fenbi\.com\/dispatcher\/iphone\/jdwz\/config\/server\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 
 *
@@ -337,7 +338,7 @@ if (url.includes("/im/iphone/signatures/signature")) {
     obj.code = 1;
 }
 
-if (url.includes("/v3/red_packet_share/activities/detail/by_order")) {
+if (url.includes("/v3/red_packet_share/activities/detail/by_order") || url.includes("/dispatcher/iphone/jdwz/config/server/list")) {
     obj.code = 1;
     obj.msg = "";
 }
