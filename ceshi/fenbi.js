@@ -10,7 +10,7 @@
 #^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/pre_best url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/655114\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/(\d+)\/summary\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 修改会员显示
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -20,11 +20,12 @@
 # 修改课程配置
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/655114\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/(\d+)\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3/my\/lectures\/(\d+)\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 检查试听权限
-^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures\/(\d+)\/episode_nodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -209,10 +210,12 @@ if (obj.datas && Array.isArray(obj.datas)) {
 
  }
 
-if (url.includes("/iphone/jdwz/v3/lectures")) {
+if (url.includes("/iphone/jdwz/v3/lectures/(\d+)/episode_nodes")) {
     if (obj.datas) {
        obj.datas.forEach(item => {
               item.payload.hasAudition = true;
+              item.payload.playStatus = 3;
+              item.payload.status = 3;
                 });
         }
 }
@@ -236,7 +239,7 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
        obj.data.totalFee = 0;
    }
 
-    if (url.includes("/jdwz/v3/lectures/655114/detail_for_sale_v2")) {
+    if (url.includes("/jdwz/v3/lectures/(\d+)/detail_for_sale_v2")) {
        obj.data.hasRedirectInstructorAfterPaid = true;
        obj.data.promotionPrice = 0;
        obj.data.distributionId = 1;
@@ -278,7 +281,7 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 
 
 // 我的课程
-if (url.includes("/jdwz/v3/my/lectures/655114/summary")) {
+if (url.includes("/jdwz/v3/my/lectures/(\d+)/summary")) {
     if (obj.data && obj.data.title) {
         obj.data.hasUserFormAfterOrder = true;
         obj.data.hasWatchStatPanel = true;
@@ -315,8 +318,13 @@ if (url.includes("/sydw/v3/episodes")) {
     obj.data.videoDisplayType = true;
     obj.data.supportMultiGroup = true;
     obj.data.liveConfig.useIntelligentRoom =true;
-    obj.data.playStatus = 1;
-    obj.data.status = 1;
+    obj.data.liveConfig.hasStrokeKeynote =true;
+    obj.data.playStatus = 3;
+    obj.data.status = 3;
+    obj.data.bizType = 200;
+    obj.data.recordingType = 1;
+    obj.data.replayDataVersion = 1;
+    obj.data.enterRoomTimeInterval = 0;
        }
 }
 
