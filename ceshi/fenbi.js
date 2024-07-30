@@ -220,7 +220,8 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
       if (obj && obj.data) {
         obj.data.forEach(item => {
         item.svipMemberType = 20;
-    });
+        });
+      }
 }
 
     if (url.includes("/v3/user_member/course_configs")) {
