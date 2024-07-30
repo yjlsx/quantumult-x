@@ -47,6 +47,7 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/user_content_forms\/is_filled url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/live\.fenbi\.com\/dispatcher\/iphone\/jdwz\/config\/server\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 
 *
@@ -380,8 +381,14 @@ if (url.includes("/jdwz/v3/my/lectures/") && url.includes("/episode_sets")) {
      }
 }
 
-if (url.includes("/sydw/v3/user_content_forms/is_filled")) {
+if (url.includes("/iphone/jdwz/v3/episodes")) {
     obj.data = true;
+}
+if (url.includes("/mediafile\/meta")) { 
+    if (url.includes("/summary")) {
+      obj.msg = "";
+      obj.code = 1;
+     }
 }
 
 
