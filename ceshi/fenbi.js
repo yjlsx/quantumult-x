@@ -15,6 +15,7 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 检查试听权限
 ^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 *
 [mitm]
@@ -180,5 +181,12 @@ if (url.includes('/iphone/v3/user_member/home')) {
        }
 
  }
+
+
+    if (url.includes("/iphone/sydw/v3/orders/unpaid_order")) {
+       obj.data.orderId = 999999999;
+       obj.code = 1;
+   }
+
 
 $done({body: JSON.stringify(obj)});
