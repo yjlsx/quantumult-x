@@ -27,6 +27,8 @@
 ^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 #电子书
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/list_by_cat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/detail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -304,6 +306,15 @@ if (url.includes("/sydw/v3/livereplay/replay/lectures")) {
 if (url.includes("/user_prime_lectures/is_user_prime_lecture")) {
     obj.data = true;
 }
-
+if (url.includes("/sydw/v3/episodes")) {
+     if (obj.data.hasVideo && obj.data.hasAudition) {
+    obj.data.hasAudition = true;
+    obj.data.hasVideo = true;
+    obj.data.videoDisplayType = true;
+    obj.data.supportMultiGroup = true;
+    obj.data.liveConfig.useIntelligentRoom =true;
+    obj.data.playStatus = 1;
+    obj.data.status = 1;
+}
 
 $done({body: JSON.stringify(obj)});
