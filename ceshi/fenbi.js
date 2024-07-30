@@ -172,6 +172,9 @@ if (url.includes('/iphone/v3/user_member/home')) {
           if (item.payload && item.payload.hasAudition) {
             // 将有试听权限的记录标记为true
             item.payload.hasAudition = true;
+            item.payload.playStatus = 3;
+            item.payload.status = 3;
+
                    }
              });
        }
