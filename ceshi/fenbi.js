@@ -22,10 +22,11 @@
 ^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
 # 检查试听权限
-//^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 #我的课程
 //^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -316,6 +317,20 @@ if (url.includes("/jdwz/v3/my/lectures/")) { // 检查 URL 是否匹配
     }
 }
 
+// 确保 URL 符合目标模式
+if (url.match(/\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes/)) {
+    // 确保 obj.datas 存在且是一个数组
+    if (obj.datas && Array.isArray(obj.datas)) {
+        obj.datas.forEach(item => {
+            if (item.payload) {
+                item.payload.hasAudition = true;  
+                item.payload.playStatus = 3;
+                item.payload.status = 3;
+            }
+        });
+    }
+}
+
 
 // 处理 "/im/iphone/signatures/signature" 的响应
 if (url.includes("/im/iphone/signatures/signature")) {
@@ -355,7 +370,7 @@ if (url.includes("/school/iphone/offline_classes/config/get_by_biz")) {
 }
 
 if (url.includes("/jdwz/v3/my/lectures/") && url.includes("/episode_sets")) {
-    if (obj.data) {
+    if (obj.msg) {
       obj.msg = "";
       obj.code = 1;
      }
