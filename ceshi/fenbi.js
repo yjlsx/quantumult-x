@@ -351,13 +351,16 @@ if (url.includes("/user_prime_lectures/is_user_prime_lecture") || url.includes("
 }
 if (url.includes("/sydw/v3/episodes")) {
      if (obj.data.hasVideo && obj.data.hasAudition) {
+    obj.data.playStatus = 1;
     obj.data.hasAudition = true;
     obj.data.hasVideo = true;
     obj.data.videoDisplayType = true;
     obj.data.supportMultiGroup = true;
     obj.data.liveConfig.useIntelligentRoom =true;
-    obj.data.playStatus = 1;
-    obj.data.status = 1;
+    obj.data.playStatus = 3;
+    obj.data.enterRoomTimeInterval = 0;
+    obj.data.recordingType = 1;
+    obj.data.status = 3;
        }
 }
 
