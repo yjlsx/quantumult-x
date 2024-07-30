@@ -117,13 +117,13 @@ if (url.includes("/jdwz/v3/my/lectures/visible")) {
             "desc" : "粉笔公考判断推理、面试科目优质教师。专业知识扎实，授课幽默风趣。课程体系严密，考点讲解透彻，教学过程循循善诱，凝练有力，善于把握重点和难点，为学员真正着想，帮助学员们上岸。"
           }
         ],
-        "floorPrice" = 580,
+        "floorPrice" : 580,
         "needAgreement" : false,
         "brief" : "2025军队文职新大纲系统班图书大礼包：公共科目5期",
         "studentLimit" : 0,
         "hasLiveEpisodes" : false,
         "examType" : 0,
-        "bestDiscount" : null
+        "bestDiscount" : null,
         "hasQQGroup" : true,
         "apeCourseId" : 1,
         "hasAudition" : true,
@@ -162,7 +162,7 @@ if (url.includes("/jdwz/v3/my/lectures/visible")) {
       }
 
   // 添加新数据到 datas 数组中
-  obj.datas.push(newData.data);
+  obj.datas.push(newData);
   
   // 返回修改后的响应
   $response.body = JSON.stringify(obj);
