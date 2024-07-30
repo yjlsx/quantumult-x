@@ -158,7 +158,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
             obj.datas.forEach(course => {
                 if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
                     course.memberConfigs.forEach(member => {
-                        member.svipMemberType = 20;
+                        member.svipMemberType = member.memberType;
                         member.svipTitle = member.title + "SVIP";
                     });
                 }
@@ -169,7 +169,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
     if (url.includes("/members/member_static_config")) {
         if (obj.data && Array.isArray(obj.data)) {
                obj.data.forEach(item => {
-                    item.svipMemberType = 1;
+                    item.svipMemberType = item.memberType;
                            });
                     }
  }
@@ -199,8 +199,9 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
    }
 
     if (url.includes("/iphone/sydw/v3/orders/pre_best")) {
-       obj.data.dealRelief = obj.data.payFee;
-       obj.data.cutFee = obj.data.payFee;
+       obj.data.payFee = 0;
+       obj.data.dealRelief = 0;
+       obj.data.cutFee = 0;
        obj.data.totalFee = 0;
    }
 
