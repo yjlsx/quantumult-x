@@ -8,7 +8,8 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/users\/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 修改课程价格
 #^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/pre_best url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 修改会员显示
 #
@@ -174,6 +175,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
        obj.datas.forEach(item => {
           if (item.payload && item.payload.hasAudition) {
             // 将有试听权限的记录标记为true
+            item.payload.recordingType = 1;
             item.payload.hasAudition = true;
                    }
              });
@@ -192,6 +194,12 @@ if (url.includes('/iphone/v3/user_member/home')) {
        obj.data.order_id_str = "99999999";
        obj.code = 1;
        obj.msg = "购买成功";
+   }
+
+    if (url.includes("/iphone/sydw/v3/orders/pre_best")) {
+       obj.data.dealRelief = obj.data.payFee;
+       obj.data.cutFee = obj.data.payFee;
+       obj.data.totalFee = 0;
    }
 
 
