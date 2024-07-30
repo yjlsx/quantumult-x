@@ -24,7 +24,7 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
 
 # 检查试听权限
-^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures\/(\d+)\/episode_nodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -208,15 +208,21 @@ if (obj.datas && Array.isArray(obj.datas)) {
 
  }
 
-if (url.includes("/iphone/jdwz/v3/lectures/(\d+)/episode_nodes")) {
+if (/\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes/.test(url)) {
+    // 检查对象结构
     if (obj && obj.datas && Array.isArray(obj.datas)) {
-       obj.datas.forEach(item => {
-              item.payload.hasAudition = true;
-              item.payload.playStatus = 3;
-              item.payload.status = 3;
-                });
-        }
+        obj.datas.forEach(item => {
+            // 确保 payload 存在
+            if (item.payload) {
+                item.payload.hasAudition = true; 
+                item.payload.playStatus = 3;
+                item.payload.status = 3;
+            }
+        });
+    }
 }
+
+
 
     if (url.includes("/iphone/sydw/v3/orders/unpaid_order")) {
        obj.data.orderId = 999999999;
@@ -269,6 +275,7 @@ if (url.includes("/iphone/jdwz/v3/lectures/(\d+)/episode_nodes")) {
 }
 
     if (url.includes("/iphone/v3/member_lectures")) {
+     if (Array.isArray(obj.datas)) {
     obj.datas.forEach(item => {
       item.hasAudition = true;
       item.episodeDetail.hasAudition = true;
