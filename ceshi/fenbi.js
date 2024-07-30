@@ -14,7 +14,7 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 检查试听权限
-^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures\/655114\/episode_nodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenb\i.com\/iphone\/jdwz/v3\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 *
 [mitm]
@@ -69,7 +69,7 @@ if (url.includes('/iphone/v3/member_centers/sale_center')) {
     }
 }
 */
-/*
+///*
 // 判断 URL 是否包含特定地址
 if (url.includes('/iphone/v3/user_member/home')) {
     // 修改 userMember 部分
@@ -143,7 +143,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
         }
     });
 }
-*/
+//*/
 // 修改每个都为SVIP
     if (url.includes("/iphone/v3/user_member/course_configs")) {
         if (obj.datas && Array.isArray(obj.datas)) {
@@ -166,7 +166,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
                     }
  }
 
-    if (url.includes("/iphone/jdwz/v3/lectures/655114/episode_nodes")) {
+    if (url.includes("/iphone/jdwz/v3/lectures")) {
      if (data && data.datas) {
        data.datas.forEach(item => {
           if (item.payload && item.payload.hasAudition) {
