@@ -47,7 +47,8 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/user_content_forms\/is_filled url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/live\.fenbi\.com\/dispatcher\/iphone\/jdwz\/config\/server\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+\/mediafile/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 
 *
@@ -68,10 +69,10 @@ if (url.includes('/ai/iphone/entry')) {
         obj.data.aiteacherDisplayed = true;
         obj.data.aiteacherActivated = true;
         obj.data.userMember.memberClass = 52;    //[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
-        obj.data.userMember.memberType = 52;  // 设置会员配置的类型为指定数组;
+        obj.data.userMember.memberType = 51;  // 设置会员配置的类型为指定数组;
         obj.data.userMember.expireTime = 4102415999000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
-        obj.data.userMember.memberStatus = 1;
+        obj.data.userMember.memberStatus = 3;
         obj.data.userMember.createdTime = 1551873177267;
     }
 }
@@ -253,7 +254,7 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 if (url.includes("/jdwz/v3/lectures/") && url.includes("/detail_for_sale_v2")) {
     if (obj.data) {
         // 确保 obj.data 和其属性存在
-        obj.data.hasRedirectInstructorAfterPaid = true;
+        obj.data.hasRedirectInstructorAfterPaid = false;
         obj.data.promotionPrice = 0;
         obj.data.distributionId = 1;
         obj.data.price = 0;
@@ -304,14 +305,14 @@ if (url.includes("/jdwz/v3/my/lectures/")) { // 检查 URL 是否匹配
     if (url.includes("/summary")) {
         // 针对summary的处理
         if (obj.data && obj.data.title) {
-            obj.data.hasUserFormAfterOrder = true;
-            obj.data.enrollStatus = 1;
-            obj.data.hasWatchStatPanel = true;
-            obj.data.hasUserContentInfo = true;
-            obj.data.needAgreement = true;
+            obj.data.hasUserFormAfterOrder = false;
+            obj.data.enrollStatus = 0;
+            obj.data.hasWatchStatPanel = false;
+            obj.data.hasUserContentInfo = false;
+            obj.data.needAgreement = false;
             obj.data.hasRedirectInstructorAfterPaid = false;
-            obj.data.code = 1;
-            obj.data.groupType = 1;
+            //obj.data.code = "1327454000"; //?
+            obj.data.groupType = 0;
         } else if (obj.msg && obj.code) {
             obj.code = 1;
             obj.msg = "";
@@ -385,9 +386,11 @@ if (url.includes("/sydw/v3/user_content_forms/is_filled")) {
     obj.data = true;
 }
 
-if (url.includes("/iphone/jdwz/v3/episodes") && url.includes("/mediafile/meta")) {
+if (url.includes("/mediafile/meta")) {
+    if (obj.msg) {
         obj.msg = "";
         obj.code = 1;
+     }
 }
 
 
