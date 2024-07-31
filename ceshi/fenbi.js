@@ -66,13 +66,15 @@ let currentTime = Date.now();
 if (url.includes('/ai/iphone/entry')) {
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true;
+        obj.data.entryType = 2;
         obj.data.aiteacherDisplayed = true;
         obj.data.aiteacherActivated = true;
         obj.data.userMember.memberClass = 52;    //[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
-        obj.data.userMember.memberType = 51;  // 设置会员配置的类型为指定数组;
-        obj.data.userMember.expireTime = 4102415999000;  // 2099-12-31
+        obj.data.userMember.memberType = 52;  // 设置会员配置的类型为指定数组;
+        obj.data.userMember.expireTime = 4102414999000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
         obj.data.userMember.memberStatus = 3;
+
         obj.data.userMember.createdTime = 1551873177267;
     }
 }
