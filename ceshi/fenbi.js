@@ -331,6 +331,8 @@ if (url.match(/\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes/)) {
                 item.payload.hasAudition = true;  
                 item.payload.playStatus = 3;
                 item.payload.status = 3;
+                item.payload.liveConfig.hasStrokeKeynote =true;
+                item.bizType = 200;
             }
         });
     }
@@ -356,13 +358,14 @@ if (url.includes("/user_prime_lectures/is_user_prime_lecture") || url.includes("
 }
 if (url.includes("^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+")) {
      if (obj.data.hasVideo && obj.data.hasAudition) {
-    obj.data.playStatus = 1;
+    obj.data.playStatus = 3;
     obj.data.hasAudition = false;
     obj.data.hasVideo = true;
     obj.data.videoDisplayType = true;
-    obj.data.supportMultiGroup = true;
+    obj.data.liveConfig.hasStrokeKeynote =true;
     obj.data.liveConfig.useIntelligentRoom =true;
     obj.data.playStatus = 3;
+    obj.data.bizType = 200;
     //obj.data.enterRoomTimeInterval = 0;
     obj.data.recordingType = 1;
     obj.data.status = 3;
