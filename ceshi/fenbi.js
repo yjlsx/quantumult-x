@@ -386,12 +386,14 @@ if (url.includes("/sydw/v3/user_content_forms/is_filled")) {
     obj.data = true;
 }
 
-if (url.includes("/mediafile/meta")) {
+// 匹配两个不同的 URL 模式
+if (url.match(/^https:\/\/ke\.fenbi\.com\/iphone\/(jdwz|sydw)\/v3\/episodes\/\d+\/mediafile\/meta/)) {
     if (obj.msg) {
         obj.msg = "";
         obj.code = 1;
-     }
+    }
 }
+
 
 
 $done({body: JSON.stringify(obj)});
