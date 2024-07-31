@@ -6,6 +6,12 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/equity\/equity\/duration url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/product\/product-list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51job\.com\/open\/product\/monthly-card\/rec url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+
+*
+[mitm]
+hostname = cupid.51jobapp.com, cupid.51job.com
+
 */
 
 let body = $response.body;
@@ -53,6 +59,13 @@ try {
         if (obj.resultbody) {
             obj.resultbody.opened = true;
         }
+    }else if (url.includes('/open/product/monthly-card/rec')) {
+      obj.resultbody.productDetailList.forEach(product => {
+          product.skuList.forEach(sku => {
+             sku.price = 0;
+             sku.originalPrice = 0;
+                });
+           });
     }else if (url.includes('/open/product/product-list')) {
     if (obj.resultbody && obj.resultbody.productDetailList) {
     obj.resultbody.productDetailList.forEach(product => {
@@ -67,6 +80,8 @@ try {
 } catch (e) {
     // 忽略错误，继续处理其他部分
 }
+
+
 
 body = JSON.stringify(obj);
 $done({body});
