@@ -184,11 +184,6 @@ if (url.includes('/iphone/v3/user_member/home')) {
 }
 
 // 修改每个都为SVIP
-    if (url.includes("/iphone/v3/user_member/course_configs")) {
-var memberTypeDict = {};
-
-// 遍历 datas 数组中的每个 course
-// 修改每个都为SVIP
 if (url.includes("/iphone/v3/user_member/course_configs")) {
     var memberTypeDict = {};
 
