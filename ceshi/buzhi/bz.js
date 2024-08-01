@@ -14,12 +14,13 @@ const body = $response.body;
 let obj = JSON.parse(body);
 
 if (url.includes('api.yaotia.com')) {
-    // 初始化状态
-    let handled = false;
+    let conditionOne = false;
+    let conditionTwo = false;
+    let conditionThree = false;
     
     // 检查第一个响应体的条件
     if (obj.result && Array.isArray(obj.result)) {
-        // 对应第一个响应体的处理逻辑
+        conditionOne = true;
         obj.status = 200;
         obj.result.forEach(item => {
             if (item.is_vip !== undefined) {
@@ -47,59 +48,79 @@ if (url.includes('api.yaotia.com')) {
                 item.user_info.vip_desc = "2099-12-31 到期";
             }
         });
-        handled = true; // 标记为已处理
     }
-
+    
     // 检查第二个响应体的条件
     if (obj.result && obj.result.errormsg) {
-        if (!handled) { // 如果之前没有处理
-            obj.status = 200;
-            handled = true; // 标记为已处理
-        }
+        conditionTwo = true;
+        obj.status = 200;
+        obj.result.errormsg = "购买成功";
     }
-
+    
     // 检查第三个响应体的条件
     if (obj.result && obj.result[0] && obj.result[0].goods) {
-        if (!handled) { // 如果之前没有处理
-            obj.result[0].goods.push({
-                "course_type": 5,
-                "list": [
-                    {
-                        "mark_name": "",
-                        "relation_id": "76",
-                        "short_desc": "会员课程",
-                        "teachers": [
-                            {
-                                "avatar": null,
-                                "teacher_name": null,
-                                "teacher_id": 2
-                            }
-                        ],
-                        "brand": {},
-                        "real_price": 1840,
-                        "tags": [],
-                        "desc": "永久会员",
-                        "title": "行测三板斧·风暴羚羊",
-                        "induce_text": "",
-                        "right_bottom_text": "",
-                        "price": "",
-                        "is_my_course": 1,
-                        "btns": [
-                            {
-                                "style": "hollow",
-                                "txt": "立即学习",
-                                "action": "to_pack"
-                            }
-                        ],
-                        "goods_id": 52,
-                        "goods_type": "5",
-                        "left_bottom_link": 0,
-                        "is_open": 1
-                    }
-                ]
-            });
-            handled = true; // 标记为已处理
-        }
+        conditionThree = true;
+        obj.result[0].goods.push({
+            "course_type": 5,
+            "list": [
+                {
+                    "mark_name": "",
+                    "relation_id": "76",
+                    "short_desc": "会员课程",
+                    "teachers": [
+                        {
+                            "avatar": null,
+                            "teacher_name": null,
+                            "teacher_id": 2
+                        }
+                    ],
+                    "brand": {},
+                    "real_price": 1840,
+                    "tags": [],
+                    "desc": "永久会员",
+                    "title": "行测三板斧·风暴羚羊",
+                    "induce_text": "",
+                    "right_bottom_text": "",
+                    "price": "",
+                    "is_my_course": 1,
+                    "btns": [
+                        {
+                            "style": "hollow",
+                            "txt": "立即学习",
+                            "action": "to_pack"
+                        }
+                    ],
+                    "goods_id": 52,
+                    "goods_type": "5",
+                    "left_bottom_link": 0,
+                    "is_open": 1
+                }
+            ]
+        });
+    }
+    
+    // 处理满足多个条件的情况
+    if (conditionOne && conditionTwo && conditionThree) {
+        // 处理同时满足所有条件的逻辑
+        console.log("同时满足所有条件");
+    } else if (conditionOne && conditionTwo) {
+        // 处理同时满足第一个和第二个条件的逻辑
+        console.log("满足条件一和条件二");
+    } else if (conditionOne && conditionThree) {
+        // 处理同时满足第一个和第三个条件的逻辑
+        console.log("满足条件一和条件三");
+    } else if (conditionTwo && conditionThree) {
+        // 处理同时满足第二个和第三个条件的逻辑
+        console.log("满足条件二和条件三");
+    } else if (conditionOne) {
+        // 处理只满足第一个条件的逻辑
+        console.log("仅满足条件一");
+    } else if (conditionTwo) {
+        // 处理只满足第二个条件的逻辑
+        console.log("仅满足条件二");
+    } else if (conditionThree) {
+        // 处理只满足第三个条件的逻辑
+        console.log("仅满足条件三");
     }
 }
 
