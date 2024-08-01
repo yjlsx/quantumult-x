@@ -2,7 +2,7 @@
 /**************************************
 
 [rewrite_local]
-https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|capacity\/growth\/info) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark1.js
+https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|capacity\/growth\/info.+|activ\/manage\/coupon\/available.+|act\/growth\/reward) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark1.js
 ^https:\/\/coral2\.quark\.cn\/quark\/v2\/(queryMemberInfo|getMemberMessage|home) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark1.js
 ^https:\/\/order-api\.sm\.cn\/api\/(payorder\/v1\/precreate|member\/v1\/lotteryDraw|member\/v1\/center) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark1.js
 
@@ -192,10 +192,23 @@ if ($request.url.indexOf('/api/payorder/v1/precreate') !== -1) {
   }
 }
 
-if ($request.url.indexOf('member\/v1\/lotteryDraw') !== -1) {
+if ($request.url.indexOf('act/growth/reward') !== -1) {
   if (yjlsx && yjlsx.data) {
     yjlsx.code = 0;
     yjlsx.status = 200;
+  }
+}
+
+if ($request.url.indexOf('member\/v1\/lotteryDraw') !== -1) {
+  if (yjlsx && yjlsx.data) {
+    yjlsx.data.autopay_reward_info.cur_reward_start = true;
+    yjlsx.data.autopay_reward_info.reward_left_chance = 20;
+  }
+}
+
+if ($request.url.indexOf('activ/manage/coupon/available') !== -1) {
+  if (yjlsx && yjlsx.metadata) {
+    yjlsx.metadata.client_pull_auto_trigger = true;
   }
 }
 
