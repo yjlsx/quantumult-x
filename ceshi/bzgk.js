@@ -218,7 +218,6 @@ if (url.includes('api.yaotia.com')) {
         });
     } else if (obj.result && obj.result.errormsg) {
         obj.status = 200;
-        obj.result.errormsg = "购买成功";
     } else if (obj.result && obj.result[0] && obj.result[0].goods) {
         obj.result[0].goods.push({
             "course_type": 5,
