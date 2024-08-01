@@ -184,17 +184,22 @@ if (url.includes('/iphone/v3/user_member/home')) {
     });
 }
 
-// 修改每个都为SVIP
+// 确保对指定的 URL 地址进行修改
 if (url.includes("/iphone/v3/user_member/course_configs")) {
     var memberTypeDict = {};
 
+    // 输出日志以调试 URL 是否匹配
+    console.log(`匹配到的URL: ${url}`);
+
     // 遍历 datas 数组中的每个 course
     if (obj.datas && Array.isArray(obj.datas)) {
+        console.log('原始数据:', JSON.stringify(obj.datas, null, 2)); // 输出原始数据
+
+        // 记录每个 memberType 的 svipMemberType 和 svipTitle
         obj.datas.forEach(course => {
             if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
                 course.memberConfigs.forEach(config => {
                     if (config.memberType !== undefined) {
-                        // 记录每个 memberType 的 svipMemberType 和 svipTitle
                         memberTypeDict[config.memberType] = {
                             svipMemberType: config.svipMemberType,
                             svipTitle: config.title + "SVIP"
@@ -204,7 +209,9 @@ if (url.includes("/iphone/v3/user_member/course_configs")) {
             }
         });
 
-        // 遍历 datas 数组中的每个 course，再次设置 svipMemberType 和 svipTitle
+        console.log('记录的 memberTypeDict:', JSON.stringify(memberTypeDict, null, 2)); // 输出记录的 memberTypeDict
+
+        // 再次遍历 datas 数组中的每个 course，更新 svipMemberType 和 svipTitle
         obj.datas.forEach(course => {
             if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
                 course.memberConfigs.forEach(config => {
@@ -215,6 +222,8 @@ if (url.includes("/iphone/v3/user_member/course_configs")) {
                 });
             }
         });
+
+        console.log('修改后的数据:', JSON.stringify(obj.datas, null, 2)); // 输出修改后的数据
     }
 }
 
