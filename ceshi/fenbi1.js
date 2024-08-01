@@ -74,7 +74,8 @@ if (url.includes('/ai/iphone/entry')) {
         obj.data.aiteacherDisplayed = true;
         obj.data.aiteacherActivated = true;
         obj.data.userMember.memberClass = 1;    //[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
-        obj.data.userMember.memberType = 2;  // 设置会员配置的类型为指定数组;
+        obj.data.userMember.memberType = 20;  // 设置会员配置的类型为指定数组;
+        obj.data.svipmemberType = 20;
         obj.data.userMember.expireTime = 4102359799000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
         obj.data.userMember.memberStatus = 2;
@@ -394,12 +395,12 @@ if (url.includes("^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+")) 
      if (obj.data.hasVideo && obj.data.hasAudition) {
     obj.data.playStatus = 3;
     obj.data.hasAudition = false;
+    obj.data.supportLive = true;
+    obj.data.supportReplay = true;
     obj.data.hasVideo = true;
     obj.data.videoDisplayType = true;
     obj.data.liveConfig.hasStrokeKeynote =true;
-    obj.data.liveConfig.useIntelligentRoom =true;
     obj.data.playStatus = 3;
-    obj.data.bizType = 200;
     //obj.data.enterRoomTimeInterval = 0;
     obj.data.recordingType = 1;
     obj.data.status = 3;
