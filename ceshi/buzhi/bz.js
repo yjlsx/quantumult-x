@@ -14,52 +14,30 @@ const body = $response.body;
 let obj = JSON.parse(body);
 
 if (url.includes('api.yaotia.com')) {
-    let conditionOne = false;
-    let conditionTwo = false;
-    let conditionThree = false;
-    
-    // 检查第一个响应体的条件
+    // 处理第一个情况：检查 obj.result 是否为数组，并且每个对象中包含价格字段
     if (obj.result && Array.isArray(obj.result)) {
-        conditionOne = true;
-        obj.status = 200;
         obj.result.forEach(item => {
-            if (item.is_vip !== undefined) {
-                item.is_vip = 1;
-                item.need_card = 0;
-                item.video_auth = 1;
-                item.can_correct = 1; 
-                item.sl_card_num = 99999;
-            }
-            if (item.question_list) {
-                item.question_list.forEach(question => {
-                    question.video_auth = 1;  // 设置视频权限
-                    question.can_correct = 1; // 设置可以批改
+            if (item.goods && Array.isArray(item.goods)) {
+                item.goods.forEach(good => {
+                    if (good.price !== undefined) {
+                        good.price = "0"; // 修改当前价格为0
+                    }
+                    if (good.original_price !== undefined) {
+                        good.original_price = "0"; // 修改原始价格为0
+                    }
                 });
-            }
-            if (item.role !== undefined) {
-                item.role = 1;
-            }
-            if (item.bzb !== undefined) {
-                item.bzb = 999999;
-            }
-            if (item.user_info) {
-                item.user_info.button_name = "永久会员";
-                item.user_info.role = 1;
-                item.user_info.vip_desc = "2099-12-31 到期";
             }
         });
     }
-    
-    // 检查第二个响应体的条件
+
+    // 处理第二个情况：检查 obj.result.errormsg 并修改状态和错误信息
     if (obj.result && obj.result.errormsg) {
-        conditionTwo = true;
         obj.status = 200;
         obj.result.errormsg = "购买成功";
     }
-    
-    // 检查第三个响应体的条件
+
+    // 处理第三个情况：检查 obj.result[0].goods 并在其中添加一个新商品
     if (obj.result && obj.result[0] && obj.result[0].goods) {
-        conditionThree = true;
         obj.result[0].goods.push({
             "course_type": 5,
             "list": [
@@ -98,31 +76,8 @@ if (url.includes('api.yaotia.com')) {
             ]
         });
     }
-    
-    // 处理满足多个条件的情况
-    if (conditionOne && conditionTwo && conditionThree) {
-        // 处理同时满足所有条件的逻辑
-        console.log("同时满足所有条件");
-    } else if (conditionOne && conditionTwo) {
-        // 处理同时满足第一个和第二个条件的逻辑
-        console.log("满足条件一和条件二");
-    } else if (conditionOne && conditionThree) {
-        // 处理同时满足第一个和第三个条件的逻辑
-        console.log("满足条件一和条件三");
-    } else if (conditionTwo && conditionThree) {
-        // 处理同时满足第二个和第三个条件的逻辑
-        console.log("满足条件二和条件三");
-    } else if (conditionOne) {
-        // 处理只满足第一个条件的逻辑
-        console.log("仅满足条件一");
-    } else if (conditionTwo) {
-        // 处理只满足第二个条件的逻辑
-        console.log("仅满足条件二");
-    } else if (conditionThree) {
-        // 处理只满足第三个条件的逻辑
-        console.log("仅满足条件三");
-    }
 }
+
 
 
 
