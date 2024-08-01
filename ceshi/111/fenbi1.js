@@ -13,6 +13,7 @@ const obj = JSON.parse($response.body);
 
 // 确保数据对象存在
 if (!Array.isArray(obj.datas)) {
+  obj.total = 3;
   obj.datas = [];
 }
 
@@ -26,7 +27,7 @@ if (url.includes("/jdwz/v3/my/lectures/visible")) {
       "discounts": [
       ],
       "priceDisplayType": 0,
-      "dealPlanId": 12,
+      "dealPlanId": -1, //12
       "hasExercise": false,
       "hasImGroup": false,
       "grouponRule": null,
@@ -61,7 +62,7 @@ if (url.includes("/jdwz/v3/my/lectures/visible")) {
         "teachers" : [
           {
             "userId" : 39636188,
-            "brief" : "公共基础知识主讲",
+            "brief" : "公共基础知识讲师",
             "avatar" : "18f4d1beba6ea99.jpg",
             "id" : 2375,
             "teacherStat" : {
@@ -80,7 +81,7 @@ if (url.includes("/jdwz/v3/my/lectures/visible")) {
           },
           {
             "userId" : 123241256,
-            "brief" : "公共基础知识讲师",
+            "brief" : "公共基础知识主讲",
             "avatar" : "1711b428a076f4e.jpg",
             "id" : 5895,
             "teacherStat" : {
@@ -126,20 +127,18 @@ if (url.includes("/jdwz/v3/my/lectures/visible")) {
         "bestDiscount" : null,
         "hasQQGroup" : true,
         "apeCourseId" : 1,
-        "hasAudition" : true,
-        "hasClassPeriod" : true,
+        "hasAudition" : false,
+        "hasClassPeriod" : false,
         "hasUserExamInfo" : false,
         "hasUserFormBeforeOrder" : false,
-        "salesStatus" : 0,
-        "salesText" : "火热销售中",
-        "hasUserContentInfo" : false,
+        "salesStatus" : 2,
         "productType" : {
           "type" : 4,
           "name" : "系统班"
         },
         "hasUserContentInfo" : false,
         "hidden" : false,
-        "promotionDesc" : "",
+        "promotionDesc" : null,
         "hasUserFormAfterOrder" : false,
         "hasPosition" : false,
         "courseId" : 22,
@@ -154,9 +153,10 @@ if (url.includes("/jdwz/v3/my/lectures/visible")) {
           "writtenOfflineLecture" : false
         },
         "hasRedirectInstructor" : false,
+        "pinned" : false,
         "kePrefix" : "jdwz",
         "stopSaleTime" : 1724666400000,
-        "saleStatus" : 0,
+        "saleStatus" : 2,
         "classStartTime" : 1724670475000,
         "startSaleTime" : 1721642400000
       };
