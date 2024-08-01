@@ -139,14 +139,15 @@ if ($request.url.indexOf('/quark/v2/queryMemberInfo') !== -1) {
   }
 }
 
-if ($request.url.indexOf('/quark/v2/getMemberMessage')) {
+if ($request.url.indexOf('/quark/v2/getMemberMessage') !== -1) {
   // 修改 hasVip 为 true
   if (yjlsx && yjlsx.data) {
     yjlsx.data.hasVip = true;
   }
+}
 
-if ($request.url.indexOf('/quark/v2/home')) {
-// 修改 "网盘" 会员的信息
+if ($request.url.indexOf('/quark/v2/home') !== -1) {
+  // 修改 "网盘" 会员的信息
   if (yjlsx && yjlsx.data && Array.isArray(yjlsx.data.memberInfoList)) {
     yjlsx.data.memberInfoList.forEach(member => {
       if (member.name === '网盘') {
@@ -157,9 +158,9 @@ if ($request.url.indexOf('/quark/v2/home')) {
         member.lowAmount = 0;
       }
     });
-
-
   }
+}
+
 
 
 $done({body : JSON.stringify(yjlsx)});
