@@ -149,6 +149,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
         for (let module of obj.data.modules) {
             if (module.content.eBooks) {
                 for (let ebook of module.content.eBooks) {
+                    ebook.requireMemberTypes = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
                     ebook.paid = true;
                 }
             }
