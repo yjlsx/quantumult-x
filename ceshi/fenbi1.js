@@ -49,6 +49,8 @@
 ^https:\/\/live\.fenbi\.com\/dispatcher\/iphone\/jdwz\/config\/server\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_study\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 
 
 *
@@ -70,7 +72,7 @@ if (url.includes('/ai/iphone/entry')) {
         obj.data.aiteacherDisplayed = true;
         obj.data.aiteacherActivated = true;
         obj.data.userMember.memberClass = 1;    //[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
-        obj.data.userMember.memberType = 52;  // 设置会员配置的类型为指定数组;
+        obj.data.userMember.memberType = 2;  // 设置会员配置的类型为指定数组;
         obj.data.userMember.expireTime = 4102414999000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
         obj.data.userMember.memberStatus = 3;
@@ -186,35 +188,44 @@ if (url.includes('/iphone/v3/user_member/home')) {
 var memberTypeDict = {};
 
 // 遍历 datas 数组中的每个 course
-if (obj.datas && Array.isArray(obj.datas)) {
-    obj.datas.forEach(course => {
-        if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
-            course.memberConfigs.forEach(config => {
-                if (config.memberType !== undefined) {
-                    // 记录每个 memberType 的 svipMemberType
-                    if (!memberTypeDict[config.memberType]) {
-                        memberTypeDict[config.memberType] = config.svipMemberType;
-                    }
-                }
-            });
-        }
-    });
+// 修改每个都为SVIP
+if (url.includes("/iphone/v3/user_member/course_configs")) {
+    var memberTypeDict = {};
 
-    // 遍历 datas 数组中的每个 course，再次设置 svipMemberType 和 svipTitle
-    obj.datas.forEach(course => {
-        if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
-            course.memberConfigs.forEach(config => {
-                if (config.memberType !== undefined && memberTypeDict[config.memberType] !== undefined) {
-                    config.svipMemberType = memberTypeDict[config.memberType];
-                    config.svipTitle = config.title + "SVIP"; // 设置 svipTitle
-                       }
+    // 遍历 datas 数组中的每个 course
+    if (obj.datas && Array.isArray(obj.datas)) {
+        obj.datas.forEach(course => {
+            if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
+                course.memberConfigs.forEach(config => {
+                    if (config.memberType !== undefined) {
+                        // 记录每个 memberType 的 svipMemberType
+                        if (!memberTypeDict[config.memberType]) {
+                            memberTypeDict[config.memberType] = {
+                                svipMemberType: config.svipMemberType,
+                                svipTitle: config.title + "SVIP" // 设置 svipTitle
+                            };
+                        }
+                    }
                 });
             }
         });
-      }
-    }
 
-    if (url.includes("/members/member_static_config")) {
+        // 遍历 datas 数组中的每个 course，再次设置 svipMemberType 和 svipTitle
+        obj.datas.forEach(course => {
+            if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
+                course.memberConfigs.forEach(config => {
+                    if (config.memberType !== undefined && memberTypeDict[config.memberType]) {
+                        config.svipMemberType = memberTypeDict[config.memberType].svipMemberType;
+                        config.svipTitle = memberTypeDict[config.memberType].svipTitle; // 设置 svipTitle
+                    }
+                });
+            }
+        });
+    }
+}
+
+
+ if (url.includes("/members/member_static_config")) {
   obj.data.forEach(item => {
   item.svipMemberType = item.memberType;
 });
@@ -394,12 +405,15 @@ if (url.includes("/sydw/v3/user_content_forms/is_filled")) {
 }
 
 // 匹配两个不同的 URL 模式
-if (url.match(/^https:\/\/ke\.fenbi\.com\/iphone\/(jdwz|sydw)\/v3\/episodes\/\d+\/mediafile\/meta/)) {
+if (url.match(/^https:\/\/ke\.fenbi\.com\/iphone\/(jdwz|sydw|v3\/user_study\/entry|v3\/episodes\/\d+\/mediafile\/meta)/)) {
     if (obj.msg) {
         obj.msg = "";
         obj.code = 1;
     }
 }
+
+
+
 
 
 
