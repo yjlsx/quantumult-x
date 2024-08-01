@@ -218,7 +218,7 @@ if (url.includes('/api/v1/order/seaList')) {
                 }
             });
         }
-    } else if (obj.result && obj.result.errormsg) {
+    } else if (url.includes('api.yaotia.com') && obj.result && obj.result.errormsg) {
     obj.status = 200;
     obj.result.errormsg = "购买成功";
 } else if (url.includes('api.yaotia.com') && obj.result && obj.result[0].goods) {
