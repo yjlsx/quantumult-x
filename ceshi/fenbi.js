@@ -181,38 +181,44 @@ if (url.includes('/iphone/v3/user_member/home')) {
     });
 }
 
-// 修改每个都为SVIP
-    if (url.includes("/iphone/v3/user_member/course_configs")) {
-var memberTypeDict = {};
+if (url.includes("/iphone/v3/user_member/course_configs")) {
+    // 记录每个 memberType 的对应值
+    var memberTypeDict = {
+        2: 2,  // 行测
+        1: 1,  // 申论
+        5: 5,  // 面试
+        7: 7,  // 资格笔试
+        8: 8,  // 招聘笔试
+        17: 17, // 招聘面试
+        16: 16, // 资格面试
+        4: 4,  // 公基
+        11: 11, // 职测
+        13: 13, // 综应
+        14: 14, // 公安招警
+        15: 15, // 医疗笔试
+        18: 18, // 医疗面试
+        6: 6,  // 办公
+        20: 20 // 军队文职
+    };
 
-// 遍历 datas 数组中的每个 course
-if (obj.datas && Array.isArray(obj.datas)) {
-    obj.datas.forEach(course => {
-        if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
-            course.memberConfigs.forEach(config => {
-                if (config.memberType !== undefined) {
-                    // 记录每个 memberType 的 svipMemberType
-                    if (!memberTypeDict[config.memberType]) {
-                        memberTypeDict[config.memberType] = config.svipMemberType;
+    // 遍历 datas 数组中的每个 course
+    if (obj.datas && Array.isArray(obj.datas)) {
+        obj.datas.forEach(course => {
+            if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
+                course.memberConfigs.forEach(config => {
+                    if (config.memberType !== undefined) {
+                        // 更新 svipMemberType 和 svipTitle
+                        if (memberTypeDict[config.memberType] !== undefined) {
+                            config.svipMemberType = memberTypeDict[config.memberType];
+                            config.svipTitle = config.title + "SVIP"; // 设置 svipTitle
+                        }
                     }
-                }
-            });
-        }
-    });
-
-    // 遍历 datas 数组中的每个 course，再次设置 svipMemberType 和 svipTitle
-    obj.datas.forEach(course => {
-        if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
-            course.memberConfigs.forEach(config => {
-                if (config.memberType !== undefined && memberTypeDict[config.memberType] !== undefined) {
-                    config.svipMemberType = memberTypeDict[config.memberType];
-                    config.svipTitle = config.title + "SVIP"; // 设置 svipTitle
-                       }
                 });
             }
         });
-      }
     }
+}
+
 
     if (url.includes("/members/member_static_config")) {
   obj.data.forEach(item => {
