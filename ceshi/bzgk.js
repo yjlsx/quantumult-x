@@ -276,9 +276,10 @@ if (url.includes('/api/v1/live/historyLive')) {
                 }
             });
         }
-    }else if(obj.result.errormsg) {
-     obj.status = 200;
-     obj.result.errormsg = "购买成功"；
+    } else if (obj.result && obj.result.errormsg) {
+    obj.status = 200;
+    obj.result.errormsg = "购买成功";
 }
+
 
 $done({ body: JSON.stringify(obj) });
