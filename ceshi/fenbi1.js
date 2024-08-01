@@ -185,50 +185,34 @@ if (url.includes('/iphone/v3/user_member/home')) {
 }
 
 
-// 确保对指定的 URL 地址进行修改
 if (url.includes("/iphone/v3/user_member/course_configs")) {
-    var memberTypeDict = {};
+    var svipMemberType = 52;
 
     // 输出日志以调试 URL 是否匹配
     console.log(`匹配到的URL: ${url}`);
 
     try {
-        // 检查 obj 是否定义以及是否为对象
+        // 确保 obj 是有效的对象
         if (obj && typeof obj === 'object') {
             // 输出原始数据以检查
             console.log('原始数据:', JSON.stringify(obj, null, 2));
 
             // 遍历 datas 数组中的每个 course
             if (obj.datas && Array.isArray(obj.datas)) {
-                // 记录每个 memberType 的 svipMemberType 和 svipTitle
                 obj.datas.forEach(course => {
                     if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
                         course.memberConfigs.forEach(config => {
                             if (config.memberType !== undefined) {
-                                memberTypeDict[config.memberType] = {
-                                    svipMemberType: config.svipMemberType,
-                                    svipTitle: config.title + "SVIP"
-                                };
+                                // 修改每个 memberConfig 的 svipMemberType 和 svipTitle
+                                config.svipMemberType = svipMemberType;
+                                config.svipTitle = config.title + "SVIP";
                             }
                         });
                     }
                 });
 
-                console.log('记录的 memberTypeDict:', JSON.stringify(memberTypeDict, null, 2));
-
-                // 再次遍历 datas 数组中的每个 course，更新 svipMemberType 和 svipTitle
-                obj.datas.forEach(course => {
-                    if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
-                        course.memberConfigs.forEach(config => {
-                            if (config.memberType !== undefined && memberTypeDict[config.memberType]) {
-                                config.svipMemberType = memberTypeDict[config.memberType].svipMemberType;
-                                config.svipTitle = memberTypeDict[config.memberType].svipTitle; // 设置 svipTitle
-                            }
-                        });
-                    }
-                });
-
-                console.log('修改后的数据:', JSON.stringify(obj, null, 2)); // 确保修改后的数据正确输出
+                // 输出修改后的数据
+                console.log('修改后的数据:', JSON.stringify(obj, null, 2));
             } else {
                 console.log('没有找到 datas 数组');
             }
@@ -238,7 +222,12 @@ if (url.includes("/iphone/v3/user_member/course_configs")) {
     } catch (error) {
         console.log('处理数据时发生错误:', error);
     }
+
+    // 确保将修改后的数据返回
+    $done({body: JSON.stringify(obj)});
 }
+
+
 
 
 
