@@ -187,7 +187,41 @@ if (url.includes('/api/v1/order/seaList')) {
 }
 
 //加入课程
-if (url.includes('api.yaotia.com') && obj.result && obj.result[0].goods) {
+    if (url.includes('api.yaotia.com')) {
+        if (obj.result && Array.isArray(obj.result)) {
+            obj.status = 200;
+            obj.result.forEach(item => {
+                if (item.is_vip !== undefined) {
+                    item.is_vip = 1;
+                    item.need_card = 0;
+                    item.video_auth = 1;
+                    item.can_correct = 1; 
+                    item.sl_card_num = 99999;
+                }
+               if (item.question_list) {
+                 item.question_list.forEach(question => {
+                  question.video_auth = 1;  // 设置视频权限
+                  question.can_correct = 1; // 设置可以批改
+                  });
+            }
+
+                if (item.role !== undefined) {
+                    item.role = 1;
+                }
+                if (item.bzb !== undefined) {
+                    item.bzb = 999999;
+                }
+                if (item.user_info) {
+                    item.user_info.button_name = "永久会员";
+                    item.user_info.role = 1;
+                    item.user_info.vip_desc = "2099-12-31 到期";
+                }
+            });
+        }
+    } else if (obj.result && obj.result.errormsg) {
+    obj.status = 200;
+    obj.result.errormsg = "购买成功";
+} else if (url.includes('api.yaotia.com') && obj.result && obj.result[0].goods) {
   obj.result[0].goods.push({
     "course_type": 5,
     "list": [
@@ -245,41 +279,7 @@ if (url.includes('/api/v1/live/historyLive')) {
         }
     }
 
-    if (url.includes('api.yaotia.com')) {
-        if (obj.result && Array.isArray(obj.result)) {
-            obj.status = 200;
-            obj.result.forEach(item => {
-                if (item.is_vip !== undefined) {
-                    item.is_vip = 1;
-                    item.need_card = 0;
-                    item.video_auth = 1;
-                    item.can_correct = 1; 
-                    item.sl_card_num = 99999;
-                }
-               if (item.question_list) {
-                 item.question_list.forEach(question => {
-                  question.video_auth = 1;  // 设置视频权限
-                  question.can_correct = 1; // 设置可以批改
-                  });
-            }
 
-                if (item.role !== undefined) {
-                    item.role = 1;
-                }
-                if (item.bzb !== undefined) {
-                    item.bzb = 999999;
-                }
-                if (item.user_info) {
-                    item.user_info.button_name = "永久会员";
-                    item.user_info.role = 1;
-                    item.user_info.vip_desc = "2099-12-31 到期";
-                }
-            });
-        }
-    } else if (obj.result && obj.result.errormsg) {
-    obj.status = 200;
-    obj.result.errormsg = "购买成功";
-}
 
 
 $done({ body: JSON.stringify(obj) });
