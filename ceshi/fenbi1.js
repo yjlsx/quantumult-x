@@ -193,13 +193,11 @@ if (url.includes("/iphone/v3/user_member/course_configs")) {
             if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
                 course.memberConfigs.forEach(config => {
                     if (config.memberType !== undefined) {
-                        // 记录每个 memberType 的 svipMemberType
-                        if (!memberTypeDict[config.memberType]) {
-                            memberTypeDict[config.memberType] = {
-                                svipMemberType: config.svipMemberType,
-                                svipTitle: config.title + "SVIP" // 设置 svipTitle
-                            };
-                        }
+                        // 记录每个 memberType 的 svipMemberType 和 svipTitle
+                        memberTypeDict[config.memberType] = {
+                            svipMemberType: config.svipMemberType,
+                            svipTitle: config.title + "SVIP"
+                        };
                     }
                 });
             }
@@ -218,6 +216,7 @@ if (url.includes("/iphone/v3/user_member/course_configs")) {
         });
     }
 }
+
 
 
  if (url.includes("/members/member_static_config")) {
