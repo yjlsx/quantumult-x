@@ -186,45 +186,41 @@ if (url.includes('/iphone/v3/user_member/home')) {
 
 
 if (url.includes("/iphone/v3/user_member/course_configs")) {
-    var svipMemberType = 52;
+    // 记录每个 memberType 的对应值
+    var memberTypeDict = {
+        2: 2,  // 行测
+        1: 1,  // 申论
+        5: 5,  // 面试
+        7: 7,  // 资格笔试
+        8: 8,  // 招聘笔试
+        17: 17, // 招聘面试
+        16: 16, // 资格面试
+        4: 4,  // 公基
+        11: 11, // 职测
+        13: 13, // 综应
+        14: 14, // 公安招警
+        15: 15, // 医疗笔试
+        18: 18, // 医疗面试
+        6: 6,  // 办公
+        20: 20 // 军队文职
+    };
 
-    // 输出日志以调试 URL 是否匹配
-    console.log(`匹配到的URL: ${url}`);
-
-    try {
-        // 确保 obj 是有效的对象
-        if (obj && typeof obj === 'object') {
-            // 输出原始数据以检查
-            console.log('原始数据:', JSON.stringify(obj, null, 2));
-
-            // 遍历 datas 数组中的每个 course
-            if (obj.datas && Array.isArray(obj.datas)) {
-                obj.datas.forEach(course => {
-                    if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
-                        course.memberConfigs.forEach(config => {
-                            if (config.memberType !== undefined) {
-                                // 修改每个 memberConfig 的 svipMemberType 和 svipTitle
-                                config.svipMemberType = svipMemberType;
-                                config.svipTitle = config.title + "SVIP";
-                            }
-                        });
+    // 遍历 datas 数组中的每个 course
+    if (obj.datas && Array.isArray(obj.datas)) {
+        obj.datas.forEach(course => {
+            if (course.memberConfigs && Array.isArray(course.memberConfigs)) {
+                course.memberConfigs.forEach(config => {
+                    if (config.memberType !== undefined) {
+                        // 更新 svipMemberType 和 svipTitle
+                        if (memberTypeDict[config.memberType] !== undefined) {
+                            config.svipMemberType = memberTypeDict[config.memberType];
+                            config.svipTitle = config.title + "SVIP"; // 设置 svipTitle
+                        }
                     }
                 });
-
-                // 输出修改后的数据
-                console.log('修改后的数据:', JSON.stringify(obj, null, 2));
-            } else {
-                console.log('没有找到 datas 数组');
             }
-        } else {
-            console.log('响应体 obj 不是有效的对象');
-        }
-    } catch (error) {
-        console.log('处理数据时发生错误:', error);
+        });
     }
-
-    // 确保将修改后的数据返回
-    $done({body: JSON.stringify(obj)});
 }
 
 
