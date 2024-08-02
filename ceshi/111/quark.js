@@ -5,7 +5,7 @@
 https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|capacity\/growth\/info.+|activ\/manage\/coupon\/available.+|act\/growth\/reward) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 ^https:\/\/coral2\.quark\.cn\/quark\/v2\/(queryMemberInfo|getMemberMessage|home) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 ^https:\/\/order-api\.sm\.cn\/api\/(payorder\/v1\/precreate|member\/v1\/lotteryDraw|member\/v1\/center) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
-
+^https:\/\/drive-m\.quark\.cn\/1\/clouddrive\/(auth\/identity\/get|activ/right/list） url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 
 [mitm]
 hostname = drive*.quark.cn, coral2.quark.cn, order-api.sm.cn
@@ -25,9 +25,12 @@ if ($request.url.indexOf(vipa) != -1){
     "member_type": "Z_VIP",
     "image_backup": 1,
     "deep_recycle_stat": {
-      "recycle_normal_serve_days": 10,
-      "recycle_pay_serve_days": 30,
-      "deep_recycle_serve_days": 180
+      "recycle_normal_serve_days" : 10,
+      "recycle_zvip_serve_days" : 90,
+      "recycle_vip_serve_days" : 10,
+      "recycle_pay_serve_days" : 30,
+      "deep_recycle_serve_days" : 180,
+      "recycle_svip_serve_days" : 30
     },
     "member_info": {
       "video_save_to_uses": 0,
@@ -43,16 +46,31 @@ if ($request.url.indexOf(vipa) != -1){
     "acc_status": 0,
     "secret_use_capacity": 55042952572,
     "super_vip_exp_at": 4092599349000,
-    "use_capacity": 55042952572,
+    "z_vip_exp_at": 4092599349000, //有效期
+    "use_capacity": 152445599387,
     "video_backup": 1,
     "extend_capacity_composition": {},
     "is_new_user": false,
     "member_status": {
       "Z_VIP": "PAID",
-      "VIP": "PAID",
+      "VIP": "UNPAID",
       "SUPER_VIP": "PAID",
-      "MINI_VIP": "PAID"
+      "MINI_VIP": "UNPAID"
     },
+    "identity" : [
+      {
+        "status" : 1,
+        "user_identity_type" : 5,
+        "expire_time" : 4092599349000,
+        "expire_type" : 2,
+        "extra" : {
+          "vip88_new" : true,
+          "source" : "88_vip_99709506180",
+          "rollback_times" : 1,
+          "distribute_id" : "88_vip_99709506180"
+        }
+      }
+    ],
     "secret_total_capacity": 109951162777600,
     "subscribe_pay_channel_map": {},
     "fr_subscribe_status_map": {},
@@ -156,7 +174,7 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "PAID";
         member.productInfo.nameplateDesc = "永久SVIP";
-        member.diffDay = -1;
+        member.diffDay = 99999;
         member.lowAmount = 0;
         member.icon88 = "https://img.alicdn.com/imgextra/i4/O1CN01KklBdX1ILiABnDPVS_!!6000000000877-2-tps-108-108.png";
       }
@@ -165,7 +183,7 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "PAID";
         member.productInfo.nameplateDesc = "永久扫描王";
-        member.diffDay = -1;
+        member.diffDay = 99999;
         member.lowAmount = 0;
       }
       if (member.name === '文档') {
@@ -195,6 +213,10 @@ if ($request.url.indexOf('/api/payorder/v1/precreate') !== -1) {
 if ($request.url.indexOf('act/growth/reward') !== -1) {
   if (yjlsx && yjlsx.data) {
     yjlsx.code = 0;
+    yjlsx.data.autopay_reward_info.cur_reward_start = true;
+    yjlsx.data.autopay_reward_list.cur_reward_start = true;
+    yjlsx.data.autopay_reward_list.reward_left_chance = 20;
+    yjlsx.data.autopay_reward_info.reward_left_chance = 20;
     yjlsx.status = 200;
   }
 }
@@ -222,6 +244,29 @@ if ($request.url.indexOf('member\/v1\/center') !== -1) {
     yjlsx.data.userInfo.vipExpirationTime = 4092599349000;
   }
 }
+
+if ($request.url.indexOf('/1/clouddrive/auth/identity/get') !== -1) {
+  if (yjlsx && yjlsx.data) {
+    yjlsx.data.user_identity_type = 5;
+    yjlsx.data.expire_time = 1742399999000;
+    yjlsx.data.expire_type = 2;
+    yjlsx.data.extra.vip88_new = true;
+    yjlsx.data.extra.source = "88_vip_99709506180";
+    yjlsx.data.extra.rollback_times = 1;
+    yjlsx.data.extra.distribute_id = "88_vip_99709506180";
+  }
+}
+
+//容量卡
+if ($request.url.indexOf('/activ/right/list') !== -1) {
+  if (yjlsx && yjlsx.metadata) {
+    yjlsx.metadata.receive.etime = 4092599349000;
+  } else if(yjlsx && yjlsx.data.valid_days) {
+    yjlsx.data.act_id = "1d5980ee31ca489986b75b89906dde8d";
+    yjlsx.data.valid_days = 99999;
+     }
+}
+
 
 
 $done({body : JSON.stringify(yjlsx)});
