@@ -313,7 +313,7 @@ if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
     yjlsx.data.video_list.forEach(video => {
       if (video.video_info) { 
         // 不修改 video_info 下的字段
-        video.resolution = "high";  // 修改 resolution
+        video.resolution = "low";  // 修改 resolution
       } else {
         // video_info 不存在时的处理
         video.member_right = "svip";
