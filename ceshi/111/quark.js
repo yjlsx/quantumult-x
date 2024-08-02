@@ -160,10 +160,23 @@ if ($request.url.indexOf('/quark/v2/queryMemberInfo') !== -1) {
 }
 
 if ($request.url.indexOf('/quark/v2/getMemberMessage') !== -1) {
-  // 修改 hasVip 为 true
-  if (yjlsx && yjlsx.data) {
-    yjlsx.data.hasVip = true;
-  }
+if (yjlsx.data && Array.isArray(yjlsx.data.vipList)) {
+                if (!yjlsx.data.vipList.includes("drive_svip")) {
+                    yjlsx.data.vipList.push("drive_svip");
+                }
+                if (!yjlsx.data.vipList.includes("scan_vip")) {
+                    yjlsx.data.vipList.push("scan_vip");
+                }
+                if (!yjlsx.data.vipList.includes("doc_vip")) {
+                    yjlsx.data.vipList.push("doc_vip");
+                }
+            } else {
+                obj.data.vipList = ["drive_svip", "scan_vip", "doc_vip"];
+            }
+
+            if (yjlsx.data) {
+                yjlsx.data.hasVip = false;
+            }
 }
 
 if ($request.url.indexOf('/quark/v2/home') !== -1) {
@@ -182,7 +195,7 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
         member.memberType = 'photo_vip';
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "PAID";
-        member.productInfo.nameplateDesc = "永久扫描王";
+        member.productInfo.nameplateDesc = "永久会员";
         member.diffDay = 9999;
         member.lowAmount = 0;
       }
