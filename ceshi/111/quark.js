@@ -153,10 +153,12 @@ if ($request.url.indexOf(vipc) != -1){
 if ($request.url.indexOf('/quark/v2/queryMemberInfo') !== -1) {
   // 修改 memberList 的 memberType
   if (yjlsx && yjlsx.data && Array.isArray(yjlsx.data.memberList)) {
-    yjlsx.data.memberList.forEach(item => {
-      item.memberType = "Z_VIP";
-    });
-  }
+                obj.data.memberList.forEach(member => {
+                    if (member.module === "drive") {
+                        member.memberType = "S_VIP";
+                    }
+                });
+          }
 }
 
 if ($request.url.indexOf('/quark/v2/getMemberMessage') !== -1) {
@@ -184,9 +186,9 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
   if (yjlsx && yjlsx.data && Array.isArray(yjlsx.data.memberInfoList)) {
     yjlsx.data.memberInfoList.forEach(member => {
       if (member.name === '网盘') {
-        member.memberType = 'SUPER_VIP';
+        member.memberType = 'S_VIP';
         member.expireTime = 4092599349000;
-        member.productInfo.memberStatus = "PAID";
+        member.productInfo.memberStatus = "UNPAID";
         member.productInfo.nameplateDesc = "永久SVIP";
         member.diffDay = 9999;
         member.lowAmount = 0;
@@ -194,7 +196,7 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
       if (member.name === '扫描王') {
         member.memberType = 'photo_vip';
         member.expireTime = 4092599349000;
-        member.productInfo.memberStatus = "PAID";
+        member.productInfo.memberStatus = "UNPAID";
         member.productInfo.nameplateDesc = "永久会员";
         member.diffDay = 9999;
         member.lowAmount = 0;
@@ -202,7 +204,7 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
       if (member.name === '文档') {
         member.memberType = 'doc_vip';
         member.expireTime = 4092599349000;
-        member.productInfo.memberStatus = "PAID";
+        member.productInfo.memberStatus = "UNPAID";
         member.productInfo.nameplateDesc = "永久SVIP";
         member.diffDay = 9999;
         member.lowAmount = 0;
