@@ -21,6 +21,8 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/details url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 # 检查试听权限
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -49,6 +51,8 @@
 ^https:\/\/live\.fenbi\.com\/dispatcher\/iphone\/jdwz\/config\/server\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_study\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 
 
 *
@@ -66,15 +70,14 @@ let currentTime = Date.now();
 if (url.includes('/ai/iphone/entry')) {
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true;
-        obj.data.entryType = 2;
         obj.data.aiteacherDisplayed = true;
         obj.data.aiteacherActivated = true;
         obj.data.userMember.memberClass = 1;    //[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
-        obj.data.userMember.memberType = 52;  // 设置会员配置的类型为指定数组;
-        obj.data.userMember.expireTime = 4102414999000;  // 2099-12-31
+        obj.data.userMember.memberType = 20;  // 设置会员配置的类型为指定数组;
+        obj.data.svipMemberType = 20;
+        obj.data.userMember.expireTime = 4102359799000;  // 2099-12-31
         obj.data.userMember.hasBeenMember = true;
-        obj.data.userMember.memberStatus = 3;
-
+        obj.data.userMember.memberStatus = 2;
         obj.data.userMember.createdTime = 1551873177267;
     }
 }
@@ -112,19 +115,18 @@ if (url.includes('/iphone/v3/user_member/home')) {
     // 修改 userMember 部分
     if (obj.data && obj.data.userMember) {
         obj.data.userMember.member = true; // 开通会员
-        obj.data.userMember.memberClass = 3; // 设置会员级别[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
-        obj.data.userMember.memberType = 52; // 设置会员类型为指定数组
-        obj.data.userMember.expireTime = 4102444799000; // 设置过期时间
+        obj.data.userMember.memberClass = 2; // 设置会员级别[1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52]
+        obj.data.userMember.memberType = 20; // 设置会员类型为指定数组
+        obj.data.userMember.expireTime = 4102359799000; // 设置过期时间
         obj.data.userMember.hasBeenMember = true; // 已经是会员
-        obj.data.userMember.memberStatus = 1; // 会员状态设为已开通
+        obj.data.userMember.memberStatus = 2; // 会员状态设为已开通
         obj.data.userMember.createdTime = 1651873177267; // 设置创建时间
+        obj.data.memberConfig.memberSaleCenterId = 51;
     }
 
     // 修改 memberConfig 部分
   if (obj.data && obj.data.memberConfig) {
         obj.data.memberConfig.memberType = 20;
-        obj.data.memberConfig.shadowColor = "111111";
-        obj.data.memberConfig.textColor = "efb96d";
     // 遍历 memberBenefits 数组，将每个元素的 svip 属性设置为 true
      if (obj.data && obj.data.memberConfig && Array.isArray(obj.data.memberConfig.memberBenefits)) {
        obj.data.memberConfig.memberBenefits.forEach(item => {
@@ -132,11 +134,10 @@ if (url.includes('/iphone/v3/user_member/home')) {
          });
      }
 
-
         if (Array.isArray(obj.data.memberConfig.memberBenefits)) {
             obj.data.memberConfig.memberBenefits.forEach(benefit => {
-                if (benefit.title === "视频解析" || benefit.title === "精选电子书") {
-                    benefit.native = false;
+                if (benefit.title === "经典课程" || benefit.title === "精选电子书") {
+                    benefit.native = true;
                 }
             });
         }
@@ -144,10 +145,30 @@ if (url.includes('/iphone/v3/user_member/home')) {
 
 // 将所有电子书//课程设为已购买
  if (obj.data && obj.data.modules) {
+        obj.data.modules.forEach(module => {
+            if (module.content && module.content.episodes && Array.isArray(module.content.episodes)) {
+                module.content.episodes.forEach(episode => {
+                    if (episode.episodeDetail && episode.episodeDetail.mediaSizes) {
+                        episode.episodeDetail.mediaSizes = {
+                            "1": 17141434,
+                            "2": 24253938,
+                            "3": 44905243
+                        };
+                    }
+                });
+            }
+
+            if (module.content && module.content.userMorningReading) {
+                module.content.userMorningReading.trial = false;
+            }
+        });
+
         for (let module of obj.data.modules) {
             if (module.content.eBooks) {
                 for (let ebook of module.content.eBooks) {
+                    ebook.requireMemberTypes = [ 1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20 ];
                     ebook.paid = true;
+                    ebook.free = true;
                 }
             }
             if (module.content.lectures) {
@@ -180,6 +201,7 @@ if (url.includes('/iphone/v3/user_member/home')) {
         }
     });
 }
+
 
 if (url.includes("/iphone/v3/user_member/course_configs")) {
     // 记录每个 memberType 的对应值
@@ -220,7 +242,11 @@ if (url.includes("/iphone/v3/user_member/course_configs")) {
 }
 
 
-    if (url.includes("/members/member_static_config")) {
+
+
+
+
+ if (url.includes("/members/member_static_config")) {
   obj.data.forEach(item => {
   item.svipMemberType = item.memberType;
 });
@@ -285,6 +311,7 @@ if (url.includes("/jdwz/v3/lectures/") && url.includes("/detail_for_sale_v2")) {
             if (item) { // 确保 item 存在
                 item.paid = true; 
                 item.free = true; 
+                item.requiredMemberTypes = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
             }
         });
     }
@@ -292,6 +319,7 @@ if (url.includes("/jdwz/v3/lectures/") && url.includes("/detail_for_sale_v2")) {
 
     if (url.includes("/iphone/v3/ebook/detail")) {
     obj.data.paid = true;
+    obj.data.requiredMemberTypes = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
     obj.data.free = true;
     obj.data.payPrice = 0;
     obj.data.price = 0;
@@ -362,21 +390,47 @@ if (url.includes("/sydw/v3/livereplay/replay/lectures") || url.includes("/iphone
 if (url.includes("/user_prime_lectures/is_user_prime_lecture") || url.includes("/v3/ebook/update/user_books")) {
     obj.data = true;
 }
+/*
 if (url.includes("^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+")) {
      if (obj.data.hasVideo && obj.data.hasAudition) {
     obj.data.playStatus = 3;
+    obj.data.bizType = 8;
     obj.data.hasAudition = false;
+    obj.data.supportLive = true;
+    obj.data.supportReplay = true;
     obj.data.hasVideo = true;
     obj.data.videoDisplayType = true;
     obj.data.liveConfig.hasStrokeKeynote =true;
-    obj.data.liveConfig.useIntelligentRoom =true;
     obj.data.playStatus = 3;
-    obj.data.bizType = 200;
     //obj.data.enterRoomTimeInterval = 0;
     obj.data.recordingType = 1;
     obj.data.status = 3;
        }
 }
+*/
+
+// 检查是否匹配指定的 URL
+if (url.includes("/iphone/v3/members/details")) {
+    // 确保响应体中存在 data
+    if (obj.data) {
+        // 获取 obj.data 中键为 "1" 的值
+        var referenceValue = obj.data["1"] ? obj.data["1"].memberClass : null;
+        
+        // 如果 referenceValue 存在，则更新每个成员的 memberType
+        if (referenceValue !== null) {
+            for (var key in obj.data) {
+                if (obj.data.hasOwnProperty(key)) {
+                    var memberData = obj.data[key];
+                    if (memberData) {
+                        memberData.memberType = referenceValue;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 
 if (url.includes("/school/iphone/offline_classes/config/get_by_biz")) {
     obj.data.seatConfig.enable = true;
@@ -398,12 +452,15 @@ if (url.includes("/sydw/v3/user_content_forms/is_filled")) {
 }
 
 // 匹配两个不同的 URL 模式
-if (url.match(/^https:\/\/ke\.fenbi\.com\/iphone\/(jdwz|sydw)\/v3\/episodes\/\d+\/mediafile\/meta/)) {
+if (url.match(/^https:\/\/ke\.fenbi\.com\/iphone\/(jdwz|sydw|v3\/user_study\/entry|v3\/episodes\/\d+\/mediafile\/meta)/)) {
     if (obj.msg) {
         obj.msg = "";
         obj.code = 1;
     }
 }
+
+
+
 
 
 
