@@ -311,9 +311,15 @@ if ($request.url.indexOf('/activ/right/list') !== -1) {
 if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
   if (yjlsx && yjlsx.data) {
     yjlsx.data.video_list.forEach(video => {
+    if (video.video.info) {
       video.member_right = "svip"; 
       video.right = "svip"; 
-      video.resolution = "high";  
+      video.resolution = "high"; 
+        } else {
+      video.member_right = "normal"; 
+      video.right = "normal"; 
+      video.resolution = "low"; 
+         }
      });
 yjlsx.data.default_resolution = "high"; 
 yjlsx.data.origin_default_resolution = "high"; 
