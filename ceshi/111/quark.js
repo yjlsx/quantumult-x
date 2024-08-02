@@ -312,13 +312,13 @@ if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
   if (yjlsx && yjlsx.data) {
     yjlsx.data.video_list.forEach(video => {
     if (video.video.info) {
-      video.member_right = "svip"; 
-      video.right = "svip"; 
-      video.resolution = "high"; 
-        } else {
       video.member_right = "normal"; 
       video.right = "normal"; 
       video.resolution = "low"; 
+        } else {
+      video.member_right = "svip"; 
+      video.right = "svip"; 
+      video.resolution = "high"; 
          }
      });
 yjlsx.data.default_resolution = "high"; 
