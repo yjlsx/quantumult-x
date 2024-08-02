@@ -318,6 +318,7 @@ if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
         // video_info 不存在时的处理
         video.member_right = "svip";
         video.right = "svip";
+        video.accessable = true;
         video.resolution = "high";  // 修改 resolution
       }
     });
