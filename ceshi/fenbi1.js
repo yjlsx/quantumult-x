@@ -311,6 +311,7 @@ if (url.includes("/jdwz/v3/lectures/") && url.includes("/detail_for_sale_v2")) {
             if (item) { // 确保 item 存在
                 item.paid = true; 
                 item.free = true; 
+                item.requiredMemberTypes = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
             }
         });
     }
@@ -318,6 +319,7 @@ if (url.includes("/jdwz/v3/lectures/") && url.includes("/detail_for_sale_v2")) {
 
     if (url.includes("/iphone/v3/ebook/detail")) {
     obj.data.paid = true;
+    obj.data.requiredMemberTypes = [1, 2, 4, 5, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 20, 40, 52];
     obj.data.free = true;
     obj.data.payPrice = 0;
     obj.data.price = 0;
