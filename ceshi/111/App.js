@@ -18,10 +18,56 @@ hostname =docer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, 
 
 # >>>>>>>>>>>>>>> ✅ F ✅ <<<<<<<<<<<<<<
 #粉笔
-^https:\/\/keapi\.fenbi\.com url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+# 修改 AI 教师会员信息
+^https:\/\/keapi\.fenbi\.com\/ai\/iphone\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+# 修改用户余额为
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/users\/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+# 修改课程价格
+#^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/pre_best url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
+# 修改会员显示
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/home url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
+# 修改课程配置
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_member\/course_configs url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/member_static_config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/keapi\.fenbi\.com\/im\/iphone\/signatures\/signature url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/visible url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/fenbi1.js
-^https:\/\/keapi\.fenbi\.com url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-^https:\/\/live\.fenbi\.com url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/members\/details url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
+# 检查试听权限
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/unpaid_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/episode_nodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
+#我的课程
+//^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/keapi\.fenbi\.com\/school\/iphone\/offline_classes\/config\/get_by_biz url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
+#电子书
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/list_by_cat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/detail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/update\/user_books url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
+#订单处理
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/red_packet_share\/activities\/detail\/by_order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#教室权限
+^https:\/\/live\.fenbi\.com\/iphone\/sydw\/v3\/livereplay\/replay\/lectures url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/keapi\.fenbi\.com\/primelecture\/iphone\/user_prime_lectures\/is_user_prime_lecture url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+#异常处理
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/(\d+)\/episode_sets url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/user_content_forms\/is_filled url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/live\.fenbi\.com\/dispatcher\/iphone\/jdwz\/config\/server\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_study\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # >>>>>>>>>>>>>>> ✅ G ✅ <<<<<<<<<<<<<<
 
 # >>>>>>>>>>>>>>> ✅ H ✅ <<<<<<<<<<<<<<
