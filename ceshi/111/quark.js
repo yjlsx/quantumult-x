@@ -157,6 +157,12 @@ if ($request.url.indexOf('/quark/v2/queryMemberInfo') !== -1) {
                     if (member.module === "drive") {
                         member.memberType = "S_VIP";
                     }
+                    if (member.module === "scan") {
+                        member.memberType = "photo_vip";
+                    }
+                    if (member.module === "doc") {
+                        member.memberType = "doc_vip";
+                    }
                 });
           }
 }
@@ -172,10 +178,15 @@ if (yjlsx.data && Array.isArray(yjlsx.data.vipList)) {
                 if (!yjlsx.data.vipList.includes("doc_vip")) {
                     yjlsx.data.vipList.push("doc_vip");
                 }
+                if (!yjlsx.data.vipList.includes("study_vip")) {
+                    yjlsx.data.vipList.push("study_vip");
+                }
+                if (!yjlsx.data.vipList.includes("novel_vip")) {
+                    yjlsx.data.vipList.push("novel_vip");
+                }
             } else {
-                obj.data.vipList = ["drive_svip", "scan_vip", "doc_vip"];
+                obj.data.vipList = ["drive_svip", "scan_vip", "doc_vip", "study_vip", "novel_vip"];
             }
-
             if (yjlsx.data) {
                 yjlsx.data.hasVip = false;
             }
@@ -209,7 +220,22 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
         member.diffDay = 9999;
         member.lowAmount = 0;
       }
-
+      if (member.name === '学习') {
+        member.memberType = 'study_vip';
+        member.expireTime = 4092599349000;
+        member.productInfo.memberStatus = "UNPAID";
+        member.productInfo.nameplateDesc = "永久SVIP";
+        member.diffDay = 9999;
+        member.lowAmount = 0;
+      }
+      if (member.name === '书城') {
+        member.memberType = 'novel_vip';
+        member.expireTime = 4092599349000;
+        member.productInfo.memberStatus = "UNPAID";
+        member.productInfo.nameplateDesc = "永久SVIP";
+        member.diffDay = 9999;
+        member.lowAmount = 0;
+      }
     });
   }
 }
