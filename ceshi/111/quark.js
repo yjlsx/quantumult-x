@@ -63,7 +63,7 @@ if ($request.url.indexOf(vipa) != -1){
         "status" : 1,
         "user_identity_type" : 5,
         "expire_time" : 4092599349000,
-        "expire_type" : 3,
+        "expire_type" : 1,
         "extra" : {
           "vip88_new" : true,
           "source" : "88_vip_99709506180",
@@ -72,12 +72,12 @@ if ($request.url.indexOf(vipa) != -1){
         }
       }
     ],
-    "secret_total_capacity": 109951162777600,
+    "secret_total_capacity": 10995116277760,
     "subscribe_pay_channel_map": {},
     "fr_subscribe_status_map": {},
     "exp_at": 4092599349000,
     "subscribe_status_map": {},
-    "total_capacity": 109951162777600
+    "total_capacity": 10995116277760
   };
 }
 
@@ -90,7 +90,7 @@ if ($request.url.indexOf(vipb) != -1){
       "product_category": "MEMBER",
       "member_detail": {
         "member_type": "Z_VIP",
-        "capacity": 109951162777600
+        "capacity": 10995116277760
       },
       "expired_at": 4092599349000
     }]
@@ -144,9 +144,9 @@ if ($request.url.indexOf(vipc) != -1){
     },
     "cap_composition": {
       "other": 0,
-      "member_own": 109951162777600
+      "member_own": 10995116277760
     },
-    "total_capacity": 109951162777600
+    "total_capacity": 10995116277760
   };
 }
 
@@ -290,7 +290,7 @@ if ($request.url.indexOf('/1/clouddrive/auth/identity/get') !== -1) {
   if (yjlsx && yjlsx.data) {
     yjlsx.data.user_identity_type = 5;
     yjlsx.data.expire_time = 1742399999000;
-    yjlsx.data.expire_type = 3;
+    yjlsx.data.expire_type = 1;
     yjlsx.data.extra.vip88_new = true;
     yjlsx.data.extra.source = "88_vip_99709506180";
     yjlsx.data.extra.rollback_times = 1;
@@ -322,9 +322,13 @@ if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
         video.resolution = "high";  // 修改 resolution
       }
     });
-    // yjlsx.data.origin_default_resolution = "high";
+    yjlsx.data.origin_default_resolution = "high";
     yjlsx.data.default_resolution = "high";
-  }
+  } else if(yjlsx && yjlsx.status) {
+    yjlsx.status = 200;
+    yjlsx.code = 0;
+    yjlsx.message = "";
+       }  
 }
 
 
