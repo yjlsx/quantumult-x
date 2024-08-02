@@ -63,7 +63,7 @@ if ($request.url.indexOf(vipa) != -1){
         "status" : 1,
         "user_identity_type" : 5,
         "expire_time" : 4092599349000,
-        "expire_type" : 1,
+        "expire_type" : 3,
         "extra" : {
           "vip88_new" : true,
           "source" : "88_vip_99709506180",
@@ -290,7 +290,7 @@ if ($request.url.indexOf('/1/clouddrive/auth/identity/get') !== -1) {
   if (yjlsx && yjlsx.data) {
     yjlsx.data.user_identity_type = 5;
     yjlsx.data.expire_time = 1742399999000;
-    yjlsx.data.expire_type = 2;
+    yjlsx.data.expire_type = 3;
     yjlsx.data.extra.vip88_new = true;
     yjlsx.data.extra.source = "88_vip_99709506180";
     yjlsx.data.extra.rollback_times = 1;
@@ -311,20 +311,21 @@ if ($request.url.indexOf('/activ/right/list') !== -1) {
 if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
   if (yjlsx && yjlsx.data) {
     yjlsx.data.video_list.forEach(video => {
-    if (video.video.info) {
-      video.member_right = "normal"; 
-      video.right = "normal"; 
-      video.resolution = "high"; 
-        } else {
-      video.member_right = "svip"; 
-      video.right = "svip"; 
-      video.resolution = "high"; 
-         }
-     });
-    yjlsx.data.default_resolution = "high"; 
-    yjlsx.data.origin_default_resolution = "high"; 
+      if (video.video_info) { 
+        // 不修改 video_info 下的字段
+        video.resolution = "high";  // 修改 resolution
+      } else {
+        // video_info 不存在时的处理
+        video.member_right = "svip";
+        video.right = "svip";
+        video.resolution = "high";  // 修改 resolution
+      }
+    });
+    yjlsx.data.origin_default_resolution = "high";
+    yjlsx.data.default_resolution = "high";
   }
 }
+
 
 
 
