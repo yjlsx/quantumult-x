@@ -5,7 +5,7 @@
 https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|capacity\/growth\/info.+|activ\/manage\/coupon\/available.+|act\/growth\/reward) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 ^https:\/\/coral2\.quark\.cn\/quark\/v2\/(queryMemberInfo|getMemberMessage|home) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 ^https:\/\/order-api\.sm\.cn\/api\/(payorder\/v1\/precreate|member\/v1\/lotteryDraw|member\/v1\/center) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
-^https:\/\/drive-m\.quark\.cn\/1\/clouddrive\/(auth\/identity\/get|activ\/right\/list) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
+^https:\/\/drive-m\.quark\.cn\/1\/clouddrive\/(auth\/identity\/get|activ\/right\/list|file\/v2\/play) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 
 
 [mitm]
@@ -63,7 +63,7 @@ if ($request.url.indexOf(vipa) != -1){
         "status" : 1,
         "user_identity_type" : 5,
         "expire_time" : 4092599349000,
-        "expire_type" : 2,
+        "expire_type" : 1,
         "extra" : {
           "vip88_new" : true,
           "source" : "88_vip_99709506180",
@@ -306,6 +306,18 @@ if ($request.url.indexOf('/activ/right/list') !== -1) {
     yjlsx.data.act_id = "1d5980ee31ca489986b75b89906dde8d";
     yjlsx.data.valid_days = 9999;
      }
+}
+
+if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
+  if (yjlsx && yjlsx.data) {
+    yjlsx.data.video_list.forEach(video => {
+      video.member_right = "svip"; 
+      video.right = "svip"; 
+      video.resolution = "high";  
+     });
+yjlsx.data.default_resolution = "high"; 
+yjlsx.data.origin_default_resolution = "high"; 
+  }
 }
 
 
