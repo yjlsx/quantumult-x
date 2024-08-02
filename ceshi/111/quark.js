@@ -7,6 +7,7 @@ https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|ca
 ^https:\/\/order-api\.sm\.cn\/api\/(payorder\/v1\/precreate|member\/v1\/lotteryDraw|member\/v1\/center) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 ^https:\/\/drive-m\.quark\.cn\/1\/clouddrive\/(auth\/identity\/get|activ\/right\/list) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/quark.js
 
+
 [mitm]
 hostname = drive*.quark.cn, coral2.quark.cn, order-api.sm.cn
 
@@ -170,28 +171,27 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
   if (yjlsx && yjlsx.data && Array.isArray(yjlsx.data.memberInfoList)) {
     yjlsx.data.memberInfoList.forEach(member => {
       if (member.name === '网盘') {
-        member.memberType = 'Z_VIP';
+        member.memberType = 'SUPER_VIP';
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "PAID";
         member.productInfo.nameplateDesc = "永久SVIP";
-        member.diffDay = 99999;
+        member.diffDay = 9999;
         member.lowAmount = 0;
-        member.icon88 = "https://img.alicdn.com/imgextra/i4/O1CN01KklBdX1ILiABnDPVS_!!6000000000877-2-tps-108-108.png";
       }
       if (member.name === '扫描王') {
         member.memberType = 'photo_vip';
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "PAID";
         member.productInfo.nameplateDesc = "永久扫描王";
-        member.diffDay = 99999;
+        member.diffDay = 9999;
         member.lowAmount = 0;
       }
       if (member.name === '文档') {
-        member.memberType = 'photo_vip';
+        member.memberType = 'doc_vip';
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "PAID";
         member.productInfo.nameplateDesc = "永久SVIP";
-        member.diffDay = -1;
+        member.diffDay = 9999;
         member.lowAmount = 0;
       }
 
@@ -263,7 +263,7 @@ if ($request.url.indexOf('/activ/right/list') !== -1) {
     yjlsx.metadata.receive.etime = 4092599349000;
   } else if(yjlsx && yjlsx.data.valid_days) {
     yjlsx.data.act_id = "1d5980ee31ca489986b75b89906dde8d";
-    yjlsx.data.valid_days = 99999;
+    yjlsx.data.valid_days = 9999;
      }
 }
 
