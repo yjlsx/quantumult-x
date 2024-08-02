@@ -322,13 +322,13 @@ if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
         video.resolution = "high";  // 修改 resolution
       }
     });
-    / yjlsx.data.origin_default_resolution = "high";
+    yjlsx.data.origin_default_resolution = "high";
     yjlsx.data.default_resolution = "high";
   } else {
     yjlsx.status = 200;
     yjlsx.code = 0;
     yjlsx.message = "";
-       }  
+  }
 }
 
 
