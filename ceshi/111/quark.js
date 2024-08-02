@@ -61,9 +61,9 @@ if ($request.url.indexOf(vipa) != -1){
     "identity" : [
       {
         "status" : 1,
-        "user_identity_type" : 5,
+        "user_identity_type" : 4,
         "expire_time" : 4092599349000,
-        "expire_type" : 1,
+        "expire_type" : 2,
         "extra" : {
           "vip88_new" : true,
           "source" : "88_vip_99709506180",
@@ -288,9 +288,9 @@ if ($request.url.indexOf('member\/v1\/center') !== -1) {
 
 if ($request.url.indexOf('/1/clouddrive/auth/identity/get') !== -1) {
   if (yjlsx && yjlsx.data) {
-    yjlsx.data.user_identity_type = 5;
+    yjlsx.data.user_identity_type = 4;
     yjlsx.data.expire_time = 1742399999000;
-    yjlsx.data.expire_type = 1;
+    yjlsx.data.expire_type = 2;
     yjlsx.data.extra.vip88_new = true;
     yjlsx.data.extra.source = "88_vip_99709506180";
     yjlsx.data.extra.rollback_times = 1;
@@ -322,9 +322,9 @@ if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
         video.resolution = "high";  // 修改 resolution
       }
     });
-    yjlsx.data.origin_default_resolution = "high";
+    / yjlsx.data.origin_default_resolution = "high";
     yjlsx.data.default_resolution = "high";
-  } else if(yjlsx && yjlsx.status) {
+  } else {
     yjlsx.status = 200;
     yjlsx.code = 0;
     yjlsx.message = "";
