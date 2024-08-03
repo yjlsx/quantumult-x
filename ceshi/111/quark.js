@@ -315,7 +315,6 @@ if (yjlsx && yjlsx.data) {
       video.member_right = "normal";
       video.right = "normal";
       video.accessable = true;
-      video.resolution = "high";  // 修改 resolution
     }
   });
   yjlsx.data.default_resolution = "high";  // 修改 default_resolution
