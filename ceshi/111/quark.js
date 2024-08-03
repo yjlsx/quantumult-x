@@ -314,7 +314,6 @@ if (yjlsx && yjlsx.data) {
     if (!video.video_info) {  // 仅当 video_info 不存在时
       video.member_right = "normal";
       video.right = "normal";
-      video.accessable = true;
     }
   });
   yjlsx.data.default_resolution = "high";  // 修改 default_resolution
