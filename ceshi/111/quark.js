@@ -309,21 +309,17 @@ if ($request.url.indexOf('/activ/right/list') !== -1) {
 }
 
 if ($request.url.indexOf('/clouddrive/file/v2/play') !== -1) {
-  if (yjlsx && yjlsx.data) {
-    yjlsx.data.video_list.forEach(video => {
-      if (video.video_info) { 
-        // 不修改 video_info 下的字段
-        video.resolution = "high";  // 修改 resolution
-      } else {
-        // video_info 不存在时的处理
-        video.member_right = "normal";
-        video.right = "normal";
-        video.accessable = true;
-        video.resolution = "high";  // 修改 resolution
-      }
-    });
-    yjlsx.data.default_resolution = "high";
-  } else {
+if (yjlsx && yjlsx.data) {
+  yjlsx.data.video_list.forEach(video => {
+    if (!video.video_info) {  // 仅当 video_info 不存在时
+      video.member_right = "normal";
+      video.right = "normal";
+      video.accessable = true;
+      video.resolution = "high";  // 修改 resolution
+    }
+  });
+  yjlsx.data.default_resolution = "high";  // 修改 default_resolution
+} else {
     yjlsx.status = 200;
     yjlsx.code = 0;
     yjlsx.message = "";
