@@ -17,7 +17,7 @@ https://pcc.api.mgtv.com/video/getSource url script-request-header https://raw.g
 https://pad.api.mgtv.com/v8/video/getSource url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/MGTV.js
 
 [mitm] 
-hostname = *.mgtv.com, pad.api.mgtv.com, pcc.api.mgtv.com
+hostname = *.mgtv.com, pad.api.mgtv.com, pcc.api.mgtv.com, vip.bz.mgtv.com
 
 */
 
