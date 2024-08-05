@@ -50,9 +50,9 @@ if (jsonpMatch && jsonpEndMatch) {
     // 处理 '/client/user/user_vip_coin' 响应
     else if ($request.url.indexOf('/client/user/user_vip_coin') !== -1) {
         if (obj.data) {
-            obj.data.points = 9999;
-            obj.data.point = 9998;
-            obj.data.stat = 9997;
+            obj.data.points = 99999;
+            obj.data.point = 99998;
+            obj.data.stat = 99997;
         }
         
         $done({body: `${jsonpFunction}(${JSON.stringify(obj)})`});
@@ -61,7 +61,7 @@ if (jsonpMatch && jsonpEndMatch) {
     // 处理 '/api/v1/act/assets/idxnum' 响应
     else if ($request.url.indexOf('/api/v1/act/assets/idxnum') !== -1) {
         if (obj.data) {
-            obj.data.idx.vcoin = 9999;
+            obj.data.idx.vcoin = 99999;
             obj.data.idx.redeem = 99990;
             obj.data.idx.admission = 91;  // 门票
             obj.data.idx.award = 75; // 其他卡券
