@@ -72,6 +72,6 @@ if ($request.url.indexOf('/GetUserInfo') !== -1) {
     obj.data.vipinfo.growth.score = 99999; // 设置积分
     obj.data.vipinfo.growth.level = 9; // 设置等级
   }
-
+}
 
 $done({body: JSON.stringify(obj)});
