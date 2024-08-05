@@ -32,17 +32,12 @@ if (jsonpMatch && jsonpEndMatch) {
 
     // 处理 '/client/order/order_status' 响应
     if ($request.url.indexOf("https://as.mgtv.com/client/order/order_status") !== -1) {
-        // 修改 settle_price 为 pay_amount 的值
         if (obj.data && obj.data.order_pay_info && obj.data.order_pay_info.pay_info) {
             obj.data.order_pay_info.pay_info.settle_price = obj.data.order_pay_info.pay_info.pay_amount;
         }
-
-        // 修改过期状态
         if (obj.data && obj.data.order_pay_info) {
             obj.data.order_pay_info.expired = 0; // 设置为未过期
         }
-
-        // 生成修改后的 JSONP 响应体
         let newBody = JSON.stringify(obj);
         $done({ body: `${jsonpFunction}(${newBody})` });
     } 
@@ -50,25 +45,25 @@ if (jsonpMatch && jsonpEndMatch) {
     // 处理 '/client/user/user_vip_coin' 响应
     else if ($request.url.indexOf('/client/user/user_vip_coin') !== -1) {
         if (obj.data) {
-            obj.data.points = 9999;
-            obj.data.point = 9998;
-            obj.data.stat = 9997;
+            obj.data.points = 99999;
+            obj.data.point = 99998;
+            obj.data.stat = 99997;
         }
-        
-        $done({body: `${jsonpFunction}(${JSON.stringify(obj)})`});
+        let newBody = JSON.stringify(obj);
+        $done({body: `${jsonpFunction}(${newBody})`});
     }
 
     // 处理 '/api/v1/act/assets/idxnum' 响应
     else if ($request.url.indexOf('/api/v1/act/assets/idxnum') !== -1) {
         if (obj.data) {
-            obj.data.idx.vcoin = 9999;
+            obj.data.idx.vcoin = 99999;
             obj.data.idx.redeem = 99990;
             obj.data.idx.admission = 91;  // 门票
             obj.data.idx.award = 75; // 其他卡券
             obj.data.idx.union_vip = 10;
         }
-        
-        $done({body: `${jsonpFunction}(${JSON.stringify(obj)})`});
+        let newBody = JSON.stringify(obj);
+        $done({body: `${jsonpFunction}(${newBody})`});
     }
 
     // 处理 '/client/user/user_info' 响应
@@ -102,8 +97,8 @@ if (jsonpMatch && jsonpEndMatch) {
             // 更新剩余天数
             obj.data.vip_end_days = 99999;
         }
-        
-        $done({body: `${jsonpFunction}(${JSON.stringify(obj)})`});
+        let newBody = JSON.stringify(obj);
+        $done({body: `${jsonpFunction}(${newBody})`});
     }
 
     // 处理 '/GetUserInfo' 响应
@@ -114,8 +109,8 @@ if (jsonpMatch && jsonpEndMatch) {
             obj.data.vipinfo.growth.score = 99999; // 设置积分
             obj.data.vipinfo.growth.level = 9; // 设置等级
         }
-        
-        $done({body: `${jsonpFunction}(${JSON.stringify(obj)})`});
+        let newBody = JSON.stringify(obj);
+        $done({body: `${jsonpFunction}(${newBody})`});
     }
 
     // 处理 '/client/order/orderCreate' 响应
@@ -123,10 +118,8 @@ if (jsonpMatch && jsonpEndMatch) {
         // 修改状态为成功
         if (obj.data) {
             obj.status = "200"; // 修改状态码为成功
-            //obj.msg = ""; // 清除错误消息
+            obj.msg = "购买成功"; // 清除错误消息
         }
-
-        // 生成修改后的 JSONP 响应体
         let newBody = JSON.stringify(obj);
         $done({ body: `${jsonpFunction}(${newBody})` });
     }
