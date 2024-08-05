@@ -4,8 +4,8 @@
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 
 # 处理第二个 URL 响应
-^https:\/\/as\.mgtv\.com\/client\/user\/user_info$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
-
+^https:\/\/as\.mgtv\.com\/client\/user\/user_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
+^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/assets\/idxnum url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 [mitm]
 hostname = as.mgtv.com
 *************************************/
@@ -17,6 +17,18 @@ if ($request.url.indexOf('/client/user/user_vip_coin') !== -1) {
   if (obj.data) {
     obj.data.point = 99999;
     obj.data.stat = 99999;
+  }
+
+  $done({body: JSON.stringify(obj)});
+}
+
+if ($request.url.indexOf('/api/v1/act/assets/idxnum') !== -1) {
+  const body = $response.body;
+  const obj = JSON.parse(body);
+
+  if (obj.data) {
+    obj.data.idx.vcoin = 99999;
+    obj.data.idx.union_vip = 10;
   }
 
   $done({body: JSON.stringify(obj)});
