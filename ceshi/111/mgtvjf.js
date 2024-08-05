@@ -7,6 +7,8 @@
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/assets\/idxnum url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 #^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
+^https:\/\/oiiccdn\.yydsii\.com\/api\/v1\/client\/subscribe url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
+
 *
 [mitm]
 hostname = as.mgtv.com, vipact3.api.mgtv.com
@@ -78,6 +80,11 @@ if ($request.url.indexOf('/GetUserInfo') !== -1) {
     obj.data.vipinfo.growth.level = 9; // 设置等级
   }
 }
+if ($request.url.indexOf('/api/v1/client/subscribe') !== -1) {
+  // 更新响应体
+  obj.message = "token is ok";
+}
+
 
 // 处理 JSONP 响应
 $done({body: `jsonp_1722828953958_57659(${JSON.stringify(obj)})`});
