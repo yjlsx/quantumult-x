@@ -11,7 +11,7 @@
 
 *
 [mitm]
-hostname = as.mgtv.com, vipact3.api.mgtv.com
+hostname = as.mgtv.com, vipact3.api.mgtv.com, oiiccdn.yydsii.com
 *************************************/
 
 // 解析 JSONP 响应
