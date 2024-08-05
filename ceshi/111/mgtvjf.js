@@ -12,13 +12,14 @@ hostname = as.mgtv.com
 // 处理第一个 URL 响应
 if ($request.url.indexOf('/client/user/user_vip_coin') !== -1) {
   const body = $response.body;
-  const json = JSON.parse(body);
+  const obj = JSON.parse(body);
 
-  if (json.data) {
-    json.data.point = 99999;
+  if (obj.data) {
+    obj.data.point = 99999;
+    obj.data.stat = 99999;
   }
 
-  $done({body: JSON.stringify(json)});
+  $done({body: JSON.stringify(obj)});
 }
 
 // 处理第二个 URL 响应
