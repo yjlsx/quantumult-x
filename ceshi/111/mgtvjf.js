@@ -8,6 +8,8 @@
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/assets\/idxnum url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 #^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/order\/order_status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
+^https:\/\/as\.mgtv\.com\/client\/order\/orderCreate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
+
 
 *
 [mitm]
@@ -114,6 +116,19 @@ if (jsonpMatch && jsonpEndMatch) {
         }
         
         $done({body: `${jsonpFunction}(${JSON.stringify(obj)})`});
+    }
+
+    // 处理 '/client/order/orderCreate' 响应
+    else if ($request.url.indexOf("https://as.mgtv.com/client/order/orderCreate") !== -1) {
+        // 修改状态为成功
+        if (obj.data) {
+            obj.status = "200"; // 修改状态码为成功
+            //obj.msg = ""; // 清除错误消息
+        }
+
+        // 生成修改后的 JSONP 响应体
+        let newBody = JSON.stringify(obj);
+        $done({ body: `${jsonpFunction}(${newBody})` });
     }
 } else {
     // 如果没有匹配到 JSONP 格式，则直接返回原始响应
