@@ -9,9 +9,7 @@
 #^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/order\/order_status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/order\/orderCreate url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/coin.js
-^https:\/\/oiiccdn\.yydsii\.com\/api\/v1\/client\/subscribe reject -200
-
-*
+^https:\/\/oiiccdn\.yydsii\.com\/api\/v1\/client\/subscribe url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 [mitm]
 hostname = as.mgtv.com, vipact3.api.mgtv.com, oiiccdn.yydsii.com
 *************************************/
@@ -114,6 +112,18 @@ if (jsonpMatch && jsonpEndMatch) {
         console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
     }
+
+
+   else if ($request.url.includes('https://oiiccdn.yydsii.com/api/v1/client/subscribe')) {
+        // 修改响应为成功
+        obj.message = "success"; // 修改 message 字段为成功
+        obj.code = 200; // 添加 code 字段为成功的 HTTP 状态码
+        
+        // 生成修改后的 JSONP 响应体
+        let newBody = JSON.stringify(obj);
+        $done({ body: `${jsonpFunction}(${newBody})` });
+    }
+
 
     // 处理 '/client/order/orderCreate' 响应
     else if ($request.url.includes("https://as.mgtv.com/client/order/orderCreate")) {
