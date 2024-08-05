@@ -2,19 +2,17 @@
 *
 [rewrite local]
 ^https:\/\/103\.39\.222\.113:3308\/api\/my\/profile url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
+^https:\/\/103\.39\.222\.113:3308\/api\/my\/use_card url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 
 *
 [mitm]
 hostname = 103.39.222.113
 *************************************/
 
-if ($request.url.indexOf("https://103.39.222.113:3308/api/my/profile") !== -1) {
-    // 获取响应体
     let body = $response.body;
-    
-    // 解析 JSON 数据
     let obj = JSON.parse(body);
-    
+ 
+if ($request.url.indexOf("https://103.39.222.113:3308/api/my/profile") !== -1) {   
     // 修改响应数据
     if (obj.data) {
         obj.data.is_vip = 1; // 设置为 VIP
@@ -25,7 +23,16 @@ if ($request.url.indexOf("https://103.39.222.113:3308/api/my/profile") !== -1) {
         obj.data.day_views = 999; // 每日查看次数
         obj.data.vip_days = 9999; // VIP天数
     }
-    
+}
+
+if ($request.url.indexOf('/api\/my\/use_card') !== -1) {   
+    // 修改响应数据
+    if (obj.msg) {
+        obj.code = 200; 
+        obj.once = 30; 
+        obj.msg = "充值成功"; 
+    } 
+}   
     // 生成修改后的 JSON 响应体
     $done({ body: JSON.stringify(obj) });
-}
+
