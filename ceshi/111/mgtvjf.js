@@ -7,7 +7,7 @@
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/assets\/idxnum url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/mgtvjf.js
 [mitm]
-hostname = as.mgtv.com
+hostname = as.mgtv.com, vipact3.api.mgtv.com
 *************************************/
 // 处理第一个 URL 响应
 if ($request.url.indexOf('/client/user/user_vip_coin') !== -1) {
