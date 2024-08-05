@@ -12,41 +12,45 @@
 hostname = as.mgtv.com, vipact3.api.mgtv.com
 *************************************/
 
+// 解析 JSONP 响应
 let body = $response.body;
-let obj = JSON.parse(body);
+let obj = JSON.parse(body.replace(/^jsonp_\d+_\d+\(/, '').replace(/\)$/, ''));
 
+// 处理第一个 URL 响应
 if ($request.url.indexOf('/client/user/user_vip_coin') !== -1) {
   if (obj.data) {
-    obj.data.points = 99999;
-    obj.data.point = 99998;
-    obj.data.stat = 99997;
+    obj.data.points = 9999;
+    obj.data.point = 9998;
+    obj.data.stat = 9997;
   }
-} 
+}
 
+// 处理第二个 URL 响应
 if ($request.url.indexOf('/api/v1/act/assets/idxnum') !== -1) {
   if (obj.data) {
-    obj.data.idx.vcoin = 99999;
+    obj.data.idx.vcoin = 9999;
     obj.data.idx.redeem = 99990;
-    obj.data.idx.admission = 99991;
-    obj.data.idx.award = 99975;
+    obj.data.idx.admission = 91;  // 门票
+    obj.data.idx.award = 75; // 其他卡券
     obj.data.idx.union_vip = 10;
   }
-} 
+}
 
+// 处理第三个 URL 响应
 if ($request.url.indexOf('/client/user/user_info') !== -1) {
   if (obj.data) {
     // 更新所有结束日期字段
-    obj.data.vip_end_time_pc = "2099-09-09";
-    obj.data.mpp_svip_end_date = "2099-09-09";
-    obj.data.bigscreen_vip_end_date = "2099-09-09";
-    obj.data.vip_end_date = "2099-09-09";
-    obj.data.contract_full_screen_vip_end_date = "2099-09-09";
-    obj.data.universal_pc_mobile_vip_end_date = "2099-09-09";
-    obj.data.music_vip_end_time = "2099-09-09";
-    obj.data.vip_end_time_svip = "2099-09-09";
-    obj.data.contract_pc_mobile_vip_end_date = "2099-09-09";
-    obj.data.universal_full_screen_vip_end_date = "2099-09-09";
-    obj.data.vip_end_time_fs = "2099-09-09";
+    obj.data.vip_end_time_pc = "2099-12-31";
+    obj.data.mpp_svip_end_date = "2099-12-31";
+    obj.data.bigscreen_vip_end_date = "2099-12-31";
+    obj.data.vip_end_date = "2099-12-31";
+    obj.data.contract_full_screen_vip_end_date = "2099-12-31";
+    obj.data.universal_pc_mobile_vip_end_date = "2099-12-31";
+    obj.data.music_vip_end_time = "2099-12-31";
+    obj.data.vip_end_time_svip = "2099-12-31";
+    obj.data.contract_pc_mobile_vip_end_date = "2099-12-31";
+    obj.data.universal_full_screen_vip_end_date = "2099-12-31";
+    obj.data.vip_end_time_fs = "2099-12-31";
 
     // 更新VIP相关字段
     obj.data.is_mpp_svip = 1;
@@ -65,10 +69,8 @@ if ($request.url.indexOf('/client/user/user_info') !== -1) {
   }
 }
 
-
-// 检查是否是正确的 URL
+// 处理 GetUserInfo 响应
 if ($request.url.indexOf('/GetUserInfo') !== -1) {
-  // 修改响应体为 VIP，过期时间2099年12月31，积分99999，等级9
   if (obj.data) {
     obj.data.isVip = 1; // 设置为 VIP
     obj.data.vipExpiretime = 4102444800; // 设置过期时间为 2099-12-31
@@ -77,4 +79,5 @@ if ($request.url.indexOf('/GetUserInfo') !== -1) {
   }
 }
 
-$done({body: JSON.stringify(obj)});
+// 处理 JSONP 响应
+$done({body: `jsonp_1722828953958_57659(${JSON.stringify(obj)})`});
