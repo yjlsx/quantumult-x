@@ -35,7 +35,6 @@ if ($request.url.indexOf('/api/v1/user/integral_details') !== -1) {
                 task.is_success = true; 
             }
         });
-    }
 }   
 
 if ($request.url.indexOf('/api/v1/movie_addr/unlock') !== -1) {
