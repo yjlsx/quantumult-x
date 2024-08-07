@@ -4,6 +4,7 @@
 ^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/user\/integral_details url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
 ^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/user\/daily_tasks url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
 ^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/movie_addr\/unlock url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
+^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/movie_addr\/parse_url url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
 
 *
 [mitm]
