@@ -2,46 +2,80 @@
 *
 [rewrite local]
 ^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/user\/integral_details url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
-
+^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/user\/daily_tasks url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
 *
 [mitm]
 hostname = app-v1.ecoliving168.com
 *************************************/
 
-// @name        修改积分详情响应
-// @description 将响应体中的 "total" 字段值重写为 99999
+// @name        修改积分和任务响应
+// @description 将响应体中的 "total" 字段值重写为 99999，并将每日任务的 "reward" 字段值重写为 1000
 // @version     1.0.0
 
 // 定义 URL 匹配模式
-const urlPattern = /^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/user\/integral_details$/;
+const integralDetailsUrlPattern = /^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/user\/integral_details$/;
+const dailyTasksUrlPattern = /^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/user\/daily_tasks$/;
 
-// 处理响应体的函数
-function modifyResponse(response) {
-  // 判断 URL 是否匹配
-  if (urlPattern.test(response.url)) {
-    let responseBody = response.body;
-    let jsonResponse;
-
+// 处理积分详情响应体的函数
+function modifyIntegralDetailsResponse(response) {
+  if (response && response.body) {
+    let responseBody;
     try {
-      // 解析响应体为 JSON 对象
-      jsonResponse = JSON.parse(responseBody);
+      responseBody = JSON.parse(response.body);
 
       // 修改 total 字段的值
-      jsonResponse.data.total = 99999;
+      if (responseBody.data) {
+        responseBody.data.total = 99999;
+      }
 
-      // 将修改后的 JSON 对象转换为字符串
-      responseBody = JSON.stringify(jsonResponse);
+      response.body = JSON.stringify(responseBody);
     } catch (e) {
-      console.error('解析响应体时出错:', e);
+      console.error('解析积分详情响应体时出错:', e);
     }
 
-    // 设置修改后的响应体
-    $done({ body: responseBody });
+    // 返回修改后的响应体
+    $done({ body: response.body });
   } else {
-    // 如果 URL 不匹配，直接返回原响应
-    $done({ response });
+    // 如果 response 对象不存在或 body 属性不存在，直接返回原响应
+    $done({});
   }
 }
 
-// 执行响应处理
-modifyResponse($response);
+// 处理每日任务响应体的函数
+function modifyDailyTasksResponse(response) {
+  if (response && response.body) {
+    let responseBody;
+    try {
+      responseBody = JSON.parse(response.body);
+
+      // 修改每日任务中的 reward 字段的值
+      if (responseBody.data && Array.isArray(responseBody.data)) {
+        responseBody.data.forEach(task => {
+          if (task.reward !== undefined) {
+            task.reward = 1000;
+          }
+        });
+      }
+
+      response.body = JSON.stringify(responseBody);
+    } catch (e) {
+      console.error('解析每日任务响应体时出错:', e);
+    }
+
+    // 返回修改后的响应体
+    $done({ body: response.body });
+  } else {
+    // 如果 response 对象不存在或 body 属性不存在，直接返回原响应
+    $done({});
+  }
+}
+
+// 根据 URL 匹配模式决定调用哪个函数
+if (integralDetailsUrlPattern.test($request.url)) {
+  modifyIntegralDetailsResponse($response);
+} else if (dailyTasksUrlPattern.test($request.url)) {
+  modifyDailyTasksResponse($response);
+} else {
+  // 如果 URL 不匹配任何模式，返回原响应
+  $done({});
+}
