@@ -6,26 +6,26 @@
 
 *
 [mitm]
-hostname = 103.39.222.113
+hostname = 103.39.222.113:3308
 *************************************/
 
     let body = $response.body;
     let obj = JSON.parse(body);
  
-if ($request.url.indexOf("https://103.39.222.113:3308/api/my/profile") !== -1) {   
+if ($request.url.indexOf('/api/my/profile')) {   
     // 修改响应数据
     if (obj.data) {
         obj.data.is_vip = 1; // 设置为 VIP
-        obj.data.vip_points = 9999; // 积分
+        obj.data.vip_points = 999; // 积分
         obj.data.vip_type = 1; // VIP 类型
-        obj.data.view_times = "9999"; // 查看次数
-        obj.data.balance = "9999.00"; // 余额
+        obj.data.view_times = "999"; // 查看次数
+        obj.data.balance = "999.00"; // 余额
         obj.data.day_views = 999; // 每日查看次数
-        obj.data.vip_days = 9999; // VIP天数
+        obj.data.vip_days = 999; // VIP天数
     }
 }
 
-if ($request.url.indexOf('/api\/my\/use_card') !== -1) {   
+if ($request.url.indexOf('/api\/my\/use_card')) {   
     // 修改响应数据
     if (obj.msg) {
         obj.code = 200; 
