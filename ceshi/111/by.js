@@ -50,8 +50,7 @@ function modifyResponse(response) {
       if ($request.url.indexOf('/api/recharge/buy_vip') !== -1) {
         // 修改响应数据
         if (obj.msg) {
-          obj.code = 200;  
-          obj.once =  ;  
+          obj.code = 200;   
           obj.msg = "充值成功";  
         }
       }
