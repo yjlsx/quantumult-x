@@ -2,6 +2,7 @@
 [rewrite local]
 ^https:\/\/103\.39\.222\.113:3308\/api\/my\/profile url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 ^https:\/\/103\.39\.222\.113:3308\/api\/my\/use_card url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
+^https:\/\/103\.39\.222\.113:3308\/api\/recharge\/buy_vip url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 
 *
 [mitm]
@@ -42,6 +43,15 @@ function modifyResponse(response) {
         if (obj.msg) {
           obj.code = 200;  
           obj.once = 30;  
+          obj.msg = "充值成功";  
+        }
+      }
+
+      if ($request.url.indexOf('/api/recharge/buy_vip') !== -1) {
+        // 修改响应数据
+        if (obj.msg) {
+          obj.code = 200;  
+          obj.once =  ;  
           obj.msg = "充值成功";  
         }
       }
