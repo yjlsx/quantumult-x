@@ -68,5 +68,9 @@ function modifyResponse(response) {
   }
 }
 
+console.log("Request URL:", $request.url);
+console.log("Original Response Body:", $response.body);
+
 // 执行响应处理
 modifyResponse($response);
+
