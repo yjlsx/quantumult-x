@@ -32,7 +32,7 @@ function modifyResponse(response) {
         if (obj.data) {
           obj.data.is_vip = 1; // 设置为 VIP
           obj.data.vip_points = 9999; // 积分
-          obj.data.is_exchange_code = 9999; 
+          obj.data.is_exchange_code = 1; 
           obj.data.vip_type = 3; // VIP 类型
           obj.data.yuebao = "9999.00"; // 积分
           obj.data.view_times = "9999"; // 查看次数
@@ -40,6 +40,8 @@ function modifyResponse(response) {
           obj.data.fz_balance = "9999.00"; 
           obj.data.spread = "9999.00"; 
           obj.data.day_views = 999; // 每日查看次数
+          obj.data.used_views = 1;
+          obj.data.ok_month_card = 1;
           obj.data.vip_days = 9999; // VIP天数
           obj.data.vip_time = 4102375989; 
           obj.data.card_gnum["3"] = 99;
