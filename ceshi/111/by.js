@@ -5,7 +5,7 @@
 ^https:\/\/103\.39\.222\.113:3308\/api\/recharge\/buy_vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 ^https:\/\/103\.39\.222\.113:3308\/api\/recharge\/goods url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 ^https:\/\/103\.39\.222\.113:3308\/api\/my\/child_card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
-
+^https:\/\/103\.39\.222\.113:3308\/api\/my\/takeout_card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 *
 [mitm]
 hostname = 103.39.222.113:3308
@@ -68,6 +68,14 @@ function modifyResponse(response) {
       }
 
       if ($request.url.indexOf('/api/my/child_card') !== -1) {
+        // 修改响应数据
+        if (obj.msg) {
+          obj.code = 200;   
+          obj.msg = "兑换成功";  
+        }
+      }
+
+      if ($request.url.indexOf('/api/my/takeout_card') !== -1) {
         // 修改响应数据
         if (obj.msg) {
           obj.code = 200;   
