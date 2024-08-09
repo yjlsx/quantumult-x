@@ -43,7 +43,7 @@ if ($request.url.indexOf('/api/v1/user/integral_details') !== -1) {
     // 修改每日任务响应数据
     if (obj.data && Array.isArray(obj.data)) {
         obj.data.forEach(task => {
-            if (task.reward !== undefined) {
+            if (task.is_success !== true) {
                 task.reward = 100; // 将每个任务的奖励修改为 100
                 task.is_success = false; 
             }
