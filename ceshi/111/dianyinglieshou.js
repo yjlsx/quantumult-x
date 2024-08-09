@@ -27,18 +27,17 @@ if ($request.url.indexOf('/api/v1/user/integral_details') !== -1) {
     if (obj.data) {
         obj.data.total = 9999; // 修改总积分为 9999
     }
-} else if (/^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/integral_goods\/items\/\d+$/.test(requestUrl)) {
-        // 处理 /api/v1/integral_goods/items/{id} 的响应体
-        if (obj.data) {
-          obj.data.current_price = 1; // 修改当前价格为 1
-          obj.data.original_price = 1; // 修改原始价格为 1
-        }
-      } else if (/^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/integral_goods\/items\/\d+\/order$/.test(requestUrl)) {
-        // 处理 /api/v1/integral_goods/items/{id}/order 的响应体
-        if (obj.errorCode) {
-          obj.errorCode = 0; // 修改错误码为 0
-          obj.msg = "兑换成功"; // 修改消息为 "兑换成功"
-       }
+} else if ($request.url.indexOf('/v1/integral_goods/items') !== -1) {
+    // 修改积分详情响应数据
+    if (obj.data) {
+        obj.data.current_price = 1; 
+        obj.data.original_price = 1; 
+    } else if ($request.url.indexOf('/integral_goods/items/\d+/order') !== -1) {
+    // 修改积分详情响应数据
+    if (obj.errorCode) {
+        obj.errorCode = 0; 
+        obj.msg = "兑换成功"; 
+    }
 } else if ($request.url.indexOf('/api/v1/user/daily_tasks') !== -1) {
     // 修改每日任务响应数据
     if (obj.data && Array.isArray(obj.data)) {
