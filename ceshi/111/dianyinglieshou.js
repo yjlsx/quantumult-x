@@ -6,7 +6,7 @@
 ^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/movie_addr\/unlock url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
 ^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/movie_addr\/parse_url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
 ^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/integral_goods\/items url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
-^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/integral_goods\/items\/1\/order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
+^https:\/\/app-v1\.ecoliving168\.com\/api\/v1\/integral_goods\/items\/\d+\/order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/dianyinglieshou.js
 
 *
 [mitm]
@@ -33,7 +33,7 @@ if ($request.url.indexOf('/api/v1/user/integral_details') !== -1) {
         obj.data.current_price = 1; 
         obj.data.original_price = 1; 
     }
-}  else if ($request.url.indexOf('/integral_goods/items/1/order') !== -1) {
+}  else if ($request.url.indexOf('/integral_goods/items/\d+/order') !== -1) {
     // 修改积分详情响应数据
     if (obj.errorCode) {
         obj.errorCode = 0; 
