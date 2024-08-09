@@ -31,7 +31,7 @@ function modifyResponse(response) {
         if (obj.data) {
           obj.data.is_vip = 1; // 设置为 VIP
           obj.data.vip_points = 9999; // 积分
-          obj.data.vip_type = 6; // VIP 类型
+          obj.data.vip_type = 2; // VIP 类型
           obj.data.yuebao = "9999.00"; // 积分
           obj.data.view_times = "9999"; // 查看次数
           obj.data.balance = "9999.00"; // 余额
@@ -40,6 +40,9 @@ function modifyResponse(response) {
           obj.data.day_views = 999; // 每日查看次数
           obj.data.vip_days = 9999; // VIP天数
           obj.data.vip_time = 4102375989; 
+          obj.data.card_gnum.3 = 99;
+          obj.data.card_gnum.5 = 99;
+          obj.data.card_gnum.6 = 99;
         }
       }
 
