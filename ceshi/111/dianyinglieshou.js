@@ -32,12 +32,11 @@ if ($request.url.indexOf('/api/v1/user/integral_details') !== -1) {
     if (obj.data) {
         obj.data.current_price = 1; 
         obj.data.original_price = 1; 
-    } else if ($request.url.indexOf('/integral_goods/items/\d+/order') !== -1) {
+    } 
     // 修改积分详情响应数据
     if (obj.errorCode) {
         obj.errorCode = 0; 
         obj.msg = "兑换成功"; 
-        }
     }
 } else if ($request.url.indexOf('/api/v1/user/daily_tasks') !== -1) {
     // 修改每日任务响应数据
