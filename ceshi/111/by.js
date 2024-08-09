@@ -33,7 +33,7 @@ function modifyResponse(response) {
           obj.data.is_vip = 1; // 设置为 VIP
           obj.data.vip_points = 9999; // 积分
           obj.data.is_exchange_code = 1; 
-          obj.data.vip_type = 0; // VIP 类型
+          obj.data.vip_type = 356; // VIP 类型
           obj.data.yuebao = "9999.00"; // 积分
           obj.data.view_times = "9999"; // 查看次数
           obj.data.balance = "9999.00"; // 余额
