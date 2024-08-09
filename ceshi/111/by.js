@@ -40,9 +40,9 @@ function modifyResponse(response) {
           obj.data.day_views = 999; // 每日查看次数
           obj.data.vip_days = 9999; // VIP天数
           obj.data.vip_time = 4102375989; 
-          obj.data.card_gnum.3 = 99;
-          obj.data.card_gnum.5 = 99;
-          obj.data.card_gnum.6 = 99;
+          obj.data.card_gnum["3"] = 99;
+          obj.data.card_gnum["5"] = 99;
+          obj.data.card_gnum["6"] = 99;
         }
       }
 
