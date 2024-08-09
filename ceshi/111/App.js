@@ -156,7 +156,7 @@ https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|ca
 ^https:\/\/ask\.zhaopin\.com\/plat-zqa-server\/user\/0\.1\.0\/whoIAm url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https://m\.zhaopin\.com/bapi/resume/top/order/info/v3 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https://m\.zhaopin\.com/bapi/vip/privilege/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
-^https://m\.zhaopin\.com/business/vip/v3 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilianvip.js
+
 # >证件照相馆-美颜证件照&一寸证件照相机（永久会员）
 ^https?:\/\/appss.rhinoxlab.com\/app\/account\/getAccountInfo url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/zjzxg.js
 # >作业批改-家长辅导作业工具（永久会员）
