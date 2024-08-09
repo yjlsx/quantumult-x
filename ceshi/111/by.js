@@ -4,6 +4,7 @@
 ^https:\/\/103\.39\.222\.113:3308\/api\/my\/use_card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 ^https:\/\/103\.39\.222\.113:3308\/api\/recharge\/buy_vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 ^https:\/\/103\.39\.222\.113:3308\/api\/recharge\/goods url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
+^https:\/\/103\.39\.222\.113:3308\/api\/my\/child_card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 
 *
 [mitm]
@@ -31,7 +32,8 @@ function modifyResponse(response) {
         if (obj.data) {
           obj.data.is_vip = 1; // 设置为 VIP
           obj.data.vip_points = 9999; // 积分
-          obj.data.vip_type = 2; // VIP 类型
+          obj.data.is_exchange_code = 9999; 
+          obj.data.vip_type = 3; // VIP 类型
           obj.data.yuebao = "9999.00"; // 积分
           obj.data.view_times = "9999"; // 查看次数
           obj.data.balance = "9999.00"; // 余额
@@ -60,6 +62,14 @@ function modifyResponse(response) {
         if (obj.msg) {
           obj.code = 200;   
           obj.msg = "充值成功";  
+        }
+      }
+
+      if ($request.url.indexOf('/api/my/child_card') !== -1) {
+        // 修改响应数据
+        if (obj.msg) {
+          obj.code = 200;   
+          obj.msg = "兑换成功";  
         }
       }
 
