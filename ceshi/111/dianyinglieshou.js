@@ -31,7 +31,7 @@ if ($request.url.indexOf('/api/v1/user/integral_details') !== -1) {
         obj.data.forEach(task => {
             if (task.reward !== undefined) {
                 task.reward = 100; // 将每个任务的奖励修改为 100
-                task.is_success = true; 
+                task.is_success = false; 
             }
         });
     }
