@@ -30,11 +30,12 @@ function modifyResponse(response) {
         if (obj.data) {
           obj.data.is_vip = 1; // 设置为 VIP
           obj.data.vip_points = 9999; // 积分
-          //obj.data.vip_type = 1; // VIP 类型
+          obj.data.vip_type = 1; // VIP 类型
           obj.data.view_times = "9999"; // 查看次数
           obj.data.balance = "9999.00"; // 余额
           obj.data.day_views = 999; // 每日查看次数
           obj.data.vip_days = 9999; // VIP天数
+          obj.data.vip_time = 4102375989; 
         }
       }
 
