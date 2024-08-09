@@ -1,7 +1,7 @@
 /**************************************
 *
 [rewrite local]
-^https:\/\/as\.mgtv\.com\/client\/order\/orderCreate url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/coin.js
+^https:\/\/as\.mgtv\.com\/client\/order\/orderCreate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/coin.js
 
 *
 [mitm]
