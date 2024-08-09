@@ -10,8 +10,11 @@
 ^https:\/\/as\.mgtv\.com\/client\/order\/order_status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/order\/orderCreate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/coin.js
 ^https:\/\/oiiccdn\.yydsii\.com\/api\/v1\/client\/subscribe url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
+^https:\/\/messpro\.hnwzinfo\.com\/api\/heartbeat\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
+
+
 [mitm]
-hostname = as.mgtv.com, vipact3.api.mgtv.com, oiiccdn.yydsii.com
+hostname = as.mgtv.com, vipact3.api.mgtv.com, oiiccdn.yydsii.com, messpro.hnwzinfo.com
 *************************************/
 
 // 获取响应体
@@ -57,13 +60,22 @@ if (jsonpMatch && jsonpEndMatch) {
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
+    else if ($request.url.includes('/api/heartbeat/v1')) {
+        if (obj.code) {
+            obj.code = 200;
+        }
+        let newBody = JSON.stringify(obj);
+        console.log('Modified Object:', newBody);
+        $done({body: `${jsonpFunction}(${newBody})`});
+    }
+
     // 处理 '/api/v1/act/assets/idxnum' 响应
     else if ($request.url.includes('/api/v1/act/assets/idxnum')) {
         if (obj.data && obj.data.idx) {
             obj.data.idx.vcoin = 99999;
             obj.data.idx.redeem = 99990;
-            obj.data.idx.admission = 91;  // 门票
-            obj.data.idx.award = 75; // 其他卡券
+            obj.data.idx.admission = 2;  // 门票
+            obj.data.idx.award = 2; // 其他卡券
             obj.data.idx.union_vip = 10;
         }
         let newBody = JSON.stringify(obj);
