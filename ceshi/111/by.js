@@ -35,6 +35,8 @@ function modifyResponse(response) {
           obj.data.yuebao = "9999.00"; // 积分
           obj.data.view_times = "9999"; // 查看次数
           obj.data.balance = "9999.00"; // 余额
+          obj.data.fz_balance = "9999.00"; 
+          obj.data.spread = "9999.00"; 
           obj.data.day_views = 999; // 每日查看次数
           obj.data.vip_days = 9999; // VIP天数
           obj.data.vip_time = 4102375989; 
