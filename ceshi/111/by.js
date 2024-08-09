@@ -3,6 +3,7 @@
 ^https:\/\/103\.39\.222\.113:3308\/api\/my\/profile url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 ^https:\/\/103\.39\.222\.113:3308\/api\/my\/use_card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 ^https:\/\/103\.39\.222\.113:3308\/api\/recharge\/buy_vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
+^https:\/\/103\.39\.222\.113:3308\/api\/recharge\/goods url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/by.js
 
 *
 [mitm]
@@ -30,7 +31,8 @@ function modifyResponse(response) {
         if (obj.data) {
           obj.data.is_vip = 1; // 设置为 VIP
           obj.data.vip_points = 9999; // 积分
-          obj.data.vip_type = 1; // VIP 类型
+          obj.data.vip_type = 6; // VIP 类型
+          obj.data.yuebao = "9999.00"; // 积分
           obj.data.view_times = "9999"; // 查看次数
           obj.data.balance = "9999.00"; // 余额
           obj.data.day_views = 999; // 每日查看次数
@@ -56,6 +58,14 @@ function modifyResponse(response) {
         }
       }
 
+if ($request.url.indexOf('https://103.39.222.113:3308/api/recharge/goods') !== -1) {
+    if (obj.data && Array.isArray(obj.data)) {
+        // 遍历每个商品并将价格设置为 0
+        obj.data.forEach(item => {
+            item.price = "0.00";
+        });
+    }
+  }
       // 生成修改后的 JSON 响应体
       $done({ body: JSON.stringify(obj) });
 
