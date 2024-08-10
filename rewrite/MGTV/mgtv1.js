@@ -66,12 +66,14 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
 }
 
     // 将previewConfig中的et值更新为videoSources中的ftime
-    const ftime = obj.data.videoSources[0]?.ftime;
-    if (ftime !== undefined) {
-        obj.data.preview.previewConfig.forEach(config => {
-            config.et = ftime;
-        });
-    }
+const ftimeStr = obj.data.videoSources[0]?.ftime;  // 获取 ftime 字符串
+const ftime = parseInt(ftimeStr, 10);  // 将字符串转换为整数
+
+if (!isNaN(ftime)) {  // 确保转换后的值是有效的数字
+    obj.data.preview.previewConfig.forEach(config => {
+        config.et = ftime;  // 设置 config.et 为 ftime
+    });
+}
 
     // 更新playPreviewType和isPreview
     obj.data.preview.playPreviewType = 0;
