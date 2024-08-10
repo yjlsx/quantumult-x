@@ -26,20 +26,49 @@ if ($request.url.indexOf('GetUserInfo?_support') !== -1) {
 }
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
-     // 更新components中的text字段
+    // 更新components中的text字段
     const componentsPaths = [
-        obj.data.authInfo.pay_info.preview_end.components,
-        obj.data.authInfo.pay_info.preview_starting.components,
-        obj.data.authInfo.pay_info.preview_playing.components
+        obj.data.authInfo.pay_info.preview_end?.components,
+        obj.data.authInfo.pay_info.preview_starting?.components,
+        obj.data.authInfo.pay_info.preview_playing?.components
     ];
 
     componentsPaths.forEach(components => {
-        components.forEach(component => {
-            if (component.text !== undefined) {
-                component.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
+        if (components) { // 检查是否为 undefined 或 null
+            components.forEach(component => {
+                if (component.text !== undefined) {
+                    component.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
+                }
+            });
+        }
+    });
+
+    // 将previewConfig中的et值更新为videoSources中的ftime
+    const ftime = obj.data.videoSources[0]?.ftime;
+    if (ftime !== undefined) {
+        obj.data.preview.previewConfig.forEach(config => {
+            config.et = ftime;
+        });
+    }
+
+    // 更新playPreviewType和isPreview
+    obj.data.preview.playPreviewType = 0;
+    obj.data.preview.isPreview = 0;
+
+    // 将videoSources中的needPay字段设为0
+    obj.data.videoSources.forEach(videoSource => {
+        videoSource.needPay = 0;
+    });
+
+    // 将speed数组中每个对象的needPay字段设为0
+    if (obj.data.config.speed && Array.isArray(obj.data.config.speed)) {
+        obj.data.config.speed.forEach(item => {
+            if (item.needPay !== undefined) {
+                item.needPay = 0;
             }
         });
-    });
+    }
+}
 
     // 将previewConfig中的et值更新为videoSources中的ftime
     const ftime = obj.data.videoSources[0].ftime;
