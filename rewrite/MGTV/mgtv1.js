@@ -27,14 +27,15 @@ if ($request.url.indexOf('GetUserInfo?_support') !== -1) {
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
     // 修改 `pay_info` 中的 `components` 的 `text`
-    if (obj.authInfo && obj.authInfo.pay_info && obj.authInfo.pay_info.preview_end && Array.isArray(obj.authInfo.pay_info.preview_end.components)) {
-        obj.authInfo.pay_info.preview_end.components.forEach(component => {
+       obj.msg = "SVIP尊享内容";
+    const payInfo = obj.authInfo.pay_info;
+    if (payInfo) {
+        payInfo.preview_end.components.forEach(component => {
             if (component.text) {
                 component.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
             }
         });
     }
-
     // 设置所有 `needPay` 为 0
     function setNeedPayToZero(item) {
         if (Array.isArray(item)) {
