@@ -128,7 +128,7 @@ function modifyResponse(response) {
       $done({ body: JSON.stringify(obj) });
 
     } catch (e) {
-      console.error('解析响应体时出错:', e);
+      console.log('解析响应体时出错:', e);
       $done({});
     }
   } else {
