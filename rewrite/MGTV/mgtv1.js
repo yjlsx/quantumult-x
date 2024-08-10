@@ -73,11 +73,13 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
 
     // 删除preview_playing
     delete obj.data.authInfo.pay_info.preview_playing;
+
     // 更新playPreviewType和isPreview
     obj.data.preview.playPreviewType = 0;
     obj.data.preview.isPreview = 1;
     obj.data.info.mediaPrimaryType = 2;
     obj.data.info.video.vipProtect = 0;
+    obj.data.info.hdcp = 0;
     // 将videoSources中的needPay字段设为0
     obj.data.videoSources.forEach(videoSource => {
         videoSource.needPay = 0;
