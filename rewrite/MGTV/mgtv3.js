@@ -60,7 +60,7 @@ function modifyResponse(response) {
             obj.data.universal_pc_mobile_vip_end_date = "2099-12-31";
             obj.data.vip_end_time = "2099-12-31 00:00:00";
             obj.data.bigscreen_vip_available = 1;
-            obj.data.contract_full_screen_vip_flag = 1;
+            obj.data.contract_full_screen_vip_flag = 0;
             obj.data.music_vip_end_time = "2099-12-31 00:00:00";
             obj.data.music_vip = 1;
             obj.data.universal_full_screen_vip_end_date = "2099-12-31";
@@ -74,7 +74,7 @@ function modifyResponse(response) {
             obj.data.growth.level = 9; // 修改为适当的 VIP 等级
             obj.data.growth.next_level_gap = 9; 
             obj.data.contract_full_screen_vip_end_date = "2099-12-31";
-            obj.data.contract_pc_mobile_flag = 1;
+            obj.data.contract_pc_mobile_flag = 0;
             obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
             obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
             obj.data.vip_end_days = 99999;
