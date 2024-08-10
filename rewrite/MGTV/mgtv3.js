@@ -59,10 +59,11 @@ function modifyResponse(response) {
         obj.data.userinfo.universal_pc_mobile_vip_end_date = "2099-12-31";
         obj.data.userinfo.contract_pc_mobile_vip_end_date = "2099-12-31";
         obj.data.userinfo.universal_full_screen_vip_end_date = "2099-12-31";
-        obj.data.userinfo.contract_pc_screen_vip_end_date = "2099-12-31";
+        obj.data.userinfo.contract_full_screen_vip_end_date = "2099-12-31";
         obj.data.userinfo.bigscreen_vip_end_date = "2099-12-31";
         obj.data.userinfo.bigscreen_vip_available = 1;
         obj.data.userinfo.contract_full_screen_vip_flag = 1;
+        obj.data.userinfo.contract_pc_mobile_flag = 1;
         obj.data.userinfo.music_vip = 1;
         obj.data.userinfo.vip_end_time_pc = "2099-12-31 00:00:00";
         obj.data.userinfo.vip_name = "SVIP";
@@ -75,6 +76,10 @@ function modifyResponse(response) {
         obj.data.userinfo.vip_end_days = 9999;
         obj.data.userinfo.vip_end_time_svip = "2099-12-31 00:00:00";
         obj.data.userinfo.vip_id = "mpp_svip";
+        obj.data.userinfo.vipinfo.vip_end_time = "2099-12-31 00:00:00";
+        obj.data.userinfo.vipinfo.type = "2";
+        obj.data.userinfo.vipinfo.growth.score = 99999;
+        obj.data.userinfo.vipinfo.growth.level = 9;
     }
  }
 
