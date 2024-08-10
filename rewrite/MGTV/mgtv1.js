@@ -25,68 +25,46 @@ if ($request.url.indexOf('GetUserInfo?_support') !== -1) {
     obj.data.vipinfo.growth.score = 99999;
 }
 
-/*
 if ($request.url.indexOf('/v1/video/source') !== -1) {
-    // 修改 `pay_info` 中的 `components` 的 `text`
-    function updateTextFields(item) {
-    if (Array.isArray(item)) {
-        item.forEach(subItem => updateTextFields(subItem));
-    } else if (typeof item === 'object') {
-        for (const key in item) {
-            if (key === 'text') {
-                item[key] = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
-            } else if (typeof item[key] === 'object') {
-                updateTextFields(item[key]);
-               }
-          }
-      }
-  }
+     // 更新components中的text字段
+    const componentsPaths = [
+        obj.data.authInfo.pay_info.preview_end.components,
+        obj.data.authInfo.pay_info.preview_starting.components,
+        obj.data.authInfo.pay_info.preview_playing.components
+    ];
 
-// 函数：将所有 needPay 设置为 0
-function setNeedPayToZero(item) {
-    if (Array.isArray(item)) {
-        item.forEach(subItem => setNeedPayToZero(subItem));
-    } else if (typeof item === 'object') {
-        for (const key in item) {
-            if (item.hasOwnProperty(key)) {
-                if (key === 'needPay') {
-                    item[key] = 0;
-                } else if (typeof item[key] === 'object') {
-                    setNeedPayToZero(item[key]);
-                }
+    componentsPaths.forEach(components => {
+        components.forEach(component => {
+            if (component.text !== undefined) {
+                component.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
             }
-        }
+        });
+    });
+
+    // 将previewConfig中的et值更新为videoSources中的ftime
+    const ftime = obj.data.videoSources[0].ftime;
+    obj.data.preview.previewConfig.forEach(config => {
+        config.et = ftime;
+    });
+
+    // 更新playPreviewType和isPreview
+    obj.data.preview.playPreviewType = 0;
+    obj.data.preview.isPreview = 0;
+
+    // 将videoSources中的needPay字段设为0
+    obj.data.videoSources.forEach(videoSource => {
+        videoSource.needPay = 0;
+    });
+
+    // 将speed数组中每个对象的needPay字段设为0
+    if (obj.data.config.speed && Array.isArray(obj.data.config.speed)) {
+        obj.data.config.speed.forEach(item => {
+            if (item.needPay !== undefined) {
+                item.needPay = 0;
+            }
+        });
     }
-}
 
-// 执行更新
-if (obj.authInfo && obj.authInfo.pay_info) {
-    updateTextFields(obj.authInfo.pay_info);
-}
-
-// 设置所有 needPay 为 0
-setNeedPayToZero(obj);
-
-
-// 更新 `previewConfig` 中的 `et` 为视频结束时间 `videoEndTime`
-   if (obj.preview && Array.isArray(obj.preview.previewConfig)) {
-    const videoEndTime = obj.authInfo && obj.authInfo.pay_info && obj.authInfo.pay_info.ftime; // 获取视频结束时间
-    if (videoEndTime) {
-        obj.preview.previewConfig.forEach(config => {
-            if (config.et) {
-                config.et = videoEndTime; // 设置为视频结束时间
-              }
-          });
-      }
-   }
-
-    if (obj.preview) {
-        obj.preview.playPreviewType = 0; // 预览
-        obj.preview.isPreview = 0;
-    }
-}
-
-*/
 // 打印调试信息
 console.log(JSON.stringify(obj));
 
