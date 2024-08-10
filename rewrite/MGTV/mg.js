@@ -1,6 +1,5 @@
 /*
 [rewrite local]
-^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo\?_support url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
 ^https:\/\/mobile-stream\.api\.mgtv\.com\/v1\/video\/source url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
 *
 [mitm]
@@ -12,20 +11,6 @@ hostname = nuc.api.mgtv.com, mobile-stream.api.mgtv.com
 let body = $response.body;
 let obj = JSON.parse(body);
 
-// 根据 URL 进行不同的处理
-if ($request.url.indexOf('GetUserInfo?_support') !== -1) {
-    obj.data.isVip = 1;
-    obj.data.vipExpiretime = 410244480090000;
-    obj.data.vipplatform = "mpp_svip";
-    obj.data.vipinfo.isvip = 1;
-    obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00";
-    obj.data.vipinfo.type = "2";
-    obj.data.vipinfo.platform = "mpp_svip";
-    obj.data.vipinfo.growth.level = 9;
-    obj.data.vipinfo.growth.score = 99999;
-}
-
-/*
 if ($request.url.indexOf('/v1/video/source') !== -1) {
     // 修改 `pay_info` 中的 `components` 的 `text`
     function updateTextFields(item) {
@@ -86,7 +71,6 @@ setNeedPayToZero(obj);
     }
 }
 
-*/
 // 打印调试信息
 console.log(JSON.stringify(obj));
 
