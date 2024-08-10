@@ -1,2 +1,11 @@
-var { Cookie, 'x-r-i': xri, 'x-l-r-i': xlri, ...rest } = $request.headers;
-$done({ headers: rest });
+var obj = JSON.parse(body);
+obj.data.isVip = 1;
+obj.data.vipExpiretime = 410244480090000;
+obj.data.vipplatform = "mpp_svip";
+obj.data.vipinfo.isvip = 1;
+obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00";
+obj.data.vipinfo.type = "2";
+obj.data.vipinfo.platform = "mpp_svip";
+obj.data.vipinfo.growth.level = 9;
+obj.data.vipinfo.growth.score = 99999;
+$done({body: JSON.stringify(obj)});
