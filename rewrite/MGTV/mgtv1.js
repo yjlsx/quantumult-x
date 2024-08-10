@@ -26,11 +26,13 @@ if ($request.url.indexOf('GetUserInfo?_support') !== -1) {
 }
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
+     obj.code = 200;
     if(obj.data.authInfo.pay_info) {
     // 更新components中的text字段
     const componentsPaths = [
         obj.data.authInfo.pay_info.preview_end?.components,
         obj.data.authInfo.pay_info.preview_starting?.components,
+        obj.data.authInfo.pay_info.preview_playing?.components,
     ];
 
     componentsPaths.forEach(components => {
@@ -71,8 +73,6 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
         });
     }
 
-    // 删除preview_playing
-    delete obj.data.authInfo.pay_info.preview_playing;
 
     // 更新playPreviewType和isPreview
     obj.data.preview.playPreviewType = 0;
