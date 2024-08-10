@@ -4,6 +4,8 @@
 ^http:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/user\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/vip\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_info?ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/theme\/card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/vipcenter\/themecard\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 
 *
 [mitm]
@@ -82,6 +84,7 @@ function modifyResponse(response) {
 
 if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
   if (obj.data && obj.data.userinfo) {
+    obj.data.vip_center_type = 2;
     obj.data.vip_end_time = 4102444800; // 2099-12-31 的时间戳
     obj.data.user_type_name = "SVIP";
     obj.data.vip_end_time_desc = "VIP 特权有效至 2099-12-31";
@@ -114,6 +117,20 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
   }
 }
 
+ if ($request.url.indexOf('/api/v1/app/vip/center/theme/card') !== -1) {
+        if (obj.data) {
+            obj.data.theme_card.img = "https://vipcdn.mgtv.com/act/assets/badge/themecard/V9.png";
+        }
+ }
+
+ if ($request.url.indexOf('/api/v1/act/vipcenter/themecard/list') !== -1) {
+        if (obj.data && obj.data.list) {
+          // 遍历 list 数组，修改每个 card_type
+          obj.data.list.forEach(card => {
+            card.card_type = 100;
+          });
+     }
+ }
 
 
 /*
