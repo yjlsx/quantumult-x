@@ -89,7 +89,7 @@ obj.data.videoSources.forEach(videoSource => {
 
     // 更新playPreviewType和isPreview
     obj.data.preview.playPreviewType = 2;
-    obj.data.preview.isPreview = 0;
+    obj.data.preview.isPreview = 1;
     obj.data.info.mediaPrimaryType = 2;
     obj.data.info.video.vipProtect = 0;
     obj.data.info.hdcp = 0;
