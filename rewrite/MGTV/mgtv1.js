@@ -73,22 +73,8 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
         });
     }
 
-
-// 遍历 videoSources 数组，将每个对象的 terminalCode 改为 -1
-obj.data.videoSources.forEach(videoSource => {
-    videoSource.terminalCode = -1;
-
-    // 如果有备份流也需要改 terminalCode
-    if (videoSource.bakStreams) {
-        videoSource.bakStreams.forEach(bakStream => {
-            bakStream.terminalCode = -1;
-        });
-    }
-});
-
-
     // 更新playPreviewType和isPreview
-    obj.data.preview.playPreviewType = 2;
+    obj.data.preview.playPreviewType = 0;
     obj.data.preview.isPreview = 1;
     obj.data.info.mediaPrimaryType = 2;
     obj.data.info.video.vipProtect = 0;
