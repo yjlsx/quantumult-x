@@ -52,7 +52,7 @@ function modifyResponse(response) {
 }
 
 
- if ($request.url.indexOf('/api/v1/app/vip/center/vip/info?ticket') !== -1) {
+ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
         if (obj.data) {
             obj.data.contract_pc_mobile_vip_end_date = "2099-12-31";
             obj.data.vip_end_time_pc = "2099-12-31 00:00:00";
@@ -79,7 +79,7 @@ function modifyResponse(response) {
  }
 
 
- if ($request.url.indexOf('/client/user/user_info') !== -1) {
+ if ($request.url.indexOf('/client/user/user_info?ticket') !== -1) {
         if (obj.data.userinfo) {
         obj.data.vip_end_time_desc = "VIP 特权有效至 2099-12-31";
         obj.data.vip_end_time = 4102444800; // 2099-12-31 的时间戳
