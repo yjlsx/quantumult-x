@@ -83,7 +83,9 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.indexOf('/GetUserInfo?_from=vip_growth') !== -1) {
         if (obj.data && obj.data.vipinfo) {
           obj.data.isVip = 1;
+          obj.data.vipplatform = "mpp_svip";
           obj.data.vipinfo.vipExpiretime = 4102444800;
+          obj.data.vipinfo.platform = "mpp_svip";
           obj.data.vipinfo.isvip = 1;
           obj.data.vipinfo.type = 2;
           obj.data.vipinfo.vip_end_time = 4102444800; // 2099-12-31 的时间戳

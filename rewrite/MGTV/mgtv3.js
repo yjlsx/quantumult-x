@@ -37,6 +37,7 @@ function modifyResponse(response) {
 
       if ($request.url.indexOf('/api/v1/app/vip/center/user/info') !== -1) {
         if (obj.data.vipinfo) {
+        obj.data.vip_center_type = 1;
         obj.data.vip_end_time_desc = "VIP 特权有效至 2099-12-31";
         obj.data.level = 9; // 修改为 VIP 等级
         obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00"; // 2099-12-31 的时间戳
