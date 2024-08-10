@@ -79,7 +79,7 @@ function modifyResponse(response) {
 
 
  if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
-        if (obj.data.userinfo) {
+        if (obj.data && obj.data.userinfo) {
         obj.data.vip_end_time_desc = "VIP 特权有效至 2099-12-31";
         obj.data.vip_end_time = 4102444800; // 2099-12-31 的时间戳
         obj.data.userinfo.music_vip_end_time = "2099-12-31 00:00:00";
@@ -123,11 +123,14 @@ function modifyResponse(response) {
  }
 */
 
+
       // 生成修改后的 JSON 响应体
       $done({ body: JSON.stringify(obj) });
 
     } catch (e) {
-      console.log('解析响应体时出错:', e);
+      // 增强错误日志
+      console.log('解析响应体时出错:', e.message);
+      console.log('原始响应体:', body);
       $done({});
     }
   } else {
