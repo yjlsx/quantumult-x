@@ -60,7 +60,7 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.includes('/api/v1/act/viptype')) {
          if (obj.data) {
             obj.data.vip_id = "mpp_svip";
-            obj.data.userinfo.vipinfo.vip_end_time = 4102444800; // 2099-12-31 的时间戳
+            obj.data.userinfo.vipinfo.vip_end_time = "2099-12-31"; // 2099-12-31 的时间戳
             obj.data.userinfo.vipinfo.type = "2"; 
             obj.data.userinfo.vipinfo.growth.score = 99999;
             obj.data.userinfo.vipinfo.growth.level = 9;
@@ -99,33 +99,39 @@ if (jsonpMatch && jsonpEndMatch) {
 
 
     // 处理 '/client/user/user_info' 响应
-    else if ($request.url.includes('/client/user/user_info?(invoker|cxid)')) {
-        if (obj.data) {
-            obj.data.vip_end_time_pc = "2099-12-31 00:00:00";
-            obj.data.mpp_svip_end_date = "2099-12-31";
-            obj.data.bigscreen_vip_end_date = "2099-12-31";
-            obj.data.vip_end_date = "2099-12-31";
-            obj.data.contract_full_screen_vip_end_date = "2099-12-31";
-            obj.data.universal_pc_mobile_vip_end_date = "2099-12-31";
-            obj.data.music_vip_end_time = "2099-12-31 00:00:00";
-            obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
-            obj.data.contract_pc_mobile_vip_end_date = "2099-12-31";
-            obj.data.universal_full_screen_vip_end_date = "2099-12-31";
-            obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
-            obj.data.is_mpp_svip = 1;
-            obj.data.music_vip = 1;
-            obj.data.vip_id = "mpp_svip";
-            obj.data.vip_name = "SVIP";
-            if (obj.data.growth) {
-                obj.data.growth.level = 9;
-                obj.data.growth.score = 99999;
-            }
-            obj.data.vip_end_days = 99999;
-        }
+   else if ($request.url.includes('/client/user/user_info?(invoker|cxid)')) {
+       if (obj.data) {
+        obj.data.vip_end_time_pc = 4102444800; // 2099-12-31 的时间戳
+        obj.data.vip_end_date = "2099-12-31";
+        obj.data.mpp_svip_end_date = "2099-12-31";
+        obj.data.bigscreen_vip_end_date = "2099-12-31";
+        obj.data.contract_full_screen_vip_end_date = "2099-12-31";
+        obj.data.universal_pc_mobile_vip_end_date = "2099-12-31";
+        obj.data.universal_full_screen_vip_end_date = "2099-12-31";
+        obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
+        obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
+        obj.data.vip_name = "SVIP";
+        obj.data.music_vip_end_time = "2099-12-31 00:00:00";
+        obj.data.music_vip = 1;
+        obj.data.bigscreen_vip_available = 1;
+        obj.data.contract_full_screen_vip_flag = 1;
+        obj.data.contract_pc_mobile_flag = 1;
+        obj.data.is_mpp_svip = 1;
+        obj.data.vip_end_days = 9999;
+        obj.data.vip_id = "mpp_svip";       
+        obj.data.growth = {
+          score: 99999,
+          level: 9,
+          next_level_gap: 9,
+          daily_incr_score: 15,
+          upgrade_progress: "0.000",
+          percentile: "0.01%"
+        };
+      }
         let newBody = JSON.stringify(obj);
         console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
-    }
+  }
 
     // 处理 '/GetUserInfo' 响应
     else if ($request.url.includes('/GetUserInfo')) {
