@@ -1,3 +1,4 @@
+var body = $response.body
 var obj = JSON.parse(body);
 obj.data.isVip = 1;
 obj.data.vipExpiretime = 410244480090000;
