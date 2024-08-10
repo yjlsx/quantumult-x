@@ -1,6 +1,6 @@
 /*
 [rewrite local]
-^https:\/\/mobile-stream\.api\.mgtv\.com\/v1\/video\/source url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
+^https:\/\/mobile-stream\.api\.mgtv\.com\/v1\/video\/source url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mg.js
 *
 [mitm]
 hostname = nuc.api.mgtv.com, mobile-stream.api.mgtv.com
@@ -27,6 +27,7 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
       }
   }
 
+/*
 // 函数：将所有 needPay 设置为 0
 function setNeedPayToZero(item) {
     if (Array.isArray(item)) {
@@ -48,8 +49,6 @@ function setNeedPayToZero(item) {
 if (obj.authInfo && obj.authInfo.pay_info) {
     updateTextFields(obj.authInfo.pay_info);
 }
-
-// 设置所有 needPay 为 0
 setNeedPayToZero(obj);
 
 
@@ -64,7 +63,7 @@ setNeedPayToZero(obj);
           });
       }
    }
-
+*/
     if (obj.preview) {
         obj.preview.playPreviewType = 0; // 预览
         obj.preview.isPreview = 0;
