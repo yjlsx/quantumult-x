@@ -6,7 +6,7 @@
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_info?ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/theme\/card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/vipcenter\/themecard\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
-
+https://mobile-stream.api.mgtv.com/v1/video/source url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 *
 [mitm]
 hostname = vipact3.api.mgtv.com, as.mgtv.com
@@ -167,7 +167,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
         }
     }
     if (obj.preview) {
-        obj.preview.playPreviewType = 0; // 关闭预览
+        obj.preview.playPreviewType = 1; // 预览
     }
 }
 
