@@ -135,7 +135,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
      }
  }
 
-if ($request.url.indexOf('mobile-stream.api.mgtv.com/v1/video/source') !== -1) {
+if ($request.url.indexOf('/v1/video/source') !== -1) {
     // 修改 `pay_info` 中的 `components` 的 `text`
     if (obj.authInfo && obj.authInfo.pay_info && obj.authInfo.pay_info.preview_end && Array.isArray(obj.authInfo.pay_info.preview_end.components)) {
         obj.authInfo.pay_info.preview_end.components.forEach(component => {
