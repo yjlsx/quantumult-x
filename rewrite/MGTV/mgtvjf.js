@@ -9,7 +9,7 @@
 ^https:\/\/oiiccdn\.yydsii\.com\/api\/v1\/client\/subscribe url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/messpro\.hnwzinfo\.com\/api\/heartbeat\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/viptype url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
-
+^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo\?_from=vip_growth$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 
 [mitm]
 hostname = as.mgtv.com, vipact3.api.mgtv.com, oiiccdn.yydsii.com, messpro.hnwzinfo.com
@@ -74,6 +74,23 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.includes('/api/heartbeat/v1')) {
         if (obj.code) {
             obj.code = 200;
+        }
+        let newBody = JSON.stringify(obj);
+        console.log('Modified Object:', newBody);
+        $done({body: `${jsonpFunction}(${newBody})`});
+    }
+
+    else if ($request.url.indexOf('/GetUserInfo?_from=vip_growth') !== -1) {
+        if (obj.data && obj.data.vipinfo) {
+          obj.data.isVip = 1;
+          obj.data.vipinfo.vipExpiretime = 4102444800;
+          obj.data.vipinfo.isvip = 1;
+          obj.data.vipinfo.type = 2;
+          obj.data.vipinfo.vip_end_time = 4102444800; // 2099-12-31 的时间戳
+          obj.data.vipinfo.growth = {
+            score: 99999,
+            level: 9
+          };
         }
         let newBody = JSON.stringify(obj);
         console.log('Modified Object:', newBody);
