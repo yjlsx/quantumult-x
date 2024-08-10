@@ -26,6 +26,7 @@ if ($request.url.indexOf('GetUserInfo?_support') !== -1) {
 }
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
+    if(obj.data.authInfo.pay_info) {
     // 更新components中的text字段
     const componentsPaths = [
         obj.data.authInfo.pay_info.preview_end?.components,
@@ -42,6 +43,26 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
             });
         }
     });
+}
+
+    if(obj.data.authInfo.interests_info) {  
+    const suites = [
+        obj.data.authInfo.interests_info.def_tips?.suites,
+    ];
+    suites.forEach(suites => {
+        if (suites) { // 检查是否为 undefined 或 null
+            suites.forEach(suites => {
+                if (suites.text !== undefined) {
+                    suites.finish_text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
+                    suites.icon = "https://vipcdn.mgtv.com/assets/icon/svip.png";
+                    suites.entry_text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
+                }
+            });
+        }
+    });
+        obj.data.authInfo.interests_info.play_tips.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
+        obj.data.authInfo.interests_info.play_tips.icon = "https://vipcdn.mgtv.com/assets/icon/svip.png"; 
+}
 
     // 将previewConfig中的et值更新为videoSources中的ftime
     const ftime = obj.data.videoSources[0]?.ftime;
