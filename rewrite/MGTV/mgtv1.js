@@ -64,14 +64,17 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
     }
     setNeedPayToZero(obj);
 
-    // 更新 `previewconfig` 中的 `et` 为 `videoSources` 中的 `ftime`
-    if (obj.data && Array.isArray(obj.data.videoSources) && obj.data.videoSources.length > 0) {
-        const videoEndTime = obj.data.videoSources[0].ftime; // 获取视频结束时间
-        if (videoEndTime && obj.authInfo && obj.authInfo.pay_info && obj.authInfo.pay_info.previewconfig) {
-            obj.authInfo.pay_info.previewconfig.et = videoEndTime; // 设置为视频结束时间
-        }
-    }
-
+// 更新 `previewConfig` 中的 `et` 为视频结束时间 `videoEndTime`
+   if (obj.preview && Array.isArray(obj.preview.previewConfig)) {
+    const videoEndTime = obj.authInfo && obj.authInfo.pay_info && obj.authInfo.pay_info.ftime; // 获取视频结束时间
+    if (videoEndTime) {
+        obj.preview.previewConfig.forEach(config => {
+            if (config.et) {
+                config.et = videoEndTime; // 设置为视频结束时间
+              }
+          });
+      }
+   }
 
     if (obj.preview) {
         obj.preview.playPreviewType = 0; // 预览
