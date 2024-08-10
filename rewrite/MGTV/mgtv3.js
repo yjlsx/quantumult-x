@@ -136,6 +136,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
  }
 
  if ($request.url.indexOf('mobile-stream.api.mgtv.com/v1/video/source') !== -1) {
+    // 修改 `pay_info` 中的 `components` 的 `text`
     if (obj.authInfo && obj.authInfo.pay_info) {
         obj.authInfo.pay_info.preview_end.components.forEach(component => {
             if (component.text) {
@@ -143,15 +144,31 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
             }
         });
     }
-    if (obj.videoSources) {
-        obj.videoSources.forEach(source => {
-            source.needPay = 0;
-        });
+    // 设置所有 `needPay` 为 0
+    function setNeedPayToZero(item) {
+        if (Array.isArray(item)) {
+            item.forEach(subItem => setNeedPayToZero(subItem));
+        } else if (typeof item === 'object') {
+            for (const key in item) {
+                if (key === 'needPay') {
+                    item[key] = 0;
+                } else if (typeof item[key] === 'object') {
+                    setNeedPayToZero(item[key]);
+                }
+            }
+        }
+    }
+    setNeedPayToZero(obj);
+    // 更新 `previewconfig` 中的 `et` 为视频结束时间 `ftime`
+    if (obj.authInfo && obj.authInfo.pay_info && obj.authInfo.pay_info.previewconfig) {
+        const videoEndTime = obj.authInfo.pay_info.ftime; // 获取视频结束时间
+        if (obj.authInfo.pay_info.previewconfig.et) {
+            obj.authInfo.pay_info.previewconfig.et = videoEndTime; // 设置为视频结束时间
+        }
     }
     if (obj.preview) {
         obj.preview.playPreviewType = 0; // 关闭预览
-        obj.preview.isPreview = 0;
-   }
+    }
 }
 
 
