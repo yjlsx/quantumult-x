@@ -3,7 +3,7 @@
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/assets\/idxnum url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^http:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/user\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/user\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
-^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+
 *
 [mitm]
 hostname = vipact3.api.mgtv.com, as.mgtv.com
@@ -64,6 +64,7 @@ function modifyResponse(response) {
     }
  }
 
+/*
     // 处理 '/client/user/user_vip_coin' 响应
  if ($request.url.indexOf('/client/user/user_vip_coin') !== -1) {
         if (obj.data) {
@@ -72,7 +73,7 @@ function modifyResponse(response) {
             obj.data.stat = 99997;
         }
  }
-
+*/
 
       // 生成修改后的 JSON 响应体
       $done({ body: JSON.stringify(obj) });

@@ -1,6 +1,7 @@
 /**************************************
 *
 [rewrite local]
+^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 #^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/order\/order_status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
@@ -43,6 +44,17 @@ if (jsonpMatch && jsonpEndMatch) {
         console.log('Modified Object:', newBody);
         $done({ body: `${jsonpFunction}(${newBody})` });
     } 
+
+    else if ($request.url.includes('/client/user/user_vip_coin')) {
+         if (obj.data) {
+            obj.data.points = 99999;
+            obj.data.freze = 99998;
+            obj.data.stat = 99997;
+         }
+        let newBody = JSON.stringify(obj);
+        console.log('Modified Object:', newBody);
+        $done({body: `${jsonpFunction}(${newBody})`});
+    }
 
 
     else if ($request.url.includes('/api/heartbeat/v1')) {
