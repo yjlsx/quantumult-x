@@ -11,7 +11,8 @@
 ^https:\/\/as\.mgtv\.com\/client\/order\/orderCreate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/coin.js
 ^https:\/\/oiiccdn\.yydsii\.com\/api\/v1\/client\/subscribe url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/messpro\.hnwzinfo\.com\/api\/heartbeat\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
-
+^http:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/user\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
+^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/user\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 
 [mitm]
 hostname = as.mgtv.com, vipact3.api.mgtv.com, oiiccdn.yydsii.com, messpro.hnwzinfo.com
@@ -83,24 +84,59 @@ if (jsonpMatch && jsonpEndMatch) {
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
+    else if ($request.url.includes('/api/v1/app/vip/center/user/info')) {
+        if (obj.data.vipinfo) {
+        obj.data.vip_center_type = 1; // 修改为 VIP 中心类型
+        obj.data.vip_end_time_desc = "VIP 特权有效至 2099-12-31";
+        obj.data.level = 9; // 修改为 VIP 等级
+        obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00"; // 2099-12-31 的时间戳
+        obj.data.vipinfo.type = "2"; // 修改为 VIP 类型
+        obj.data.vipinfo.growth.score = 99999; // 修改为适当的积分
+        obj.data.vipinfo.growth.level = 9; // 修改为适当的 VIP 等级
+        obj.data.user_type_name = "SVIP";
+        obj.data.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/1/1.png"; // 修改为 VIP 图标
+        obj.data.vip_id = "mpp_svip"; // 修改为 VIP ID
+        obj.data.vip_end_time = 4102444800; // 2099-12-31 的时间戳
+        obj.data.score = 99999; // 修改为适当的积分
+        obj.data.user_type = 2; // 修改为 VIP 用户类型
+        }
+        if (obj.data.userinfo) {
+        obj.data.userinfo.music_vip_end_time = "2099-09-09 00:00:00";
+        obj.data.userinfo.music_vip = 1;
+        obj.data.userinfo.vip_end_time_pc = "2099-09-09 00:00:00";
+        obj.data.userinfo.vip_name = "SVIP";
+        obj.data.userinfo.vip_end_date = "2099-09-09";
+        obj.data.userinfo.growth.score = 99999;
+        obj.data.userinfo.growth.level = 9;
+        obj.data.userinfo.is_mpp_svip = 1;
+        obj.data.userinfo.vip_end_time_fs = "2099-09-09 00:00:00";
+        obj.data.userinfo.vip_end_days = 9999;
+        obj.data.userinfo.vip_end_time_svip = "2099-09-09 00:00:00";
+        obj.data.userinfo.vip_id = "mpp_svip";
+}
+        let newBody = JSON.stringify(obj);
+        console.log('Modified Object:', newBody);
+        $done({body: `${jsonpFunction}(${newBody})`});
+    }
+
     // 处理 '/client/user/user_info' 响应
     else if ($request.url.includes('/client/user/user_info')) {
         if (obj.data) {
-            obj.data.vip_end_time_pc = "2099-09-09";
+            obj.data.vip_end_time_pc = "2099-09-09 00:00:00";
             obj.data.mpp_svip_end_date = "2099-09-09";
             obj.data.bigscreen_vip_end_date = "2099-09-09";
             obj.data.vip_end_date = "2099-09-09";
             obj.data.contract_full_screen_vip_end_date = "2099-09-09";
             obj.data.universal_pc_mobile_vip_end_date = "2099-09-09";
-            obj.data.music_vip_end_time = "2099-09-09";
-            obj.data.vip_end_time_svip = "2099-09-09";
+            obj.data.music_vip_end_time = "2099-09-09 00:00:00";
+            obj.data.vip_end_time_svip = "2099-09-09 00:00:00";
             obj.data.contract_pc_mobile_vip_end_date = "2099-09-09";
             obj.data.universal_full_screen_vip_end_date = "2099-09-09";
-            obj.data.vip_end_time_fs = "2099-09-09";
+            obj.data.vip_end_time_fs = "2099-09-09 00:00:00";
             obj.data.is_mpp_svip = 1;
             obj.data.music_vip = 1;
-            obj.data.vip_id = 1;
-            obj.data.vip_name = "svip";
+            obj.data.vip_id = "mpp_svip";
+            obj.data.vip_name = "SVIP";
             if (obj.data.growth) {
                 obj.data.growth.level = 9;
                 obj.data.growth.score = 99999;
