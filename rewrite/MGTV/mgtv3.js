@@ -45,7 +45,7 @@ function modifyResponse(response) {
         obj.data.vipinfo.growth.score = 99999; // 修改为适当的积分
         obj.data.vipinfo.growth.level = 9; // 修改为适当的 VIP 等级
         obj.data.user_type_name = "SVIP";
-        obj.data.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/1/9.png"; // 修改为 VIP 图标
+        obj.data.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; // 修改为 VIP 图标
         obj.data.vip_id = "mpp_svip"; // 修改为 VIP ID
         obj.data.vip_end_time = 4102444800; // 2099-12-31 的时间戳
         obj.data.score = 99999; // 修改为适当的积分
