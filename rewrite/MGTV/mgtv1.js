@@ -27,14 +27,26 @@ if ($request.url.indexOf('GetUserInfo?_support') !== -1) {
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
     // 修改 `pay_info` 中的 `components` 的 `text`
-       obj.msg = "SVIP尊享内容";
-    if (obj.authInfo && obj.authInfo.pay_info) {
-        obj.authInfo.pay_info.preview_end.components.forEach(component => {
-            if (component.text) {
-                component.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
-            }
-        });
-    }
+    function updateTextFields(item) {
+    if (Array.isArray(item)) {
+        item.forEach(subItem => updateTextFields(subItem));
+    } else if (typeof item === 'object') {
+        for (const key in item) {
+            if (key === 'text') {
+                item[key] = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
+            } else if (typeof item[key] === 'object') {
+                updateTextFields(item[key]);
+               }
+          }
+      }
+  }
+
+   if (obj.authInfo && obj.authInfo.pay_info) {
+    updateTextFields(obj.authInfo.pay_info.preview_end);
+    updateTextFields(obj.authInfo.pay_info.preview_starting);
+    updateTextFields(obj.authInfo.pay_info.preview_playing);
+       }
+   }
 
     // 设置所有 `needPay` 为 0
     function setNeedPayToZero(item) {
@@ -62,7 +74,8 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
 
 
     if (obj.preview) {
-        obj.preview.playPreviewType = 1; // 预览
+        obj.preview.playPreviewType = 0; // 预览
+        obj.preview.isPreview = 0;
     }
 }
 
