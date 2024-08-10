@@ -135,6 +135,25 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
      }
  }
 
+ if ($request.url.indexOf('mobile-stream.api.mgtv.com/v1/video/source') !== -1) {
+    if (obj.authInfo && obj.authInfo.pay_info) {
+        obj.authInfo.pay_info.preview_end.components.forEach(component => {
+            if (component.text) {
+                component.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
+            }
+        });
+    }
+    if (obj.videoSources) {
+        obj.videoSources.forEach(source => {
+            source.needPay = 0;
+        });
+    }
+    if (obj.preview) {
+        obj.preview.playPreviewType = 0; // 关闭预览
+   }
+}
+
+
 
 /*
     // 处理 '/client/user/user_vip_coin' 响应
