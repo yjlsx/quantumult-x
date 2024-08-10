@@ -7,8 +7,9 @@ https://mobile-stream.api.mgtv.com/v1/video/source url script-response-body http
 hostname = nuc.api.mgtv.com, mobile-stream.api.mgtv.com
 */
 
+
 // 获取响应体
-let body = response.body;
+let body = $response.body;
 let obj = JSON.parse(body);
 
 // 根据 URL 进行不同的处理
