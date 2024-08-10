@@ -70,30 +70,6 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
     }
 }
 
-    // 将previewConfig中的et值更新为videoSources中的ftime
-    const ftime = obj.data.videoSources[0].ftime;
-    obj.data.preview.previewConfig.forEach(config => {
-        config.et = ftime;
-    });
-
-    // 更新playPreviewType和isPreview
-    obj.data.preview.playPreviewType = 0;
-    obj.data.preview.isPreview = 0;
-
-    // 将videoSources中的needPay字段设为0
-    obj.data.videoSources.forEach(videoSource => {
-        videoSource.needPay = 0;
-    });
-
-    // 将speed数组中每个对象的needPay字段设为0
-    if (obj.data.config.speed && Array.isArray(obj.data.config.speed)) {
-        obj.data.config.speed.forEach(item => {
-            if (item.needPay !== undefined) {
-                item.needPay = 0;
-            }
-        });
-    }
-
 // 打印调试信息
 console.log(JSON.stringify(obj));
 
