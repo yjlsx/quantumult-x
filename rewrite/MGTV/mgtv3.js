@@ -128,6 +128,8 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
           // 遍历 list 数组，修改每个 card_type
           obj.data.list.forEach(card => {
             card.card_type = 100;
+            card.tag = "免费";
+            card.rule = "登录用户均可使用";
           });
      }
  }
