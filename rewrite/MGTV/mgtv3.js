@@ -6,10 +6,10 @@
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_info?ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/theme\/card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/vipcenter\/themecard\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
-https://mobile-stream.api.mgtv.com/v1/video/source url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+
 *
 [mitm]
-hostname = vipact3.api.mgtv.com, as.mgtv.com
+hostname = vipact3.api.mgtv.com, as.mgtv.com, mobile-stream.api.mgtv.com
 */
 
 // 处理响应体的函数
@@ -134,43 +134,6 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
           });
      }
  }
-
-if ($request.url.indexOf('/v1/video/source') !== -1) {
-    // 修改 `pay_info` 中的 `components` 的 `text`
-    if (obj.authInfo && obj.authInfo.pay_info && obj.authInfo.pay_info.preview_end && Array.isArray(obj.authInfo.pay_info.preview_end.components)) {
-        obj.authInfo.pay_info.preview_end.components.forEach(component => {
-            if (component.text) {
-                component.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
-            }
-        });
-    }
-    // 设置所有 `needPay` 为 0
-    function setNeedPayToZero(item) {
-        if (Array.isArray(item)) {
-            item.forEach(subItem => setNeedPayToZero(subItem));
-        } else if (typeof item === 'object') {
-            for (const key in item) {
-                if (key === 'needPay') {
-                    item[key] = 0;
-                } else if (typeof item[key] === 'object') {
-                    setNeedPayToZero(item[key]);
-                }
-            }
-        }
-    }
-    setNeedPayToZero(obj);
-    // 更新 `previewconfig` 中的 `et` 为视频结束时间 `ftime`
-    if (obj.authInfo && obj.authInfo.pay_info && obj.authInfo.pay_info.previewconfig) {
-        const videoEndTime = obj.authInfo.pay_info.ftime; // 获取视频结束时间
-        if (videoEndTime) {
-            obj.authInfo.pay_info.previewconfig.et = videoEndTime; // 设置为视频结束时间
-        }
-    }
-    if (obj.preview) {
-        obj.preview.playPreviewType = 1; // 预览
-    }
-}
-
 
 
 /*
