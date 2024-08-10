@@ -150,6 +150,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
     }
     if (obj.preview) {
         obj.preview.playPreviewType = 0; // 关闭预览
+        obj.preview.isPreview = 0;
    }
 }
 
