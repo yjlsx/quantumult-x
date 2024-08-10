@@ -2,9 +2,11 @@
 [rewrite local]
 ^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo\?_support url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
 ^https:\/\/mobile-stream\.api\.mgtv\.com\/v1\/video\/source url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
+^https:\/\/mobile-thor\.api\.mgtv\.com\/v1\/vod\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
+
 *
 [mitm]
-hostname = nuc.api.mgtv.com, mobile-stream.api.mgtv.com
+hostname = nuc.api.mgtv.com, mobile-stream.api.mgtv.com, mobile-thor.api.mgtv.com
 */
 
 
@@ -95,6 +97,13 @@ if (!isNaN(ftime)) {  // 确保转换后的值是有效的数字
         });
     }
 }
+
+ if ($request.url.indexOf('/v1/vod/info') !== -1) {
+        if (obj.data) {
+            obj.data.info.video.isIntact = "1";
+
+        }
+ }
 
 // 打印调试信息
 console.log(JSON.stringify(obj));
