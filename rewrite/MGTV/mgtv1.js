@@ -41,19 +41,13 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
       }
   }
 
-   if (obj.authInfo && obj.authInfo.pay_info) {
-    updateTextFields(obj.authInfo.pay_info.preview_end);
-    updateTextFields(obj.authInfo.pay_info.preview_starting);
-    updateTextFields(obj.authInfo.pay_info.preview_playing);
-       }
-   }
-
-    // 设置所有 `needPay` 为 0
-    function setNeedPayToZero(item) {
-        if (Array.isArray(item)) {
-            item.forEach(subItem => setNeedPayToZero(subItem));
-        } else if (typeof item === 'object') {
-            for (const key in item) {
+// 函数：将所有 needPay 设置为 0
+function setNeedPayToZero(item) {
+    if (Array.isArray(item)) {
+        item.forEach(subItem => setNeedPayToZero(subItem));
+    } else if (typeof item === 'object') {
+        for (const key in item) {
+            if (item.hasOwnProperty(key)) {
                 if (key === 'needPay') {
                     item[key] = 0;
                 } else if (typeof item[key] === 'object') {
@@ -62,7 +56,16 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
             }
         }
     }
-    setNeedPayToZero(obj);
+}
+
+// 执行更新
+if (obj.authInfo && obj.authInfo.pay_info) {
+    updateTextFields(obj.authInfo.pay_info);
+}
+
+// 设置所有 needPay 为 0
+setNeedPayToZero(obj);
+
 
 // 更新 `previewConfig` 中的 `et` 为视频结束时间 `videoEndTime`
    if (obj.preview && Array.isArray(obj.preview.previewConfig)) {
