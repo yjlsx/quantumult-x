@@ -3,6 +3,7 @@
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/assets\/idxnum url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^http:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/user\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/vip\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+^https:\/\/as\.mgtv\.com\/client\/user\/user_info?ticket url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 
 *
 [mitm]
@@ -51,7 +52,34 @@ function modifyResponse(response) {
 }
 
 
- if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
+ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info?ticket') !== -1) {
+        if (obj.data) {
+            obj.data.contract_pc_mobile_vip_end_date = "2099-12-31";
+            obj.data.vip_end_time_pc = "2099-12-31 00:00:00";
+            obj.data.bigscreen_vip_available = 1;
+            obj.data.music_vip_end_time = "2099-12-31 00:00:00";
+            obj.data.music_vip = 1;
+            obj.data.universal_full_screen_vip_end_date = "2099-12-31";
+            obj.data.vip_end_time_pc = "2099-12-31 00:00:00";
+            obj.data.vip_name = "SVIP";
+            obj.data.vip_end_date = "2099-12-31";
+            obj.data.mpp_svip_end_date = "2099-12-31";
+            obj.data.bigscreen_vip_end_date = "2099-12-31";
+            obj.data.is_mpp_svip = 1;
+           obj.data.growth.score = 99999; // 修改为适当的积分
+           obj.data.growth.level = 9; // 修改为适当的 VIP 等级
+           obj.data.growth.next_level_gap = 9; 
+            obj.data.contract_full_screen_vip_end_date = "2099-12-31";
+            obj.data.universal_pc_mobile_vip_end_date = "2099-12-31";
+            obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
+            obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
+            obj.data.vip_end_days = 99999;
+            obj.data.vip_id = "mpp_svip";
+        }
+ }
+
+
+ if ($request.url.indexOf('/client/user/user_info') !== -1) {
         if (obj.data.userinfo) {
         obj.data.vip_end_time_desc = "VIP 特权有效至 2099-12-31";
         obj.data.vip_end_time = 4102444800; // 2099-12-31 的时间戳
@@ -82,6 +110,8 @@ function modifyResponse(response) {
         obj.data.userinfo.vipinfo.growth.level = 9;
     }
  }
+
+
 
 /*
     // 处理 '/client/user/user_vip_coin' 响应

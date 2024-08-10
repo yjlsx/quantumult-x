@@ -2,12 +2,13 @@
 *
 [rewrite local]
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
-^https:\/\/as\.mgtv\.com\/client\/user\/user_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
+^https:\/\/as\.mgtv\.com\/client\/user\/user_info\?(invoker|cxid)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 #^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/order\/order_status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/order\/orderCreate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/coin.js
 ^https:\/\/oiiccdn\.yydsii\.com\/api\/v1\/client\/subscribe url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/messpro\.hnwzinfo\.com\/api\/heartbeat\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
+^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/viptype url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 
 
 [mitm]
@@ -56,6 +57,19 @@ if (jsonpMatch && jsonpEndMatch) {
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
+    else if ($request.url.includes('/api/v1/act/viptype')) {
+         if (obj.data) {
+            obj.data.vip_id = "mpp_svip";
+            obj.data.userinfo.vipinfo.vip_end_time = 4102444800; // 2099-12-31 的时间戳
+            obj.data.userinfo.vipinfo.type = "2"; 
+            obj.data.userinfo.vipinfo.growth.score = 99999;
+            obj.data.userinfo.vipinfo.growth.level = 9;
+         }
+        let newBody = JSON.stringify(obj);
+        console.log('Modified Object:', newBody);
+        $done({body: `${jsonpFunction}(${newBody})`});
+    }
+
 
     else if ($request.url.includes('/api/heartbeat/v1')) {
         if (obj.code) {
@@ -68,19 +82,19 @@ if (jsonpMatch && jsonpEndMatch) {
 
 
     // 处理 '/client/user/user_info' 响应
-    else if ($request.url.includes('/client/user/user_info')) {
+    else if ($request.url.includes('/client/user/user_info?(invoker|cxid)')) {
         if (obj.data) {
-            obj.data.vip_end_time_pc = "2099-09-09 00:00:00";
-            obj.data.mpp_svip_end_date = "2099-09-09";
-            obj.data.bigscreen_vip_end_date = "2099-09-09";
-            obj.data.vip_end_date = "2099-09-09";
-            obj.data.contract_full_screen_vip_end_date = "2099-09-09";
-            obj.data.universal_pc_mobile_vip_end_date = "2099-09-09";
-            obj.data.music_vip_end_time = "2099-09-09 00:00:00";
-            obj.data.vip_end_time_svip = "2099-09-09 00:00:00";
-            obj.data.contract_pc_mobile_vip_end_date = "2099-09-09";
-            obj.data.universal_full_screen_vip_end_date = "2099-09-09";
-            obj.data.vip_end_time_fs = "2099-09-09 00:00:00";
+            obj.data.vip_end_time_pc = "2099-12-31 00:00:00";
+            obj.data.mpp_svip_end_date = "2099-12-31";
+            obj.data.bigscreen_vip_end_date = "2099-12-31";
+            obj.data.vip_end_date = "2099-12-31";
+            obj.data.contract_full_screen_vip_end_date = "2099-12-31";
+            obj.data.universal_pc_mobile_vip_end_date = "2099-12-31";
+            obj.data.music_vip_end_time = "2099-12-31 00:00:00";
+            obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
+            obj.data.contract_pc_mobile_vip_end_date = "2099-12-31";
+            obj.data.universal_full_screen_vip_end_date = "2099-12-31";
+            obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
             obj.data.is_mpp_svip = 1;
             obj.data.music_vip = 1;
             obj.data.vip_id = "mpp_svip";
