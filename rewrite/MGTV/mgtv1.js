@@ -75,7 +75,7 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
     // 更新playPreviewType和isPreview
     obj.data.preview.playPreviewType = 0;
     obj.data.preview.isPreview = 1;
-
+    obj.data.info.video.vipProtect = 0;
     // 将videoSources中的needPay字段设为0
     obj.data.videoSources.forEach(videoSource => {
         videoSource.needPay = 0;
