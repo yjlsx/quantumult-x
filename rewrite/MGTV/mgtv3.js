@@ -139,7 +139,6 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
  if ($request.url.indexOf('/client/user/user_vip_coin?version') !== -1) {
         if (obj.data) {
             obj.data.points = 99999;
-            obj.data.point = 99998;
             obj.data.stat = 99997;
         }
  }
