@@ -75,7 +75,7 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
 
 
     // 更新playPreviewType和isPreview
-    obj.data.preview.playPreviewType = 0;
+    obj.data.preview.playPreviewType = 1;
     obj.data.preview.isPreview = 1;
     obj.data.info.mediaPrimaryType = 2;
     obj.data.info.video.vipProtect = 0;
