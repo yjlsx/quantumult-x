@@ -80,13 +80,14 @@ if (!isNaN(ftime)) {  // 确保转换后的值是有效的数字
 
     // 更新playPreviewType和isPreview
     obj.data.preview.playPreviewType = 0;
-    obj.data.preview.isPreview = 0;
+    obj.data.preview.isPreview = 1;
     obj.data.info.mediaPrimaryType = 2;
-    obj.data.info.video.vipProtect = 0;
+    //obj.data.info.video.vipProtect = 0;
     obj.data.info.hdcp = 0;
     obj.data.user.pstatus = "11111";
+      //设备限制
     obj.data.shadow.flag =0;
-    obj.data.shadow.tips ="";
+    obj.data.shadow.tips =""; 
     // 将videoSources中的needPay字段设为0
     obj.data.videoSources.forEach(videoSource => {
         videoSource.needPay = 0;
