@@ -83,6 +83,7 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.indexOf('/GetUserInfo?_from') !== -1) {
         if (obj.data && obj.data.vipinfo) {
           obj.data.isVip = 1;
+          obj.data.vipExpiretime = 4102358400;
           obj.data.vipplatform = "mpp_svip";
           obj.data.vipinfo.vipExpiretime = 4102358400;
           obj.data.vipinfo.platform = "mpp_svip";
