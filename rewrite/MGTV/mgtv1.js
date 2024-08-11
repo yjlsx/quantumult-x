@@ -32,11 +32,10 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
      obj.code = 200;
     if(obj.data.authInfo.pay_info) {
     // 更新components中的text字段
-       obj.data.authInfo.pay_info.preview_end.components = [ ];
        obj.data.authInfo.pay_info.preview_playing.components = [ ];
     const componentsPaths = [
         obj.data.authInfo.pay_info.preview_starting?.components,
-        //obj.data.authInfo.pay_info.preview_playing?.components,
+        obj.data.authInfo.pay_info.preview_end?.components,
     ];
 
     componentsPaths.forEach(components => {
