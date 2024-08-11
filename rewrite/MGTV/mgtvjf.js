@@ -1,7 +1,7 @@
 /**************************************
 *
 [rewrite local]
-^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin\?fe_version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
+^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin\?(fe_version|invoker) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_info\?(invoker|cxid) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 #^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/order\/order_status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
@@ -46,7 +46,7 @@ if (jsonpMatch && jsonpEndMatch) {
         $done({ body: `${jsonpFunction}(${newBody})` });
     } 
 
-    else if ($request.url.includes('/client/user/user_vip_coin')) {
+    else if ($request.url.includes('/client/user/user_vip_coin?invoker')) {
          if (obj.data) {
             obj.data.points = 99999;
             obj.data.freze = 99998;
@@ -124,7 +124,7 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.data.growth = {
           score: 99999,
           level: 9,
-          next_level_gap: 9,
+          next_level_gap: 1,
           daily_incr_score: 0,
           upgrade_progress: "0.000",
           percentile: "0.01%"
