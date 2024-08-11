@@ -85,6 +85,9 @@ if (!isNaN(ftime)) {  // 确保转换后的值是有效的数字
     //obj.data.info.video.vipProtect = 0;
     obj.data.info.hdcp = 0;
     obj.data.user.pstatus = "11111";
+    obj.data.adParams.v.ispreview = 0;
+    obj.data.adParams.v.ispay = 0;
+    obj.data.adParams.v.clip_type = 0;
       //设备限制
     obj.data.shadow.flag =0;
     obj.data.shadow.tips =""; 
