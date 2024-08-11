@@ -29,10 +29,6 @@ if (jsonpMatch && jsonpEndMatch) {
     // 解析 JSON 数据
     let obj = JSON.parse(jsonpBody);
 
-    // 调试信息
-    console.log('Request URL:', $request.url);
-    console.log('Parsed Object:', obj);
-
     // 处理 '/client/order/order_status' 响应
     if ($request.url.includes("https://as.mgtv.com/client/order/order_status")) {
         if (obj.data && obj.data.order_pay_info && obj.data.order_pay_info.pay_info) {
@@ -42,7 +38,6 @@ if (jsonpMatch && jsonpEndMatch) {
             obj.data.order_pay_info.expired = 0; // 设置为未过期
         }
         let newBody = JSON.stringify(obj);
-        console.log('Modified Object:', newBody);
         $done({ body: `${jsonpFunction}(${newBody})` });
     } 
 
@@ -53,7 +48,6 @@ if (jsonpMatch && jsonpEndMatch) {
             obj.data.stat = 99997;
          }
         let newBody = JSON.stringify(obj);
-        console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
@@ -66,7 +60,6 @@ if (jsonpMatch && jsonpEndMatch) {
             obj.data.userinfo.vipinfo.growth.level = 9;
          }
         let newBody = JSON.stringify(obj);
-        console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
@@ -76,7 +69,6 @@ if (jsonpMatch && jsonpEndMatch) {
             obj.code = 200;
         }
         let newBody = JSON.stringify(obj);
-        console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
@@ -96,7 +88,6 @@ if (jsonpMatch && jsonpEndMatch) {
           };
         }
         let newBody = JSON.stringify(obj);
-        console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
@@ -132,7 +123,6 @@ if (jsonpMatch && jsonpEndMatch) {
         };
       }
         let newBody = JSON.stringify(obj);
-        console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
   }
 
@@ -145,7 +135,6 @@ if (jsonpMatch && jsonpEndMatch) {
             obj.data.vipinfo.growth.level = 9; // 设置等级
         }
         let newBody = JSON.stringify(obj);
-        console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
@@ -169,7 +158,6 @@ if (jsonpMatch && jsonpEndMatch) {
             obj.data = {}; // 确保数据字段为空对象
         }
         let newBody = JSON.stringify(obj);
-        console.log('Modified Object:', newBody);
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 } else {
