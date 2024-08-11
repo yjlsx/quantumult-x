@@ -33,7 +33,6 @@ if (jsonpMatch && jsonpEndMatch) {
         // 修改响应体
         obj.status = "200";
         obj.msg = "";
-        obj.data = {};
 
         // 生成修改后的 JSONP 响应体
         let newBody = JSON.stringify(obj);

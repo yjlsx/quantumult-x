@@ -93,7 +93,7 @@ if (jsonpMatch && jsonpEndMatch) {
 
 
     // 处理 '/client/user/user_info' 响应
-   else if ($request.url.includes('/client/user/user_info?(invoker|cxid)')) {
+   else if ($request.url.includes('/client/user/user_info?invoker') !== -1 || $request.url.indexOf('/client/user/user_info?cxid') !== -1) {
        if (obj.data) {
         obj.data.vip_end_time_pc = 4102358400; // 2099-12-31 的时间戳
         obj.data.vip_end_date = "2099-12-31";
