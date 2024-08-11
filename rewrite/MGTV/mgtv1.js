@@ -17,7 +17,7 @@ let obj = JSON.parse(body);
 // 根据 URL 进行不同的处理
 if ($request.url.indexOf('GetUserInfo?_support') !== -1) {
     obj.data.isVip = 1;
-    obj.data.vipExpiretime = 410244480090000;
+    obj.data.vipExpiretime = 4102358400;
     obj.data.vipplatform = "mpp_svip";
     obj.data.vipinfo.isvip = 1;
     obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00";

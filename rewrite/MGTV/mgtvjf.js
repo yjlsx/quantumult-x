@@ -84,11 +84,11 @@ if (jsonpMatch && jsonpEndMatch) {
         if (obj.data && obj.data.vipinfo) {
           obj.data.isVip = 1;
           obj.data.vipplatform = "mpp_svip";
-          obj.data.vipinfo.vipExpiretime = 4102444800;
+          obj.data.vipinfo.vipExpiretime = 4102358400;
           obj.data.vipinfo.platform = "mpp_svip";
           obj.data.vipinfo.isvip = 1;
           obj.data.vipinfo.type = 2;
-          obj.data.vipinfo.vip_end_time = 4102444800; // 2099-12-31 的时间戳
+          obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00";
           obj.data.vipinfo.growth = {
             score: 99999,
             level: 9
@@ -103,7 +103,7 @@ if (jsonpMatch && jsonpEndMatch) {
     // 处理 '/client/user/user_info' 响应
    else if ($request.url.includes('/client/user/user_info?(invoker|cxid)')) {
        if (obj.data) {
-        obj.data.vip_end_time_pc = 4102444800; // 2099-12-31 的时间戳
+        obj.data.vip_end_time_pc = 4102358400; // 2099-12-31 的时间戳
         obj.data.vip_end_date = "2099-12-31";
         obj.data.mpp_svip_end_date = "2099-12-31";
         obj.data.bigscreen_vip_end_date = "2099-12-31";
@@ -139,7 +139,7 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.includes('/GetUserInfo')) {
         if (obj.data) {
             obj.data.isVip = 1; // 设置为 VIP
-            obj.data.vipExpiretime = 4102444800; // 设置过期时间为 2099-12-31
+            obj.data.vipExpiretime = 4102358400; // 设置过期时间为 2099-12-31
             obj.data.vipinfo.growth.score = 99999; // 设置积分
             obj.data.vipinfo.growth.level = 9; // 设置等级
         }
