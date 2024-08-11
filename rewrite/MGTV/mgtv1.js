@@ -28,6 +28,7 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
 }
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
+     obj.msg = "SVIP尊享内容";
      obj.code = 200;
     if(obj.data.authInfo.pay_info) {
     // 更新components中的text字段
