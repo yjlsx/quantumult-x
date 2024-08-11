@@ -85,14 +85,6 @@ if (!isNaN(ftime)) {  // 确保转换后的值是有效的数字
     //obj.data.info.video.vipProtect = 0;
     obj.data.info.hdcp = 0;
     obj.data.user.pstatus = "11111";
-if (obj.data && obj.data.adParams) {
-    let adParams = JSON.parse(obj.data.adParams);
-     adParams.v.ispreview = 0;
-    adParams.v.ispay = 1;
-    adParams.v.clip_type = 0;
-    obj.data.adParams = JSON.stringify(adParams);
-}
-
       //设备限制
     obj.data.shadow.flag =0;
     obj.data.shadow.tips =""; 
