@@ -13,6 +13,7 @@ https://mobile-stream.api.mgtv.com/v1/video/source url script-response-body http
 #港区
 ^https://mobile.api.mgtv.com/v8/video/getSource url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/MGTV.js
 #播放页开通提示移除
+http://crash.data.v2.mgtv.com/dispatcher.do url reject
 http://vip.bz.mgtv.com/client/dynamic_entry url reject
 https://pcc.api.mgtv.com/video/getSource url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/MGTV.js
 https://pad.api.mgtv.com/v8/video/getSource url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/MGTV.js
