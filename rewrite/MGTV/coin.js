@@ -34,10 +34,9 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.status = "200";
         obj.msg = " ";
        if (obj.data && obj.data.pay_info) {
-        obj.data.pay_info.pay_type = "success"; // 支付类型改为成功
+        //obj.data.pay_info.pay_type = "result"; // 支付类型改为成功
         obj.data.pay_info.settle_price = 0;      // 结算价格改为0
         obj.data.pay_info.pay_amount = 0;       // 支付金额改为0
-        obj.data.pay_info.pay_msg = "success"; // 支付消息改为“支付成功”
         obj.data.pay_info.channel_code = "FREE";  
 
                }

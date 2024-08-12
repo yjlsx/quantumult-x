@@ -33,6 +33,7 @@ if (jsonpMatch && jsonpEndMatch) {
 
     // 处理 '/client/order/order_status' 响应
     if ($request.url.includes("https://as.mgtv.com/client/order/order_status")) {
+            obj.data.status = 200
         if (obj.data && obj.data.order_pay_info && obj.data.order_pay_info.pay_info) {
             obj.data.order_pay_info.pay_info.settle_price = obj.data.order_pay_info.pay_info.pay_amount;
         }
@@ -168,8 +169,7 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.includes("https://as.mgtv.com/client/order/orderCreate")) {
         if (obj.data) {
             obj.status = "200"; // 修改状态码为成功
-            obj.msg = ""; // 清除错误消息
-            obj.data = {}; // 确保数据字段为空对象
+            //obj.msg = ""; // 清除错误消息
         }
         let newBody = JSON.stringify(obj);
         $done({body: `${jsonpFunction}(${newBody})`});
