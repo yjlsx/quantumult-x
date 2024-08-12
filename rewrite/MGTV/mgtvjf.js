@@ -10,6 +10,7 @@
 ^https:\/\/messpro\.hnwzinfo\.com\/api\/heartbeat\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/viptype url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo\?_from url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
+^https:\/\/as\.mgtv\.com\/client\/store\/v4\/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 
 [mitm]
 hostname = as.mgtv.com, vipact3.api.mgtv.com, oiiccdn.yydsii.com, messpro.hnwzinfo.com, nuc.api.mgtv.com
@@ -30,7 +31,7 @@ if (jsonpMatch && jsonpEndMatch) {
     let obj = JSON.parse(jsonpBody);
 
     // 处理 '/client/order/order_status' 响应
-    if ($request.url.includes("https://as.mgtv.com/client/order/order_status")) {
+    if ($request.url.indexOf("https://as.mgtv.com/client/order/order_status")) {
         if (obj.data && obj.data.order_pay_info && obj.data.order_pay_info.pay_info) {
             obj.data.order_pay_info.pay_info.settle_price = obj.data.order_pay_info.pay_info.pay_amount;
         }
@@ -51,7 +52,7 @@ if (jsonpMatch && jsonpEndMatch) {
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
-    else if ($request.url.includes('/api/v1/act/viptype')) {
+    else if ($request.url.indexOf('/api/v1/act/viptype')) {
          if (obj.data) {
             obj.data.vip_id = "mpp_svip";
             obj.data.userinfo.vipinfo.vip_end_time = "2099-12-31"; // 2099-12-31 的时间戳
@@ -64,7 +65,7 @@ if (jsonpMatch && jsonpEndMatch) {
     }
 
 
-    else if ($request.url.includes('/api/heartbeat/v1')) {
+    else if ($request.url.indexOf('/api/heartbeat/v1')) {
         if (obj.code) {
             obj.code = 200;
         }
@@ -93,7 +94,7 @@ if (jsonpMatch && jsonpEndMatch) {
 
 
     // 处理 '/client/user/user_info' 响应
-   else if ($request.url.includes('/client/user/user_info?invoker') !== -1 || $request.url.indexOf('/client/user/user_info?cxid') !== -1) {
+   else if ($request.url.indexOf('/client/user/user_info?invoker') !== -1 || $request.url.indexOf('/client/user/user_info?cxid') !== -1) {
        if (obj.data) {
         obj.data.vip_end_time_pc = 4102358400; // 2099-12-31 的时间戳
         obj.data.vip_end_date = "2099-12-31";
@@ -127,7 +128,7 @@ if (jsonpMatch && jsonpEndMatch) {
   }
 
     // 处理 '/GetUserInfo' 响应
-    else if ($request.url.includes('/GetUserInfo')) {
+    else if ($request.url.indexOf('/GetUserInfo')) {
         if (obj.data) {
             obj.data.isVip = 1; // 设置为 VIP
             obj.data.vipExpiretime = 4102358400; // 设置过期时间为 2099-12-31
@@ -138,8 +139,21 @@ if (jsonpMatch && jsonpEndMatch) {
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
+if ($request.url.indexOf('/store/v4/products')) {
+    if (obj.data && obj.data.products) {
+        obj.data.products.forEach(product => {
+            product.original_price = 0;  // 原价
+            product.price = 0;          // 实际价格
+            product.show_price = 0;     // 显示价格
+        });
+    }
+    let newBody = JSON.stringify(obj);
+    $done({body: `${jsonpFunction}(${newBody})`});
+}
 
-   else if ($request.url.includes('https://oiiccdn.yydsii.com/api/v1/client/subscribe')) {
+
+
+   else if ($request.url.indexOf('https://oiiccdn.yydsii.com/api/v1/client/subscribe')) {
         // 修改响应为成功
         obj.message = "success"; // 修改 message 字段为成功
         obj.code = 200; // 添加 code 字段为成功的 HTTP 状态码
@@ -151,11 +165,11 @@ if (jsonpMatch && jsonpEndMatch) {
 
 
     // 处理 '/client/order/orderCreate' 响应
-    else if ($request.url.includes("https://as.mgtv.com/client/order/orderCreate")) {
+    else if ($request.url.indexOf("https://as.mgtv.com/client/order/orderCreate")) {
         if (obj.data) {
             obj.status = "200"; // 修改状态码为成功
-            obj.msg = ""; // 清除错误消息
-            obj.data = {}; // 确保数据字段为空对象
+            obj.msg = "代币支付成功"; // 清除错误消息
+      
         }
         let newBody = JSON.stringify(obj);
         $done({body: `${jsonpFunction}(${newBody})`});

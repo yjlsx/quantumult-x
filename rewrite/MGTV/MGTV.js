@@ -36,6 +36,7 @@ https://pad.api.mgtv.com/v8/video/getSource url script-request-header https://ra
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/viptype url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo\?_from url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin\?version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+^https:\/\/as\.mgtv\.com\/client\/store\/v4\/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 
 [mitm] 
 hostname = *.mgtv.com, pad.api.mgtv.com, pcc.api.mgtv.com, vip.bz.mgtv.com, vipact3.api.mgtv.com, as.mgtv.com, messpro.hnwzinfo.com, nuc.api.mgtv.com, mobile-stream.api.mgtv.com, mobile-thor.api.mgtv.com, crash.data.v2.mgtv.com, club.mgtv.com
