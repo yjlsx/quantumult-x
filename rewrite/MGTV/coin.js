@@ -39,7 +39,7 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.data.pay_info.pay_amount = 0;       // 支付金额改为0
         obj.data.pay_info.pay_msg = "支付成功"; // 支付消息改为“支付成功”
         obj.data.pay_info.channel_code = "FREE"; 
-        obj.data.pay_info.return_url = "https://club.mgtv.com/act/mgtv_cashier_v2_debug.html";
+
                }
 
 
