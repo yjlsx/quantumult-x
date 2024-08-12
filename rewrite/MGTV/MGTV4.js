@@ -19,19 +19,12 @@ function generateQueryString(query) {
 // 合并两个查询对象，第二个地址的字段会覆盖第一个地址的字段值
 function mergeQueries(baseQuery, additionalQuery) {
     const mergedQuery = {};
-    // 保留第一个地址的字段
+    // 保留第一个地址的字段，按照第一个地址的顺序
     Object.keys(baseQuery).forEach(key => {
-        // 如果第二个地址也有这个字段，使用第二个地址的值
         if (additionalQuery[key] !== undefined) {
             mergedQuery[key] = additionalQuery[key];
         } else {
             mergedQuery[key] = baseQuery[key];
-        }
-    });
-    // 添加第二个地址中第一个地址没有的字段
-    Object.keys(additionalQuery).forEach(key => {
-        if (mergedQuery[key] === undefined) {
-            mergedQuery[key] = additionalQuery[key];
         }
     });
     return mergedQuery;
@@ -45,11 +38,8 @@ function rewriteRequest(requestUrl, baseQuery, headers) {
     // 合并查询参数，保留第一个地址中的字段，使用第二个地址的值覆盖
     const mergedQuery = mergeQueries(baseQuery, currentQuery);
 
-    // 处理 Cookie
-    let cookies = headers['Cookie'] || '';
-    // 只保留 PLANBZP 字段
-    let newCookie = cookies.split(';').filter(cookie => cookie.trim().startsWith('PLANBZP=')).join('; ').trim();
-    headers['Cookie'] = newCookie;
+    // 移除 Cookie 字段
+    delete headers['Cookie'];
 
     // 构建新的 URL
     const newUrl = requestUrl.split('?')[0] + '?' + generateQueryString(mergedQuery);
