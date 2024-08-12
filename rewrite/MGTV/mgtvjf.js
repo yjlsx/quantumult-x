@@ -41,7 +41,7 @@ if (jsonpMatch && jsonpEndMatch) {
         $done({ body: `${jsonpFunction}(${newBody})` });
     } 
 
-    else if ($request.url.includes('/client/user/user_vip_coin?invoker') !== -1 || $request.url.indexOf('/user/user_vip_coin?fe_version') !== -1) {
+    else if ($request.url.indexOf('/client/user/user_vip_coin?invoker') !== -1 || $request.url.indexOf('/user/user_vip_coin?fe_version') !== -1) {
          if (obj.data) {
             obj.data.points = 99999;
             obj.data.freze = 99998;
@@ -72,7 +72,7 @@ if (jsonpMatch && jsonpEndMatch) {
         $done({body: `${jsonpFunction}(${newBody})`});
     }
 
-    else if ($request.url.indexOf('/GetUserInfo?_from') !== -1) {
+    else if ($request.url.indexOf('/GetUserInfo?_from=mgtv') !== -1) {
         if (obj.data && obj.data.vipinfo) {
           obj.data.isVip = 1;
           obj.data.vipExpiretime = 4102358400;

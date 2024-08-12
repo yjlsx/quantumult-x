@@ -32,7 +32,7 @@ if (jsonpMatch && jsonpEndMatch) {
     if ($request.url.indexOf('/client/order/orderCreate') !== -1) {
         // 修改响应体
         obj.status = "200";
-        obj.msg = "";
+        //obj.msg = "";
 
         // 生成修改后的 JSONP 响应体
         let newBody = JSON.stringify(obj);

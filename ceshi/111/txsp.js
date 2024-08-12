@@ -1,6 +1,7 @@
 /**************************************
 *
 [rewrite local]
+^https:\/\/vip\.video\.qq\.com\/rpc\/trpc\.query_vipinfo\.vipinfo\.QueryVipInfo\/GetVipUserInfoH5 url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
 ^https:\/\/vip\.video\.qq\.com\/rpc\/trpc\.query_vipinfo\.vipinfo\.QueryVipInfo\/GetVipUserInfoH5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
 ^https:\/\/vip\.video\.qq\.com\/fcgi-bin\/comm_cgi?name=spp_vscore_user_mashup url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
 ^https:\/\/vip\.video\.qq\.com\/fcgi-bin\/comm_cgi?otype=xjson&name=get_cscore url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
@@ -141,3 +142,15 @@ body = JSON.stringify(obj);
 
 // 输出修改后的响应体
 $done({ body });
+
+
+//请求体修改
+if ($request.url.includes("https://vip.video.qq.com/rpc/trpc.query_vipinfo.vipinfo.QueryVipInfo/GetVipUserInfoH5")) {
+    let newRequestBody = {
+        "geticon": 1,
+        "viptype": "svip|subvip|sub_svip|nfl",
+        "platform": 7
+    };
+
+    $done({ body: JSON.stringify(newRequestBody) });
+}
