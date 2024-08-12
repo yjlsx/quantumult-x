@@ -108,7 +108,7 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.data.music_vip_end_time = "2099-12-31 00:00:00";
         obj.data.music_vip = 1;
         obj.data.bigscreen_vip_available = 1;
-        obj.data.contract_full_screen_vip_flag = 0;
+        obj.data.contract_full_screen_vip_flag = 1;
         obj.data.contract_pc_mobile_flag = 1;
         obj.data.is_mpp_svip = 1;
         obj.data.vip_end_days = 9999;
