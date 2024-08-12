@@ -1,6 +1,6 @@
 // 假设在 rewrite 规则中已经获取了 URL 请求中的 query 参数对象和 headers 对象
-let query = $request.query;
-let headers = $request.headers;
+let query = $request.query || {};
+let headers = $request.headers || {};
 
 // 检查请求的 URL 是否为目标地址
 if ($request.url.indexOf('https://mobile-stream.api.mgtv.com/v1/video/source') !== -1) {
