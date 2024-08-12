@@ -28,7 +28,7 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
 }
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
-     obj.msg = "SVIP尊享内容";
+     obj.msg = "success";
      obj.code = 200;
     if(obj.data.authInfo.pay_info) {
     // 更新components中的text字段
@@ -82,12 +82,12 @@ if (!isNaN(ftime)) {  // 确保转换后的值是有效的数字
     obj.data.preview.playPreviewType = 0;
     obj.data.preview.isPreview = 1;
     obj.data.info.mediaPrimaryType = 2;
+    obj.data.info.mediaType = 1;
     //obj.data.info.video.vipProtect = 0;
     obj.data.info.hdcp = 0;
-    obj.data.user.pstatus = "11111";
       //设备限制
-    obj.data.shadow.flag =0;
-    obj.data.shadow.tips ="SVIP会员尊享内容"; 
+    obj.data.shadow.flag =1;
+    obj.data.shadow.tips =""; 
     // 将videoSources中的needPay字段设为0
     obj.data.videoSources.forEach(videoSource => {
         videoSource.needPay = 0;
