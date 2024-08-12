@@ -16,14 +16,16 @@ function generateQueryString(query) {
     return Object.keys(query).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`).join('&');
 }
 
-// 合并两个查询对象，第二个地址的字段会覆盖第一个地址的字段值
+// 合并两个查询对象，只保留第一个地址的字段，使用第二个地址的值覆盖
 function mergeQueries(baseQuery, additionalQuery) {
     const mergedQuery = {};
-    // 保留第一个地址的字段，按照第一个地址的顺序
+    // 只保留第一个地址的字段，按照第一个地址的顺序
     Object.keys(baseQuery).forEach(key => {
         if (additionalQuery[key] !== undefined) {
+            // 使用第二个地址的值覆盖第一个地址中的字段值
             mergedQuery[key] = additionalQuery[key];
         } else {
+            // 保留第一个地址中的字段值
             mergedQuery[key] = baseQuery[key];
         }
     });
