@@ -1,51 +1,49 @@
-// 假设在 rewrite 规则中已经获取了 URL 请求中的 query 参数对象和 headers 对象
-let query = $request.query || {};
-let headers = $request.headers || {};
-
-// 检查请求的 URL 是否为目标地址
-if ($request.url.indexOf('https://mobile-stream.api.mgtv.com/v1/video/source') !== -1) {
-
-    // 定义需要保留的查询参数和默认值
-    const requiredParams = {
-        'seekSourceType': '0',
-        'keepPlay': '0',
-        'enableDolphinEncrypted': '0',
-        'maxSpeed': '3',
-        'fileSourceType': '1',
-        'disableCelluar': '0',
-        'disableP2P': '0',
-        'disableKeyframe': '0',
-        'enableDolphinAntiLeech': '0',
-        'enableDolphinSDK': '0',
-        'localAbr': '0',
-        'toDataType': '201',
-        'toModuleId': '14',
-        'mediaType': '0',
-        'plId': '0'
-        // 添加任何其他默认值或固定值参数
-    };
-
-    // 定义排序顺序
-    const paramOrder = [
-        'seekSourceType', 'keepPlay', 'enableDolphinEncrypted', 'maxSpeed', 'fileSourceType', 
-        'disableCelluar', 'disableP2P', 'disableKeyframe', 'enableDolphinAntiLeech', 'enableDolphinSDK', 
-        'localAbr', 'toDataType', 'toModuleId', 'mediaType', 'plId'
-        // 添加需要的其他参数，如果有的话
-    ];
-
-    // 删除不需要的查询参数
-    for (let param in query) {
-        if (!(param in requiredParams)) {
-            delete query[param];
-        }
+// 解析查询参数为对象
+function parseQuery(url) {
+    const query = {};
+    const queryString = url.split('?')[1];
+    if (queryString) {
+        queryString.split('&').forEach(param => {
+            const [key, value] = param.split('=');
+            query[decodeURIComponent(key)] = decodeURIComponent(value || '');
+        });
     }
+    return query;
+}
 
-    // 添加或更新查询参数
-    paramOrder.forEach(param => {
-        if (!(param in query)) {
-            query[param] = requiredParams[param];
+// 生成查询字符串
+function generateQueryString(query) {
+    return Object.keys(query).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`).join('&');
+}
+
+// 合并两个查询对象，第二个地址的字段会覆盖第一个地址的字段值
+function mergeQueries(baseQuery, additionalQuery) {
+    const mergedQuery = {};
+    // 保留第一个地址的字段
+    Object.keys(baseQuery).forEach(key => {
+        // 如果第二个地址也有这个字段，使用第二个地址的值
+        if (additionalQuery[key] !== undefined) {
+            mergedQuery[key] = additionalQuery[key];
+        } else {
+            mergedQuery[key] = baseQuery[key];
         }
     });
+    // 添加第二个地址中第一个地址没有的字段
+    Object.keys(additionalQuery).forEach(key => {
+        if (mergedQuery[key] === undefined) {
+            mergedQuery[key] = additionalQuery[key];
+        }
+    });
+    return mergedQuery;
+}
+
+// 处理请求的函数
+function rewriteRequest(requestUrl, baseQuery, headers) {
+    // 解析当前请求的查询参数
+    const currentQuery = parseQuery(requestUrl);
+
+    // 合并查询参数，保留第一个地址中的字段，使用第二个地址的值覆盖
+    const mergedQuery = mergeQueries(baseQuery, currentQuery);
 
     // 处理 Cookie
     let cookies = headers['Cookie'] || '';
@@ -54,8 +52,14 @@ if ($request.url.indexOf('https://mobile-stream.api.mgtv.com/v1/video/source') !
     headers['Cookie'] = newCookie;
 
     // 构建新的 URL
-    const newUrl = $request.url.split('?')[0] + '?' + paramOrder.map(key => `${key}=${encodeURIComponent(query[key] || '')}`).join('&');
+    const newUrl = requestUrl.split('?')[0] + '?' + generateQueryString(mergedQuery);
 
-    // 返回新的重写请求
-    $done({url: newUrl, headers: headers});
+    return { url: newUrl, headers: headers };
 }
+
+// 提取 baseQuery （第一个 URL 的查询参数）
+const baseQuery = parseQuery('https://mobile-stream.api.mgtv.com/v1/video/source?seekSourceType=0&keepPlay=0&enableDolphinEncrypted=0&toModuleId=14&maxSpeed=3&fileSourceType=1&suuid=7d27cdccd20fad8b5ac627c24bff8742&hdts=h265,h264&plId=0&localAbr=0&disableKeyframe=0&enableDolphinAntiLeech=0&mediaType=0&toDataType=201&jumpUrl=&platform=5&videoId=21535165&enableDolphinSDK=0&disableCelluar=0&exdef=%7B%22support%22:%221%22,%22sceen_size%22:%221170*2532%22,%22h264%22:%7B%22support%22:%221%22,%22hdr%22:%7B%22support%22:%221%22,%22max_def%22:%221920x1080%22,%22max_def_fps%22:%2260%22,%22hdr_type%22:%222%22,%22bit_depth%22:%228%22%7D,%22sdr%22:%7B%22max_def%22:%221920x1080%22,%22max_def_fps%22:%2260%22%7D%7D,%22support_wanos%22:%220%22,%22sceen_fps%22:%2260%22,%22version%22:%222%22,%22screen_hdr_type%22:%221%22,%22h265%22:%7B%22support%22:%221%22,%22hdr%22:%7B%22support%22:%221%22,%22max_def%22:%221920x1080%22,%22max_def_fps%22:%2260%22,%22hdr_type%22:%222%22,%22bit_depth%22:%2210%22%7D,%22sdr%22:%7B%22max_def%22:%221920x1080%22,%22max_def_fps%22:%2260%22%7D%7D%7D&clipId=625757&fromModuleId=14&minSpeed=0.25&uabrAwayTs=0&disableABR=0&localPlayVideoId=0&disableP2P=0&localVideoWatchTime=0&_support=10101001&abroad=0&ageMode=0&appVersion=8.0.2&ch=AppStore&device=iPhone&did=f88dff2fee2c4fbe6588f067472bb698b2786345&dname=iPhone&mac=f88dff2fee2c4fbe6588f067472bb698b2786345&osType=ios&osVersion=17.0&seqId=835355339aa51b3ac41c0a73981cd879&src=mgtv&testversion=&ticket=09C12C0C662E35479AF37E5B47D5FD5B');
+
+// 处理请求并返回结果
+const { url, headers } = rewriteRequest($request.url, baseQuery, $request.headers);
+$done({ url, headers });
