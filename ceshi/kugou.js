@@ -15,7 +15,7 @@
 ^https:\/\/gateway3\.kugou\.com\/userinfoservice\/v2\/get_login_extend_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\/\/gateway3\.kugou\.com\/(v6\/login_by_openplat|mobile\/vipinfoV2|v1\/fusion\/userinfo|listening\/coupon_package|ocean\/v6\/theme\/list|ip\/api\/v1\/overseas\/check_v2|ads\.gateway\/v2\/task_video\/unlogin_guide|v2\/get_vip_config|updateservice\/v1\/get_dev_user|ads\.gateway\/v5\/task_video\/qualification|userinfoservice\/v2\/get_login_extend_info|v5\/login_by_token|v1/login_by_quick_token) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^http:\/\/adserviceretry\.kglink\.cn\/v4\/mobile_splash url reject-200
-^https:\/\/welfare\.kugou\.com\/diy\/v1\/get_official_theme url script-analyze-echo-response https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/theme.json
+^https:\/\/gatewayretry\.kugou\.com\/v2\/get_kg_bg_pics url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\/\/gateway3\.kugou\.com\/v5\/login_by_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\/\/gateway3\.kugou\.com\/tools\.mobile\/api\/v2\/theme url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\/\/gateway3\.kugou\.com\/mobile\/vipinfoV2&code url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
@@ -24,7 +24,7 @@
 ^https:\\//vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 
 [mitm]
-hostname = gateway.kugou.com, gateway3.kugou.com, vip.kugou.com
+hostname = gateway.kugou.com, gateway3.kugou.com, vip.kugou.com, gatewayretry.kugou.com
 */
 
 // 双斜杠后的内容在js里是属于注释内容不会生效
@@ -50,6 +50,7 @@ const path1 = '/tools.mobile/api/v2/theme';
 const path2 = '/v1/login_by_quick_token';
 const path3 = '/user/vipinfo';
 const path4 = '/ocean/v6/theme/category';
+const path5 = '/v2\/get_kg_bg_pics';
 
 
 if (url.indexOf(user) != -1) {   
@@ -403,6 +404,18 @@ obj.data.info.forEach(category => {
 body = JSON.stringify(obj);
 }
 
+if (url.indexOf(path5) != -1) { 
+if (obj && obj.data && obj.data.lists) {
+    obj.data.lists.forEach(function(list) {
+        if (list.pics) {
+            list.pics.forEach(function(pic) {
+                pic.is_suvip = 1;
+                  });
+             }
+       });
+   }
+body = JSON.stringify(obj);
+}
 
 var body2 = $response.body;
 var obj = JSON.parse(body2);
