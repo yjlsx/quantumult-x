@@ -461,16 +461,17 @@ if (url.includes('/user/vipinfo')) {
 }
 
 if (url.includes('/v2\/get_kg_bg_pics')) {
-    if (obj && obj.data && obj.data.lists) {
-    obj.data.lists.forEach(function(list) {
-        if (list.pics) {
-            list.pics.forEach(function(pic) {
-                pic.is_suvip = 1;
-                  });
-             }
+    if (obj && obj.data && Array.isArray(data.lists)Array.isArray(data.lists)) {
+    obj.data.lists.forEach(list => {
+      if (list.pics && Array.isArray(list.pics)) {
+        list.pics.forEach(pic => {
+          // 设置每个 pic 的 is_suvip 属性为 1
+          pic.is_suvip = 1;
+            });
+          }
        });
-   }
-}
+     }
+ }
 
 
 
