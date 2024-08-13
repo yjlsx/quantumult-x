@@ -7,9 +7,11 @@
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/app\/vip\/center\/theme\/card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/vipcenter\/themecard\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin\?version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+^https:\/\/homepage\.bz\.mgtv\.com\/v3\/user\/userInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+
 *
 [mitm]
-hostname = vipact3.api.mgtv.com, as.mgtv.com, mobile-stream.api.mgtv.com
+hostname = vipact3.api.mgtv.com, as.mgtv.com, mobile-stream.api.mgtv.com, homepage.bz.mgtv.com
 */
 
 // 处理响应体的函数
@@ -45,7 +47,7 @@ function modifyResponse(response) {
         obj.data.vipinfo.growth.score = 99999; // 修改为适当的积分
         obj.data.vipinfo.growth.level = 9; // 修改为适当的 VIP 等级
         obj.data.user_type_name = "SVIP";
-        obj.data.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; // 修改为 VIP 图标
+        obj.data.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; // 修改为 SVIP 图标
         obj.data.vip_id = "mpp_svip"; // 修改为 VIP ID
         obj.data.vip_end_time = 4102358400; // 2099-12-31 的时间戳
         obj.data.score = 99999; // 修改为适当的积分
@@ -107,8 +109,9 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
     obj.data.userinfo.is_mpp_svip = 1;
     obj.data.userinfo.mpp_svip_end_date = "2099-12-31";
     obj.data.userinfo.vip_end_time_fs = "2099-12-31 00:00:00";
-    obj.data.userinfo.vip_end_days = 9999;
+    obj.data.userinfo.vip_end_days = 99999;
     obj.data.userinfo.vip_end_time_svip = "2099-12-31 00:00:00";
+    obj.data.userinfo.first_recharge_time = "2022-12-31 00:00:00";
     obj.data.userinfo.vip_id = "mpp_svip";
     obj.data.user_type = "2";
     obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00";
@@ -142,6 +145,16 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
             obj.data.stat = 99997;
         }
  }
+
+ if ($request.url.indexOf('/v3\/user\/userInfo') !== -1) {
+        if (obj.data) {
+            obj.data.validPcSvip = 1;
+            obj.data.level = 9;
+            obj.data.vipType = 2;
+            obj.data.ugcInfo.cornerIcon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png";
+        }
+ }
+
 
 
 

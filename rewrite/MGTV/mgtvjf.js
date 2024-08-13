@@ -103,11 +103,13 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.data.mpp_svip_end_date = "2099-12-31";
         obj.data.bigscreen_vip_end_date = "2099-12-31";
         obj.data.contract_full_screen_vip_end_date = "2099-12-31";
+        obj.data.contract_pc_mobile_vip_end_date = "2099-12-31";
         obj.data.universal_pc_mobile_vip_end_date = "2099-12-31";
         obj.data.universal_full_screen_vip_end_date = "2099-12-31";
         obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
         obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
         obj.data.vip_name = "SVIP";
+        obj.data.first_recharge_time = "2022-12-31 00:00:00";
         obj.data.music_vip_end_time = "2099-12-31 00:00:00";
         obj.data.music_vip = 1;
         obj.data.bigscreen_vip_available = 1;
