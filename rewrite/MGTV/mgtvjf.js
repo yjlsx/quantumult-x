@@ -116,7 +116,7 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.data.contract_full_screen_vip_flag = 1;
         obj.data.contract_pc_mobile_flag = 1;
         obj.data.is_mpp_svip = 1;
-        obj.data.vip_end_days = 9999;
+        obj.data.vip_end_days = 99999;
         obj.data.vip_id = "mpp_svip";       
         obj.data.growth = {
           score: 99999,
