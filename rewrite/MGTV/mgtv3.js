@@ -142,7 +142,15 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
         if (obj.errno) {
          obj.errno = 0;
          obj.ret = 0;
+        }
+      let idMatch = $request.url.match(/id=(\d+)/);
+      let idValue = idMatch ? idMatch[1] : null;
+    if (idValue) {
+    if (!obj.data) {
+        obj.data = {};
       }
+    obj.data.img_id = idValue;
+     }
 }
 
     // 处理 '/client/user/user_vip_coin' 响应
