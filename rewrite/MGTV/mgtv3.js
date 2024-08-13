@@ -149,6 +149,9 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
     if (!obj.data) {
         obj.data = {};
       }
+    if (obj.data && obj.data.buy_url) {
+    delete obj.data.buy_url;
+   }
     obj.data.img_id = idValue;
      }
 }
