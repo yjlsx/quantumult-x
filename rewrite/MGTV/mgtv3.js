@@ -123,7 +123,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
 
  if ($request.url.indexOf('/api/v1/app/vip/center/theme/card') !== -1) {
         if (obj.data) {
-            obj.data.theme_card.img = "https://vipcdn.mgtv.com/act/assets/badge/themecard/V3.png";
+            obj.data.theme_card.img = "https://vipcdn.mgtv.com/act_op/20240607/da4560ba1f5b4f62a4ce148c81cdf172.png";
         }
  }
 
