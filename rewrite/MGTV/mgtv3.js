@@ -140,7 +140,8 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
 
  if ($request.url.indexOf('/api/v1/act/vipcenter/themecard/set') !== -1) {
         if (obj.errno) {
-         //obj.errno = 0;
+         obj.errno = 0;
+         obj.ret = 0;
       }
 }
 
