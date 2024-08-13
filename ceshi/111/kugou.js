@@ -460,19 +460,18 @@ if (url.includes('/user/vipinfo')) {
     obj.data.m_end_time = "2099-12-31 15:14:48";
 }
 
-if (url.includes('/v2\/get_kg_bg_pics')) {
-    if (obj && obj.data && Array.isArray(data.lists)Array.isArray(data.lists)) {
-    obj.data.lists.forEach(list => {
-      if (list.pics && Array.isArray(list.pics)) {
-        list.pics.forEach(pic => {
-          // 设置每个 pic 的 is_suvip 属性为 1
-          pic.is_suvip = 1;
-            });
-          }
-       });
-     }
- }
-
+if (url.includes('/v2/get_kg_bg_pics')) {
+    if (obj && obj.data && Array.isArray(obj.data.lists)) {
+        obj.data.lists.forEach(list => {
+            if (list.pics && Array.isArray(list.pics)) {
+                list.pics.forEach(pic => {
+                    // 设置每个 pic 的 is_suvip 属性为 1
+                    pic.is_suvip = 1;
+                });
+            }
+        });
+    }
+}
 
 
 if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
