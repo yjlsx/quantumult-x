@@ -20,8 +20,17 @@ const body = $response.body;
 let obj = JSON.parse(body);
 
 if (url.includes('/ocean/v6/theme/category')) {
-    if (body.data && body.data.info) {
-       body.data.info.forEach(section => {
+
+    obj.data.info.forEach(category => {
+  category.themes.forEach(theme => {
+    if (theme.limit_free_info) {
+      theme.limit_free_info.free_end_time = 4102415999; // 2099-12-31 23:59:59
+         }
+     });
+  });  
+
+    if (obj.data && obj.data.info) {
+       obj.data.info.forEach(section => {
     if (section.themes) {
       section.themes.forEach(theme => {
         theme.privilege = 1;
@@ -35,8 +44,8 @@ if (url.includes('/ocean/v6/theme/category')) {
             }
         if (theme.limit_free_info) {
           theme.limit_free_info.toast_type = 4;
+          theme.limit_free_info.free_end_time = 4102415999; // 2099-12-31 23:59:59
           theme.limit_free_info.limit_free_status = 1;
-          theme.limit_free_info.free_end_time = 4102444799;
           theme.limit_free_info.free_end_offline = 0;
            }
         });

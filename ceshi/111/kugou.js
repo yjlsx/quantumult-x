@@ -31,6 +31,10 @@
 ^https://gateway\.kugou\.com/v1/consumption url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https:\\//vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https:\/\/gatewayretry\.kugou\.com\/v2\/get_kg_bg_pics url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+
+
 
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com
@@ -436,6 +440,38 @@ if (url.includes('/v1/get_res_privilege')) {
         obj.vip_user_type = 3;
     }
 }
+
+if (url.includes('/user/vipinfo')) {
+    obj.data.is_vip = 1;   
+    obj.data.vip_type = 4;   
+    obj.data.user_type = 20;
+    obj.data.m_type = 1;
+    obj.data.m_y_endtime = "2099-12-31 15:14:48";
+    obj.data.h_y_endtime = "2099-12-31 15:14:48";
+    obj.data.vip_y_endtime = "2099-12-31 15:14:48";
+    obj.data.vip_end_time = "2099-12-31 15:14:48";
+    obj.data.su_vip_y_endtime = "2099-12-31 15:14:48";
+    obj.data.su_vip_end_time = "2099-12-31 15:14:48";
+    obj.data.su_vip_begin_time = "2024-07-26 15:14:09";
+    obj.data.svip_level = 8;
+    obj.data.svip_score = 999999;
+    obj.data.vip_clearday = "2024-07-26 15:14:09";
+    obj.data.su_vip_clearday = "2024-07-26 15:14:09";
+    obj.data.m_end_time = "2099-12-31 15:14:48";
+}
+
+if (url.includes('/v2\/get_kg_bg_pics')) {
+    if (obj && obj.data && obj.data.lists) {
+    obj.data.lists.forEach(function(list) {
+        if (list.pics) {
+            list.pics.forEach(function(pic) {
+                pic.is_suvip = 1;
+                  });
+             }
+       });
+   }
+}
+
 
 
 if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
