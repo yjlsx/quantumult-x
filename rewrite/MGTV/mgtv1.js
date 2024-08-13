@@ -28,10 +28,6 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
     obj.data.vipinfo.ext.valid_pc_svip = 1;
     obj.data.vipinfo.growth.level = 9;
     obj.data.vipinfo.growth.score = 99999;
-    obj.data.vipinfo.vipdetail.type = "2";
-    obj.data.vipinfo.vipdetail.vip_end_time = "2099-12-31 00:00:00";
-    obj.data.vipinfo.vipdetail.vip_id = "mpp_svip";
-
 }
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
@@ -87,7 +83,7 @@ if (!isNaN(ftime)) {  // 确保转换后的值是有效的数字
 
     // 更新playPreviewType和isPreview
     obj.data.preview.playPreviewType = 0;
-    obj.data.preview.isPreview = 1;
+    obj.data.preview.isPreview = 0;
     obj.data.info.mediaPrimaryType = 2;
     obj.data.info.mediaType = 1;
     //obj.data.info.video.vipProtect = 0;
