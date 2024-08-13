@@ -5,6 +5,7 @@
 ^https:\/\/gateway3\.kugou\.com\/v1\/fusion\/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\/\/gateway3\.kugou\.com\/listening\/coupon_package url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\/\/gateway3\.kugou\.com\/ocean\/v6\/theme\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
+^https:\/\/gateway\.kugou\.com\/ocean\/v6\/theme\/category url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 
 ^https:\/\/gateway3\.kugou\.com\/ip\/api\/v1\/overseas\/check_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\/\/gateway3\.kugou\.com\/ads\.gateway\/v2\/task_video\/unlogin_guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
@@ -20,9 +21,10 @@
 ^https:\/\/gateway3\.kugou\.com\/mobile\/vipinfoV2&code url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\/\/gateway3\.kugou\.com\/ads\.gateway\/v2\/task_video\/unlogin_guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 ^https:\\//vip\.kugou\.com\/v1\/union\/list_quota_plus url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
+^https:\\//vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/kugou.js
 
 [mitm]
-hostname = gateway.kugou.com,gateway3.kugou.com
+hostname = gateway.kugou.com, gateway3.kugou.com, vip.kugou.com
 */
 
 // 双斜杠后的内容在js里是属于注释内容不会生效
@@ -45,7 +47,9 @@ const ads = '/ads.gateway/v5/task_video/qualification';
 const user = 'userinfoservice/v2/get_login_extend_info';     //path
 const token = '/v5/login_by_token';
 const path1 = '/tools.mobile/api/v2/theme';
-const path1 = '/v1/login_by_quick_token';
+const path2 = '/v1/login_by_quick_token';
+const path3 = '/user/vipinfo';
+const path4 = '/ocean/v6/theme/category';
 
 
 if (url.indexOf(user) != -1) {   
@@ -363,6 +367,43 @@ obj.data.m_type = 1;
 obj.data.vip_type = 1;
 body = JSON.stringify(obj);
 }
+
+if (url.indexOf(path3) != -1) {   
+obj.data.vip_begin_time = "2022-03-17 09:05:55";
+obj.data.vip_type = 1;  
+obj.data.vip_y_endtime = "2099-03-17 09:05:55";
+obj.data.su_vip_upgrade_days = 9999;
+obj.data.su_vip_begin_time = "2022-03-17 09:05:55";
+obj.data.super_vip_upgrade_month = 9999;
+obj.data.su_vip_y_end_time = "2099-03-17 09:05:55";
+obj.data.su_vip_y_endtime = "2099-03-17 09:05:55";
+obj.data.vip_endtime = "2099-03-17 09:05:55"; 
+obj.data.svip_level = 9; 
+obj.data.su_vip_clearday = "2022-03-17 09:05:55"; 
+obj.data.svip_score = 99999;
+obj.data.is_vip = 1;
+obj.data.producttype = svip;
+obj.data.su_vip_end_time = "2099-03-17 09:05:55"; 
+obj.data.m_end_time = "2099-03-17 09:05:55"; 
+obj.data.m_y_endtime = "2099-03-17 09:05:55"; 
+obj.data.vip_clearday = "2022-03-17 09:05:55"; 
+obj.data.m_clearday = "2022-03-17 09:05:55"; 
+obj.data.h_end_time = "2099-03-17 09:05:55"; 
+body = JSON.stringify(obj);
+}
+
+if (url.indexOf(path4) != -1) { 
+obj.data.info.forEach(category => {
+  category.themes.forEach(theme => {
+    if (theme.limit_free_info) {
+      theme.limit_free_info.free_end_time = 4102415999; // 2099-12-31 23:59:59
+         }
+     });
+  });  
+body = JSON.stringify(obj);
+}
+
+
 var body2 = $response.body;
 var obj = JSON.parse(body2);
 obj2.data["vip_end_time"] = "永久";
