@@ -28,6 +28,10 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
     obj.data.vipinfo.ext.valid_pc_svip = 1;
     obj.data.vipinfo.growth.level = 9;
     obj.data.vipinfo.growth.score = 99999;
+    obj.data.vipinfo.vipdetail.type = "2";
+    obj.data.vipinfo.vipdetail.vip_end_time = "2099-12-31 00:00:00";
+    obj.data.vipinfo.vipdetail.vip_id = "mpp_svip";
+
 }
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
