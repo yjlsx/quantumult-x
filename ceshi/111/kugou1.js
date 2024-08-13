@@ -169,6 +169,7 @@ if (url.includes('/record_rack/get_record_rack_list')) {
             record.free_type = 3;
         });
     }
+    obj.data.is_end = 0;
 }
 
 
