@@ -48,6 +48,7 @@
 #会员中心
 ^https:\/\/interface\.music\.163\.com\/api\/vip-center-bff\/float\/data url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/interface\.music\.163\.com\/weapi\/vip-center-bff\/float\/data url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+#续费管理
 ^https:\/\/interface3\.music\.163\.com\/api\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/interface\.music\.163\.com\//weapi\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 
@@ -57,7 +58,7 @@
 
 
 [mitm] 
-hostname = *.music.163.com, interface*.music.163.com,  *.music.126.net
+hostname = *.music.163.com, interface*.music.163.com,  *.music.126.net, interface.music.163.com
 */
 
 // @yjlsx
