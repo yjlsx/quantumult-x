@@ -1,11 +1,11 @@
 /**************************************
 *
 [rewrite local]
-^https:\/\/passport\.iqiyi\.com\/apis\/profile\/info\.action url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
-^https:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/vip_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
-^https:\/\/sns-paopao\.iqiyi\.com\/v2\/init\/list_improve\.action url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
-^https:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_login url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
-^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/vip_home?hasPlayRecord url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
+^https:\/\/passport\.iqiyi\.com\/apis\/profile\/info\.action url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/aqy/aiqiyi.js
+^https:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/vip_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/aqy/aiqiyi.js
+^https:\/\/sns-paopao\.iqiyi\.com\/v2\/init\/list_improve\.action url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/aqy/aiqiyi.js
+^https:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_login url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/aqy/aiqiyi.js
+^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/vip_home?hasPlayRecord url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/aqy/aiqiyi1.js
 
 
 ^https:\/\/iface2\.iqiyi\.com\/carrier\/2\.0\/init?api_v url reject-200
