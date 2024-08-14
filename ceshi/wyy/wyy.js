@@ -107,9 +107,9 @@ if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
     obj.data.vip.redplus.expireTime = 4102358400000;
     obj.data.vip.redplus.vipLevel = 7;
     obj.data.vip.userVipStatus = [ 10, 15, 25 ];
-    obj.data.user.account.vipType = 15;
+    obj.data.user.account.vipType = 1;
     obj.data.user.account.status = 1;
-    obj.data.user.profile.vipType = 6;  //11是vip
+    obj.data.user.profile.vipType = 1;  //11是vip
     obj.data.user.profile.accountType = 15;
      if (Array.isArray(obj.data.vip)) {
     obj.data.vip.forEach(item => {
