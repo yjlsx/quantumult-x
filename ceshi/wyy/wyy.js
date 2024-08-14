@@ -1,3 +1,4 @@
+/*
 [rewrite_local]
 # > 解锁VIP
 ^http[s]?:\/\/.+music.+(player\/url|playlist|entrance|\/eapi\/search\/).*$ url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy1.js
