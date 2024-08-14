@@ -88,12 +88,13 @@ if ($request.url.indexOf('/vip-center-bff/float/data') !== -1) {
 }
 
 if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
-   if (obj.data && obj.data.vip) {
-   obj.data.vip.forEach(item => {
-    item.publishPrice = 0;
-    item.iapPrice = 0;
-    item.price = 0;
-    });
+     if (Array.isArray(obj.data.vip)) {
+    obj.data.vip.forEach(item => {
+        item.publishPrice = 0;
+        item.iapPrice = 0;
+        item.price = 0;
+        });
+       }
 
     obj.data.vip.redVipAnnualCount = 1;
     obj.data.vip.redVipLevel = 7;
