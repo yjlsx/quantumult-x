@@ -88,14 +88,6 @@ if ($request.url.indexOf('/vip-center-bff/float/data') !== -1) {
 }
 
 if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
-     if (Array.isArray(obj.data.vip)) {
-    obj.data.vip.forEach(item => {
-        item.publishPrice = 0;
-        item.iapPrice = 0;
-        item.price = 0;
-        });
-       }
-
     obj.data.vip.redVipAnnualCount = 1;
     obj.data.vip.redVipLevel = 7;
     obj.data.vip.musicPackage.isSign = true;
@@ -118,7 +110,13 @@ if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
     obj.data.user.account.status = 1;
     obj.data.user.profile.vipType = 6;  //11是vip
     obj.data.user.profile.accountType = 15;
-    }
+     if (Array.isArray(obj.data.vip)) {
+    obj.data.vip.forEach(item => {
+        item.publishPrice = 0;
+        item.iapPrice = 0;
+        item.price = 0;
+        });
+       }
 }
 
 if ($request.url.indexOf('/weapi/batch?csrf_token') !== -1) {
