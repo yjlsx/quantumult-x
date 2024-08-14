@@ -104,8 +104,8 @@ if ($request.url.indexOf('/api/music-vip-membership/cashier/info') !== -1) {
     obj.data.vip.userVipStatus = [ 15, 25 ];
     obj.data.user.account.vipType = 15;
     obj.data.user.account.status = 1;
-    obj.data.profile.vipType = 1;
-    obj.data.profile.accountType = 15;
+    obj.data.user.profile.vipType = 1;
+    obj.data.user.profile.accountType = 15;
     }
 }
 
