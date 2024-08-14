@@ -48,6 +48,8 @@
 #会员中心
 ^https:\/\/interface\.music\.163\.com\/api\/vip-center-bff\/float\/data url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/interface3\.music\.163\.com\/api\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+^https:\/\/interface\.music\.163\.com\//weapi\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+
 
 
 
@@ -76,14 +78,20 @@ if ($request.url.indexOf('/api/vip-center-bff/float/data') !== -1) {
     obj.data.vipInfo.associator.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"; //vip1静态
     obj.data.vipInfo.redplus.dynamicIconUrl = null  //svip1动态
     obj.data.vipInfo.redplus.iconUrl = null; //svip1静态
-    obj.data.vipInfo.redplus.vipCode = 0;
+    obj.data.vipInfo.redplus.vipCode = 5;
     obj.data.vipInfo.redplus.expireTime = 4102358400000;
     obj.data.vipInfo.redplus.vipLevel = 7;
     }
 }
 
-if ($request.url.indexOf('/api/music-vip-membership/cashier/info') !== -1) {
+if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
    if (obj.data && obj.data.vip) {
+   obj.data.vip.forEach(item => {
+    item.publishPrice = 0;
+    item.iapPrice = 0;
+    item.price = 0;
+    });
+
     obj.data.vip.redVipAnnualCount = 1;
     obj.data.vip.redVipLevel = 7;
     obj.data.vip.musicPackage.isSign = true;
@@ -101,7 +109,7 @@ if ($request.url.indexOf('/api/music-vip-membership/cashier/info') !== -1) {
     obj.data.vip.redplus.vipCode = 0;
     obj.data.vip.redplus.expireTime = 4102358400000;
     obj.data.vip.redplus.vipLevel = 7;
-    obj.data.vip.userVipStatus = [ 15, 25 ];
+    obj.data.vip.userVipStatus = [ 10, 15, 25 ];
     obj.data.user.account.vipType = 15;
     obj.data.user.account.status = 1;
     obj.data.user.profile.vipType = 1;

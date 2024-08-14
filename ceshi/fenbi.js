@@ -33,6 +33,7 @@
 //^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/my\/lectures\/\d+\/summary url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/keapi\.fenbi\.com\/school\/iphone\/offline_classes\/config\/get_by_biz url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/live\.fenbi\.com\/iphone\/jdwz\/v3\/livereplay\/replay\/lectures\/\d+\/episodes url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 #电子书
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/ebook\/list_by_cat url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
@@ -450,6 +451,12 @@ if (url.includes("/jdwz/v3/my/lectures/") && url.includes("/episode_sets")) {
 if (url.includes("/sydw/v3/user_content_forms/is_filled")) {
     obj.data = true;
 }
+
+if (url.includes("/livereplay/replay/lectures/\d+/episodes")) {
+    obj.code = 1;
+    obj.msg = "";
+}
+
 
 // 匹配两个不同的 URL 模式
 if (url.match(/^https:\/\/ke\.fenbi\.com\/iphone\/(jdwz|sydw|v3\/user_study\/entry|v3\/episodes\/\d+\/mediafile\/meta)/)) {
