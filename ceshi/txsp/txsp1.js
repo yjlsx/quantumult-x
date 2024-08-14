@@ -1,6 +1,6 @@
 /*
 [Rewrite]
-^https://i.video.qq.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp1.js
+^https://i.video.qq.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/txsp1.js
 
 [MITM]
 hostname = i.video.qq.com

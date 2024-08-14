@@ -1,17 +1,19 @@
 /**************************************
 *
 [rewrite local]
-^https:\/\/vip\.video\.qq\.com\/rpc\/trpc\.query_vipinfo\.vipinfo\.QueryVipInfo\/GetVipUserInfoH5 url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
-^https:\/\/vip\.video\.qq\.com\/rpc\/trpc\.query_vipinfo\.vipinfo\.QueryVipInfo\/GetVipUserInfoH5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
-^https:\/\/vip\.video\.qq\.com\/fcgi-bin\/comm_cgi?name=spp_vscore_user_mashup url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
-^https:\/\/vip\.video\.qq\.com\/fcgi-bin\/comm_cgi?otype=xjson&name=get_cscore url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
-^https:\/\/vip\.video\.qq\.com\/rpc\/trpc\.vipcontent\.vip_area_channel\.VIPAreaChannelRPC\/LevelBenefits url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp.js
-^https://i.video.qq.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/txsp1.js
+^https:\/\/vip\.video\.qq\.com\/rpc\/trpc\.query_vipinfo\.vipinfo\.QueryVipInfo\/GetVipUserInfoH5 url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/txsp.js
+^https:\/\/vip\.video\.qq\.com\/rpc\/trpc\.query_vipinfo\.vipinfo\.QueryVipInfo\/GetVipUserInfoH5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/txsp.js
+^https:\/\/vip\.video\.qq\.com\/fcgi-bin\/comm_cgi?name=spp_vscore_user_mashup url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/txsp.js
+^https:\/\/vip\.video\.qq\.com\/fcgi-bin\/comm_cgi?otype=xjson&name=get_cscore url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/txsp.js
+^https:\/\/vip\.video\.qq\.com\/fcgi-bin\/comm_cgi?name=get_levelupdate&cmd=1&version=1&otype=xjson url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/pz.js
+^https:\/\/vip\.video\.qq\.com\/rpc\/trpc\.vipcontent\.vip_area_channel\.VIPAreaChannelRPC\/LevelBenefits url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/txsp.js
+^https://i.video.qq.com/ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/txsp1.js
+^https:\/\/cache\.wuji\.qq\.com\/x\/api\/wuji_cache\/object?appid=vip&schemaid=vip_privilege_by_grade_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/txsp/pz.js
 
 
 *
 [mitm]
-hostname = vip.video.qq.com, i.video.qq.com
+hostname = vip.video.qq.com, i.video.qq.com, cache.wuji.qq.com
 *************************************/
 // Quantumult X Rewrite Script
 // @rewrite 
@@ -75,13 +77,13 @@ if ($request.url.indexOf('/rpc/trpc.query_vipinfo.vipinfo.QueryVipInfo/GetVipUse
 
 if ($request.url.indexOf('/fcgi-bin/comm_cgi?name=spp_vscore_user_mashup') !== -1) {
         // 确保 lscore_info 字段存在并设置其值
-obj.lscore_info = obj.lscore_info || {};
-obj.lscore_info.reduce_score = 0;
-obj.lscore_info.score = 99999;
-obj.lscore_info.level = 7;
-obj.lscore_info.create_time = 0;
-obj.lscore_info.modify_time = 0;
-obj.lscore_info.new_level_time = 0;
+obj.1score_info = obj.lscore_info || {};
+obj.1score_info.reduce_score = 0;
+obj.1score_info.score = 99999;
+obj.1score_info.level = 7;
+obj.1score_info.create_time = 0;
+obj.1score_info.modify_time = 0;
+obj.1score_info.new_level_time = 0;
 
 // 确保 milestone_info 字段存在并设置其值
 obj.milestone_info = obj.milestone_info || [
@@ -113,7 +115,12 @@ obj.ret = 0;
 // 确保 cscore_info 字段存在并设置其值
 obj.cscore_info = obj.cscore_info || {};
 obj.cscore_info.vip_score_total = 9999;
-obj.cscore_info.vip_scores = 9999;
+obj.cscore_info.vip_scores = [
+    {
+         "score" : 1,
+         "year" : 2024
+     }
+   ]
 }
 
 
@@ -129,9 +136,24 @@ if ($request.url.indexOf('/rpc/trpc.vipcontent.vip_area_channel.VIPAreaChannelRP
 }
 
 if ($request.url.indexOf('/fcgi-bin/comm_cgi?otype=xjson&name=get_cscore') !== -1) {
+    if (!obj.vip_scores) {
+    obj.vip_scores = [];
+  }
+  let updated = false;
+  obj.vip_scores.forEach(score => {
+    if (score.year === 2024) {
+      score.score = 99999;
+      updated = true;
+    }
+  });
+  if (!updated) {
+     obj.vip_scores.push({
+      year: 2024,
+      score: 99999
+    });
+  }
     if (obj.vip_scores) {
-    obj.vip_scores = 9999;
-    obj.vip_score_total = 9999;
+    obj.vip_score_total = 99999;
      }
 }
 
