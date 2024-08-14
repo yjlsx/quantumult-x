@@ -1,3 +1,13 @@
+/**************************************
+*
+[rewrite local]
+^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/vip_home?hasPlayRecord url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/aqy/aiqiyi1.js
+
+
+*
+[mitm]
+hostname = cards.iqiyi.com
+
 let response = JSON.parse($response.body);
 
 response = {
