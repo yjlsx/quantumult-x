@@ -104,8 +104,8 @@ if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
     obj.data.vip.associator.vipLevel = 7;
     obj.data.vip.associator.expireTime = 4102358400000;
     obj.data.vip.associator.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"; //vip1静态
-    obj.data.vip.redplus.dynamicIconUrl = null  //svip1动态
-    obj.data.vip.redplus.iconUrl = null; //svip1静态
+    obj.data.vip.redplus.dynamicIconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582306080/a905/24c9/63cd/1d065fb7c32a5fe002d223f9ed8945f3.png";  //svip1动态
+    obj.data.vip.redplus.iconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582306080/a905/24c9/63cd/1d065fb7c32a5fe002d223f9ed8945f3.png"; //svip1静态
     obj.data.vip.redplus.vipCode = 0;
     obj.data.vip.redplus.expireTime = 4102358400000;
     obj.data.vip.redplus.vipLevel = 7;
