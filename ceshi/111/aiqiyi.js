@@ -5,13 +5,14 @@
 ^https:\/\/iface2\.iqiyi\.com\/aggregate\/3\.0\/vip_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
 ^https:\/\/sns-paopao\.iqiyi\.com\/v2\/init\/list_improve\.action url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
 ^https:\/\/iface2\.iqiyi\.com\/control\/3\.0\/init_login url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
+^https:\/\/cards\.iqiyi\.com\/views_category\/3\.0\/vip_home?hasPlayRecord url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/aiqiyi.js
 
 
 ^https:\/\/iface2\.iqiyi\.com\/carrier\/2\.0\/init?api_v url reject-200
 
 *
 [mitm]
-hostname = passport.iqiyi.com, iface2.iqiyi.com, sns-paopao.iqiyi.com
+hostname = passport.iqiyi.com, iface2.iqiyi.com, sns-paopao.iqiyi.com, cards.iqiyi.com
 *************************************/
 // Quantumult X Rewrite Script
 // @rewrite 
@@ -67,6 +68,18 @@ if ($request.url.indexOf('/control/3.0/init_login') !== -1) {
     obj.content.vip_info.data.qiyi_vip_info.level = "7";
     obj.content.vip_info.data.qiyi_vip_info.status = "1";
     }
+}
+
+if ($request.url.indexOf('/views_category/3.0/vip_home?hasPlayRecord') !== -1) {
+  obj.cards.forEach(card => {
+    card.blocks.forEach(block => {
+    block.metas.forEach(meta => {
+      if (/^\d{4}-\d{2}-\d{2}到期$/.test(meta.text)) {
+        meta.text = "2099-12-31到期";
+      }
+    });
+    });
+   });
 }
 
 
