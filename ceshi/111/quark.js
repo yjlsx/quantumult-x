@@ -153,7 +153,7 @@ if ($request.url.indexOf(vipc) != -1){
 if ($request.url.indexOf('/quark/v2/queryMemberInfo') !== -1) {
   // 修改 memberList 的 memberType
   if (yjlsx && yjlsx.data && Array.isArray(yjlsx.data.memberList)) {
-                obj.data.memberList.forEach(member => {
+                yjlsx.data.memberList.forEach(member => {
                     if (member.module === "drive") {
                         member.memberType = "S_VIP";
                     }
@@ -288,13 +288,17 @@ if ($request.url.indexOf('member\/v1\/center') !== -1) {
 
 if ($request.url.indexOf('/1/clouddrive/auth/identity/get') !== -1) {
   if (yjlsx && yjlsx.data) {
-    yjlsx.data.user_identity_type = 4;
-    yjlsx.data.expire_time = 1742399999000;
-    yjlsx.data.expire_type = 2;
-    yjlsx.data.extra.vip88_new = true;
-    yjlsx.data.extra.source = "88_vip_99709506180";
-    yjlsx.data.extra.rollback_times = 1;
-    yjlsx.data.extra.distribute_id = "88_vip_99709506180";
+        yjlsx.data.forEach(item => {
+        if (item.hasOwnProperty('expire_time')) {
+            item.expire_time = 4092599349000;
+            item.user_identity_type = 4;
+            item.expire_type = 2;
+            item.extra.vip88_new = true;
+            item.extra.source = "88_vip_99709506180";
+            item.extra.rollback_times = 1;
+            item.extra.distribute_id = "88_vip_99709506180";
+        }
+    })
   }
 }
 
