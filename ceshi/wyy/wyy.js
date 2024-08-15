@@ -149,9 +149,11 @@ if ($request.url.match(/https:\/\/(interface\.music\.163\.com\/api\/batch|music\
     obj["/api/purchased/redvip/vipstatus"].userVipStatus = [ 10, 15, 25 ];
       }
 
-   obj["/api/pendant/frontend/list"].data.forEach(item => {
+   obj?["/api/pendant/frontend/list"]?.data?.forEach(item => {
     item.pendantList.forEach(pendant => {
+    if (pendant.hasOwnProperty('hasUsePermission')) {
         pendant.hasUsePermission = true;
+                }
        });
    });
 }
