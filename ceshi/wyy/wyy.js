@@ -91,7 +91,7 @@ if ($request.url.indexOf('/vip-center-bff/float/data') !== -1) {
 }
 
 
-if ($request.url.match(/https:\/\/(interface3\.music\.163\.com\/api\/music-vip-membership\/cashier\/info|interface\.music\.163\.com\/weapi\/music-vip-membership\/cashier\/info)/)) {
+if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
    if (obj.data && obj.data.vip) {
     obj.data.vip.redVipAnnualCount = 1;
     obj.data.vip.redVipLevel = 7;
@@ -127,7 +127,7 @@ if ($request.url.match(/https:\/\/(interface3\.music\.163\.com\/api\/music-vip-m
        }
 }
 
-if ($request.url.match(/https:\/\/(interface\.music\.163\.com\/api\/batch|music\.163\.com\/weapi\/batch\?csrf_token)/)) {
+if ($request.url.match(https:\/\/(interface\.music\.163\.com\/api\/batch|music\.163\.com\/weapi\/batch\?csrf_token)/)) {
        if (obj["/api/nuser/account/get"]) {
     obj["/api/nuser/account/get"].account.vipType = 15;  //11是vip
     obj["/api/nuser/account/get"].profile.vipType = 15;   //11是vip
