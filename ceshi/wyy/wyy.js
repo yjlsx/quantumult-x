@@ -127,41 +127,50 @@ if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
        }
 }
 
-if ($request.url.match(https:\/\/(interface\.music\.163\.com\/api\/batch|music\.163\.com\/weapi\/batch\?csrf_token)/)) {
-       if (obj["/api/nuser/account/get"]) {
-    obj["/api/nuser/account/get"].account.vipType = 15;  //11是vip
-    obj["/api/nuser/account/get"].profile.vipType = 15;   //11是vip
-    obj["/api/nuser/account/get"].profile.accountType = 1;
-              }
-       if (obj["/api/music-vip-membership/front/vip/info"]) {
-    obj["/api/music-vip-membership/front/vip/info"].data.redVipLevel = 7;
-    obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.vipCode = 220;
-    obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"; //vip1静态
-    obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.vipLevel = 7;
-    obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.expireTime = 4102358400000;
-    obj["/api/music-vip-membership/front/vip/info"].data.associator.dynamicIconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32141292744/0634/5100/c09f/eeca8bd06770efbff522a3b77627e2d4.png"; //vip1动态
-    obj["/api/music-vip-membership/front/vip/info"].data.associator.vipCode = 100;
-    obj["/api/music-vip-membership/front/vip/info"].data.associator.vipLevel = 7;
-    obj["/api/music-vip-membership/front/vip/info"].data.associator.expireTime = 4102358400000;
-    obj["/api/music-vip-membership/front/vip/info"].data.associator.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"; //vip1静态
-    obj["/api/music-vip-membership/front/vip/info"].data.redplus.dynamicIconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32815146704/bbb8/496f/6cdb/930f24fcdf7276ef00b2de12f71325d7.png";  //svip1动态
-    obj["/api/music-vip-membership/front/vip/info"].data.redplus.iconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582306080/a905/24c9/63cd/1d065fb7c32a5fe002d223f9ed8945f3.png"; //svip1静态
-    obj["/api/music-vip-membership/front/vip/info"].data.redplus.vipCode = 0;
-    obj["/api/music-vip-membership/front/vip/info"].data.redplus.expireTime = 4102358400000;
-    obj["/api/music-vip-membership/front/vip/info"].data.redplus.vipLevel = 7;
-      }
-       if (obj["/api/purchased/redvip/vipstatus"]) {
-    obj["/api/purchased/redvip/vipstatus"].userVipStatus = [ 10, 15, 25 ];
-      }
 
-   obj?["/api/pendant/frontend/list"]?.data?.forEach(item => {
-    item.pendantList.forEach(pendant => {
-    if (pendant.hasOwnProperty('hasUsePermission')) {
-        pendant.hasUsePermission = true;
-                }
-       });
-   });
+// 检查请求 URL
+if ($request.url.indexOf('/api/batch') !== -1 || $request.url.indexOf('/weapi/batch?csrf_token') !== -1) {
+    if (obj["/api/nuser/account/get"]) {
+        obj["/api/nuser/account/get"].account.vipType = 15;
+        obj["/api/nuser/account/get"].profile.vipType = 15;
+        obj["/api/nuser/account/get"].profile.accountType = 1;
+    }
+
+    if (obj["/api/music-vip-membership/front/vip/info"]) {
+        obj["/api/music-vip-membership/front/vip/info"].data.redVipLevel = 7;
+        obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.vipCode = 220;
+        obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png";
+        obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.vipLevel = 7;
+        obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.expireTime = 4102358400000;
+        obj["/api/music-vip-membership/front/vip/info"].data.associator.dynamicIconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32141292744/0634/5100/c09f/eeca8bd06770efbff522a3b77627e2d4.png";
+        obj["/api/music-vip-membership/front/vip/info"].data.associator.vipCode = 100;
+        obj["/api/music-vip-membership/front/vip/info"].data.associator.vipLevel = 7;
+        obj["/api/music-vip-membership/front/vip/info"].data.associator.expireTime = 4102358400000;
+        obj["/api/music-vip-membership/front/vip/info"].data.associator.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png";
+        obj["/api/music-vip-membership/front/vip/info"].data.redplus.dynamicIconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32815146704/bbb8/496f/6cdb/930f24fcdf7276ef00b2de12f71325d7.png";
+        obj["/api/music-vip-membership/front/vip/info"].data.redplus.iconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582306080/a905/24c9/63cd/1d065fb7c32a5fe002d223f9ed8945f3.png";
+        obj["/api/music-vip-membership/front/vip/info"].data.redplus.vipCode = 0;
+        obj["/api/music-vip-membership/front/vip/info"].data.redplus.expireTime = 4102358400000;
+        obj["/api/music-vip-membership/front/vip/info"].data.redplus.vipLevel = 7;
+    }
+
+    if (obj["/api/purchased/redvip/vipstatus"]) {
+        obj["/api/purchased/redvip/vipstatus"].userVipStatus = [10, 15, 25];
+    }
+
+    if (obj["/api/pendant/frontend/list"] && Array.isArray(obj["/api/pendant/frontend/list"].data)) {
+        obj["/api/pendant/frontend/list"].data.forEach(item => {
+            if (Array.isArray(item.pendantList)) {
+                item.pendantList.forEach(pendant => {
+                    if (pendant.hasOwnProperty('hasUsePermission')) {
+                        pendant.hasUsePermission = true;
+                    }
+                });
+            }
+        });
+    }
 }
+
 
 if (/^https:\/\/interface\.music\.163\.com\/(weapi\/batch\?csrf_token|api\/batch)$/.test($request.url)) {
   obj?.["/api/vipnewcenter/app/vipplayer/simple"]?.data?.forEach(item => {
