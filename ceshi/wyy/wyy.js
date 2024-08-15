@@ -51,7 +51,7 @@
 #续费管理
 ^https:\/\/interface3\.music\.163\.com\/api\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/interface\.music\.163\.com\/weapi\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
-^https:\/\/music\.163\.com\/weapi\/batch\?csrf_token$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+^https:\/\/(interface\.music\.163\.com\/api\/batch|music\.163\.com\/weapi\/batch\?csrf_token) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
  #装扮解锁
 ^https?:\/\/interface\.music\.163\.com\/(weapi\/batch\?csrf_token | api/batch)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 
@@ -122,10 +122,13 @@ if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
        }
 }
 
-if ($request.url.indexOf('https://music.163.com/weapi/batch?csrf_token') !== -1) {
+if ($request.url.match(/https:\/\/(interface\.music\.163\.com\/api\/batch|music\.163\.com\/weapi\/batch\?csrf_token)/)) {
+       if (obj["/api/nuser/account/get"]) {
     obj["/api/nuser/account/get"].account.vipType = 15;  //11是vip
     obj["/api/nuser/account/get"].profile.vipType = 15;   //11是vip
     obj["/api/nuser/account/get"].profile.accountType = 1;
+              }
+       if (obj["/api/music-vip-membership/front/vip/info"]) {
     obj["/api/music-vip-membership/front/vip/info"].data.redVipLevel = 7;
     obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.vipCode = 220;
     obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"; //vip1静态
@@ -141,7 +144,10 @@ if ($request.url.indexOf('https://music.163.com/weapi/batch?csrf_token') !== -1)
     obj["/api/music-vip-membership/front/vip/info"].data.redplus.vipCode = 0;
     obj["/api/music-vip-membership/front/vip/info"].data.redplus.expireTime = 4102358400000;
     obj["/api/music-vip-membership/front/vip/info"].data.redplus.vipLevel = 7;
+      }
+       if (obj["/api/purchased/redvip/vipstatus"]) {
     obj["/api/purchased/redvip/vipstatus"].userVipStatus = [ 10, 15, 25 ];
+      }
 
    obj["/api/pendant/frontend/list"].data.forEach(item => {
     item.pendantList.forEach(pendant => {
