@@ -22,7 +22,7 @@
 ^https?:\/\/interface\d+\.music\.163\.com\/w?e?api\/vipcenter/tspopup\/get url reject-dict
 ^https?:\/\/interface\d+\.music\.163\.com\/eapi\/vip\/cashier\/tspopup url reject-dict
 ^https?:\/\/interface\d+\.music\.163\.com\/api\/vipsale\/vipbuy url reject
-^https?:\/\/interface\d+\.music\.163\.com\/eapi\/music-vip-rights url reject
+//^https?:\/\/interface\d+\.music\.163\.com\/eapi\/music-vip-rights url reject
 ^https?:\/\/interface\d+\.music\.163\.com\/eapi\/vipmall url reject
 # 开屏广告
 ^https?:\/\/interface\d+\.music\.163\.com\/eapi\/ad url reject
