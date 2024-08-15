@@ -51,14 +51,15 @@
 #续费管理
 ^https:\/\/interface3\.music\.163\.com\/api\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/interface\.music\.163\.com\//weapi\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
-
 ^https:\/\/music\.163\.com\/weapi\/batch\?csrf_token$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
- 
+ #装扮解锁
+^https?:\/\/interface\.music\.163\.com\/weapi\/batch\?csrf_token$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+
 
 
 
 [mitm] 
-hostname = *.music.163.com, interface*.music.163.com,  *.music.126.net, interface.music.163.com
+hostname = *.music.163.com, interface*.music.163.com,  *.music.126.net, interface.music.163.com, music.163.com
 */
 
 // @yjlsx
@@ -73,6 +74,7 @@ if ($request.url.indexOf('/vip-center-bff/float/data') !== -1) {
     obj.data.vipInfo.redVipLevel = 7;
     obj.data.vipInfo.musicPackage.isSign = true;
     obj.data.vipInfo.musicPackage.vipLevel = 7;
+    obj.data.vipInfo.musicPackage.vipCode = 220;
     obj.data.vipInfo.musicPackage.expireTime = 4102358400000;
     obj.data.vipInfo.redVipLevelIcon = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"; //vip1静态
     obj.data.vipInfo.associator.dynamicIconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32141292744/0634/5100/c09f/eeca8bd06770efbff522a3b77627e2d4.png"; //vip1动态
@@ -82,7 +84,7 @@ if ($request.url.indexOf('/vip-center-bff/float/data') !== -1) {
     obj.data.vipInfo.associator.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"; //vip1静态
     obj.data.vipInfo.redplus.dynamicIconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32815146704/bbb8/496f/6cdb/930f24fcdf7276ef00b2de12f71325d7.png";  //svip1动态
     obj.data.vipInfo.redplus.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32815146704/bbb8/496f/6cdb/930f24fcdf7276ef00b2de12f71325d7.png"; //svip1静态
-    obj.data.vipInfo.redplus.vipCode = 5;
+    obj.data.vipInfo.redplus.vipCode = 200;  //
     obj.data.vipInfo.redplus.expireTime = 4102358400000;
     obj.data.vipInfo.redplus.vipLevel = 7;
     }
@@ -107,10 +109,10 @@ if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
     obj.data.vip.redplus.expireTime = 4102358400000;
     obj.data.vip.redplus.vipLevel = 7;
     obj.data.vip.userVipStatus = [ 10, 15, 25 ];
-    obj.data.user.account.vipType = 1;
+    obj.data.user.account.vipType = 15;
     obj.data.user.account.status = 1;
-    obj.data.user.profile.vipType = 1;  //11是vip
-    obj.data.user.profile.accountType = 15;
+    obj.data.user.profile.vipType = 15;  //11是vip
+    obj.data.user.profile.accountType = 1;  //?
      if (Array.isArray(obj.data.vip)) {
     obj.data.vip.forEach(item => {
         item.publishPrice = 0;
@@ -120,9 +122,9 @@ if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
        }
 }
 
-if ($request.url.indexOf('/weapi/batch?csrf_token') !== -1) {
-    obj["/api/nuser/account/get"].account.vipType = 11;
-    obj["/api/nuser/account/get"].profile.vipType = 11;
+if ($request.url.indexOf('https://music.163.com/weapi/batch?csrf_token') !== -1) {
+    obj["/api/nuser/account/get"].account.vipType = 15;  //11是vip
+    obj["/api/nuser/account/get"].profile.vipType = 15;   //11是vip
     obj["/api/nuser/account/get"].profile.accountType = 1;
     obj["/api/music-vip-membership/front/vip/info"].data.redVipLevel = 7;
     obj["/api/music-vip-membership/front/vip/info"].data.musicPackage.vipCode = 220;
@@ -147,6 +149,43 @@ if ($request.url.indexOf('/weapi/batch?csrf_token') !== -1) {
        });
    });
 }
+
+if ($request.url.indexOf('https://interface.music.163.com/weapi/batch?csrf_token') !== -1) {
+  obj?.["/api/vipnewcenter/app/vipplayer/simple"]?.data?.forEach(item => {
+  if (item) {
+    if (item.hasOwnProperty('activityLockVo')) {
+      item.activityLockVo = { 
+                                         "unLock": true,
+                                         "activityUrl": null 
+                                          };
+                                 } 
+    if (item.hasOwnProperty('limitFree')) {
+      item.limitFree = false;
+             }
+       }
+    });
+
+// 遍历响应中的每个 API 路径
+ for (let apiPath in obj) {
+  let data = obj[apiPath].data;
+  // 检查 data 是否为数组
+  if (Array.isArray(data)) {
+    data.forEach(item => {
+      let authResult = item.authRespItemDto?.authResult;
+      if (authResult) {
+        if (authResult.hasOwnProperty('canUse')) authResult.canUse = true;
+        if (authResult.hasOwnProperty('canUseType')) authResult.canUseType = 2;
+
+        if (authResult.canNotUseGuideContent?.hasOwnProperty('jumpUrl')) {
+          authResult.canNotUseGuideContent.jumpUrl = "";
+               }
+           }
+        });
+     }
+  }
+
+}
+
 
 
 
