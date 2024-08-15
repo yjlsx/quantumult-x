@@ -91,6 +91,7 @@ if ($request.url.indexOf('/vip-center-bff/float/data') !== -1) {
 }
 
 if ($request.url.indexOf('/music-vip-membership/cashier/info') !== -1) {
+if ($request.url.match(/https:\/\/(interface3\.music\.163\.com\/api\/music-vip-membership\/cashier\/info|interface\.music\.163\.com\/weapi\/music-vip-membership\/cashier\/info)/)) {
    if (obj.data && obj.data.vip) {
     obj.data.vip.redVipAnnualCount = 1;
     obj.data.vip.redVipLevel = 7;
