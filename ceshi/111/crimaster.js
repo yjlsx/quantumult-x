@@ -10,6 +10,7 @@
 ^https:\/\/app\.aochuangwangluo\.com\/bombshell-pro\/v2\/center\/bag\/diamond url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/crimaster.js
 ^https:\/\/app\.aochuangwangluo\.com\/bombshell-pro\/v2\/center\/bag\/virtual\/details url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/crimaster.js
 ^https:\/\/app\.aochuangwangluo\.com\/bombshell-pro\/v2\/mall\/vip\/recharge\/expireTimeAndRechargelist url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/crimaster.js
+^https:\/\/app\.aochuangwangluo\.com\/bombshell-pro\/v2\/center\/bag\/virtual\/buy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/crimaster.js
 
 
 
