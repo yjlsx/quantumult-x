@@ -9,6 +9,7 @@
 ^https:\/\/app\.aochuangwangluo\.com\/bombshell-pro\/v2\/center\/bag\/all url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/crimaster.js
 ^https:\/\/app\.aochuangwangluo\.com\/bombshell-pro\/v2\/center\/bag\/diamond url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/crimaster.js
 ^https:\/\/app\.aochuangwangluo\.com\/bombshell-pro\/v2\/center\/bag\/virtual\/details url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/crimaster.js
+^https:\/\/app\.aochuangwangluo\.com\/bombshell-pro\/v2\/mall\/vip\/recharge\/expireTimeAndRechargelist url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/crimaster.js
 
 
 
@@ -38,7 +39,6 @@ if ($request.url.indexOf('/crimaster/api/v2/friend/userCenter') !== -1) {
      obj.data.level = "LV 11";
      obj.data.grade = "LV 11";
      obj.data.coin = "999999";
-     obj.data.rolePoint = "999999";
      }
 } 
 
@@ -68,7 +68,7 @@ if ($request.url.indexOf('/crimaster/api/v2/article/center/getCenterUser') !== -
 }
 
 if ($request.url.indexOf('/bombshell-pro/v2/center/bag/all') !== -1) {
-     if (obj.data && obj.data) {
+     if (obj.data) {
      obj.data.diamond = 99999;
      obj.data.vcoin = 999999;
     }
@@ -79,12 +79,28 @@ if ($request.url.indexOf('/bombshell-pro/v2/center/bag/diamond') !== -1) {
 }
 
 if ($request.url.indexOf('/bombshell-pro/v2/center/bag/virtual/details') !== -1) {
-     if (obj.data && obj.data) {
-     obj.data.expireTime = 4102358400;
+     if (obj.data) {
+     obj.data.expiredTime = 4102358400;
      obj.data.vipLevel = 17;
+     obj.data.days = 99999;
      obj.data.num = 10;
     }
 }
+
+if ($request.url.indexOf('/bombshell-pro/v2/mall/vip/recharge/expireTimeAndRechargelist') !== -1) {
+     if (obj.data) {
+     obj.data.vipLevel = 17;
+     obj.data.vipExpires = 4102358400;
+    }
+}
+
+if ($request.url.indexOf('/bombshell-pro/v2/center/bag/virtual/buy') !== -1) {
+     if (obj.data) {
+     obj.code = 200;
+     obj.msg = "兑换成功";
+    }
+}
+
 
 
 // 生成修改后的 JSON 响应体
