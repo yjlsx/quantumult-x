@@ -77,7 +77,7 @@ if (url.includes('/v1/userinfo')) {
 
 if (url.includes('/v2/get_login_extend_info')) {
     obj.data.vipinfo.su_vip_end_time = "2099-12-31 23:59:59";
-    obj.data.vipinfo.bookvip_end_time = "2099-12-31 23:59:59";
+    //obj.data.vipinfo.bookvip_end_time = "2099-12-31 23:59:59";
     obj.data.vipinfo.su_vip_y_endtime = "2099-12-31 23:59:59";
     obj.data.vipinfo.su_vip_begin_time = "2024-07-26 15:14:09";
     obj.data.vipinfo.su_vip_clearday = "2024-07-26 15:14:09";
@@ -382,9 +382,11 @@ if (url.includes('/listening/coupon_package')) {
 }
 
 if (url.includes('/v1/get_res_privilege/lite')) {
+    if(obj.userinfo) {
     obj.userinfo.m_type = 1;
     obj.userinfo.vip_type = 4;
     obj.userinfo.quota_remain = 999999;
+      }
     obj.vip_user_type = 3;
 }
 
