@@ -479,6 +479,7 @@ if (url.includes('/v2/get_kg_bg_pics')) {
 if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
     if (obj && obj.data && Array.isArray(obj.data)) {
         obj.data.forEach(item => {
+            item.expire = 4102444799;
             item.buy = 1; 
             item.pay_type = 2;
             item.addtime = timestamp;
