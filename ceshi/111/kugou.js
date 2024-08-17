@@ -419,6 +419,7 @@ if (url.includes('/v1/get_res_privilege')) {
         item.fail_process = 0;
         item.pay_block_tpl = 1;
         item.buy_count_kubi = 999999;
+        item.expire = 4102444799;
         delete item.popup;
     }
 
