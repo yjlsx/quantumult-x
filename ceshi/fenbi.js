@@ -54,7 +54,20 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_study\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
-
+#> 粉笔
+# 开屏广告
+^https:\/\/tiku\.fenbi\.com\/activity\/app\/launcher url reject
+# 首页 - 弹窗
+^https:\/\/keapi\.fenbi\.com\/app\/iphone\/\w+\/popup url reject
+# 首页 - 新用户注册送好礼全屏弹窗
+^https:\/\/market-api\.fenbi\.com\/iphone\/v1\/assistant\/info url reject
+# 首页 - 悬浮窗 - 笔面常备资料
+^https:\/\/market-api\.fenbi\.com\/iphone\/v1\/assistant\/entrance\/show url reject
+# 滑块删除
+^https:\/\/tiku\.fenbi\.com\/iphone\/xingce\/banners\/v2 url reject
+^https:\/\/keapi\.fenbi\.com\/app\/iphone\/xingce\/small_banner url reject
+# 粉笔首页配置项去除
+^https:\/\/tiku\.fenbi\.com\/iphone\/xingce\/course\/module\/config\/v2 url script-response-body https://raw.githubusercontent.com/Zhao242/ShanYangProxyApps/main/Js/fenbi.js
 
 *
 [mitm]
