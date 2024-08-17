@@ -407,8 +407,8 @@ if (url.includes('/v1/get_res_privilege')) {
     function modifyFields(item) {
         // 修改指定的字段
         item.trans_param.cpy_level = 1;
-        item.trans_param.cpy_grade = 20;
-        item.trans_param.musicpack_advance = 0;
+        item.trans_param.cpy_grade = 20; //有5
+        item.trans_param.musicpack_advance = 1;  //0修改
         item._msg = "Allow: the audio is free.";
         item.privilege = 1;
         item.rebuy_pay_type = 2;
@@ -416,7 +416,7 @@ if (url.includes('/v1/get_res_privilege')) {
         item.price = 0;
         item.pkg_price = 1;
         item.pay_type = 2;
-        item.fail_process = 0;
+       // item.fail_process = 0;
         item.pay_block_tpl = 1;
         item.buy_count_kubi = 999999;
         item.expire = 4102444799;
