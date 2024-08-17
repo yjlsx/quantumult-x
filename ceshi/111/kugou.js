@@ -402,7 +402,6 @@ if (url.includes('/welfare/diy/v1') || url.includes('/v1/consumption')) {
 }
 if (url.includes('/v5/url')) {
     obj.status = 1;
-    obj.fail_process = 0
 }
 
 if (url.includes('/v1/get_res_privilege')) {
@@ -485,7 +484,7 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
         obj.data.forEach(item => {
             item.expire = 4102444799;
             item.buy = 1; 
-            item.pay_type = 2;
+            item.pay_type = 0;
             item.addtime = timestamp;
             });
         }
