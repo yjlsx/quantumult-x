@@ -23,8 +23,8 @@ let obj = JSON.parse(body);
 
 if ($request.url.indexOf('/ability/v2/member-rights/miguvideo') !== -1) {
     // 遍历每个会员信息
-   for (let key in body.body.memberInfos) {
-    let rights = body.body.memberInfos[key].rights;
+   for (let key in obj.body.memberInfos) {
+    let rights = obj.body.memberInfos[key].rights;
     
     // 将所有目标字段设置为true
     rights.isTiyutong = true;
