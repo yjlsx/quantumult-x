@@ -130,7 +130,7 @@ if ($request.url.indexOf('/ability/v2/member-rights/miguvideo') !== -1) {
 if ($request.url.indexOf('/playurl/v1/play/playurl') !== -1) {
     obj.code = "200";
     obj.PlayCode = "200";
-    obj.message "永久会员，免费观看";
+    obj.message = "永久会员，免费观看";
 }
 
 
