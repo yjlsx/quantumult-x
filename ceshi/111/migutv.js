@@ -11,6 +11,8 @@
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/member-info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/public-operbiz3\.miguvideo\.com\/deliver\/site\/userFeatures\/miguvideo\/iOS url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/indexContract url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+^https:\/\/v3-sc\.miguvideo\.com\/program\/v4\/staticcache\/datavo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+
 # > 足球会员
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/footballMemberInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 
@@ -26,7 +28,7 @@
 
 *
 [mitm]
-hostname = app-sc.miguvideo.com, play.miguvideo.com, vmesh.miguvideo.com, public-operbiz3.miguvideo.com
+hostname = app-sc.miguvideo.com, play.miguvideo.com, vmesh.miguvideo.com, public-operbiz3.miguvideo.com, v3-sc.miguvideo.com
 
 ***********************************************/
 
@@ -111,7 +113,7 @@ if ($request.url.indexOf('/deliver/site/userFeatures/miguvideo/iOS') !== -1) {
     if (obj.data.miguvideo_diamondMember) {
     // 假设 obj 是你的 JSON 对象
      obj.data.miguvideo_EuroCupPayLowValueUser = "true";
-     obj.data.miguvideo_newUser = "true";
+     obj.data.miguvideo_newUser = "false";
      obj.data.miguvideo_diamondMember = "true";
      obj.data.miguvideo_continuousMonthlyIsOrdered = "true";
      obj.data.miguvideo_EuroCupPayNewUser = "true";
@@ -164,6 +166,36 @@ if ($request.url.indexOf('/ability/v2/footballMemberInfo') !== -1) {
         obj.body.footballMemberInfo.dejia.isOpen = 1;
      }
  }
+
+if ($request.url.indexOf('/program/v4/staticcache/datavo') !== -1) {
+  // 修改结束日期的函数
+   function modifyEndDate(obj, fieldPath) {
+    if (obj && obj[fieldPath] && obj[fieldPath].endDate) {
+        obj[fieldPath].endDate = "2099-12-31 23:59:59";
+    }
+   }
+    // 修改 shieldStrategy 下所有字段为 true
+    function modifyShieldStrategy(obj) {
+    if (obj && obj.shieldStrategy) {
+        Object.keys(obj.shieldStrategy).forEach(key => {
+            obj.shieldStrategy[key] = true;
+        });
+    }
+   }
+  modifyEndDate(obj.body.copyRightVo, 'endDate');
+   // 修改限免的结束日期
+    if (obj.body.limitedTimeTips) {
+    obj.body.limitedTimeTips.forEach(tip => {
+        if (tip.limitedTime) {
+            tip.limitedTime.forEach(time => {
+                time.endDate = "2099-12-31 23:59:59";
+              });
+          }
+       });
+    }
+// 修改 shieldStrategy 下所有字段为 true
+modifyShieldStrategy(obj.body);
+}
 
 
 
