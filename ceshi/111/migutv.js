@@ -12,6 +12,8 @@
 ^https:\/\/public-operbiz3\.miguvideo\.com\/deliver\/site\/userFeatures\/miguvideo\/iOS url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/indexContract url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/v3-sc\.miguvideo\.com\/program\/v4\/staticcache\/datavo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+^https:\/\/vmesh\.miguvideo\.com\/ability\/v1\/vipMemberCard url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/member-card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 
 # > 足球会员
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/footballMemberInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
@@ -197,9 +199,42 @@ if ($request.url.indexOf('/program/v4/staticcache/datavo') !== -1) {
 modifyShieldStrategy(obj.body);
 }
 
+if ($request.url.indexOf('/ability/v1/vipMemberCard') !== -1) {
+obj.body.memberStatus = obj.body.memberStatus.map(item => {
+    return {
+        ...item,
+        member: true,
+        title: item.memberType === 'zuqiuvip' ? '足球会员 2099-12-31' : (item.memberType === 'member' ? '钻石会员 2099-12-31' : (item.memberType === 'tiyutong' ? '体育通会员 2099-12-31' : (item.memberType === 'nba' ? 'NBA会员 2099-12-31' : (item.memberType === 'cba' ? 'CBA会员 2099-12-31' : (item.memberType === 'ufc' ? 'UFC会员 2099-12-31' : item.title))))) 
+    };
+});
+   obj.body.mainMemberInfo.memberDesc = obj.body.mainMemberInfo.memberDesc.map(desc => {
+    return {
+        ...desc,
+        title: '钻石会员（TV尊享） 2099-12-31'
+    };
+  });
+   obj.body.mainMemberInfo.mainMemberDetailType = "black_diamond";
+   obj.body.mainMemberInfo.mainMemberType = "member";
+
+}
 
 
-
+if ($request.url.indexOf('/ability/v2/member-card') !== -1) {
+    if (obj.body.zuqiuvip && obj.body.zuqiuvip.entrances) {
+    obj.body.zuqiuvip.entrances = obj.body.zuqiuvip.entrances.map(entrance => {
+        if (entrance.memberType === 'zuqiuvip') {
+            return {
+                ...entrance,
+                isOpen: 'true',
+                title: '足球会员'
+            };
+        }
+        return entrance;
+    });
+    obj.body.zuqiuvip.isOpen = 'true';
+   }
+}
+ 
 
 // 将修改后的对象转换回 JSON 字符串
 body = JSON.stringify(obj);
