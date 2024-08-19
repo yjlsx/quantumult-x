@@ -14,9 +14,11 @@
 ^https:\/\/v3-sc\.miguvideo\.com\/program\/v4\/staticcache\/datavo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v1\/vipMemberCard url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/member-card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/nbaMemberInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 
 # > 足球会员
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/footballMemberInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+^https:\/\/vmesh\.miguvideo\.com\/ability\/v3\/member\/identityWall url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 
 # > Vip会员
 ^https?:\/\/(play|dis).*miguvideo.com\/(play|dis)(url|play)\/.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
@@ -128,7 +130,7 @@ if ($request.url.indexOf('/ability/v2/indexContract') !== -1) {
      obj.body.indexMember.expireTime = "2099-12-31 00:00:00";
      obj.body.indexMember.expiredCardImg = "",
      obj.body.indexMember.serialNumber = 5;
-     obj.body.indexMember.expiredIdentityIconUrl = "http://img.cmvideo.cn:8080/publish/noms/2019/10/18/1O1AACVKU4RVM.png";
+     obj.body.indexMember.expiredIdentityIconUrl = "https://img.cmvideo.cn/publish/noms/2020/05/25/1O25B1UEP6IGO.png";
      obj.body.indexMember.memberType = "black_diamond";
      obj.body.indexMember.timesFlag = "1";
      obj.body.indexMember.memberName = "钻石会员 (TV尊享)";
@@ -220,6 +222,13 @@ obj.body.memberStatus = obj.body.memberStatus.map(item => {
 
 
 if ($request.url.indexOf('/ability/v2/member-card') !== -1) {
+     if (obj.body && obj.body.zuqiuvip) {
+    // 激活按钮状态
+    if (obj.body.zuqiuvip.button) {
+        obj.body.zuqiuvip.button.title = "足球会员";
+        obj.body.zuqiuvip.button.isOpen = "true";
+    }
+  }
     if (obj.body.zuqiuvip && obj.body.zuqiuvip.entrances) {
     obj.body.zuqiuvip.entrances = obj.body.zuqiuvip.entrances.map(entrance => {
         if (entrance.memberType === 'zuqiuvip') {
@@ -234,6 +243,42 @@ if ($request.url.indexOf('/ability/v2/member-card') !== -1) {
     obj.body.zuqiuvip.isOpen = 'true';
    }
 }
+
+   if ($request.url.indexOf('/ability/v2/member-card') !== -1) {
+       obj.body.isTeam = true;
+       obj.body.isNba = true;
+       obj.body.isContinue = true;
+     if (obj.body.extra && obj.body.extra.contents && obj.body.extra.contents.nbaEntrance) {
+      obj.body.extra.contents.nbaEntrance.nbaUnionDes = "您已开通NBA联盟通会员";
+      obj.body.extra.contents.nbaEntrance.nbaTeamDes = "您已开通NBA球队通会员";
+    }
+      obj.body.isUnion = true;
+      obj.body.nbaTeamNumber = 1;  // 设置为适当的数字
+}
+
+   if ($request.url.indexOf('/ability/v3/member/identityWall') !== -1) {
+     obj.body.validMembers.forEach(member => {
+    if (member.memberType === "diamond") {
+        member.memberName = "钻石会员（TV尊享）";
+        member.memberPeriodTip = "将于 2099-12-31 到期";
+        member.expireTime = "2099-12-31 23:59:59";
+        member.rightsCopywriting = "尊享手机、Pad、电脑端会员权益，享全站免广、会员片库、蓝光原画等会员特权，每月可获赠8张通看券，用于观看全站付费内容。";
+      }
+    });
+   // 激活足球通会员
+     obj.body.invalidMembers.forEach(member => {
+        if (member.memberType === "times") {
+        member.memberStatus = "tiyutong";
+        member.expireTime = "2099-12-31 23:59:59";
+        member.effectiveFlag = 1;
+        member.memberPeriodTip = "足球会员：2099-12-31 到期";
+        member.rightsCopywriting = "尊享全站所有体育赛事直播、回看及点播内容，尊享体育通会员专属特权：免广告、蓝光1080P、原画50帧、专属缓存等。";
+        member.productStatus = "using";
+        }
+    });
+}
+
+
  
 
 // 将修改后的对象转换回 JSON 字符串
