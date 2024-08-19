@@ -267,7 +267,7 @@ if ($request.url.indexOf('/ability/v2/member-card') !== -1) {
     });
    // 激活足球通会员
      obj.body.invalidMembers.forEach(member => {
-        if (member.memberType === "times") {
+        if (member.memberName === "咪咕体育通") {
         member.memberStatus = "tiyutong";
         member.expireTime = "2099-12-31 23:59:59";
         member.effectiveFlag = 1;
