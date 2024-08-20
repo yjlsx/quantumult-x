@@ -51,9 +51,10 @@
 #续费管理
 ^https:\/\/interface3\.music\.163\.com\/api\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/interface\.music\.163\.com\/weapi\/music-vip-membership\/cashier\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
-^https:\/\/(interface\.music\.163\.com\/api\/batch|music\.163\.com\/weapi\/batch\?csrf_token) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+//^https:\/\/(interface\.music\.163\.com\/api\/batch|music\.163\.com\/weapi\/batch\?csrf_token) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
  #装扮解锁
-^https?:\/\/interface\.music\.163\.com\/(weapi\/batch\?csrf_token | api/batch)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+//^https?:\/\/interface\.music\.163\.com\/(weapi\/batch\?csrf_token | api/batch)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+^https:\/\/interface\.music\.163\.com\/(api\/batch|weapi\/batch\?csrf_token=[0-9a-fA-F]+)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 
 
 
