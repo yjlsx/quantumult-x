@@ -1,6 +1,6 @@
 /*
 [rewrite local]
-^https:\/\/nuc\.api\.mgtv\.com\/(MobileCodeLogin|GetUserInfo\?_support) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
+^https:\/\/nuc\.api\.mgtv\.com\/(MobileCodeLogin|GetUserInfo.*) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
 ^https:\/\/mobile-stream\.api\.mgtv\.com\/v1\/video\/source url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
 ^https:\/\/mobile-thor\.api\.mgtv\.com\/v1\/vod\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv1.js
 
@@ -15,11 +15,14 @@ let body = $response.body;
 let obj = JSON.parse(body);
 
 // 根据 URL 进行不同的处理
-if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetUserInfo?_support') !== -1) {
-    obj.data.isVip = 1;
+if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetUserInfo.*') !== -1) {
+  if (obj.data) {
+   obj.data.isVip = 1;
     obj.data.firsttime = "2022-12-31 00:00:00";
     obj.data.vipExpiretime = 4102358400;
     obj.data.vipplatform = "mpp_svip";
+     }
+  if (obj.data.vipinfo) {
     obj.data.vipinfo.isvip = 1;
     obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00";
     obj.data.vipinfo.type = "2";
@@ -28,6 +31,7 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
     obj.data.vipinfo.ext.valid_pc_svip = 1;
     obj.data.vipinfo.growth.level = 9;
     obj.data.vipinfo.growth.score = 99999;
+    }
 }
 
 if ($request.url.indexOf('/v1/video/source') !== -1) {
