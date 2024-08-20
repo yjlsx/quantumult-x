@@ -15,7 +15,7 @@ let body = $response.body;
 let obj = JSON.parse(body);
 
 // 根据 URL 进行不同的处理
-if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetUserInfo.*') !== -1) {
+if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetUserInfo\?_support') !== -1) {
   if (obj.data) {
    obj.data.isVip = 1;
     obj.data.firsttime = "2022-12-31 00:00:00";
