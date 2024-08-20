@@ -49,7 +49,7 @@ function modifyResponse(response) {
         obj.data.user_type_name = "SVIP";
         obj.data.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; // 修改为 SVIP 图标
         obj.data.vip_id = "mpp_svip"; // 修改为 VIP ID
-        obj.data.vip_end_time = 4102358400; // 2099-12-31 的时间戳
+        obj.data.vip_end_time = 4102358400000; // 2099-12-31 的时间戳
         obj.data.score = 99999; // 修改为适当的积分
         obj.data.user_type = 2; // 修改为 VIP 用户类型
         }
@@ -88,7 +88,7 @@ function modifyResponse(response) {
 if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
   if (obj.data && obj.data.userinfo) {
     obj.data.vip_center_type = 2;
-    obj.data.vip_end_time = 4102444800; // 2099-12-31 的时间戳
+    obj.data.vip_end_time = 4102444800000; // 2099-12-31 的时间戳
     obj.data.user_type_name = "SVIP";
     obj.data.vip_end_time_desc = "VIP 特权有效至 2099-12-31";
     obj.data.userinfo.contract_pc_mobile_vip_end_date = "2099-12-31";
