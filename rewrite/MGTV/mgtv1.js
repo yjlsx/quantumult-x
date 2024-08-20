@@ -19,7 +19,7 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
   if (obj.data) {
    obj.data.isVip = 1;
     obj.data.firsttime = "2022-12-31 00:00:00";
-    obj.data.vipExpiretime = 4102358400;
+    obj.data.vipExpiretime = 4102358400000;
     obj.data.vipplatform = "mpp_svip";
      }
   if (obj.data.vipinfo) {
