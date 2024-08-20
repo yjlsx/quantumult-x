@@ -78,9 +78,9 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.indexOf('/GetUserInfo?_from=mgtv') !== -1) {
         if (obj.data && obj.data.vipinfo) {
           obj.data.isVip = 1;
-          obj.data.vipExpiretime = 4102358400;
+          obj.data.vipExpiretime = 4102358400000;
           obj.data.vipplatform = "mpp_svip";
-          obj.data.vipinfo.vipExpiretime = 4102358400;
+          obj.data.vipinfo.vipExpiretime = 4102358400000;
           obj.data.vipinfo.platform = "mpp_svip";
           obj.data.vipinfo.isvip = 1;
           obj.data.vipinfo.type = 2;
@@ -116,7 +116,7 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.data.contract_full_screen_vip_flag = 1;
         obj.data.contract_pc_mobile_flag = 1;
         obj.data.is_mpp_svip = 1;
-        obj.data.vip_end_days = 99999;
+        obj.data.vip_end_days = 0;
         obj.data.vip_id = "mpp_svip";       
         obj.data.growth = {
           score: 99999,

@@ -79,7 +79,7 @@ function modifyResponse(response) {
             obj.data.contract_pc_mobile_flag = 1;
             obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
             obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
-            obj.data.vip_end_days = 99999;
+            obj.data.vip_end_days = 0;
             obj.data.vip_id = "mpp_svip";
         }
  }
@@ -109,7 +109,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
     obj.data.userinfo.is_mpp_svip = 1;
     obj.data.userinfo.mpp_svip_end_date = "2099-12-31";
     obj.data.userinfo.vip_end_time_fs = "2099-12-31 00:00:00";
-    obj.data.userinfo.vip_end_days = 99999;
+    obj.data.userinfo.vip_end_days = 0;
     obj.data.userinfo.vip_end_time_svip = "2099-12-31 00:00:00";
     obj.data.userinfo.first_recharge_time = "2022-12-31 00:00:00";
     obj.data.userinfo.vip_id = "mpp_svip";
