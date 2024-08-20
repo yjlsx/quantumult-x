@@ -1,11 +1,12 @@
 /*
 [rewrite local]
 ^https:\/\/messpro\.hnwzinfo\.com\/api\/heartbeat\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/fufei.js
+^http:\/\/preview-disp\.titan\.mgtv\.com\/vod.do url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/fufei.js
 
 
 *
 [mitm]
-hostname = messpro.hnwzinfo.com
+hostname = messpro.hnwzinfo.com, preview-disp.titan.mgtv.com
 */
 
 
@@ -20,7 +21,11 @@ if ($request.url.indexOf('/api/heartbeat/v1') !== -1) {
    }
  }
 
-
+if ($request.url.indexOf('/vod.do') !== -1) {
+     obj.info = "ok";
+     obj.status = "ok";
+     obj.code = 200;
+}
 
 // 打印调试信息
 console.log(JSON.stringify(obj));
