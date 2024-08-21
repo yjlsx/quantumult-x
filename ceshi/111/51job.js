@@ -13,6 +13,8 @@
 ^https:\/\/appapi\.51jobapp\.com\/api\/2\/user\/get_resumeview_all\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/noauth\/popUp\/getCommonPopUp url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 
+
+
 *
 [mitm]
 hostname = cupid.51jobapp.com, cupid.51job.com, appapi.51jobapp.com
@@ -52,6 +54,15 @@ try {
                 obj.resultbody.maxViewedCount = 99999;
                 obj.resultbody.isVip = true;
             }
+
+            if (url.includes('/open/vip/interested/info')) {
+                obj.resultbody.maxViewedCount = 99999;
+            }
+
+            if (url.includes('/open/vip/resume-refresh/info')) {
+                obj.resultbody.maxRefreshCount = 99999;
+            }
+
 
             if (obj.resultbody.interestedInVO) {
                 obj.resultbody.interestedInVO.maxViewedCount = 99999;
