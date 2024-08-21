@@ -33,6 +33,7 @@ if ($request.url.indexOf('/coupe/api/v1/cdkey/activate') !== -1) {
 }
 
 if ($request.url.indexOf('/coupe/api/v1/room/roominfo') !== -1) {
+/*
     if (obj.data && obj.data.players && Array.isArray(obj.data.players)) {
         obj.data.players.forEach(player => {
             if (player.role === 0) {
@@ -40,6 +41,7 @@ if ($request.url.indexOf('/coupe/api/v1/room/roominfo') !== -1) {
             }
         });
     }
+*/
    obj.data.already_connected = 1;
 }
 
