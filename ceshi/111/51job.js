@@ -7,10 +7,13 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/equity\/equity\/duration url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/product\/product-list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51job\.com\/open\/product\/monthly-card\/rec url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51jobapp\.com\/open\/job-apply url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/appapi\.51jobapp\.com\/api\/payservice\/get_ios_service_info\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+
 
 *
 [mitm]
-hostname = cupid.51jobapp.com, cupid.51job.com
+hostname = cupid.51jobapp.com, cupid.51job.com, appapi.51jobapp.com
 
 */
 
@@ -28,18 +31,16 @@ try {
             obj.resultbody.vipInfo.effectiveDate = "2099-12-31T23:59:59Z";
             obj.resultbody.showManagementPage = 2;
         }
-    } else if (url.includes('/open/vip/competitiveness')) {
-        if (obj.resultbody) {
+    } else if (url.includes('/open/vip')) {
+        if (obj.resultbody.hasCompetitivenessService) {
             obj.resultbody.hasCompetitivenessService = true;
             obj.resultbody.remainCompetitivenessCount = true;
             obj.resultbody.isVip = true;
-        }
-    } else if (url.includes('/open/vip')) {
-        if (obj.resultbody) {
+         }
+        if (obj.resultbody.isVip) {
             obj.resultbody.isVip = true;
             obj.resultbody.effectiveDate = "2099-12-31T23:59:59Z";
         }
-    } else if (url.includes('/open/vip')) {
         if (obj.resultbody.interestedInVO) {
             obj.resultbody.interestedInVO.maxViewedCount = 99999;
         }
@@ -50,7 +51,6 @@ try {
         if (obj.resultbody.competitivenessVO) {
             obj.resultbody.competitivenessVO.maxViewedCount = 99999;
             obj.resultbody.competitivenessVO.isCompetitivenessAnalysis = true;
-            obj.resultbody.competitivenessVO.viewedCount = 99999;
         }
         if (obj.resultbody.resumeRefreshVO) {
             obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
@@ -58,6 +58,15 @@ try {
     }else if (url.includes('/open/equity/equity/duration')) {
         if (obj.resultbody) {
             obj.resultbody.opened = true;
+        }
+    }else if (url.includes('/api/payservice/get_ios_service_info.php')) {
+        if (obj.hadbuy) {
+            obj.hadbuy = "1";
+        }
+    }else if (url.includes('/open/job-apply')) {
+        if (obj.resultbody) {
+            obj.resultbody.buyService = true;
+            obj.resultbody.showOptimize = true;
         }
     }else if (url.includes('/open/product/monthly-card/rec')) {
       obj.resultbody.productDetailList.forEach(product => {
