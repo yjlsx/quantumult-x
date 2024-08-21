@@ -55,6 +55,10 @@ try {
                 obj.resultbody.isVip = true;
             }
 
+            if (url.includes('/open/vip/resume-refresh')) {
+                obj.resultbody.refreshResult = true;
+            }
+
             if (url.includes('/open/vip/interested/info')) {
                 obj.resultbody.maxViewedCount = 99999;
             }
