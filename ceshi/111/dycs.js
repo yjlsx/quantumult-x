@@ -45,6 +45,10 @@ if ($request.url.indexOf('/coupe/api/v1/room/roominfo') !== -1) {
    obj.data.already_connected = 1;
 }
 
+if ($request.url.indexOf('/coupe/api/v1/room/gamestart') !== -1) {
+    obj.err = 0;
+}
+
 if ($request.url.indexOf('/coupe/api/v1/room/roominfo') !== -1) {
     obj.err = 0;
 }
