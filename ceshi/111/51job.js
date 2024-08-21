@@ -41,9 +41,15 @@ try {
             obj.resultbody.isVip = true;
             obj.resultbody.effectiveDate = "2099-12-31T23:59:59Z";
               }
-            if (obj.resultbody.hasCompetitivenessService) {
+
+            if (url.includes('/open/vip/competitiveness')) {
                 obj.resultbody.hasCompetitivenessService = true;
                 obj.resultbody.remainCompetitivenessCount = true;
+                obj.resultbody.isVip = true;
+            }
+
+            if (url.includes('/open/vip/charge')) {
+                obj.resultbody.maxViewedCount = 99999;
                 obj.resultbody.isVip = true;
             }
 
