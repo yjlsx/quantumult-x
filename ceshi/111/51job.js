@@ -11,6 +11,7 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/job-apply url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/appapi\.51jobapp\.com\/api\/payservice\/get_ios_service_info\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/appapi\.51jobapp\.com\/api\/2\/user\/get_resumeview_all\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51jobapp\.com\/open\/noauth\/popUp\/getCommonPopUp url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 
 *
 [mitm]
@@ -92,6 +93,17 @@ try {
             obj.ispay = "1";
         }
     }
+
+
+    if (url.includes('/open/noauth/popUp/getCommonPopUp')) {
+        if (obj.resultbody) {
+        obj.resultbody.forEach(item => {
+            if (item.popUpVO) {
+                item.popUpVO.jumpUrl = ""; // 清空 jumpUrl
+               }
+          });
+      }
+   }
 
     // 修改 /open/product/monthly-card/rec 的响应体
     if (url.includes('/open/product/monthly-card/rec')) {
