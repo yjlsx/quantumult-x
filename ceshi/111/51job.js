@@ -39,10 +39,11 @@ try {
         if (obj.resultbody.effectiveDate) {
             obj.resultbody.isVip = true;
             obj.resultbody.effectiveDate = "2099-12-31T23:59:59Z";
-
+              }
             if (obj.resultbody.hasCompetitivenessService) {
                 obj.resultbody.hasCompetitivenessService = true;
                 obj.resultbody.remainCompetitivenessCount = true;
+                obj.resultbody.isVip = true;
             }
 
             if (obj.resultbody.interestedInVO) {
@@ -62,7 +63,6 @@ try {
             if (obj.resultbody.resumeRefreshVO) {
                 obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
             }
-        }
     }
 
     // 修改 /open/equity/equity/duration 的响应体
