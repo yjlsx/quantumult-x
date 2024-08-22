@@ -80,9 +80,9 @@ if (jsonpMatch && jsonpEndMatch) {
         if (obj.data && obj.data.vipinfo) {
           obj.data.isVip = 1;
           obj.data.vipExpiretime = 4102358400;
-          obj.data.vipplatform = "mpp_svip";
+          obj.data.vipplatform = "mpp";
           obj.data.vipinfo.vipExpiretime = 4102358400;
-          obj.data.vipinfo.platform = "mpp_svip";
+          obj.data.vipinfo.platform = "mpp";
           obj.data.vipinfo.isvip = 1;
           obj.data.vipinfo.type = 2;
           obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00";
