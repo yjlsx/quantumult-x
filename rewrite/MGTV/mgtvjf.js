@@ -191,8 +191,24 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.includes("https://as.mgtv.com/client/order/orderCreate")) {
         if (obj.data) {
             obj.status = "200"; // 修改状态码为成功
-            //obj.msg = ""; // 清除错误消息
-        }
+
+       if (obj.data && Object.keys(obj.data).length === 0) {
+        // 如果是空对象，修改 obj.data 为指定的新对象
+        obj.data = {
+            "pay_info": {
+                "pay_type": "result",
+                "settle_price": 6,
+                "pay_amount": 6,
+                "pay_msg": "6",
+                "pay_channel": "coin",
+                "charge_point": "com.hunantv.imgotv.iap.dandian6.ph001",
+                "pay_order_id": "2408221504653776719617",
+                "return_url": "https://club.mgtv.com/act/pay_return_page_2019.html?isHideNavBar=1&isFullScreen=1&boid=20240822150444747935839400127&appVersion=8.2.0&ticket=4515D4552A9E3699AE03CCBC14D2F089&productId=107735&activity_id=system&invoker=mobile-ios",
+                "channel_code": "1F3X7JPT014M"
+                      }
+                  };
+              } 
+
         let newBody = JSON.stringify(obj);
         $done({body: `${jsonpFunction}(${newBody})`});
     }
