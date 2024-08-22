@@ -20,7 +20,7 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
   if (obj.data) {
    obj.data.isVip = 1;
    obj.data.isValidated = 1;
-   obj.data.uuid = "1ef81729fb20a148a4cacc0c57a7ce16";
+   //obj.data.uuid = "1ef81729fb20a148a4cacc0c57a7ce16";
    obj.data.ticket = "233266506BF03F9FA01EDC6D4C9859AB";
     obj.data.firsttime = "2022-12-31 00:00:00";
     obj.data.vipExpiretime = 4102358400;
