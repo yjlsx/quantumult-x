@@ -63,6 +63,8 @@ if (url.includes('https://m.zhaopin.com/bapi/coupon/user/own?at=')) {
 
 if (url.includes('https://m.zhaopin.com/bapi/order/creation')) {
         obj.code = 200;
+        obj.data.expireTime = 4102354444101;
+        obj.data.realPrice = "0";
 }
 
 
