@@ -52,6 +52,7 @@ if (url.includes('https://m.zhaopin.com/bapi/coupon/user/own?at=')) {
         obj.data.list.push(newItem);
     obj.data.list.forEach(item => {
         item.userReceiveLimitCount = 99;
+        item.discountAmount = 90000;
         item.useConditionAmount = 0;
         item.expireTime = 4102354444101;
         item.desc = "满0元可用";
