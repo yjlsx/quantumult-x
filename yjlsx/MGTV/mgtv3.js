@@ -33,9 +33,9 @@ function modifyResponse(response) {
         if (obj.data) {
             obj.data.idx.vcoin = 99999;
             obj.data.idx.redeem = 99990;
-            obj.data.idx.admission = 2;  // 门票
-            obj.data.idx.award = 2; // 其他卡券
-            obj.data.idx.union_vip = 10;
+            obj.data.idx.admission = 0;  // 门票
+            obj.data.idx.award = 0; // 其他卡券
+            obj.data.idx.union_vip = 1;
         }
       }
 
@@ -70,7 +70,7 @@ function modifyResponse(response) {
             obj.data.music_vip = 1;
             obj.data.universal_full_screen_vip_end_date = "2099-12-31";
             obj.data.vip_end_time_pc = "2099-12-31 00:00:00";
-            obj.data.vip_name = "SVIP";
+            obj.data.vip_name = "会员用户";
             obj.data.vip_end_date = "2099-12-31";
             obj.data.mpp_svip_end_date = "2099-12-31";
             obj.data.bigscreen_vip_end_date = "2099-12-31";
@@ -83,7 +83,7 @@ function modifyResponse(response) {
             obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
             obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
             obj.data.vip_end_days = 9999;
-            obj.data.vip_id = "mpp_svip";
+            obj.data.vip_id = "1";
         }
  }
 
@@ -92,7 +92,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
   if (obj.data && obj.data.userinfo) {
     obj.data.vip_center_type = 2;
     obj.data.vip_end_time = "2099-12-31 00:00:00";
-    obj.data.nickname ="maplebougainvillea"；
+    obj.data.nickname ="maplebougainvillea";
     obj.data.user_type_name = "会员用户";
     obj.data.vip_end_time_desc = "2099年12月31日到期";
     obj.data.userinfo.contract_pc_mobile_vip_end_date = "2099-12-31";
@@ -178,7 +178,6 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
  if ($request.url.indexOf('/api/v1/act/vipcenter/themecard/get') !== -1) {
    obj.data.theme_card_info.img = "https://vipcdn.mgtv.com/act_op/20240607/da4560ba1f5b4f62a4ce148c81cdf172.png";
    obj.data.theme_card_info.button_color = "#9E70FA";
-
 }
 
     // 处理 '/client/user/user_vip_coin' 响应
