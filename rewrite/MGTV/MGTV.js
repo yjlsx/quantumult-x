@@ -37,6 +37,7 @@ https://pad.api.mgtv.com/v8/video/getSource url script-request-header https://ra
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/viptype url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/nuc\.api\.mgtv\.com\/GetUserInfo\?_from=mgtv_cashier url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin\?version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/(?:app\/vip\/benefits\/award\/recv|act\/vipbenefits\/detail) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/as\.mgtv\.com\/client\/store\/v4\/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtvjf.js
 
 [mitm] 

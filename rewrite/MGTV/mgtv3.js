@@ -8,6 +8,8 @@
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/act\/vipcenter\/themecard\/(list|set|get) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/as\.mgtv\.com\/client\/user\/user_vip_coin\?version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
 ^https:\/\/homepage\.bz\.mgtv\.com\/v3\/user\/userInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/(?:app\/vip\/benefits\/award\/recv|act\/vipbenefits\/detail) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/MGTV/mgtv3.js
+
 
 *
 [mitm]
@@ -176,7 +178,19 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
         }
  }
 
+  //领取福利
+ if ($request.url.indexOf('/api/v1/app/vip/benefits/award/recv') !== -1) {
+            obj.errno = 0;
+            obj.ret = 0;
+}
 
+
+
+ if ($request.url.indexOf('/api/v1/act/vipbenefits/detail') !== -1) {
+        if (obj.data) {
+            obj.data.out_stock = 1;
+        }
+}
 
 
       // 生成修改后的 JSON 响应体
