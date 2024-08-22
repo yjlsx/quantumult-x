@@ -72,6 +72,11 @@ if (url.includes('https://m.zhaopin.com/bapi/order/details')) {
         obj.code = 200;
         obj.data.expireTime = 4102354444101;
         obj.data.realPrice = "0";
+        obj.data.couponCutoff = "900";
+        obj.data.detailsCutoffTotal = obj.data.originPriceTotal;
+        obj.data.showProductPrivilegeEntrance = true;
+        obj.data.orderDetailProductDTO.productRealPrice = "0";
+        obj.data.salaryIncreaseCoinCutoff = "900";
 }
 
 body = JSON.stringify(obj);
