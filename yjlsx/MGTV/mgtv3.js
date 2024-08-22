@@ -92,7 +92,6 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
   if (obj.data && obj.data.userinfo) {
     obj.data.vip_center_type = 2;
     obj.data.vip_end_time = "2099-12-31 00:00:00";
-    obj.data.nickname ="maplebougainvillea";
     obj.data.user_type_name = "会员用户";
     obj.data.vip_end_time_desc = "2099年12月31日到期";
     obj.data.userinfo.contract_pc_mobile_vip_end_date = "2099-12-31";
