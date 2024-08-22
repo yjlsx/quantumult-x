@@ -4,6 +4,7 @@
 ^https:\/\/m\.zhaopin\.com\/bapi\/coupon\/user\/own\?at= url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/order\/creation url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/order\/details url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
+^https:\/\/m\.zhaopin\.com\/bapi\/order\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 
 
 *
@@ -78,7 +79,14 @@ if (url.includes('https://m.zhaopin.com/bapi/order/details')) {
         obj.data.orderDetailProductDTO.productRealPrice = "0";
         obj.data.salaryIncreaseCoinCutoff = "900";
         obj.data.showProxyDeliveryEntrance = true;
+}
 
+if (url.includes('https://m.zhaopin.com/bapi/order/list')) {
+     if (obj && obj.data && obj.data.orderListDTOList) {
+  obj.data.orderListDTOList.forEach(order => {
+    order.realPrice = "0";
+         });
+     }
 }
 
 body = JSON.stringify(obj);
