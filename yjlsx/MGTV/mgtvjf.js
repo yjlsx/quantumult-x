@@ -100,9 +100,9 @@ if (jsonpMatch && jsonpEndMatch) {
         if (obj.data && obj.data.vipinfo) {
           obj.data.isVip = 1;
           obj.data.vipExpiretime = 4102358400;
-          obj.data.vipplatform = "mpp_svip";
+          obj.data.vipplatform = "mpp";
           obj.data.vipinfo.vipExpiretime = 4102358400;
-          obj.data.vipinfo.platform = "mpp_svip";
+          obj.data.vipinfo.platform = "mpp";
           obj.data.vipinfo.isvip = 1;
           obj.data.vipinfo.type = 2;
           obj.data.vipinfo.vip_end_time = "2099-12-31 00:00:00";
@@ -119,7 +119,7 @@ if (jsonpMatch && jsonpEndMatch) {
     // 处理 '/client/user/user_info' 响应
    else if ($request.url.indexOf('/client/user/user_info?invoker') !== -1 || $request.url.indexOf('/client/user/user_info?cxid') !== -1) {
        if (obj.data) {
-        obj.data.vip_end_time_pc = 4102358400000; // 2099-12-31 的时间戳
+        obj.data.vip_end_time_pc = "2099-12-31 00:00:00";
         obj.data.vip_end_date = "2099-12-31";
         obj.data.mpp_svip_end_date = "2099-12-31";
         obj.data.bigscreen_vip_end_date = "2099-12-31";
@@ -129,7 +129,7 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.data.universal_full_screen_vip_end_date = "2099-12-31";
         obj.data.vip_end_time_svip = "2099-12-31 00:00:00";
         obj.data.vip_end_time_fs = "2099-12-31 00:00:00";
-        obj.data.vip_name = "SVIP";
+        obj.data.vip_name = "会员用户";
         obj.data.first_recharge_time = "2022-12-31 00:00:00";
         obj.data.music_vip_end_time = "2099-12-31 00:00:00";
         obj.data.music_vip = 1;
@@ -138,7 +138,7 @@ if (jsonpMatch && jsonpEndMatch) {
         obj.data.contract_pc_mobile_flag = 1;
         obj.data.is_mpp_svip = 1;
         obj.data.vip_end_days = 9999;
-        obj.data.vip_id = "mpp_svip";       
+        obj.data.vip_id = "1";       
         obj.data.growth = {
           score: 99999,
           level: 9,
@@ -156,7 +156,7 @@ if (jsonpMatch && jsonpEndMatch) {
     else if ($request.url.includes('/GetUserInfo')) {
         if (obj.data) {
             obj.data.isVip = 1; // 设置为 VIP
-            obj.data.vipExpiretime = 4102358400000; // 设置过期时间为 2099-12-31
+            obj.data.vipExpiretime = 4102358400; // 设置过期时间为 2099-12-31
             obj.data.vipinfo.growth.score = 99999; // 设置积分
             obj.data.vipinfo.growth.level = 9; // 设置等级
         }

@@ -41,7 +41,6 @@ function modifyResponse(response) {
 
       if ($request.url.indexOf('/api/v1/app/vip/center/user/info') !== -1) {
         if (obj.data.vipinfo) {
-        obj.data.nickname = "maplebougainvillea";
         obj.data.vip_center_type = 2;
         obj.data.vip_end_time_desc = "2099年12月31日到期";
         obj.data.level = 9; 
