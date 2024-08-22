@@ -40,7 +40,7 @@ try {
             "userReceiveCouponCode": "df32394141784fce89718b451552b337",
             "useLimitEndTime": 1759161600000,
             "desc": "满388元可用",
-            "expireTime": 4202354444101,
+            "expireTime": 4102354444101,
             "marketingText": null,
             "couponProductInfoDataList": null,
             "userReceiveStatus": 1
@@ -48,7 +48,10 @@ try {
         
         obj.data.list.push(newItem);
     }
-} 
+} catch (e) {
+    console.log("Error while modifying response: " + e);
+}
+
 
 
 
