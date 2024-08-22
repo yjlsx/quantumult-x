@@ -192,7 +192,6 @@ if (jsonpMatch && jsonpEndMatch) {
         if (obj.data) {
             obj.status = "200"; // 修改状态码为成功
 
-       if (obj.data && Object.keys(obj.data).length === 0) {
         // 如果是空对象，修改 obj.data 为指定的新对象
         obj.data = {
             "pay_info": {
@@ -207,7 +206,6 @@ if (jsonpMatch && jsonpEndMatch) {
                 "channel_code": "1F3X7JPT014M"
                       }
                   };
-              } 
 
         let newBody = JSON.stringify(obj);
         $done({body: `${jsonpFunction}(${newBody})`});
