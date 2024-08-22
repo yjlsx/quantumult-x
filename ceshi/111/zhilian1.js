@@ -12,7 +12,10 @@ hostname = m.zhaopin.com, ask.zhaopin.com
 let body = $response.body;
 let obj = JSON.parse(body);
 
-try {
+// 获取请求 URL
+let url = $request.url;
+
+if (url.includes('https://m.zhaopin.com/bapi/coupon/user/own?at=')) {
     if (obj.data && obj.data.list) {
         let newItem = {
             "couponExtendInfo": null,
@@ -48,9 +51,7 @@ try {
         
         obj.data.list.push(newItem);
     }
-} catch (e) {
-    console.log("Error while modifying response: " + e);
-}
+} 
 
 
 
