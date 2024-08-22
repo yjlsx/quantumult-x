@@ -132,7 +132,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
   }
 }
 
- if ($request.url.indexOf('/api/v1/app/vip/center/theme/card') !== -1) {
+ if ($request.url.indexOf('/vip/center/theme/card') !== -1) {
         if (obj.data) {
             obj.data.theme_card.pos = "9";
             obj.data.theme_card.card_style = 1;
@@ -145,7 +145,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
         }
  }
 
- if ($request.url.indexOf('/api/v1/act/vipcenter/themecard/list') !== -1) {
+ if ($request.url.indexOf('/vipcenter/themecard/list') !== -1) {
         if (obj.data && obj.data.list) {
           // 遍历 list 数组，修改每个 card_type
           obj.data.list.forEach(card => {
@@ -156,7 +156,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
      }
  }
 
- if ($request.url.indexOf('/api/v1/act/vipcenter/themecard/set') !== -1) {
+ if ($request.url.indexOf('/vipcenter/themecard/set') !== -1) {
         if (obj.errno) {
          obj.errno = 0;
          obj.ret = 0;
@@ -174,7 +174,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
      }
 }
 
- if ($request.url.indexOf('/api/v1/act/vipcenter/themecard/get') !== -1) {
+ if ($request.url.indexOf('/vipcenter/themecard/get') !== -1) {
    obj.data.theme_card_info.img = "https://vipcdn.mgtv.com/act_op/20240607/da4560ba1f5b4f62a4ce148c81cdf172.png";
    obj.data.theme_card_info.button_color = "#9E70FA";
 }
