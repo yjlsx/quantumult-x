@@ -77,6 +77,8 @@ if (url.includes('https://m.zhaopin.com/bapi/order/details')) {
         obj.data.showProductPrivilegeEntrance = true;
         obj.data.orderDetailProductDTO.productRealPrice = "0";
         obj.data.salaryIncreaseCoinCutoff = "900";
+        obj.data.showProxyDeliveryEntrance = true;
+
 }
 
 body = JSON.stringify(obj);
