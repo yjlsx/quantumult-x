@@ -39,7 +39,7 @@ if (url.includes('https://m.zhaopin.com/bapi/coupon/user/own?at=')) {
             "shareCode": "dd1938af24204b61b14443930be7e148",
             "jumpUrl": null,
             "surplusCount": 7074,
-            "useConditionAmount": 3880,
+            "useConditionAmount": 0,
             "userReceiveCouponCode": "df32394141784fce89718b451552b337",
             "useLimitEndTime": 1759161600000,
             "desc": "满388元可用",
