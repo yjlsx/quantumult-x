@@ -20,6 +20,7 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
   if (obj.data) {
    obj.data.isVip = 1;
    obj.data.isValidated = 1;
+   obj.data.uuid = "1ef81729fb20a148a4cacc0c57a7ce16";
    obj.data.ticket = "233266506BF03F9FA01EDC6D4C9859AB";
     obj.data.firsttime = "2022-12-31 00:00:00";
     obj.data.vipExpiretime = 4102358400;
@@ -63,7 +64,7 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
         if (components) { // 检查是否为 undefined 或 null
             components.forEach(component => {
                 if (component.text !== undefined) {
-                    component.text = "尊敬的SVIP会员,您正在观看SVIP抢先看内容";
+                    component.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
                 }
             });
         }
@@ -85,7 +86,7 @@ if ($request.url.indexOf('/v1/video/source') !== -1) {
             });
         }
     });
-        obj.data.authInfo.interests_info.play_tips.text = "尊敬的SVIP会员,您正在观看SVIP抢先看内容";
+        obj.data.authInfo.interests_info.play_tips.text = "尊敬的SVIP会员,您正在观看SVIP尊享内容";
         obj.data.authInfo.interests_info.play_tips.icon = "https://vipcdn.mgtv.com/assets/icon/svip.png"; 
 }
 
