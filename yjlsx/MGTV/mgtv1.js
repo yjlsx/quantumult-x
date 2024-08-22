@@ -100,7 +100,7 @@ if (!isNaN(ftime)) {  // 确保转换后的值是有效的数字
 
     // 更新playPreviewType和isPreview
     obj.data.preview.playPreviewType = 0;
-    obj.data.preview.isPreview = 0;
+    obj.data.preview.isPreview = 1;
     obj.data.info.mediaPrimaryType = 2;
     obj.data.info.mediaType = 1;
     obj.data.info.video.vipProtect = 0;

@@ -9,7 +9,6 @@
 ^https:\/\/as\.mgtv\.com\/client\/user\/(user_vip_coin\?version|renew_records) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/MGTV/mgtv3.js
 ^https:\/\/homepage\.bz\.mgtv\.com\/v3\/user\/userInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/(?:app\/vip\/benefits\/award\/recv|act\/vipbenefits\/detail) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/MGTV/mgtv3.js
-^https?:\/\/dc\.bz\.mgtv\.com\/dynamic\/v1\/channel\/index\/.*?\/vipSdkFlag=1$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/MGTV/mgtv3.js
 
 
 *
@@ -207,42 +206,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
         }
 }
 
- if ($request.url.indexOf('/dynamic/v1/channel/index') !== -1) {
-if (obj.data && obj.data.length > 0) {
-    for (let i = 0; i < obj.data.length; i++) {
-        if (obj.data[i].DSLList && obj.data[i].DSLList.length > 0) {
-            for (let j = 0; j < obj.data[i].DSLList.length; j++) {
-                if (obj.data[i].DSLList[j].data) {
-                    let data = obj.data[i].DSLList[j].data;
-               
-                    if (data.hasOwnProperty('vip_icon')) {
-                        data.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; 
-                        data.card_text_color = "#7A2F77";
-                        data.button_text_color = "#FFFFFF"; 
-                        data.button_background_color1 = "#9E70FA";
-                        data.card_style = 1;
-                    }
-                    if (data.hasOwnProperty('vip_center_type')) {
-                        data.vip_center_type = 2;
-                    }
-                    if (data.hasOwnProperty('score')) {
-                        data.score = 99999;
-                    }
-                    if (data.hasOwnProperty('theme_card_img')) {
-                        data.theme_card_img = "https://vipcdn.mgtv.com/act_op/20240416/9f83f5041eab464798bfe0328863cb79.jpg";
-                    }
-                    if (data.hasOwnProperty('level')) {
-                        data.level = 9;
-                    }
-                    if (data.hasOwnProperty('vip_center_type')) {
-                        data.vip_center_type = 2;
-                      }
-                 }
-              }
-           }
-       }
-   }
-}
+
 
 
       // 生成修改后的 JSON 响应体
