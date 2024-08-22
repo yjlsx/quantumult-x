@@ -140,7 +140,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
             obj.data.theme_card.button_background_color1 = "#9E70FA";
             obj.data.theme_card.button_background_color2 = "#D021E0";
             obj.data.theme_card.button_text_color = "#FFFFFF";
-            obj.data.theme_card.img = "https://vipcdn.mgtv.com/act_op/20240607/da4560ba1f5b4f62a4ce148c81cdf172.png";
+            //obj.data.theme_card.img = "https://vipcdn.mgtv.com/act_op/20240607/da4560ba1f5b4f62a4ce148c81cdf172.png";
         }
  }
 
@@ -174,7 +174,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
 }
 
  if ($request.url.indexOf('/api/v1/act/vipcenter/themecard/get') !== -1) {
-   obj.data.theme_card_info.img = "https://vipcdn.mgtv.com/act_op/20240607/da4560ba1f5b4f62a4ce148c81cdf172.png";
+   //obj.data.theme_card_info.img = "https://vipcdn.mgtv.com/act_op/20240607/da4560ba1f5b4f62a4ce148c81cdf172.png";
    obj.data.theme_card_info.button_color = "#9E70FA";
 }
 
