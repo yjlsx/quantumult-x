@@ -2,6 +2,7 @@
 [rewrite_local]
 # 统一处理脚本
 ^https:\/\/m\.zhaopin\.com\/bapi\/coupon\/user\/own\?at= url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
+^https:\/\/m\.zhaopin\.com\/bapi\/order\/creation url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 
 
 *
@@ -54,7 +55,9 @@ if (url.includes('https://m.zhaopin.com/bapi/coupon/user/own?at=')) {
 } 
 
 
-
+if (url.includes('https://m.zhaopin.com/bapi/order/creation')) {
+        obj.code = 200;
+}
 
 
 body = JSON.stringify(obj);
