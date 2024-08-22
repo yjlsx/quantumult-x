@@ -72,6 +72,8 @@ if (url.includes('https://m.zhaopin.com/bapi/order/creation')) {
 
 if (url.includes('https://m.zhaopin.com/bapi/order/details')) {
         obj.code = 200;
+        obj.data.orderStatus = "PAID"; 
+        obj.data.orderStatusDesc = "已付款"; 
         obj.data.expireTime = 4102354444101;
         obj.data.realPrice = "0";
         obj.data.couponCutoff = "900";
