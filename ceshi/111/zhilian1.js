@@ -35,7 +35,7 @@ if (url.includes('https://m.zhaopin.com/bapi/coupon/user/own?at=')) {
             "showName": "加速求职专属券",
             "couponStatus": 1,
             "useLimitTime": 259200000,
-            "userReceiveLimitCount": 2, //领取限制原-1
+            "userReceiveLimitCount": 99, //领取限制原-1
             "couponType": 2,
             "shareCode": "dd1938af24204b61b14443930be7e148",
             "jumpUrl": null,
@@ -48,9 +48,14 @@ if (url.includes('https://m.zhaopin.com/bapi/coupon/user/own?at=')) {
             "marketingText": null,
             "couponProductInfoDataList": null,
             "userReceiveStatus": 1
-        };
-        
+        };     
         obj.data.list.push(newItem);
+    obj.data.list.forEach(item => {
+        item.userReceiveLimitCount = 99;
+        item.useConditionAmount = 0;
+        item.expireTime = 4102354444101;
+        item.desc = "满0元可用";
+    });
     }
 } 
 
