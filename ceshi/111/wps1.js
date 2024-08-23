@@ -9,9 +9,10 @@
 [rewrite_local]
 ^https?:\/\/(vas|account|drive)\.wps\.cn\/(query\/api\/.+\/list_purchase_info|api\/(v\d\/spaces|users\/.+\/overview)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 ^https:\/\/drive\.wps\.cn\/api\/v3\/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
-^https:\/\/vip\.wps\.cn\/v2\/vip_center\/my\/privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
+^https:\/\/vip\.wps\.cn\/(v2\/vip_center\/my\/privilege|partner\/invoke\/usable) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 ^https:\/\/tiance\.wps\.cn\/dce\/exec\/api\/market\/activity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 ^https:\/\/account\.wps\.cn\/api\/v3\/mine\/vips url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
+
 [mitm]
 hostname = *.wps.cn
 
@@ -25,8 +26,8 @@ const vip3 ='/v3/userinfo';
 const vips ='/mine/vips';
 const pri ='/my/privilege';
 const flkj = '/spaces';
-const act = '/activity';
-
+const act = '/market/activity';
+const able = '/partner\/invoke\/usable';
 
 if ($request.url.indexOf(vip1) != -1){
 obj.data["merchandises"] = [
@@ -267,11 +268,18 @@ if ($request.url.indexOf(pri) != -1){
 }
 
 if ($request.url.indexOf(act) != -1){
-  if(obj.data[0].config&&obj.data[0].package_id){
-  obj.data[0].id = 4835;
-  obj.data[0].channel_code = "SCDBT3001";
-  obj.data[0].package_id = 101945;
-obj.data[0].config = {
+  if(obj.data){
+  obj.data = [
+     {
+      "id" : 4835,
+      "channel_code" : "SCDBT3001",
+      "package_id" : 101945,
+      "listen_change" : [
+        "sku",
+        "privilege"
+      ],
+      "mk_key" : "2i7EGKpF0NvHdLnrTELWQ2IDISO",
+      "config" : {
         "material" : [
           {
             "id" : 14213,
@@ -429,11 +437,17 @@ obj.data[0].config = {
               ]
             },
             "style_id" : 671
-          }
-
-        ]
-    };
-
+                        }
+                    ]
+               },
+      "ab_group" : "",
+      "ab_type" : 0,
+      "max_age_sec" : 7200,
+      "end_time" : 4092599349,
+      "name" : "【升级】ios切换面板会员卡片AI&大会员不续费-活动",
+      "system_id" : "mk"
+            }
+         ];
   }
 }
 
@@ -483,6 +497,12 @@ if ($request.url.indexOf(vips) != -1){
 
 if ($request.url.indexOf(flkj) != -1){
   obj["total"] = 1100585369600;
+}
+
+if ($request.url.indexOf(able) != -1){
+  obj["times"] = 9999;
+  obj["expire_time"] = 4092599349;
+  obj["result"] = "ok";
 }
 
 $done({body: JSON.stringify(obj)});
