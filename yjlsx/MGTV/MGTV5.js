@@ -13,9 +13,9 @@ const url = $request.url;
 let urlParams = new URLSearchParams(url.split('?')[1]);
 
 // 更新指定的参数值
-urlParams.set('suuid', 'a88e1d1553248a0337f97e52f4ae7546');
-urlParams.set('seqId', '05768a1987f60bd0dffba3679cb940e6'); 
-//urlParams.set('ticket', '233266506BF03F9FA01EDC6D4C9859AB');
+//urlParams.set('suuid', '70def149b2823ddb7e7ba3c2db58ce4d');
+//urlParams.set('seqId', '5111e39fb40dc93e25cd59c9137ac589'); 
+urlParams.set('ticket', 'AF1FEA58193736728B7146096D5E786A');
 
 // 重新构建 URL
 let baseUrl = url.split('?')[0];

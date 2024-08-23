@@ -9,6 +9,7 @@
 ^https:\/\/as\.mgtv\.com\/client\/user\/(user_vip_coin\?version|renew_records) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/MGTV/mgtv3.js
 ^https:\/\/homepage\.bz\.mgtv\.com\/v3\/user\/userInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/MGTV/mgtv3.js
 ^https:\/\/vipact3\.api\.mgtv\.com\/api\/v1\/(?:app\/vip\/benefits\/award\/recv|act\/vipbenefits\/detail) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/MGTV/mgtv3.js
+^https?:\/\/dc\.bz\.mgtv\.com\/dynamic\/v1\/channel\/index\/.*?\/vipSdkFlag=1$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/MGTV/mgtv3.js
 
 
 *
@@ -206,7 +207,62 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
         }
 }
 
+ if ($request.url.indexOf('/dynamic/v1/channel/index') !== -1) {
+     if (obj.data && obj.data.length > 0) {
+    for (let i = 0; i < obj.data.length; i++) {
+        if (obj.data[i].DSLList && obj.data[i].DSLList.length > 0) {
+            for (let j = 0; j < obj.data[i].DSLList.length; j++) {
+                if (obj.data[i].DSLList[j].data) {
+                    let data = obj.data[i].DSLList[j].data;
+   
 
+            obj.data.theme_card.card_style = 1;
+            obj.data.theme_card.card_text_color = "#7A2F77";
+            obj.data.theme_card.default_card_key = "8";
+            obj.data.theme_card.
+            obj.data.theme_card.
+            obj.data.theme_card.button_text_color = "#FFFFFF";
+            obj.data.
+              
+                    if (data.hasOwnProperty('score')) {
+                        data.score = 99999;
+                    }
+                    if (data.hasOwnProperty('level')) {
+                        data.level = 9;
+                    }
+                    if (data.hasOwnProperty('vip_center_type')) {
+                        data.vip_center_type = 2;
+                        data.button_background_color2 = "#f7c472";
+                        data.theme_card.img = "https://vipcdn.mgtv.com/act_op/20240416/9f83f5041eab464798bfe0328863cb79.jpg";
+                        data.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; 
+                        data.vip_center_type = 2;
+                        data.card_type = 1;
+                        data.button_background_color1 = "#ffe0a2";
+                        data.button_text_color = "#804919";
+                        data.vip_end_time_desc = "2099年12月31日到期";
+                        data.vip_id = 3;
+                        }
+                      }
+                   }
+                }
+            }
+        }
+     obj.data = obj.data.map(item => {
+  if (item.DSLList) {
+    item.DSLList = item.DSLList.map(dslItem => {
+      if (dslItem.DSLID === "523") {
+        dslItem.data.items = dslItem.data.items.map(subItem => {
+          subItem.moduleTitle = "您有专属会员权益待领取";
+          return subItem;
+           });
+        }
+         return dslItem;
+       });
+      }
+     return item;
+      });
+
+}
 
 
       // 生成修改后的 JSON 响应体
