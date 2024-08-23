@@ -27,7 +27,7 @@ if (url.includes('/v3.php/api/ios/mobile/v1/coupon')) {
   if (obj.result && obj.msg) {
     obj.result = "ok";
     obj.code = 0;
-    obj.msg = "使用优惠券成功";
+    obj.msg = "成功";
   }
 } else if (url.includes('/pay_config/v1/config/member')) {
   if (obj.data && obj.data.type) {
@@ -40,8 +40,6 @@ if (url.includes('/v3.php/api/ios/mobile/v1/coupon')) {
 } else if (url.includes('/api/v3/islogin')) { // 替换为实际的路径
   if (obj.companyid !== undefined) {
     obj.is_company_account = false;
-    obj.companyid = 999999; // 填入正确的值
-    obj.current_companyid = 999999; // 填入正确的值
   }
 } else if (url.includes('/api/pay/notify/couponpay')) {
   if (obj.result && obj.msg) {
