@@ -1,7 +1,7 @@
 /*
 [rewrite_local]
 # 统一处理脚本
-^https:\/\/m\.zhaopin\.com\/bapi\/products url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian.js
+
 ^https:\/\/m\.zhaopin\.com\/bapi\/wap\/gray\/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/template\/user-vip-status url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/raise\/coin\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian.js
@@ -81,18 +81,6 @@ hostname = m.zhaopin.com, ask.zhaopin.com
        } else if (url.includes("/bapi/vip/buy/gray")) {
             if (obj.data) {
                 obj.data = true;
-            }
-       }  else if (url.includes("/bapi/products")) {
-            if (obj.data) {
-                obj.data.forEach(product => {
-    product.productRealPrice = "0";
-    product.productOriginPrice = "0";
-    
-    product.productActionDTOList.forEach(action => {
-        action.discountAmount = "0";
-    });
-});
-
             }
        } 
 
