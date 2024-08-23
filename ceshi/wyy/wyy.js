@@ -59,7 +59,7 @@
 ^https:\/\/interface\.music\.163\.com\/(api\/batch|weapi\/batch\?csrf_token=[0-9a-fA-F]+)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 #补充
 ^https:\/\/interface\.music\.163\.com\/(api\/nuser\/account\/get|store\/api\/coin\/user|api\/ordering\/web\/digital) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
-^https:\/\/music\.163\.com\/weapi\/(cashier\/service\/asset\/account\/ichange|nuser\/account\/get|music-vip-membership\/front\/vip\/info) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+^https:\/\/music\.163\.com\/weapi\/(cashier\/service\/asset\/account\/ichange|nuser\/account\/get|music-vip-membership\/front\/vip\/info|ordering\/web\/status|single\/salepage\/detail) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 
 
 
@@ -302,9 +302,14 @@ if ($request.url.indexOf('/weapi/cashier/service/asset/account/ichange') !== -1 
       }
 }
 
-if ($request.url.indexOf('/api/ordering/web/digital') !== -1) {
+if ($request.url.indexOf('/api/ordering/web/digital') !== -1 || $request.url.indexOf('/ordering/web/status') !== -1) {
     obj.code = 200;
     obj.msg = "购买成功";
+}
+
+if ($request.url.indexOf('/single/salepage/detail') !== -1) {
+    obj.data.unlockModuleConfig.title = obj.data.name;
+    obj.data.unlockModuleConfig.songId = obj.data.songId;
 }
 
 if ($request.url.indexOf('/music-vip-membership/front/vip/info') !== -1) {
