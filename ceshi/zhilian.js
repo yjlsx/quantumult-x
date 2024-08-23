@@ -9,7 +9,7 @@
 ^https://m\.zhaopin\.com/bapi/resume/top/order/info/v3 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https://m\.zhaopin\.com/bapi/vip/privilege/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/vip\/buy\/gray url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
-//^https://m\.zhaopin\.com/business/vip/v3 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilianvip.js
+
 
 *
 [mitm]
