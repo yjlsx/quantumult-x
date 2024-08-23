@@ -11,7 +11,7 @@
 ^https:\/\/drive\.wps\.cn\/api\/v3\/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 ^https:\/\/vip\.wps\.cn\/(v2\/vip_center\/my\/privilege|partner\/invoke\/usable) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 ^https:\/\/tiance\.wps\.cn\/dce\/exec\/api\/market\/activity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
-^https:\/\/account\.wps\.cn\/api\/v3\/mine\/vips url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
+^https:\/\/account\.wps\.cn\/(api\/v3\/mine\/vips|p\/auth\/check) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/wps1.js
 
 [mitm]
 hostname = *.wps.cn
@@ -27,7 +27,8 @@ const vips ='/mine/vips';
 const pri ='/my/privilege';
 const flkj = '/spaces';
 const act = '/market/activity';
-const able = '/partner\/invoke\/usable';
+const able = '/partner/invoke/usable';
+const check = '/p/auth/check';
 
 if ($request.url.indexOf(vip1) != -1){
 obj.data["merchandises"] = [
@@ -504,5 +505,14 @@ if ($request.url.indexOf(able) != -1){
   obj["expire_time"] = 4092599349;
   obj["result"] = "ok";
 }
+
+if ($request.url.indexOf(check) != -1){
+  obj.is_plus = true;
+  obj.role = [
+          "user"
+            ] ;
+}
+
+
 
 $done({body: JSON.stringify(obj)});
