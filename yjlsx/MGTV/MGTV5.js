@@ -12,7 +12,7 @@ const url = $request.url;
 // 解析 URL 参数
 let urlParams = new URLSearchParams(url.split('?')[1]);
 
-// 更新指定的参数值
+// 更 新指定的参数值
 //urlParams.set('suuid', '70def149b2823ddb7e7ba3c2db58ce4d');
 //urlParams.set('seqId', '5111e39fb40dc93e25cd59c9137ac589'); 
 urlParams.set('ticket', 'AF1FEA58193736728B7146096D5E786A');

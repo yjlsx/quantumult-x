@@ -134,10 +134,11 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
 
  if ($request.url.indexOf('/vip/center/theme/card') !== -1) {
         if (obj.data) {
-            obj.data.theme_card.pos = "9";
-            obj.data.theme_card.card_style = 1;
+            obj.data.theme_card.expire_time = "2099-12-31 00:00:00";
+            obj.data.theme_card.pos = "1";  //9
+            obj.data.theme_card.card_style = 2; //1
             obj.data.theme_card.card_text_color = "#7A2F77";
-            obj.data.theme_card.default_card_key = "8";
+           // obj.data.theme_card.default_card_key = "8";
             obj.data.theme_card.button_background_color1 = "#9E70FA";
             obj.data.theme_card.button_background_color2 = "#D021E0";
             obj.data.theme_card.button_text_color = "#FFFFFF";
