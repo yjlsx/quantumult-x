@@ -58,7 +58,7 @@
 ^https?:\/\/interface\.music\.163\.com\/(weapi\/batch\?csrf_token|api/batch)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/interface\.music\.163\.com\/(api\/batch|weapi\/batch\?csrf_token=[0-9a-fA-F]+)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 #补充
-^https:\/\/interface\.music\.163\.com\/api\/nuser\/account\/get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+^https:\/\/interface\.music\.163\.com\/(api\/nuser\/account\/get|store\/api\/coin\/user) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/music\.163\.com\/weapi\/(cashier\/service\/asset\/account\/ichange|nuser\/account\/get|music-vip-membership\/front\/vip\/info) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 
 
@@ -295,9 +295,11 @@ if ($request.url.indexOf('/api/nuser/account/get') !== -1) {
     obj.profile.vipType = 15;
 }
 
-if ($request.url.indexOf('/weapi/cashier/service/asset/account/ichange') !== -1) {
+if ($request.url.indexOf('/weapi/cashier/service/asset/account/ichange') !== -1 || $request.url.indexOf('/store/api/coin/user') !== -1) {
     obj.data.balance = "999.00";
+   if (obj.coin) {
     obj.coin = "999.00";
+      }
 }
 
 
