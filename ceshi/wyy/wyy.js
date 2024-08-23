@@ -58,7 +58,8 @@
 ^https?:\/\/interface\.music\.163\.com\/(weapi\/batch\?csrf_token|api/batch)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 ^https:\/\/interface\.music\.163\.com\/(api\/batch|weapi\/batch\?csrf_token=[0-9a-fA-F]+)$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 #补充
-^https:\/\/interface.music\.163\.com\/api\/nuser\/account\/get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+^https:\/\/interface\.music\.163\.com\/api\/nuser\/account\/get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
+^https:\/\/music\.163\.com\/weapi\/(cashier\/service\/asset\/account\/ichange|nuser\/account\/get|music-vip-membership\/front\/vip\/info) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/wyy/wyy.js
 
 
 
@@ -292,6 +293,32 @@ if ($request.url.indexOf('/api/nuser/account/get') !== -1) {
     obj.account.vipType = 15;
     obj.account.status = 1;
     obj.profile.vipType = 15;
+}
+
+if ($request.url.indexOf('/weapi/cashier/service/asset/account/ichange') !== -1) {
+    obj.data.balance = "999.00";
+    obj.coin = "999.00";
+}
+
+
+if ($request.url.indexOf('/music-vip-membership/front/vip/info') !== -1) {
+    obj.data.redVipAnnualCount = 1;
+    obj.data.redVipLevel = 7;
+    obj.data.musicPackage.isSign = true;
+    obj.data.musicPackage.vipLevel = 7;
+    obj.data.musicPackage.vipCode = 220;
+    obj.data.musicPackage.expireTime = 4102358400000;
+    obj.data.redVipLevelIcon = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"; //vip7静态
+    obj.data.associator.dynamicIconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32141292744/0634/5100/c09f/eeca8bd06770efbff522a3b77627e2d4.png"; //vip1动态
+    obj.data.associator.vipCode = 100;
+    obj.data.associator.vipLevel = 7;
+    obj.data.associator.expireTime = 4102358400000;
+    obj.data.associator.iconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"; //vip1静态
+    obj.data.redplus.dynamicIconUrl = "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32815146704/bbb8/496f/6cdb/930f24fcdf7276ef00b2de12f71325d7.png";  //svip1动态
+    obj.data.redplus.iconUrl = "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png"; //svip7静态
+    obj.data.redplus.vipCode = 500;  
+    obj.data.redplus.expireTime = 4102358400000;
+    obj.data.redplus.vipLevel = 7;
 }
 
 
