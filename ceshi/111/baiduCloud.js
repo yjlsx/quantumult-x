@@ -139,56 +139,51 @@ if (url.includes("/membership/user?")) {
 if (obj.tips_data_list) {
   obj.tips_data_list = [
     {
-      "title": "实名羡慕你的在线解压",
-      "action_url": ""
+      "title" : "实名羡慕你的在线解压",
+      "action_url" : ""
     },
     {
-      "title": "新上线了PDF转Word >",
-      "action_url": "bdnetdisk://n/action.swan?m_n_v=10.0&swan_app_key=8PPKdfjaGUz2lYS7d3zDvT6Gt2Ct9iVO"
+      "title" : "新上线了PDF转Word >",
+      "action_url" : "bdnetdisk://n/action.swan?m_n_v=10.0&swan_app_key=8PPKdfjaGUz2lYS7d3zDvT6Gt2Ct9iVO"
     },
     {
-      "title": "为你定制了V10专属福利 >",
-      "action_url": "https://pan.baidu.com/wap/vip/memberChannel?newChannelBack=1#/userCenter"
+      "title" : "为你定制了V10专属福利 >",
+      "action_url" : "https://pan.baidu.com/wap/vip/memberChannel?newChannelBack=1#/userCenter"
     }
   ];
   obj.status_data = "超级会员至：2099-12-31";
   obj.guide_data = {
-    "action_url": "",
-    "title": "超级会员SVIP",
-    "title_action_url": "",
-    "content": "已拥有极速下载+视频倍速等74项特权",
-    "button": {
-      "text": "等级升级",
-      "action_url": "https://pan.baidu.com/wap/vip/user?from=myvip3#svip"
-    }
+    "action_url" : "",
+    "title" : "超级会员SVIP",
+    "title_action_url" : "",
+    "content" : "已拥有极速下载+视频倍速等74项特权",
   };
   obj.user_status = 2;
   obj.tips_data = {
-    "title": "实名羡慕你的在线解压",
-    "action_url": ""
+    "title" : "新上线了PDF转Word >",
+    "action_url" : "bdnetdisk://n/action.swan?m_n_v=10.0&swan_app_key=8PPKdfjaGUz2lYS7d3zDvT6Gt2Ct9iVO"
   };
   obj.user_type = "svip";
-  obj.request_id = 8956111161919381646;
-  obj.level_info = {
-    "last_manual_collection_time": 0,
-    "current_max_points": 100000,
-    "current_value": 100000,
-    "history_level": 10,
-    "accumulated_uncollected_points": 0,
-    "v10_id": "",
-    "daily_value": 0,
-    "accumulated_day": 0,
-    "history_value": 100000,
-    "current_level": 10,
-    "accumulated_lost_points": 0,
-    "default_daily_value": 5
+ obj.request_id = 8956111521360028520;
+ obj.level_info = {
+    "last_manual_collection_time" : 0,
+    "current_max_points" : 100000,
+    "current_value" : 100000,
+    "history_level" : 10,
+    "accumulated_uncollected_points" : 0,
+    "v10_id" : "",
+    "daily_value" : 0,
+    "accumulated_day" : 0,
+    "history_value" : 100000,
+    "current_level" : 10,
+    "accumulated_lost_points" : 0,
+    "default_daily_value" : 5
   };
   obj.status_data_arr = [
-    "超级会员至：2099-12-31"
+    "超级会员至：2024-09-10"
   ];
-  obj.new_guide_data = {
-    "title": "SVIP V10"
-  };
+obj.new_guide_data.title = "SVIP V10";
+
 }
 
 if (obj.netdisk_common_listening_notes_vip) {
