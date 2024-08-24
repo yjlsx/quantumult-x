@@ -193,9 +193,7 @@ if (obj.tips_data_list) {
 
 if (obj.netdisk_common_listening_notes_vip) {
   obj.netdisk_common_listening_notes_vip.status = 1;
-}
-
-obj.identity_icon = {
+  obj.identity_icon = {
   "vip": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452237582/78b88bf113b7.png",
   "common": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452539056/bf72cf66fae1.png",
   "svip": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452115696/38c1d743bfe9.png",
@@ -208,8 +206,8 @@ if (obj.vipv2) {
 
 if (obj.scan_vip) {
   obj.scan_vip.status = 1;
+   }
 }
-
 
    if (obj.product_infos) {
      obj.product_infos = [
