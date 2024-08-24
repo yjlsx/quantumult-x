@@ -294,9 +294,9 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
 
     if (url.includes("/iphone/sydw/v3/orders/pre_best")) {
        obj.data.payFee = 0;
-       obj.data.dealRelief = 0;
+       obj.data.dealRelief = 9999;
        obj.data.cutFee = 0;
-       obj.data.totalFee = 0;
+       obj.data.totalFee = 0.01;
    }
 
 if (url.includes("/jdwz/v3/lectures/") && url.includes("/detail_for_sale_v2")) {
