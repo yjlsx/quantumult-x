@@ -252,8 +252,8 @@ if (url.includes("/membership/user?")) {
     "detail_cluster" : "svip",
     "cluster" : "vip",
     "product_type" : "vip10_9y_auto"
-  },
-  "reminder" : {
+  };
+  obj.reminder = {
     "reminderWithContent" : {
       "title" : "已拥有超级会员",
       "notice" : "5T大空间、极速下载等特权已拥有~"
