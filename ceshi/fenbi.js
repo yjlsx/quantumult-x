@@ -7,9 +7,9 @@
 # 修改用户余额为
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/users\/balance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 # 修改课程价格
-#^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/orders\/uni url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
-//^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/pre_best url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/orders\/pre_best url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/jdwz\/v3\/lectures\/\d+\/detail_for_sale_v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 
 # 修改会员显示
@@ -54,7 +54,8 @@
 ^https:\/\/ke\.fenbi\.com\/iphone\/sydw\/v3\/episodes\/\d+\/mediafile\/meta url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 ^https:\/\/ke\.fenbi\.com\/iphone\/v3\/user_study\/entry url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
 #续费处理
-^https:\/\/ke\.fenbi\.com\/iphone\/v3\/member_centers\/sale_center url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+^https:\/\/ke\.fenbi\.com\/iphone\/v3\/(member_centers\/sale_center|user_member\/configs) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/fenbi.js
+
 
 
 #> 粉笔
@@ -296,10 +297,12 @@ if (url.includes("/iphone/jdwz/v3/lectures")) {
    }
 
     if (url.includes("/iphone/sydw/v3/orders/pre_best")) {
-       obj.data.payFee = 0;
-       obj.data.dealRelief = 9999;
-       obj.data.cutFee = 0;
-       obj.data.totalFee = 0.01;
+      if (obj.data) {
+    obj.data.payFee = 0; 
+    obj.data.couponFee = obj.data.totalFee; 
+    obj.data.discountFee = obj.data.totalFee;
+    obj.data.cutFee = obj.data.totalFee; 
+         }
    }
 
 if (url.includes("/jdwz/v3/lectures/") && url.includes("/detail_for_sale_v2")) {
@@ -473,6 +476,15 @@ if (url.includes("/livereplay/replay/lectures/0/episodes")) {
     obj.msg = "";
 }
 
+if (url.includes("/user_member/configs")) {
+    if (obj.datas && Array.isArray(obj.datas)) {
+    obj.datas.forEach(item => {
+        if (item.memberType !== undefined) {
+            item.svipMemberType = item.memberType; // 将 svipMemberType 设置为 memberType 的值
+            }
+      });
+   }
+}
 
 // 匹配两个不同的 URL 模式
 if (url.match(/^https:\/\/ke\.fenbi\.com\/iphone\/(jdwz|sydw|v3\/user_study\/entry|v3\/episodes\/\d+\/mediafile\/meta)/)) {
@@ -496,8 +508,7 @@ if (url.includes("/v3/member_centers/sale_center")) {
             });
         }
       });
-   }
-
+     }
   if (obj.data) {
     modifyEndTime(obj.data);
     }
