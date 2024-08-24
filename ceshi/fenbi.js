@@ -480,7 +480,7 @@ if (url.includes("/user_member/configs")) {
     if (obj.datas && Array.isArray(obj.datas)) {
     obj.datas.forEach(item => {
         if (item.memberType !== undefined) {
-            item.svipMemberType = item.memberType; // 将 svipMemberType 设置为 memberType 的值
+            item.svipMemberType = 52; // 将 svipMemberType 设置为 item.memberType 的值
             }
       });
    }
