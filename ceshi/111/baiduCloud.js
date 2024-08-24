@@ -264,7 +264,7 @@ if (url.includes("/membership/user?")) {
       "notice" : "5T大空间、极速下载等特权已拥有~"
     },
     "svip" : {
-      "leftseconds" : 390692,
+      "leftseconds" : 4102415999,
       "nextState" : "normal"
             }
         };
