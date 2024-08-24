@@ -78,10 +78,13 @@ if (url.includes('https://m.zhaopin.com/bapi/order/details')) {
         obj.data.orderStatus = "PAY_SUCCESS"; 
         obj.data.orderStatusDesc = "已付款"; 
         obj.data.expireTime = 4102354444101;
+        obj.data.payTime = obj.data.currentTime;
         obj.data.realPrice = "0";
         obj.data.couponCutoff = "0";
         //obj.data.detailsCutoffTotal = obj.data.originPriceTotal;
         obj.data.salaryIncreaseCoinCutoff = obj.data.orderDetailProductDTO.productRealPrice;
+        obj.data.showProxyDeliveryEntrance = true;
+        obj.data.showProductPrivilegeEntrance = true;
 }
 
 if (url.includes('https://m.zhaopin.com/bapi/order/list')) {
