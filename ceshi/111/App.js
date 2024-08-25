@@ -4,14 +4,15 @@
 # 重写地址：https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/App.js
 
 # > 主机名合并
-hostname = *.wps.cndocer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, pay.wps.cn, vipos.kugou.com, gateway.kugou.com, gateway3.kugou.com, vip.kugou.com, vipuser.kygou.com, login.user.kugou.com, userinfoservice.kugou.com, richapi.yestiku.com, sxbapi.xuesai.net, keapi.fenbi.com, ke.fenbi.com, proxyweb.yiwenjy.com, m.zhaopin.com, app.thwlqy.com, appss.baomingding.com, apis.lifeweek.com.cn, app.yinxiang.com, appss.rhinoxlab.com, appss.rhinoxlab.com, 39.107.159.85, dynamicentry.kugou.com, cupid.51jobapp.com, cupid.51job.com, appapi.51jobapp.com, m.zhaopin.com, ask.zhaopin.com,  gatewayretry.kugou.com, drive*.quark.cn, api-wanda.liepin.com, api-ac.liepin.com, api-c.liepin.com, coral2.quark.cn, order-api.sm.cn, keapi.fenbi.com, ke.fenbi.com, live.fenbi.com
+hostname = *.wps.cndocer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, pay.wps.cn, vipos.kugou.com, gateway.kugou.com, gateway3.kugou.com, vip.kugou.com, vipuser.kygou.com, login.user.kugou.com, userinfoservice.kugou.com, richapi.yestiku.com, sxbapi.xuesai.net, keapi.fenbi.com, ke.fenbi.com, proxyweb.yiwenjy.com, m.zhaopin.com, app.thwlqy.com, appss.baomingding.com, apis.lifeweek.com.cn, app.yinxiang.com, appss.rhinoxlab.com, appss.rhinoxlab.com, 39.107.159.85, dynamicentry.kugou.com, cupid.51jobapp.com, cupid.51job.com, appapi.51jobapp.com, m.zhaopin.com, ask.zhaopin.com,  gatewayretry.kugou.com, drive*.quark.cn, api-wanda.liepin.com, api-ac.liepin.com, api-c.liepin.com, coral2.quark.cn, order-api.sm.cn, keapi.fenbi.com, ke.fenbi.com, live.fenbi.com, api.wondercv.com, xluser-ssl.xunlei.com
 
 # >>>>>>>>>>>>>>> ✅ A ✅ <<<<<<<<<<<<<<
 
 # >>>>>>>>>>>>>>> ✅ B ✅ <<<<<<<<<<<<<<
 
 # >>>>>>>>>>>>>>> ✅ C ✅ <<<<<<<<<<<<<<
-
+#超级简历——解锁VIP
+^http[s]?:\/\/api.wondercv.com\/cv\/v3\/cv_accounts\/* url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/cjjl.js
 # >>>>>>>>>>>>>>> ✅ D ✅ <<<<<<<<<<<<<<
 
 # >>>>>>>>>>>>>>> ✅ E ✅ <<<<<<<<<<<<<<
@@ -153,7 +154,8 @@ https?:\/\/drive.*\.quark\.cn\/.+\/clouddrive\/(member.+|distribute\/detail.+|ca
 ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt$ url script-response-body https://raw.githubusercontent.com/chxm1023/Rewrite/main/iTunes/WallpaperTree.js
 
 # >>>>>>>>>>>>>>> ✅ X ✅ <<<<<<<<<<<<<<
-
+#!desc=迅雷会员解锁
+https://xluser-ssl.xunlei.com/xluser.core.login/v3/getuserinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/xunlei.js
 # >>>>>>>>>>>>>>> ✅ Y ✅ <<<<<<<<<<<<<<
 # 羿文教育
 ^https://proxyweb\.yiwenjy\.com url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
