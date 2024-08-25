@@ -80,7 +80,7 @@ if (url.includes("/api/getsyscfg?")) {
 
 if (url.includes("/membership/user?")) {
       if (url.includes("/user?freeisp")) {
-      if (obj.product_infos) {
+        if (obj.product_infos) {
     obj.product_infos = [
     {
       "cluster" : "volume_pri",
@@ -115,13 +115,13 @@ if (url.includes("/membership/user?")) {
       "buy_description" : "",
       "function_num" : 0,
       "start_time" : 1722039929,
-      "buy_time" : "0",
+      "buy_time" : "1705485869",
       "auto_upgrade_to_svip" : 0,
       "product_id" : "",
       "end_time" : 4102415999,
       "cluster" : "vip",
       "detail_cluster" : "svip",
-      "status" : 0
+      "status" : 1
     }
   ];
    obj.current_product = {
@@ -129,15 +129,15 @@ if (url.includes("/membership/user?")) {
     "detail_cluster" : "svip",
     "cluster" : "vip",
     "product_type" : "vip10_9m"
-  };
+           };
    obj.level_info.current_level = 10;
    obj.level_info.current_value = 100000;
    obj .reminder.svip.leftseconds =  4102415999;
    obj .reminder.svip.nextStatus =  "normal";
-        } 
+     } 
 
-if (obj.tips_data_list) {
-  obj.tips_data_list = [
+   if (obj.tips_data_list) {
+      obj.tips_data_list = [
     {
       "title" : "实名羡慕你的在线解压",
       "action_url" : ""
@@ -149,8 +149,8 @@ if (obj.tips_data_list) {
     {
       "title" : "为你定制了V10专属福利 >",
       "action_url" : "https://pan.baidu.com/wap/vip/memberChannel?newChannelBack=1#/userCenter"
-    }
-  ];
+       }
+    ];
   obj.status_data = "超级会员至：2099-12-31";
   obj.guide_data = {
     "action_url" : "",
@@ -164,7 +164,7 @@ if (obj.tips_data_list) {
     "action_url" : "bdnetdisk://n/action.swan?m_n_v=10.0&swan_app_key=8PPKdfjaGUz2lYS7d3zDvT6Gt2Ct9iVO"
   };
   obj.user_type = "svip";
- obj.request_id = 8956111521360028520;
+
  obj.level_info = {
     "last_manual_collection_time" : 0,
     "current_max_points" : 100000,
@@ -580,9 +580,10 @@ if (obj.scan_vip) {
       "scope" : 0,
       "privilege_id" : "video_high_definition",
       "privilege_value" : 1
-    }
-  ];
+       }
+     ];
    } 
+  }
 
 }
 
