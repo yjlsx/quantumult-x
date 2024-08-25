@@ -183,7 +183,7 @@ if (url.includes("/membership/user?")) {
     "超级会员至：2099-12-31"
   ];
 obj.new_guide_data.title = "SVIP V10";
-
+   }
 }
 
 if (obj.netdisk_common_listening_notes_vip) {
@@ -583,7 +583,6 @@ if (obj.scan_vip) {
        }
      ];
    } 
-  }
 
 }
 
