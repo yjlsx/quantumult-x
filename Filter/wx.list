@@ -1,6 +1,6 @@
 
 # > 微信分流
-DOMAIN-SUFFIX,apd-pcdnwxlogin.teg.tencent-cloud.net
+//DOMAIN-SUFFIX,apd-pcdnwxlogin.teg.tencent-cloud.net
 DOMAIN-SUFFIX,btrace.qq.com
 DOMAIN-SUFFIX,dl.wechat.com
 DOMAIN-SUFFIX,dldir1.qq.com
