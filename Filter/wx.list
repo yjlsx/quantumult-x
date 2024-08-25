@@ -1,6 +1,5 @@
-
 # > 微信分流
-HOST,apd-pcdnwxlogin.teg.tencent-cloud.net
+HOST-SUFFIX,apd-pcdnwxlogin.teg.tencent-cloud.net
 HOST-SUFFIX,btrace.qq.com
 HOST-SUFFIX,dl.wechat.com
 HOST-SUFFIX,dldir1.qq.com
@@ -10,7 +9,7 @@ HOST-SUFFIX,sglong.wechat.com
 HOST-SUFFIX,sgminorshort.wechat.com
 HOST-SUFFIX,sgquic.wechat.com
 HOST-SUFFIX,sgshort.wechat.com
-HOST,slife.xy-asia.com
+HOST-SUFFIX,slife.xy-asia.com
 HOST-SUFFIX,soup.v.qq.com
 HOST-SUFFIX,tencentmap.wechat.com
 HOST-SUFFIX,vweixinf.tc.qq.com
@@ -18,14 +17,14 @@ HOST-SUFFIX,weixin110.qq.com
 HOST-SUFFIX,wup.imtt.qq.com
 HOST-SUFFIX,wx.tenpay.com
 HOST-SUFFIX,wxapp.tc.qq.com
-HOST,iot-tencent.com
+HOST-SUFFIX,iot-tencent.com
 HOST-SUFFIX,lbs.gtimg.com
 HOST-SUFFIX,map.qq.com
 HOST-SUFFIX,qlogo.cn
 HOST-SUFFIX,qpic.cn
 HOST-SUFFIX,servicewechat.com
 HOST-SUFFIX,tenpay.com
-HOST,up-hl.3g.qq.com
+HOST-SUFFIX,up-hl.3g.qq.com
 HOST-SUFFIX,vweixinthumb.tc.qq.com
 HOST-SUFFIX,wechat.com
 HOST-SUFFIX,wechatlegal.net
@@ -39,6 +38,7 @@ HOST-SUFFIX,wx.gtimg.com
 HOST-SUFFIX,wx.qq.com
 HOST-SUFFIX,wxapp.tc.qq.com
 HOST-SUFFIX,wxs.qq.com
-HOST,yun-hl.3g.qq.com
-
-
+HOST-SUFFIX,yun-hl.3g.qq.com
+USER-AGENT,MicroMessenger*
+USER-AGENT,WeChat*
+IP-ASN,132203
