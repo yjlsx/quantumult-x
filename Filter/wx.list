@@ -40,6 +40,4 @@ DOMAIN-SUFFIX-SUFFIX,wx.qq.com
 DOMAIN-SUFFIX-SUFFIX,wxapp.tc.qq.com
 DOMAIN-SUFFIX-SUFFIX,wxs.qq.com
 DOMAIN-SUFFIX-SUFFIX,yun-hl.3g.qq.com
-USER-AGENT,MicroMessenger*
-USER-AGENT,WeChat*
-IP-ASN,132203
+
