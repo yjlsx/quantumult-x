@@ -180,7 +180,7 @@ if (url.includes("/membership/user?")) {
     "default_daily_value" : 5
   };
   obj.status_data_arr = [
-    "超级会员至：2024-09-10"
+    "超级会员至：2099-12-31"
   ];
 obj.new_guide_data.title = "SVIP V10";
 
