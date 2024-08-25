@@ -1,6 +1,6 @@
 /*
 
-// 2023-09-19 18:35
+// 2024-08-25 18:35
 
 [rewrite_local]
 # 统一处理脚本
@@ -10,6 +10,7 @@
 ^https:\/\/pan\.baidu\.com\/pmall\/order\/privilege\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduCloud.js
 ^https:\/\/pan\.baidu\.com\/api\/user\/getinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduCloud.js
 ^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/proxy\/guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduCloud.js
+^https:\/\/pan\.baidu\.com\/cms\/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduCloud.js
 
 
 *
@@ -78,140 +79,15 @@ if (url.includes("/api/getsyscfg?")) {
   }
 } 
 
-if (url.includes("/membership/user?")) {
-      if (url.includes("/user?freeisp")) {
-        if (obj.product_infos) {
-    obj.product_infos = [
-    {
-      "cluster" : "volume_pri",
-      "buy_description" : "200GB(99年)",
-      "buy_time" : "1724497678",
-      "end_time" : 4102415999,
-      "function_num" : 1,
-      "product_description" : "200GB(99年)",
-      "product_id" : "17283190021318115647",
-      "start_time" : 1724497678,
-      "status" : 0,
-      "detail_cluster" : "volume_pri",
-      "product_name" : "volume_200GB_99y"
-    },
-    {
-      "cluster" : "offlinedl",
-      "buy_description" : "离线下载套餐(永久)",
-      "buy_time" : "1705485869",
-      "end_time" : 4102415999,
-      "function_num" : 2,
-      "product_description" : "离线下载套餐(永久)",
-      "product_id" : "5210897752128663390",
-      "start_time" : 1705485869,
-      "status" : 0,
-      "detail_cluster" : "offlinedl",
-      "product_name" : "offlinedl_permanent"
-    },
-    {
-      "cur_svip_type" : "year",
-      "product_name" : "svip10_th",
-      "product_description" : "",
-      "buy_description" : "",
-      "function_num" : 0,
-      "start_time" : 1722039929,
-      "buy_time" : "1705485869",
-      "auto_upgrade_to_svip" : 0,
-      "product_id" : "",
-      "end_time" : 4102415999,
-      "cluster" : "vip",
-      "detail_cluster" : "svip",
-      "status" : 1
-    }
-  ];
-   obj.current_product = {
-    "product_id" : "2594888783287654371",
-    "detail_cluster" : "svip",
-    "cluster" : "vip",
-    "product_type" : "vip10_9m"
-           };
-   obj.level_info.current_level = 10;
-   obj.level_info.current_value = 100000;
-   obj .reminder.svip.leftseconds =  4102415999;
-   obj .reminder.svip.nextStatus =  "normal";
-     } 
 
-   if (obj.tips_data_list) {
-      obj.tips_data_list = [
-    {
-      "title" : "实名羡慕你的在线解压",
-      "action_url" : ""
-    },
-    {
-      "title" : "新上线了PDF转Word >",
-      "action_url" : "bdnetdisk://n/action.swan?m_n_v=10.0&swan_app_key=8PPKdfjaGUz2lYS7d3zDvT6Gt2Ct9iVO"
-    },
-    {
-      "title" : "为你定制了V10专属福利 >",
-      "action_url" : "https://pan.baidu.com/wap/vip/memberChannel?newChannelBack=1#/userCenter"
-       }
-    ];
-  obj.status_data = "超级会员至：2099-12-31";
-  obj.guide_data = {
-    "action_url" : "",
-    "title" : "超级会员SVIP",
-    "title_action_url" : "",
-    "content" : "已拥有极速下载+视频倍速等74项特权",
-  };
-  obj.user_status = 2;
-  obj.tips_data = {
-    "title" : "新上线了PDF转Word >",
-    "action_url" : "bdnetdisk://n/action.swan?m_n_v=10.0&swan_app_key=8PPKdfjaGUz2lYS7d3zDvT6Gt2Ct9iVO"
-  };
-  obj.user_type = "svip";
-
- obj.level_info = {
-    "last_manual_collection_time" : 0,
-    "current_max_points" : 100000,
-    "current_value" : 100000,
-    "history_level" : 10,
-    "accumulated_uncollected_points" : 0,
-    "v10_id" : "",
-    "daily_value" : 0,
-    "accumulated_day" : 0,
-    "history_value" : 100000,
-    "current_level" : 10,
-    "accumulated_lost_points" : 0,
-    "default_daily_value" : 5
-  };
-  obj.status_data_arr = [
-    "超级会员至：2099-12-31"
-  ];
-obj.new_guide_data.title = "SVIP V10";
-   }
-}
-
-if (obj.netdisk_common_listening_notes_vip) {
-  obj.netdisk_common_listening_notes_vip.status = 1;
-  obj.identity_icon = {
-  "vip": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452237582/78b88bf113b7.png",
-  "common": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452539056/bf72cf66fae1.png",
-  "svip": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452115696/38c1d743bfe9.png",
-  "contentvip": ""
-};
-
-if (obj.vipv2) {
-  obj.vipv2.status = 1;
-}
-
-if (obj.scan_vip) {
-  obj.scan_vip.status = 1;
-   }
-}
-
-   if (obj.product_infos) {
-     obj.product_infos = [
+if (url.includes("/membership/user?app_id")) {
+   obj.product_infos = [
     {
       "product_id" : "5210897752128663390",
       "end_time" : 4102415999,
       "buy_time" : "1384234467",
       "cluster" : "offlinedl",
-      "status" : "0",
+      "status" : "1",
       "start_time" : 1384234467,
       "function_num" : 2,
       "buy_description" : "离线下载套餐(永久)",
@@ -220,19 +96,19 @@ if (obj.scan_vip) {
       "product_name" : "offlinedl_permanent"
     },
     {
-      "cur_svip_type" : "month",
-      "product_name" : "svip10_th",
+      "cur_svip_type" : "year",
+      "product_name" : "svip2_nd",
       "product_description" : "",
       "function_num" : 0,
       "start_time" : 1688356160,
       "buy_description" : "",
-      "buy_time" : 0,
+      "buy_time" : 1384234467,
       "product_id" : "",
       "auto_upgrade_to_svip" : 0,
       "end_time" : 4102415999,
       "cluster" : "vip",
       "detail_cluster" : "svip",
-      "status" : 0
+      "status" : 1
     },
     {
       "product_name" : "contentvip_nd",
@@ -240,16 +116,23 @@ if (obj.scan_vip) {
       "function_num" : 0,
       "start_time" : 1688356160,
       "buy_description" : "",
-      "buy_time" : 0,
+      "buy_time" : 1384234467,
       "product_id" : "",
       "auto_upgrade_to_svip" : 0,
       "end_time" : 4102415999,
       "cluster" : "contentvip",
       "detail_cluster" : "contentvip",
-      "status" : 0
+      "status" : 1
     }
   ];
-  obj.level_info.current_level = 10;
+   obj.level_info = {
+    "history_value" : 100000,
+    "current_level" : 10,
+    "last_manual_collection_time" : 0,
+    "current_value" : 100000,
+    "history_level" : 10,
+    "v10_id" : ""
+  };
   obj.current_product = {
     "product_id" : "12187135090581539740",
     "detail_cluster" : "svip",
@@ -269,15 +152,87 @@ if (obj.scan_vip) {
     "svip" : {
       "leftseconds" : 4102415999,
       "nextState" : "normal"
-            }
-        };
-     }
+    }
+  };
+ }
 
+if (url.includes("/cms\/config")) {
+   obj.cfg.p2sp_time_sharing.user_type = "svip";
+}
+
+if (url.includes("/membership/user/info?app_id")) {
    if (obj.user_info) {
+   obj.user_info.is_scan_vip = 1;
    obj.user_info.is_svip = 1;
    obj.user_info.is_vip = 1;
+   obj.user_info.is_vip_v2 = 1;
+   obj.user_info.is_mvip = 1;
+   obj.user_info.is_plus_buy = 1;
      }
+}
 
+
+if (url.includes("/pmall/order/privilege/info")) {
+    obj.detail = [
+    {
+      "type" : 1,
+      "total_times" : 9, //3
+      "valid_times" : 9
+    },
+    {
+      "type" : 2,
+      "total_times" : 10, //5
+      "valid_times" : 10
+    }
+  ];
+  obj.current_valid_times = 3;
+  obj.vip_type = "svip";
+  obj.has_privilege = "1";
+  obj.current_valid_end_time = 4102415999;
+}
+
+
+if (url.includes("/api/quota")) {
+    obj.expire = false;
+}
+
+if (url.includes("/api/user/getinfo")) {
+    obj.records[0].vip_level = 10;
+    obj.records[0].vip_type = 2;
+    obj.records[0].vip_point = 100000;
+}
+
+if (url.includes("/membership/proxy/guide")) {
+    obj.data.ubc_dot.is_vip = 1; 
+    obj.data.ubc_dot.is_svip = 1;
+    obj.data.ubc_dot.has_vip_buy_record = 1;
+    obj.data.ubc_dot.has_svip_buy_record = 1;
+    obj.data.ubc_dot.vip_expired_days = 4102415999;
+    obj.data.ubc_dot.svip_expired_days = 4102415999;
+    obj.data.ubc_dot_map.IsVip = "1";
+    obj.data.ubc_dot_map.IsSvip = "1";
+    obj.data.ubc_dot_map.HasVipBuyRecord = "1";
+    obj.data.ubc_dot_map.HasSvipBuyRecord = "1";
+    obj.data.ubc_dot_map.SvipExpiredDays = "4102415999";
+    obj.data.ubc_dot_map.VipExpiredDays = "4102415999";
+}
+
+if (url.includes("/act\/api\/conf")) {
+   obj.data = [
+    {
+      "conf_key" : "svip_member_tab_list",
+      "id" : 4087,
+      "end_time" : 3139747200,
+      "name" : "新版会员频道tab配置",
+      "start_time" : 1686153600,
+      "conf_value" : {
+        "tabList" : "[\n    {\n        \"name\": \"我的会员\",\n        \"path\": \"/userCenter\"\n    },\n    {\n        \"name\": \"会员购\",\n        \"path\": \"/svipPurchase\"\n    }\n]"
+      }
+    }
+  ];
+}
+
+if (url.includes("/membership/user?method")) {
    if (obj.privilege_list) {
   obj.privilege_list = [
     {
@@ -584,92 +539,153 @@ if (obj.scan_vip) {
      ];
    } 
 
-}
-
-if (url.includes("/pmall/order/privilege/info")) {
-    obj.detail = [
+if (url.includes("/membership/user?freeisp")) {
+   if (obj.user_tag) {
+   obj.user_tag =  "{\"is_vip\":1,\"is_svip\":1,\"is_vipv10\":1,\"is_vip_v2\":1,\"is_svip_sign\":0,\"is_vipv2_sign\":0,\"is_scan_vip_sign\":0,\"has_buy_record\":1,\"has_vip_buy_record\":0,\"has_vipv2_buy_record\":0,\"has_svip_buy_record\":0,\"has_buy_vip_svip_record\":0,\"last_buy_record_creat_time\":4102415999,\"is_first_charge\":0,\"is_vip_first_charge\":0,\"notice_user_type\":2,\"notice_user_status\":3,\"last_vip_type\":1,\"last_vip_svip_end_time\":4102415999,\"last_vip_end_time\":4102415999,\"last_vipv2_end_time\":0,\"last_svip_end_time\":4102415999,\"is_first_act\":0,\"activateTime\":1704719871,\"last_v10_end_time\":4102415999,\"last_scan_vip_end_time\":4102415999}";
+     }
+   if (obj.product_infos) {
+   obj.product_infos = [
     {
-      "type" : 1,
-      "total_times" : 3,
-      "valid_times" : 3
+      "cluster" : "volume_pri",
+      "buy_description" : "200GB(1年)",
+      "buy_time" : "1724497678",
+      "end_time" : 4102415999,
+      "function_num" : 1,
+      "product_description" : "200GB(1年)",
+      "product_id" : "17283190021318115647",
+      "start_time" : 1724497678,
+      "status" : 1,
+      "detail_cluster" : "volume_pri",
+      "product_name" : "volume_200GB_1y"
     },
     {
-      "type" : 2,
-      "total_times" : 5,
-      "valid_times" : 5
-    }
-  ];
-  obj.current_valid_times = 3;
-  obj.vip_type = "svip";
-  obj.has_privilege = "1";
-  obj.current_valid_end_time = 4102415999;
-}
-
-if (url.includes("/api/quota")) {
-    obj.expire = false;
-}
-
-if (url.includes("/api/user/getinfo")) {
-    obj.records[0].vip_level = 10;
-    obj.records[0].vip_type = 2;
-    obj.records[0].vip_point = 100000;
-}
-
-if (url.includes("/membership/proxy/guide")) {
-    obj.data.ubc_dot.is_vip = 1; 
-    obj.data.ubc_dot.is_svip = 1;
-    obj.data.ubc_dot.has_vip_buy_record = 1;
-    obj.data.ubc_dot.has_svip_buy_record = 1;
-    obj.data.ubc_dot.vip_expired_days = 4102415999;
-    obj.data.ubc_dot.svip_expired_days = 4102415999;
-    obj.data.ubc_dot_map.IsVip = "1";
-    obj.data.ubc_dot_map.IsSvip = "1";
-    obj.data.ubc_dot_map.HasVipBuyRecord = "1";
-    obj.data.ubc_dot_map.HasSvipBuyRecord = "1";
-    obj.data.ubc_dot_map.SvipExpiredDays = "4102415999";
-    obj.data.ubc_dot_map.VipExpiredDays = "4102415999";
-}
-
-if (url.includes("/act\/api\/conf")) {
-   obj.data = [
+      "cluster" : "offlinedl",
+      "buy_description" : "离线下载套餐(永久)",
+      "buy_time" : "1705485869",
+      "end_time" : 4102415999,
+      "function_num" : 2,
+      "product_description" : "离线下载套餐(永久)",
+      "product_id" : "5210897752128663390",
+      "start_time" : 1705485869,
+      "status" : 1,
+      "detail_cluster" : "offlinedl",
+      "product_name" : "offlinedl_permanent"
+    },
     {
-      "conf_key" : "svip_member_tab_list",
-      "id" : 4087,
-      "end_time" : 3139747200,
-      "name" : "新版会员频道tab配置",
-      "start_time" : 1686153600,
-      "conf_value" : {
-        "tabList" : "[\n    {\n        \"name\": \"我的会员\",\n        \"path\": \"/userCenter\"\n    },\n    {\n        \"name\": \"会员购\",\n        \"path\": \"/svipPurchase\"\n    }\n]"
-      }
+      "cur_svip_type" : "year",
+      "product_name" : "svip2_nd",
+      "product_description" : "",
+      "buy_description" : "",
+      "function_num" : 0,
+      "start_time" : 1722039929,
+      "buy_time" : "0",
+      "auto_upgrade_to_svip" : 0,
+      "product_id" : "",
+      "end_time" : 4102415999,
+      "cluster" : "vip",
+      "detail_cluster" : "svip",
+      "status" : 1
     }
   ];
-}
+     }
+   if (obj.level_info) {
+         obj.level_info = {
+    "history_value" : 100000,
+    "current_level" : 10,
+    "last_manual_collection_time" : 0,
+    "current_value" : 100000,
+    "history_level" : 10,
+    "v10_id" : ""
+              };
+   }
+   if (obj.reminder) {
+     obj.reminder.svip.leftseconds = 4102415999;
+     obj.reminder.svip.nextStatus = "normal";
+   }
+   if (obj.current_product) {
+      obj.current_product = {
+    "product_id" : "12187135090581539740",
+    "detail_cluster" : "svip",
+    "cluster" : "vip",
+    "product_type" : "vip10_9y_auto"
+         };
+   }
+   if (obj.user_define_tools) {
+     obj.user_define_tools = [
+    "photobackup",
+    "contactbackup",
+    "filerecovery"
+      ];
+   }
 
-
-/*
-  obj = {
-    product_infos: [
-      {
-        cur_svip_type: "Crack",
-        product_name: "svip2_nd",
-        product_description: "解锁倍速+画质",
-        function_num: 510004015,
-        start_time: 1672502400,
-        buy_description: "无下载加速",
-        buy_time: 980784000,
-        product_id: "问好",
-        auto_upgrade_to_svip: 0,
-        end_time: 4070880000,
-        cluster: "vip",
-        detail_cluster: "svip",
-        status: 0
-      }
-    ],
-    level_info: {
-      current_level: 10
-    }
+   if (obj.tips_data_list) {
+      obj.tips_data_list = [
+    {
+      "title" : "实名羡慕你的在线解压",
+      "action_url" : ""
+    },
+    {
+      "title" : "新上线了PDF转Word >",
+      "action_url" : "bdnetdisk://n/action.swan?m_n_v=10.0&swan_app_key=8PPKdfjaGUz2lYS7d3zDvT6Gt2Ct9iVO"
+    },
+    {
+      "title" : "为你定制了V10专属福利 >",
+      "action_url" : "https://pan.baidu.com/wap/vip/memberChannel?newChannelBack=1#/userCenter"
+       }
+    ];
+  obj.status_data = "超级会员至：2099-12-31";
+  obj.guide_data = {
+    "action_url" : "",
+    "title" : "超级会员SVIP",
+    "title_action_url" : "",
+    "content" : "已拥有极速下载+视频倍速等74项特权",
   };
+  obj.user_status = 2;
+  obj.tips_data = {
+    "title" : "新上线了PDF转Word >",
+    "action_url" : "bdnetdisk://n/action.swan?m_n_v=10.0&swan_app_key=8PPKdfjaGUz2lYS7d3zDvT6Gt2Ct9iVO"
+  };
+  obj.user_type = "svip";
+
+ obj.level_info = {
+    "last_manual_collection_time" : 0,
+    "current_max_points" : 100000,
+    "current_value" : 100000,
+    "history_level" : 10,
+    "accumulated_uncollected_points" : 0,
+    "v10_id" : "",
+    "daily_value" : 0,
+    "accumulated_day" : 0,
+    "history_value" : 100000,
+    "current_level" : 10,
+    "accumulated_lost_points" : 0,
+    "default_daily_value" : 5
+  };
+  obj.status_data_arr = [
+    "超级会员至：2099-12-31"
+  ];
+obj.new_guide_data.title = "SVIP V10";
+   }
 }
-*/
+
+if (obj.netdisk_common_listening_notes_vip) {
+  obj.netdisk_common_listening_notes_vip.status = 1;
+  obj.identity_icon = {
+  "vip": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452237582/78b88bf113b7.png",
+  "common": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452539056/bf72cf66fae1.png",
+  "svip": "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452115696/38c1d743bfe9.png",
+  "contentvip": ""
+};
+if (obj.vipv2) {
+  obj.vipv2.status = 1;
+}
+if (obj.scan_vip) {
+  obj.scan_vip.status = 1;
+   }
+}
+
+
+
+}
 
 $done({ body: JSON.stringify(obj) });
