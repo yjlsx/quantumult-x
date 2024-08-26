@@ -284,7 +284,7 @@ if ($request.url.indexOf(usercfg) != -1){
       "product_description" : "离线下载套餐(永久)",
       "product_id" : "5210897752128663390",
       "start_time" : 1705485869,
-      "status" : 1,
+      "status" : 0,
       "detail_cluster" : "offlinedl",
       "product_name" : "offlinedl_permanent"
     },
@@ -309,7 +309,7 @@ if ($request.url.indexOf(usercfg) != -1){
       "end_time" : 4102358400,
       "cluster" : "vip",
       "detail_cluster" : "svip",
-      "status" : 1
+      "status" : 0
     },
     {
       "cur_svip_type" : "year",
@@ -324,7 +324,7 @@ if ($request.url.indexOf(usercfg) != -1){
       "end_time" : 4102358400,
       "cluster" : "vip",
       "detail_cluster" : "svip",
-      "status" : 1
+      "status" : 0
     }
   ];
 
@@ -389,7 +389,7 @@ obj.new_guide_data = {
     "accumulated_lost_points" : 0,
     "default_daily_value" : 5
   };
-obj.current_product = {
+ obj.current_product = {
     "product_id" : "12187135090581539740",
     "detail_cluster" : "svip",
     "cluster" : "vip",
@@ -415,6 +415,12 @@ obj.current_product = {
   };
   obj.previous_product_v2 = {
 
+  };
+  obj.vipv2 = {
+     "status" = 1
+  };
+  obj.scan_vip = {
+     "status" = 1
   };
   obj.user_tag =  "{\"is_vip\":1,\"is_svip\":1,\"is_vipv10\":1,\"is_vip_v2\":1,\"is_svip_sign\":0,\"is_vipv2_sign\":0,\"is_scan_vip_sign\":0,\"has_buy_record\":1,\"has_vip_buy_record\":0,\"has_vipv2_buy_record\":0,\"has_svip_buy_record\":0,\"has_buy_vip_svip_record\":0,\"last_buy_record_creat_time\":4102358400,\"is_first_charge\":0,\"is_vip_first_charge\":0,\"notice_user_type\":2,\"notice_user_status\":3,\"last_vip_type\":1,\"last_vip_svip_end_time\":4102358400,\"last_vip_end_time\":4102358400,\"last_vipv2_end_time\":0,\"last_svip_end_time\":4102358400,\"is_first_act\":0,\"activateTime\":1704719871,\"last_v10_end_time\":4102358400,\"last_scan_vip_end_time\":4102358400}";
   obj.user_status = 2;
