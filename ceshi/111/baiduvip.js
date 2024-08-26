@@ -398,7 +398,6 @@ obj.current_product = {
   obj.user_status = 2;
   obj.user_type = "svip";
   obj.status_data = "超级会员至：2099-12-31";
-  obj.status_data_arr: ["超级会员至: 2099-12-31"];
   obj.error_code = 1;
   delete obj.tips_data_list;
   delete obj.status_data_arr;
