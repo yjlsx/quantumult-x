@@ -264,11 +264,11 @@ if ($request.url.indexOf(usercfg) != -1){
   obj.product_infos = [
     {
       "cluster" : "volume_pri",
-      "buy_description" : "200GB(99年)",
+      "buy_description" : "200GB(1年)",
       "buy_time" : "1724497678",
       "end_time" : 4102358400,
       "function_num" : 1,
-      "product_description" : "200GB(99年)",
+      "product_description" : "200GB(1年)",
       "product_id" : "17283190021318115647",
       "start_time" : 1724497678,
       "status" : 1,
@@ -306,6 +306,21 @@ if ($request.url.indexOf(usercfg) != -1){
       "buy_time" : 1417260485,
       "product_id" : "1",
       "auto_upgrade_to_svip" : 1,
+      "end_time" : 4102358400,
+      "cluster" : "vip",
+      "detail_cluster" : "svip",
+      "status" : 1
+    },
+    {
+      "cur_svip_type" : "year",
+      "product_name" : "svip2_nd",
+      "product_description" : "",
+      "buy_description" : "",
+      "function_num" : 0,
+      "start_time" : 1722039929,
+      "buy_time" : "0",
+      "auto_upgrade_to_svip" : 0,
+      "product_id" : "",
       "end_time" : 4102358400,
       "cluster" : "vip",
       "detail_cluster" : "svip",
@@ -390,8 +405,8 @@ obj.current_product = {
     "超级会员至：2099-12-31"
   ];
   obj.current_product_v2 = {
+    "product_id" : "2594888783287654371",
     "detail_cluster" : "svip",
-    "expired_time" : 4102358400,
     "cluster" : "vip",
     "product_type" : "vip2_1y_auto"
   };
