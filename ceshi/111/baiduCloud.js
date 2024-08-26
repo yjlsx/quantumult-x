@@ -172,7 +172,33 @@ if (url.includes("/membership/user?app_id")) {
       "nextState" : "normal"
     }
   };
- }
+ } else if (url.includes("/membership/user?")) {
+  obj = {
+    product_infos: [
+      {
+        cur_svip_type: "Crack",
+        product_name: "svip2_nd",
+        product_description: "解锁倍速+画质",
+        function_num: 510004015,
+        start_time: 1672502400,
+        buy_description: "无下载加速",
+        buy_time: 980784000,
+        product_id: "问好",
+        auto_upgrade_to_svip: 0,
+        end_time: 4070880000,
+        cluster: "vip",
+        detail_cluster: "svip",
+        status: 0,
+        status_data_arr: ["超级会员至: 2099-12-31"],
+        status_data: "超级会员至: 2099-12-31",
+      }
+    ],
+    level_info: {
+      current_level: 10,
+      current_value: 100000,
+    }
+  };
+}
 
 if (url.includes("/cms\/config")) {
    obj.cfg.p2sp_time_sharing.user_type = "svip";
@@ -555,7 +581,33 @@ if (url.includes("/membership/user?method")) {
       "privilege_value" : 1
        }
      ];
-   } 
+   }  else if (url.includes("/membership/user?")) {
+  obj = {
+    product_infos: [
+      {
+        cur_svip_type: "Crack",
+        product_name: "svip2_nd",
+        product_description: "解锁倍速+画质",
+        function_num: 510004015,
+        start_time: 1672502400,
+        buy_description: "无下载加速",
+        buy_time: 980784000,
+        product_id: "问好",
+        auto_upgrade_to_svip: 0,
+        end_time: 4070880000,
+        cluster: "vip",
+        detail_cluster: "svip",
+        status: 0,
+        status_data_arr: ["超级会员至: 2099-12-31"],
+        status_data: "超级会员至: 2099-12-31",
+      }
+    ],
+    level_info: {
+      current_level: 10,
+      current_value: 100000,
+    }
+  };
+}
 
 if (url.includes("/membership/user?freeisp")) {
    if (obj.user_tag) {
@@ -741,10 +793,34 @@ if (obj.vipv2) {
 }
 if (obj.scan_vip) {
   obj.scan_vip.status = 0;
+     }
    }
-}
-
-
+} else if (url.includes("/membership/user?")) {
+  obj = {
+    product_infos: [
+      {
+        cur_svip_type: "Crack",
+        product_name: "svip2_nd",
+        product_description: "解锁倍速+画质",
+        function_num: 510004015,
+        start_time: 1672502400,
+        buy_description: "无下载加速",
+        buy_time: 980784000,
+        product_id: "问好",
+        auto_upgrade_to_svip: 0,
+        end_time: 4070880000,
+        cluster: "vip",
+        detail_cluster: "svip",
+        status: 0,
+        status_data_arr: ["超级会员至: 2099-12-31"],
+        status_data: "超级会员至: 2099-12-31",
+      }
+    ],
+    level_info: {
+      current_level: 10,
+      current_value: 100000,
+    }
+  };
 }
 
 if (url.includes("/membership/user?logid=")) {
@@ -3395,6 +3471,32 @@ if (obj.vipv2) {
       ];
    }
 
+} else if (url.includes("/membership/user?")) {
+  obj = {
+    product_infos: [
+      {
+        cur_svip_type: "Crack",
+        product_name: "svip2_nd",
+        product_description: "解锁倍速+画质",
+        function_num: 510004015,
+        start_time: 1672502400,
+        buy_description: "无下载加速",
+        buy_time: 980784000,
+        product_id: "问好",
+        auto_upgrade_to_svip: 0,
+        end_time: 4070880000,
+        cluster: "vip",
+        detail_cluster: "svip",
+        status: 0,
+        status_data_arr: ["超级会员至: 2099-12-31"],
+        status_data: "超级会员至: 2099-12-31",
+      }
+    ],
+    level_info: {
+      current_level: 10,
+      current_value: 100000,
+    }
+  };
 }
 
 $done({ body: JSON.stringify(obj) });
