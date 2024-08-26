@@ -391,13 +391,13 @@ obj.current_product = {
   ];
   obj.previous_product_v2 = {
     "detail_cluster" : "svip",
-    "expired_time" : 1732358400,
+    "expired_time" : 1705485869,
     "cluster" : "vip",
     "product_type" : "vip2_1y_auto"
   };
   obj.previous_product = {
     "detail_cluster" : "svip",
-    "expired_time" : 1732358400,
+    "expired_time" : 1705485869,
     "cluster" : "vip",
     "product_type" : "vip2_1y_auto"
   };
