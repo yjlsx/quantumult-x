@@ -427,12 +427,42 @@ obj.new_guide_data = {
   obj.scan_vip = {
      "status" : 1
   };
-   if (obj.vip.status) {
-  obj.vip.status = 1;
-  obj.vip.emotional_tip_front = "陪你走过的每一天";
-  obj.svip.emotional_tip_front = "陪你走过的每一天";
-  obj.svip.status = 1;
-    }
+
+  obj.svip = {
+    "emotional_tips_back" : {
+      "first" : "很高兴你在x年x月x日成为超级会员，愿美好时光与你相伴。",
+      "daily" : [
+        "据说超级会员，法力无边",
+        "你喜欢的样子，超级会员都有~",
+        "对你的祝福，一如超级会员极速下载般真挚。",
+        "一起走过的每一天，我给了陪伴，而你给了我成长。",
+        "有人说我是野蛮霸道，只有你知道我是贴心的暖宝宝。",
+        "有时候我还不太懂你，请千万告诉我，因为有你，我才存在。",
+        "世间所有的相遇，都是久别重逢，感谢你的到来。",
+        "很高兴你与你相遇，愿美好时光与你相伴。",
+        "我心中不会有黄昏，有你在，永远像初春的清晨。",
+        "其实我有超能力，超级会员喜欢你。",
+        "你开心吗？开啊，不开你怎么进来。",
+        "来者何人？超级会员的人。",
+        "我是九你是三，除了你还是你。",
+        "从今以后我只能称呼你为您了，因为，你在我心上。",
+        "没有你，我的时间是缓慢的米勒行星。"
+      ]
+    },
+    "expire_remind_tip" : "将不再享有极速下载、5T空间等特权",
+    "emotional_tip_front" : "陪你走过的每一天",
+    "identity_icon_list" : [
+      "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452115696/38c1d743bfe9.png",
+      ""
+    ],
+    "status" : 1,
+    "expired_tip" : "不再享有极速下载、5T空间等特权",
+    "guide_tip" : [
+      "暂未开通 ·  超级会员尊享5T空间和极速下载特权"
+    ],
+    "is_sign_user" : false
+  };
+
   obj.user_tag =  "{\"is_vip\":0,\"is_svip\":1,\"is_vipv2\":1,\"is_vip_v2\":1,\"is_svip_sign\":0,\"is_vipv2_sign\":0,\"is_scan_vip_sign\":0,\"has_buy_record\":1,\"has_vip_buy_record\":0,\"has_vipv2_buy_record\":0,\"has_svip_buy_record\":0,\"has_buy_vip_svip_record\":0,\"last_buy_record_creat_time\":0,\"is_first_charge\":0,\"is_vip_first_charge\":0,\"notice_user_type\":2,\"notice_user_status\":3,\"last_vip_type\":1,\"last_vip_svip_end_time\":4102358400,\"last_vip_end_time\":4102358400,\"last_vipv2_end_time\":0,\"last_svip_end_time\":4102358400,\"is_first_act\":0,\"activateTime\":1704719871,\"last_v10_end_time\":4102358400,\"last_scan_vip_end_time\":4102358400}";
   obj.user_status = 2;
   obj.user_type = "svip";
