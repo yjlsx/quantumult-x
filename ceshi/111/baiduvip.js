@@ -426,7 +426,7 @@ obj.new_guide_data = {
   obj.user_status = 2;
   obj.user_type = "svip";
   obj.status_data = "超级会员至：2099-12-31";
-  obj.error_code = 1;
+  obj.error_code = 0;
   delete obj.tips_data_list;
   delete obj.status_data_arr;
   delete obj.sub_card_list;
