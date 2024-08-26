@@ -390,10 +390,6 @@ obj.current_product = {
     "超级会员至：2099-12-31"
   ];
 
-  obj.level_info = {
-      current_level: 10,
-      current_value: 100000,
-    };
   obj.user_tag =  "{\"is_vip\":1,\"is_svip\":1,\"is_vipv10\":1,\"is_vip_v2\":1,\"is_svip_sign\":0,\"is_vipv2_sign\":0,\"is_scan_vip_sign\":0,\"has_buy_record\":1,\"has_vip_buy_record\":0,\"has_vipv2_buy_record\":0,\"has_svip_buy_record\":0,\"has_buy_vip_svip_record\":0,\"last_buy_record_creat_time\":4102358400,\"is_first_charge\":0,\"is_vip_first_charge\":0,\"notice_user_type\":2,\"notice_user_status\":3,\"last_vip_type\":1,\"last_vip_svip_end_time\":4102358400,\"last_vip_end_time\":4102358400,\"last_vipv2_end_time\":0,\"last_svip_end_time\":4102358400,\"is_first_act\":0,\"activateTime\":1704719871,\"last_v10_end_time\":4102358400,\"last_scan_vip_end_time\":4102358400}";
   obj.user_status = 2;
   obj.user_type = "svip";
