@@ -12,6 +12,8 @@
 ^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/proxy\/guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
 ^https:\/\/pan\.baidu\.com\/cms\/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
 ^https?:\/\/pan\.baidu\.com\/(youai\/(user\/.+\/getminfo|membership\/.+\/adswitch)|(rest\/.+\/membership\/user|act\/.+\/(bchannel|welfare)\/list|api\/usercfg)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
+^https:\/\/pan\.baidu\.com\/business-api\/experiment\/get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
+
 # > 百度网盘_广告推广
 ^https?:\/\/afd\.baidu\.com\/afd\/entry url reject-200
 # > 百度网盘_设置信息流
@@ -393,7 +395,7 @@ obj.new_guide_data = {
     "product_id" : "12187135090581539740",
     "detail_cluster" : "svip",
     "cluster" : "vip",
-    "product_type" : "vip2_1y_auto"
+    "product_type" : "vip2_1y"
         };
   obj.identity_icon = {
     "vip" : "https://internal-amis-res.cdn.bcebos.com/images/2019-8/1566452237582/78b88bf113b7.png",
@@ -408,7 +410,7 @@ obj.new_guide_data = {
     "product_id" : "2594888783287654371",
     "detail_cluster" : "svip",
     "cluster" : "vip",
-    "product_type" : "vip2_1y_auto"
+    "product_type" : "vip2_1y"
   };
   obj.previous_product = {
 
@@ -419,9 +421,16 @@ obj.new_guide_data = {
   obj.vipv2 = {
      "status" : 1
   };
+  obj.right_nums = {
+     "vipv2" : 21
+  };
   obj.scan_vip = {
      "status" : 1
   };
+  obj.vip.status = 1;
+  obj.vip.emotional_tip_front = "陪你走过的每一天";
+  obj.svip.emotional_tip_front = "陪你走过的每一天";
+  obj.svip.status = 1;
   obj.user_tag =  "{\"is_vip\":0,\"is_svip\":1,\"is_vipv2\":1,\"is_vip_v2\":1,\"is_svip_sign\":0,\"is_vipv2_sign\":0,\"is_scan_vip_sign\":0,\"has_buy_record\":1,\"has_vip_buy_record\":0,\"has_vipv2_buy_record\":0,\"has_svip_buy_record\":0,\"has_buy_vip_svip_record\":0,\"last_buy_record_creat_time\":0,\"is_first_charge\":0,\"is_vip_first_charge\":0,\"notice_user_type\":2,\"notice_user_status\":3,\"last_vip_type\":1,\"last_vip_svip_end_time\":4102358400,\"last_vip_end_time\":4102358400,\"last_vipv2_end_time\":0,\"last_svip_end_time\":4102358400,\"is_first_act\":0,\"activateTime\":1704719871,\"last_v10_end_time\":4102358400,\"last_scan_vip_end_time\":4102358400}";
   obj.user_status = 2;
   obj.user_type = "svip";
@@ -433,5 +442,12 @@ obj.new_guide_data = {
 }
 
 
+ if (url.includes("/business-api/experiment/get")) {
+    obj.data.isShowSvipFirstCharge = 1;
+    obj.data.isVipGuidePlus =1;
+    obj.data.isVipGuide = 1;
+    obj.data.isSvipBuy = 1;
+    obj.data.expV10Recall = 1;
+}
 
 $done({ body: JSON.stringify(obj) });
