@@ -284,7 +284,7 @@ if ($request.url.indexOf(usercfg) != -1){
       "product_description" : "离线下载套餐(永久)",
       "product_id" : "5210897752128663390",
       "start_time" : 1705485869,
-      "status" : 0,
+      "status" : 1,
       "detail_cluster" : "offlinedl",
       "product_name" : "offlinedl_permanent"
     },
@@ -309,7 +309,7 @@ if ($request.url.indexOf(usercfg) != -1){
       "end_time" : 4102358400,
       "cluster" : "vip",
       "detail_cluster" : "svip",
-      "status" : 0
+      "status" : 1
     },
     {
       "cur_svip_type" : "year",
@@ -324,7 +324,7 @@ if ($request.url.indexOf(usercfg) != -1){
       "end_time" : 4102358400,
       "cluster" : "vip",
       "detail_cluster" : "svip",
-      "status" : 0
+      "status" : 1
     }
   ];
 
