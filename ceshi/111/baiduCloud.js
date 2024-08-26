@@ -137,7 +137,7 @@ if (url.includes("/membership/user?app_id")) {
     "product_id" : "12187135090581539740",
     "detail_cluster" : "svip",
     "cluster" : "vip",
-    "product_type" : "vip10_9y_auto"
+    "product_type" : "vip2_1y_auto"
   };
   obj.reminder = {
     "reminderWithContent" : {
@@ -554,7 +554,7 @@ if (url.includes("/membership/user?freeisp")) {
       "product_description" : "200GB(1年)",
       "product_id" : "17283190021318115647",
       "start_time" : 1724497678,
-      "status" : 1,
+      "status" : 0,
       "detail_cluster" : "volume_pri",
       "product_name" : "volume_200GB_1y"
     },
@@ -567,7 +567,7 @@ if (url.includes("/membership/user?freeisp")) {
       "product_description" : "离线下载套餐(永久)",
       "product_id" : "5210897752128663390",
       "start_time" : 1705485869,
-      "status" : 1,
+      "status" : 0,
       "detail_cluster" : "offlinedl",
       "product_name" : "offlinedl_permanent"
     },
@@ -584,7 +584,7 @@ if (url.includes("/membership/user?freeisp")) {
       "end_time" : 4102415999,
       "cluster" : "vip",
       "detail_cluster" : "svip",
-      "status" : 1
+      "status" : 0
     }
   ];
      }
@@ -607,7 +607,7 @@ if (url.includes("/membership/user?freeisp")) {
     "product_id" : "12187135090581539740",
     "detail_cluster" : "svip",
     "cluster" : "vip",
-    "product_type" : "vip10_9y_auto"
+    "product_type" : "vip2_1y_auto"
          };
    }
    if (obj.user_define_tools) {
