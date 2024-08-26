@@ -320,8 +320,8 @@ if ($request.url.indexOf(usercfg) != -1){
       "buy_description" : "",
       "function_num" : 0,
       "start_time" : 1722039929,
-      "buy_time" : "0",
-      "auto_upgrade_to_svip" : 0,
+      "buy_time" : 1417260485,
+      "auto_upgrade_to_svip" : 1,
       "product_id" : "",
       "end_time" : 4102358400,
       "cluster" : "vip",
@@ -463,7 +463,7 @@ obj.new_guide_data = {
     "is_sign_user" : false
   };
 
-  obj.user_tag =  "{\"is_vip\":0,\"is_svip\":1,\"is_vipv2\":1,\"is_vip_v2\":1,\"is_svip_sign\":0,\"is_vipv2_sign\":0,\"is_scan_vip_sign\":0,\"has_buy_record\":1,\"has_vip_buy_record\":0,\"has_vipv2_buy_record\":0,\"has_svip_buy_record\":0,\"has_buy_vip_svip_record\":0,\"last_buy_record_creat_time\":0,\"is_first_charge\":0,\"is_vip_first_charge\":0,\"notice_user_type\":2,\"notice_user_status\":3,\"last_vip_type\":1,\"last_vip_svip_end_time\":4102358400,\"last_vip_end_time\":4102358400,\"last_vipv2_end_time\":0,\"last_svip_end_time\":4102358400,\"is_first_act\":0,\"activateTime\":1704719871,\"last_v10_end_time\":4102358400,\"last_scan_vip_end_time\":4102358400}";
+  obj.user_tag =  "{\"is_vip\":0,\"is_svip\":1,\"is_vipv2\":1,\"is_vip_v2\":1,\"is_svip_sign\":0,\"is_vipv2_sign\":0,\"is_scan_vip_sign\":0,\"has_buy_record\":1,\"has_vip_buy_record\":0,\"has_vipv2_buy_record\":0,\"has_svip_buy_record\":0,\"has_buy_vip_svip_record\":1,\"last_buy_record_creat_time\":0,\"is_first_charge\":0,\"is_vip_first_charge\":0,\"notice_user_type\":2,\"notice_user_status\":3,\"last_vip_type\":1,\"last_vip_svip_end_time\":4102358400,\"last_vip_end_time\":4102358400,\"last_vipv2_end_time\":0,\"last_svip_end_time\":4102358400,\"is_first_act\":0,\"activateTime\":1704719871,\"last_v10_end_time\":4102358400,\"last_scan_vip_end_time\":4102358400}";
   obj.user_status = 2;
   obj.user_type = "svip";
   obj.status_data = "超级会员至：2099-12-31";
