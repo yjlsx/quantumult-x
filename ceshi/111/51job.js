@@ -7,11 +7,13 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/equity\/equity\/duration url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/product\/product-list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51job\.com\/open\/product\/monthly-card\/rec url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
-^https:\/\/cupid\.51job\.com\/open\/vip url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51job\.com\/open\/(vip|user-task\/coin\/(getCoinsAmount|getExpiringCoins)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51job\.com\/open\/
 ^https:\/\/cupid\.51jobapp\.com\/open\/job-apply url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/appapi\.51jobapp\.com\/api\/payservice\/get_ios_service_info\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/appapi\.51jobapp\.com\/api\/2\/user\/get_resumeview_all\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/noauth\/popUp\/getCommonPopUp url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+
 
 
 
@@ -115,6 +117,9 @@ try {
         }
     }
 
+    if (url.includes('/open/user-task/coin/getCoinsAmount') || url.includes('/open/user-task/coin/getExpiringCoins')) {
+            obj.resultbody = 9999;
+    }
 
     if (url.includes('/open/noauth/popUp/getCommonPopUp')) {
         if (obj.resultbody) {
