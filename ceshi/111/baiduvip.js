@@ -130,10 +130,12 @@ if (url.includes("/pmall/order/privilege/info")) {
   obj.current_valid_end_time = 4102358400;
 }
 
+
 if (url.includes("/api/batch/streaming")) {
     obj.errno = 0;
 }
 
+/*
 if (url.includes("/iss/batch/videodiff")|| url.includes("/iss/batch/diff")) {
     obj.errmsg = "success";
     obj.errno = 0;
@@ -146,6 +148,7 @@ if (url.includes("/api/streaming")) {
     obj.show_msg = "正在使用SVIP权益";
     }
 }
+*/
 
 if (url.includes("/api/quota")) {
     obj.expire = false;
