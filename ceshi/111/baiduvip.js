@@ -5,11 +5,10 @@
 [rewrite_local]
 # 统一处理脚本
 ^https?:\/\/pan\.baidu\.com\/api\/(quota|getsyscfg\?) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
-^https?:\/\/pan\.baidu\.com\/act\/api\/conf url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
-^https?:\/\/pan\.baidu\.com\/rest\/.*\/membership\/user url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
+^https?:\/\/pan\.baidu\.com\/(act\/api\/conf|api\/streaming|api\/batch\/streaming|iss\/batch\/(diff|videodiff)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
+^https?:\/\/pan\.baidu\.com\/rest\/.*\/membership\/(user|proxy\/guide) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
 ^https:\/\/pan\.baidu\.com\/pmall\/order\/privilege\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
 ^https:\/\/pan\.baidu\.com\/api\/user\/getinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
-^https:\/\/pan\.baidu\.com\/rest\/.*\/membership\/proxy\/guide url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
 ^https:\/\/pan\.baidu\.com\/cms\/config url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
 ^https?:\/\/pan\.baidu\.com\/(youai\/(user\/.+\/getminfo|membership\/.+\/adswitch)|(rest\/.+\/membership\/user|act\/.+\/(bchannel|welfare)\/list|api\/usercfg)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
 ^https:\/\/pan\.baidu\.com\/business-api\/experiment\/get url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/baiduvip.js
@@ -131,6 +130,22 @@ if (url.includes("/pmall/order/privilege/info")) {
   obj.current_valid_end_time = 4102358400;
 }
 
+if (url.includes("/api/batch/streaming")) {
+    obj.errno = 0;
+}
+
+if (url.includes("/iss/batch/videodiff")|| url.includes("/iss/batch/diff")) {
+    obj.errmsg = "success";
+    obj.errno = 0;
+    obj.is_cover_feature = true;
+}
+
+if (url.includes("/api/streaming")) {
+    obj.errno = 0;
+     if (obj.show_msg) {
+    obj.show_msg = "正在使用SVIP权益";
+    }
+}
 
 if (url.includes("/api/quota")) {
     obj.expire = false;
