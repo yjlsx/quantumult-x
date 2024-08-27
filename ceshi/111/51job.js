@@ -118,12 +118,12 @@ try {
     }
 
     if (url.includes('/getCoinsAmount') || url.includes('/getExpiringCoins')) {
-            obj.status = "1";
-            obj.error = "success";
+            obj.resultbody = 9999;
     }
 
     if (url.includes('/reward/deductionCoins')) {
-            obj.resultbody = 9999;
+            obj.status = "1";
+            obj.error = "success";
     }
 
     if (url.includes('/user-task/main')) {
