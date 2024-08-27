@@ -117,12 +117,12 @@ try {
         }
     }
 
-    if (url.includes('/open/user-task/coin/getCoinsAmount') || url.includes('/open/user-task/coin/getExpiringCoins')) {
+    if (url.includes('/getCoinsAmount') || url.includes('/getExpiringCoins')) {
             obj.status = "1";
             obj.error = "success";
     }
 
-    if (url.includes('/user-task/reward/deductionCoins')) {
+    if (url.includes('/reward/deductionCoins')) {
             obj.resultbody = 9999;
     }
 
