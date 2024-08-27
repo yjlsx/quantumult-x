@@ -123,7 +123,10 @@ try {
 
     if (url.includes('/reward/deductionCoins')) {
             obj.status = "1";
-            obj.error = "success";
+            obj.message = "成功";
+            obj.resultbody.taskRewardVO.dailyCurrentInventory = 10;
+            obj.resultbody.taskRewardVO.canExchange = true;
+            obj.resultbody.exchangeResult.code = "1";
     }
 
     if (url.includes('/user-task/main')) {
