@@ -201,7 +201,7 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "VIP";
         member.productInfo.nameplateDesc = "永久SVIP";
-        member.diffDay = 9999;
+        member.diffDay = 3;
         member.lowAmount = null;
       }
       if (member.name === '扫描王') {
@@ -217,7 +217,7 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "UNPAID";
         member.productInfo.nameplateDesc = "永久SVIP";
-        member.diffDay = 9999;
+        member.diffDay = 3;
         member.lowAmount = null;
       }
       if (member.name === '学习') {
@@ -225,7 +225,7 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "VIP";
         member.productInfo.nameplateDesc = "永久SVIP";
-        member.diffDay = 9999;
+        member.diffDay = 3;
         member.lowAmount = null;
       }
       if (member.name === '书城') {
@@ -278,10 +278,10 @@ if ($request.url.indexOf('activ/manage/coupon/available') !== -1) {
 if ($request.url.indexOf('member\/v1\/center') !== -1) {
   if (yjlsx && yjlsx.data) {
     yjlsx.code = 0;
-    yjlsx.status = 200;
+    yjlsx.status = 0;
     yjlsx.data.userInfo.is88Freeze = true;    
-    yjlsx.data.userInfo.memberType = 'Z_VIP';
-    yjlsx.data.userInfo.memberStatus = "PAID";
+    yjlsx.data.userInfo.memberType = "VIP';
+    yjlsx.data.userInfo.memberStatus = "VIP_EXP7";
     yjlsx.data.userInfo.vipExpirationTime = 4092599349000;
   }
 }
@@ -322,7 +322,7 @@ if (yjlsx && yjlsx.data) {
   });
   yjlsx.data.default_resolution = "high";  // 修改 default_resolution
 } else {
-    yjlsx.status = 200;
+    yjlsx.status = 0;
     yjlsx.code = 0;
     yjlsx.message = "";
   }
