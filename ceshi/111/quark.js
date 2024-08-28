@@ -199,42 +199,42 @@ if ($request.url.indexOf('/quark/v2/home') !== -1) {
       if (member.name === '网盘') {
         member.memberType = 'S_VIP';
         member.expireTime = 4092599349000;
-        member.productInfo.memberStatus = "UNPAID";
+        member.productInfo.memberStatus = "VIP";
         member.productInfo.nameplateDesc = "永久SVIP";
         member.diffDay = 9999;
-        member.lowAmount = 0;
+        member.lowAmount = null;
       }
       if (member.name === '扫描王') {
-        member.memberType = 'photo_vip';
+        member.memberType = 'VIP';
         member.expireTime = 4092599349000;
-        member.productInfo.memberStatus = "UNPAID";
+        member.productInfo.memberStatus = "VIP";
         member.productInfo.nameplateDesc = "永久会员";
-        member.diffDay = 9999;
-        member.lowAmount = 0;
+        member.diffDay = 3;
+        member.lowAmount = null;
       }
       if (member.name === '文档') {
-        member.memberType = 'doc_vip';
+        member.memberType = 'VIP';
         member.expireTime = 4092599349000;
         member.productInfo.memberStatus = "UNPAID";
         member.productInfo.nameplateDesc = "永久SVIP";
         member.diffDay = 9999;
-        member.lowAmount = 0;
+        member.lowAmount = null;
       }
       if (member.name === '学习') {
-        member.memberType = 'study_vip';
+        member.memberType = 'VIP';
         member.expireTime = 4092599349000;
-        member.productInfo.memberStatus = "UNPAID";
+        member.productInfo.memberStatus = "VIP";
         member.productInfo.nameplateDesc = "永久SVIP";
         member.diffDay = 9999;
-        member.lowAmount = 0;
+        member.lowAmount = null;
       }
       if (member.name === '书城') {
-        member.memberType = 'novel_vip';
+        member.memberType = 'VIP';
         member.expireTime = 4092599349000;
-        member.productInfo.memberStatus = "UNPAID";
+        member.productInfo.memberStatus = "VIP";
         member.productInfo.nameplateDesc = "永久SVIP";
-        member.diffDay = 9999;
-        member.lowAmount = 0;
+        member.diffDay = 4;
+        member.lowAmount = null;
       }
     });
   }
