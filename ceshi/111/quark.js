@@ -280,7 +280,7 @@ if ($request.url.indexOf('member\/v1\/center') !== -1) {
     yjlsx.code = 0;
     yjlsx.status = 0;
     yjlsx.data.userInfo.is88Freeze = true;    
-    yjlsx.data.userInfo.memberType = "VIP';
+    yjlsx.data.userInfo.memberType = "VIP";
     yjlsx.data.userInfo.memberStatus = "VIP_EXP7";
     yjlsx.data.userInfo.vipExpirationTime = 4092599349000;
   }
