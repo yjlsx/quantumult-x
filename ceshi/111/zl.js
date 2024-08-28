@@ -3,7 +3,7 @@
 # 统一处理脚本
 ^https:\/\/cgate\.zhaopin\.com\/mbTrade\/account\/getCommercialMode url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zl.js
 ^https:\/\/cgate\.zhaopin\.com\/mbTrade\/queryAsset\/queryCouponList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zl.js
-^https:\/\/cgate\.zhaopin\.com\/mbTrade\/queryAsset\/queryCouponList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zl.js
+^https:\/\/cgate\.zhaopin\.com\/mbTrade\/assets\/listAggregateCoupon url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zl.js
 
 
 
