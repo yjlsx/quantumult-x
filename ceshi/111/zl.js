@@ -19,13 +19,19 @@ let obj = JSON.parse(body);
 let url = $request.url;
 
 if (url.includes('/mbTrade/account/getCommercialMode')) {
-    obj.data.payUser = true;
-    obj.data.postPay = true;
-    obj.data.rightUser = true;
+    obj.data = {
+     "payUser" : true,
+      "postPay" : true,
+      "rightUser" : true
+        }
 }
 if (url.includes('/queryAsset/queryCouponList')) {
-      obj.data.page.total = 99999;
-      obj.data.page.totalPage = 99997;
+      obj.data.page = {
+        "pageIndex" : 1,
+        "pageSize" : 200,
+        "total" : 99999,
+        "totalPage" : 99997
+      };
 }
 
 if (url.includes('/listAggregateCoupon')) {
