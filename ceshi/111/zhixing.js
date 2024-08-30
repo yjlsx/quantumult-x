@@ -3,8 +3,6 @@
 ^https:\/\/m\.suanya\.com\/restapi\/soa2\/\d+\/json\/(GetSpeedKillAreaWelfareCenter|getGrowthGradePageInfo|GetVipRecords) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhixing.js
 ^https:\/\/m\.suanya\.com\/restapi\/soa2\/\d+\/json\/(getVipDetailInfo|get2020ZtripIntergrationDailyAttendanceRecord) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhixing.js
 
-
-
 *
 [mitm]
 hostname = m.suanya.com
@@ -17,11 +15,11 @@ let obj = JSON.parse(body);
 let url = $request.url;
 
 if (url.includes('/GetSpeedKillAreaWelfareCenter')) {
-   if (obj.godBuyFlag) {
-   obj.godBuyFlag = true;
-   obj.couponType = "train-god-card";
-   obj.isBuyFlag = true;
-       }
+    if (obj.godBuyFlag) {
+        obj.godBuyFlag = true;
+        obj.couponType = "train-god-card";
+        obj.isBuyFlag = true;
+    }
 }
 
 if (url.includes('/getGrowthGradePageInfo')) {
@@ -61,14 +59,15 @@ if (url.includes('/json/getVipDetailInfo')) {
                     if (obj[key].hasOwnProperty("content")) {
                         obj[key]["content"] = "已开通黑钻会员";
                     }
-                } else if (typeof obj[key] === "object") {
-                    rewriteJson(obj[key]);
+                } else if (typeof obj[key] === "object" && obj[key] !== null) {
+                    rewriteJson(obj[key]); // 递归调用
                 }
             }
         }
     }
-    rewriteJson(obj);
+
+    rewriteJson(obj); // 调用递归函数修改数据
 }
 
 body = JSON.stringify(obj);
-$done({body});
+$done({ body });
