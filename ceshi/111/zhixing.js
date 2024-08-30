@@ -1,3 +1,4 @@
+/*
 [rewrite_local]
 # 统一处理脚本
 ^https:\/\/m\.suanya\.com\/restapi\/soa2\/\d+\/json\/(GetSpeedKillAreaWelfareCenter|getGrowthGradePageInfo|GetVipRecords) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhixing.js
