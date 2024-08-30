@@ -2,6 +2,7 @@
 [rewrite_local]
 # 统一处理脚本
 ^https:\/\/m\.suanya\.com\/restapi\/soa2\/\d+\/json\/(GetSpeedKillAreaWelfareCenter|getGrowthGradePageInfo|GetVipRecords) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhixing.js
+^https:\/\/m\.suanya\.com\/restapi\/soa2\/\d+\/json\/GetSpeedKillAreaWelfareCenter url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhixing.js
 ^https:\/\/m\.suanya\.com\/restapi\/soa2\/\d+\/json\/(getVipDetailInfo|get2020ZtripIntergrationDailyAttendanceRecord) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhixing.js
 
 *
@@ -42,6 +43,7 @@ if (url.includes('/GetVipRecords')) {
 if (url.includes('/get2020ZtripIntergrationDailyAttendanceRecord')) {
     obj.totalPayment = 999999;
     obj.successDays = 9999;
+    obj.totalAcquire = 99999;
 }
 
 if (url.includes('/json/getVipDetailInfo')) {
