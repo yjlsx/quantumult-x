@@ -8,13 +8,11 @@
 ^https:\/\/app-sc\.miguvideo\.com\/ability\/v2\/member-rights\/miguvideo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 //^https:\/\/play\.miguvideo\.com\/playurl\/v1\/play\/playurl url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/vmesh\.miguvideo\.com\/mesh\/v1\/mesh-info\/voucherIdentity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
-^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/member-info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/public-operbiz3\.miguvideo\.com\/deliver\/site\/userFeatures\/miguvideo\/iOS url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
-^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/indexContract url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/v3-sc\.miguvideo\.com\/program\/v4\/staticcache\/datavo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
-^https:\/\/vmesh\.miguvideo\.com\/ability\/v1\/vipMemberCard url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
-^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/member-card url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
-^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/nbaMemberInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+^https:\/\/vmesh\.miguvideo\.com\/ability\/v1\/(vipMemberCard|queryContractByTag) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/(member-card|nbaMemberInfo|indexContract|member-info) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+
 
 # > 足球会员
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/footballMemberInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
@@ -41,6 +39,7 @@ let body = $response.body;
 let obj = JSON.parse(body);
 
 if ($request.url.indexOf('/ability/v2/member-rights/miguvideo') !== -1) {
+
     // 遍历每个会员信息
    for (let key in obj.body.memberInfos) {
     let rights = obj.body.memberInfos[key].rights;
@@ -96,7 +95,7 @@ if ($request.url.indexOf('/ability/v2/member-info') !== -1) {
         benefitsInfo[key] = "2099-12-31 00:00:00";
        }
    }
-    obj.body.memberInfo.memberInfo.memberGroup = "5";
+    obj.body.memberInfo.memberInfo.memberGroup = "6";
     obj.body.memberInfo.memberInfo.icons = "black_diamond";
     obj.body.memberInfo.memberInfo.title = "钻石会员 (TV尊享)";
     obj.body.memberInfo.memberInfo.iconsDetail.teamBorderIcon = "https://img.cmvideo.cn/publish/noms/2020/05/25/1O25B1UFFBKG2.png";
@@ -278,8 +277,10 @@ if ($request.url.indexOf('/ability/v2/member-card') !== -1) {
     });
 }
 
+   if ($request.url.indexOf('/queryContractByTag') !== -1) {
+     obj.status = 1;
 
- 
+}
 
 // 将修改后的对象转换回 JSON 字符串
 body = JSON.stringify(obj);
