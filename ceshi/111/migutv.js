@@ -96,7 +96,7 @@ if ($request.url.indexOf('/ability/v2/member-info') !== -1) {
         benefitsInfo[key] = "2099-12-31 00:00:00";
        }
    }
-    obj.body.memberInfo.memberInfo.memberGroup = "6";
+    obj.body.memberInfo.memberInfo.memberGroup = "5";
     obj.body.memberInfo.memberInfo.icons = "black_diamond";
     obj.body.memberInfo.memberInfo.title = "钻石会员 (TV尊享)";
     obj.body.memberInfo.memberInfo.iconsDetail.teamBorderIcon = "https://img.cmvideo.cn/publish/noms/2020/05/25/1O25B1UFFBKG2.png";
