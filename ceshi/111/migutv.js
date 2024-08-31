@@ -17,6 +17,7 @@
 # > 足球会员
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v2\/footballMemberInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 ^https:\/\/vmesh\.miguvideo\.com\/ability\/v3\/member\/identityWall url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
+^https:\/\/vmesh\.miguvideo\.com\/morder\/v3\/sales\/vod-pricing url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
 
 # > Vip会员
 ^https?:\/\/(play|dis).*miguvideo.com\/(play|dis)(url|play)\/.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/migutv.js
@@ -277,13 +278,34 @@ if ($request.url.indexOf('/ability/v2/member-card') !== -1) {
     });
 }
 
-   if ($request.url.indexOf('/queryContractByTag') !== -1) {
-     obj.status = 1;
 
+  if ($request.url.indexOf('/morder/v3/sales/vod-pricing') !== -1) {
+    if (obj.body && obj.body.data && obj.body.data.pricing) {
+    obj.body.data.pricing.lastPrice = 0;
+
+    if (obj.body.data.pricing.mainDeliveryItem && obj.body.data.pricing.mainDeliveryItem.authorization) {
+        let auth = obj.body.data.pricing.mainDeliveryItem.authorization;
+        auth.amount = "99999";
+        auth.effectOn = "1725116789557";
+        auth.validTimeSecond = "4102358400000";
+        auth.expireOn = "4102358400000";
+    }
+
+    if (obj.body.data.pricing.payments && obj.body.data.pricing.payments.length > 0) {
+        let payment = obj.body.data.pricing.payments[0];
+        payment.balance = 9999;
+        payment.amount = 0;
+        payment.originAmount = 0;
+         }
+   } 
 }
 
-// 将修改后的对象转换回 JSON 字符串
-body = JSON.stringify(obj);
+   if ($request.url.indexOf('/queryContractByTag') !== -1) {
+     obj.status = 1;
+}
 
-// 输出修改后的响应体
+
+
+
+body = JSON.stringify(obj);
 $done({ body });
