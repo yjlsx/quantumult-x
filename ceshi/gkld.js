@@ -43,21 +43,21 @@ if (
   obj.data.userInfo.vipGrade = 2;
   obj.data.userInfo.vipExpire = 4102358400;
   obj.data.userInfo.isVip = 1;
-  obj.data.userInfo.homePageStatus = 0;
-  obj.data.userInfo.recommendStatus = 0;
+  obj.data.userInfo.homePageStatus = 1;
+  obj.data.userInfo.recommendStatus = 1;
   obj.data.userInfo.vipGradeList = [
     {
       vipExpire: 4102358400,
       vipGradeName: "黄金VIP",
       vipGrade: 1,
-      remainDays: 365,
+      remainDays: 99999,
       isVip: 1,
     },
     {
       vipExpire: 4102358400,
       vipGradeName: "星钻VIP",
       vipGrade: 2,
-      remainDays: 365,
+      remainDays: 99999,
       isVip: 1,
     },
   ];
@@ -89,10 +89,30 @@ if (
     requestUrl
   )
 ) {
-  obj.data.btnScheme = "";
-  obj.data.greetingMsg = "超级星钻会员";
-  obj.data.btnText = "星钻VIP";
-  obj.data.bottomList = [];
+  obj.data.btnScheme = "gkld://gongkaoleida/vipMemberCenter?param1=1&param2=167";
+  obj.data.greetingMsg = "尊贵的星钻VIP用户，您好~";
+  obj.data.bottomType = 2；
+  obj.data.vipGrade = 2；
+  obj.data.btnText = "立即查看";
+  obj.data.bottomList = [
+        {
+        "iconUrl" : "https://static.gongkaoleida.com/2023/media/images/20230627161040COMKfO.png",
+        "text" : "报名数据预测",
+        "id" : 5
+         },
+        {
+        "iconUrl" : "https://static.gongkaoleida.com/2023/media/images/20230627161052MgUEOa.png",
+        "text" : "有编制高级筛选",
+        "id" : 4
+        }
+    ];
+}  else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/v5\/my\/index?/.test(
+    requestUrl
+  )
+) {
+  obj.data.greetingMsgUp = "尊贵的雷达VIP用户，您好~";
+
 } else if (
   /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/exam\/jobDetail?/.test(
     requestUrl
@@ -127,6 +147,14 @@ if (
 ) {
   obj.message = "success";
   obj.code = 1;
+}  else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/simulated\/selection\/head?/.test(
+    requestUrl
+  )
+) {
+  obj.data.vipFlag = 1;
+  obj.data.resumeFlag = 1;
+  obj.code = 1;
 } else if (
   /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/user\/vip\/prepare?/.test(
     requestUrl
@@ -143,23 +171,6 @@ if (
         obj.data.couponInfo.conditionMoney = "0";
            }
       }
-     if (obj.data && obj.data.couponInfo === null) {
-    obj.data.couponInfo = {
-        "description": "",
-        "couponId": 429,
-        "condition": "满588",
-        "amount": "0",
-        "conditionMoney": "0",
-        "schemeUrl": "gkld://gongkaoleida/vipMemberCenter?type=2&param3=14",
-        "conditionProductId": 14,
-        "endTime": "4102358400",
-        "isMaxCoupon": 0,
-        "userCouponId": "533605286",
-        "startTime": "1725120000",
-        "name": "9月特惠-星钻年卡",
-        "freeBonusList": []
-       };
-   }
 
   obj.data.couponInfo.endTime = "4102358400";
 } else if (
