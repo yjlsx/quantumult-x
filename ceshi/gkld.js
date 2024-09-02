@@ -165,7 +165,14 @@ if (
        }
    }
 
-}  
+} else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/user\/vip\/order?/.test(
+    requestUrl
+  )
+) {
+  obj.message = "success";
+  obj.code = 1;
+} 
   
 
 
