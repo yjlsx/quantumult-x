@@ -132,9 +132,18 @@ if (
     requestUrl
   )
 ) {
-  obj.data.couponPrice = obj.data.couponInfo.conditionMoney;
-  obj.data.orderPrice = "0";
-  obj.data.couponInfo.amount = obj.data.couponInfo.conditionMoney;
+  if (obj.data) {
+    obj.data.couponPrice = "0";
+    obj.data.orderPrice = 0;
+    obj.data.diffPrice = "0";
+    obj.data.discountPrice = "0";
+
+    if (obj.data.couponInfo) {
+        obj.data.couponInfo.amount = "0";
+        obj.data.couponInfo.conditionMoney = "0";
+           }
+      }
+
   obj.data.couponInfo.endTime = "4102358400";
 } else if (
   /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/user\/vip\/product?/.test(
