@@ -41,7 +41,7 @@ if (
 ) {
   obj.data.userInfo.nickname = obj.data.userInfo.nickname;
   obj.data.userInfo.vipGrade = 2;
-  obj.data.userInfo.vipExpire = 4102358400;
+  obj.data.userInfo.vipExpire = 4102358400;  
   obj.data.userInfo.isVip = 1;
   obj.data.userInfo.homePageStatus = 1;
   obj.data.userInfo.recommendStatus = 1;
@@ -136,7 +136,7 @@ if (
   )
 ) {
   obj.data.vipInfo.vipExpireDate = 4102358400;
-  obj.data.vipInfo.vipExpire = 1;
+  obj.data.vipInfo.vipExpire = 4102358400;
   obj.data.vipInfo.isVip = 1;
   obj.data.vipInfo.vipGrade = 2;
   obj.data.isAuth = true;
@@ -200,7 +200,13 @@ if (
 ) {
   obj.message = "success";
   obj.code = 1;
-} 
+} else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/mall\/app_v2\/user\/balance?/.test(
+    requestUrl
+  )
+) {
+  obj.data.buzhiBalance = 99999;
+}  
   
 
 
