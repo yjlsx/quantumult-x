@@ -192,7 +192,10 @@ if (
              }
        }
    }
-
+        delete obj.data.backPopType;
+    if (obj.data.isNewCoupon === undefined) {
+        obj.data.isNewCoupon = 1;
+         }
 } else if (
   /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/user\/vip\/order?/.test(
     requestUrl
@@ -206,7 +209,7 @@ if (
   )
 ) {
   obj.data.buzhiBalance = 99999;
-}  
+}
   
 
 
