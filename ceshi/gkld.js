@@ -47,17 +47,17 @@ if (
   obj.data.userInfo.recommendStatus = 0;
   obj.data.userInfo.vipGradeList = [
     {
-      vipExpire: 1726411565000,
+      vipExpire: 4102358400000,
       vipGradeName: "黄金VIP",
       vipGrade: 1,
-      remainDays: 99999,
+      remainDays: 365,
       isVip: 1,
     },
     {
-      vipExpire: 1726411565000,
+      vipExpire: 4102358400000,
       vipGradeName: "星钻VIP",
       vipGrade: 2,
-      remainDays: 99999,
+      remainDays: 365,
       isVip: 1,
     },
   ];
@@ -120,7 +120,16 @@ if (
   obj.data.vipInfo.isVip = 1;
   obj.data.vipInfo.vipGrade = 2;
   obj.data.isAuth = true;
-}
+}  else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/simulated\/selection\/(tagInfoList|jobList)?/.test(
+    requestUrl
+  )
+) {
+  obj.message = "success";
+  obj.code = 1;
+} 
+
+
 $done({ body: status ? JSON.stringify(obj) : obj });
 
 function isJSON(str) {
