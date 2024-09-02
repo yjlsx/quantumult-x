@@ -30,8 +30,8 @@ var obj = status
         .replace(/\"isVip\":\"0\"/g, '"isVip":1')
         .replace(/\"vipGrade\":\w+/g, '"vipGrade":2')
         .replace(/\"vipGrade\":\"0\"/g, '"vipGrade":2')
-        .replace(/\"vipExpire\":\w+/g, '"vipExpire":4102358400000')
-        .replace(/\"vipExpire\":\"0\"/g, '"vipExpire":4102358400000')
+        .replace(/\"vipExpire\":\w+/g, '"vipExpire":1724411565000')
+        .replace(/\"vipExpire\":\"0\"/g, '"vipExpire":1724411565000')
         .replace(/\"jobBianzhiOpt\":0/g, '"jobBianzhiOpt":1')
         .replace(/\"status\":\w+/g, '"status":1')
     )
@@ -41,20 +41,20 @@ if (
 ) {
   obj.data.userInfo.nickname = obj.data.userInfo.nickname;
   obj.data.userInfo.vipGrade = 2;
-  obj.data.userInfo.vipExpire = 4102358400000;
+  obj.data.userInfo.vipExpire = 1724411565000;
   obj.data.userInfo.isVip = 1;
   obj.data.userInfo.homePageStatus = 0;
   obj.data.userInfo.recommendStatus = 0;
   obj.data.userInfo.vipGradeList = [
     {
-      vipExpire: 4102358400000,
+      vipExpire: 1724411565000,
       vipGradeName: "黄金VIP",
       vipGrade: 1,
       remainDays: 365,
       isVip: 1,
     },
     {
-      vipExpire: 4102358400000,
+      vipExpire: 1724411565000,
       vipGradeName: "星钻VIP",
       vipGrade: 2,
       remainDays: 365,
