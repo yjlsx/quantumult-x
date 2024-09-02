@@ -133,10 +133,31 @@ if (
   )
 ) {
   obj.data.couponPrice = obj.data.couponInfo.conditionMoney;
-  obj.data.orderPrice = 0;
+  obj.data.orderPrice = "0";
   obj.data.couponInfo.amount = obj.data.couponInfo.conditionMoney;
   obj.data.couponInfo.endTime = "4102358400";
+} else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/user\/vip\/product?/.test(
+    requestUrl
+  )
+) {
+    if (obj.data && obj.data.productList) {
+    let productList = obj.data.productList;
+    
+    for (let i = 0; i < productList.length; i++) {
+        let product = productList[i].list;
+
+        for (let j = 0; j < product.length; j++) {
+            product[j].price = "0";
+            product[j].discountPrice = "0";
+            product[j].unitPrice = 0;
+            product[j].unitPriceDesc = "￥0/天";
+             }
+       }
+   }
+
 }  
+  
 
 
 $done({ body: status ? JSON.stringify(obj) : obj });
