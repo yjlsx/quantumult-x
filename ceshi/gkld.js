@@ -143,6 +143,23 @@ if (
         obj.data.couponInfo.conditionMoney = "0";
            }
       }
+     if (obj.data && obj.data.couponInfo === null) {
+    obj.data.couponInfo = {
+        "description": "",
+        "couponId": 429,
+        "condition": "满588",
+        "amount": "0",
+        "conditionMoney": "0",
+        "schemeUrl": "gkld://gongkaoleida/vipMemberCenter?type=2&param3=14",
+        "conditionProductId": 14,
+        "endTime": "4102358400",
+        "isMaxCoupon": 0,
+        "userCouponId": "533605286",
+        "startTime": "1725120000",
+        "name": "9月特惠-星钻年卡",
+        "freeBonusList": []
+       };
+   }
 
   obj.data.couponInfo.endTime = "4102358400";
 } else if (
