@@ -120,14 +120,23 @@ if (
   obj.data.vipInfo.isVip = 1;
   obj.data.vipInfo.vipGrade = 2;
   obj.data.isAuth = true;
-}  else if (
+} else if (
   /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/simulated\/selection\/(tagInfoList|jobList)?/.test(
     requestUrl
   )
 ) {
   obj.message = "success";
   obj.code = 1;
-} 
+} else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/user\/vip\/prepare?/.test(
+    requestUrl
+  )
+) {
+  obj.data.couponPrice = obj.data.couponInfo.conditionMoney;
+  obj.data.orderPrice = 0;
+  obj.data.couponInfo.amount = obj.data.couponInfo.conditionMoney;
+  obj.data.couponInfo.endTime = "4102358400";
+}  
 
 
 $done({ body: status ? JSON.stringify(obj) : obj });
