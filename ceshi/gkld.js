@@ -91,8 +91,8 @@ if (
 ) {
   obj.data.btnScheme = "gkld://gongkaoleida/vipMemberCenter?param1=1&param2=167";
   obj.data.greetingMsg = "尊贵的星钻VIP用户，您好~";
-  obj.data.bottomType = 2；
-  obj.data.vipGrade = 2；
+  obj.data.bottomType = 2;
+  obj.data.vipGrade = 2;
   obj.data.btnText = "立即查看";
   obj.data.bottomList = [
         {
