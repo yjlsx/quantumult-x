@@ -31,6 +31,7 @@
 ^https://gateway\.kugou\.com/v1/consumption url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https://gateway\.kugou\.com/vipcenter/ios url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\\//vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/gatewayretry\.kugou\.com\/v2\/get_kg_bg_pics url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/record_rack\/set_user_record_rack url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
@@ -493,6 +494,38 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
 
 if (url.includes('/v1/userbalance')) {
     obj.data = 999999;
+}
+
+if (url.includes('gateway.kugou.com/vipcenter/ios')) {
+    // 替换 m_list, h_list 和 vip_list 的内容
+    body = body.replace(/"m_list":\{[^}]*\}/, `"m_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
+    body = body.replace(/"h_list":\{[^}]*\}/, `"h_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
+    body = body.replace(/"vip_list":\{[^}]*\}/, `"vip_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
+
+    // 更新 VIP 信息
+    body = body.replace(/"is_vip":\d+/, '"is_vip":1');
+    body = body.replace(/"svip_first_autotype79":\d+/, '"svip_first_autotype79":1');
+    body = body.replace(/"vip_end_time":"[^"]*"/, '"vip_end_time":"2099-12-31 23:59:59"');
+    body = body.replace(/"su_vip_end_time":"[^"]*"/, '"su_vip_end_time":"2099-12-31 23:59:59"');
+    body = body.replace(/"m_end_time":"[^"]*"/, '"m_end_time":"2099-12-31 23:59:59"');
+    body = body.replace(/"su_vip_y_endtime":"[^"]*"/, '"su_vip_y_endtime":"2099-12-31 23:59:59"');
+    body = body.replace(/"su_vip_clearday":"[^"]*"/, '"su_vip_clearday":"2024-07-26 15:14:09"');
+    body = body.replace(/"vip_begin_time":"[^"]*"/, '"vip_begin_time":"2024-07-26 15:14:09"');
+    body = body.replace(/"m_begin_time":"[^"]*"/, '"m_begin_time":"2024-07-26 15:14:09"');
+    body = body.replace(/"su_vip_begin_time":"[^"]*"/, '"su_vip_begin_time":"2024-07-26 15:14:09"');
+    body = body.replace(/"vip_type":\d+/, '"vip_type":4'); 
+    body = body.replace(/"isExpiredMember":\d+/, '"isExpiredMember":0');
+    body = body.replace(/"m_y_endtime":"[^"]*"/, '"m_y_endtime":"2099-12-31 23:59:59"');
+    body = body.replace(/"vip_y_endtime":"[^"]*"/, '"vip_y_endtime":"2099-12-31 23:59:59"');
+    body = body.replace(/"is_vip":\d+/, '"is_vip":1');
+    body = body.replace(/"m_type":\d+/, '"m_type":1');
+    body = body.replace(/"user_type":\d+/, '"user_type":20');
+    body = body.replace(/"svip_level":\d+/, '"svip_level":8');
+    body = body.replace(/"end_time":"[^"]*"/, '"end_time":"2099-12-31 23:59:59"');
+    body = body.replace(/"svip_score":\d+/, '"svip_score":99999');
+    body = body.replace(/"h_end_time":"[^"]*"/, '"h_end_time":"2099-12-31 23:59:59"');
+    body = body.replace(/"m_clearday":"[^"]*"/, '"m_clearday":"2024-07-26 15:14:09"');
+
 }
 
 
