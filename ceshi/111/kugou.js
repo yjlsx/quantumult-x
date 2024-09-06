@@ -230,7 +230,7 @@ if (url.includes('/mobile/vipinfoV2')) {
     }
 }
 
-if (url.includes('/v1/fusion/userinfo') || url.includes('/gateway.kugou.com/vipcenter/ios')) {
+if (url.includes('/v1/fusion/userinfo')) {
     if (obj.data && obj.data.get_vip_info_v3) {
         // 确保 vip_list 是一个数组
         if (!Array.isArray(obj.data.get_vip_info_v3.data.vip_list)) {
@@ -509,7 +509,6 @@ if (url.includes('/vipenergy/v2/entrance/vip_center_user_info')) {
     obj.data.user_type = 20;
 }
 
-/*
 if (url.includes('gateway.kugou.com/vipcenter/ios')) {
     // 替换 m_list, h_list 和 vip_list 的内容
     body = body.replace(/"m_list":\{[^}]*\}/, `"m_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
@@ -541,8 +540,6 @@ if (url.includes('gateway.kugou.com/vipcenter/ios')) {
     body = body.replace(/"m_clearday":"[^"]*"/, '"m_clearday":"2024-07-26 15:14:09"');
 
 }
-*/
-
 
 
 $done({ body: JSON.stringify(obj) });
