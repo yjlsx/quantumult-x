@@ -1,7 +1,6 @@
 
 /**
  [rewrite_local]
-# Kugou Music Rewrite Rules
 ^https://gateway\.kugou\.com/v1/fusion/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v5/login_by_token url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/mobile/vipinfoV2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
@@ -25,21 +24,24 @@
 ^https://gateway\.kugou\.com/v1/userinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/userbalance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://sentry\.kugou\.com/api/89/store url reject-200
-^https://gateway\.kugou\.com/v5/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/msg.mobile/v3/setting/list_v2 url reject-200
+^https://gateway\.kugou\.com/(v5/url|vipenergy/v2/entrance/vip_center_user_info) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_res_privilege url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_b_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/consumption url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/vipcenter/ios url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
-^https:\\//vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https:\/\/vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https:\/\/welfare\.kugou\.com\/pendant\/v2\/get_user_pendant url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/gatewayretry\.kugou\.com\/v2\/get_kg_bg_pics url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/record_rack\/set_user_record_rack url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/vipdress\.kugou\.com\/v1\/record_rack\/get_record_rack_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https://gateway\.kugou\.com/vipdress/v1/record_rack/get_user_record_rack url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 
-
+*
 [mitm]
-hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com,
+hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com, welfare.kugou.com
  */
 
 const timestamp = Math.floor(Date.now() / 1000);
@@ -228,7 +230,7 @@ if (url.includes('/mobile/vipinfoV2')) {
     }
 }
 
-if (url.includes('/v1/fusion/userinfo')) {
+if (url.includes('/v1/fusion/userinfo') || url.includes('/gateway.kugou.com/vipcenter/ios')) {
     if (obj.data && obj.data.get_vip_info_v3) {
         // 确保 vip_list 是一个数组
         if (!Array.isArray(obj.data.get_vip_info_v3.data.vip_list)) {
@@ -491,11 +493,23 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
         }
 }
 
+if (url.includes('/pendant\/v2\/get_user_pendant')) {
+    obj.data.end_time = "2099-12-31 23:59:59";
+}
 
 if (url.includes('/v1/userbalance')) {
     obj.data = 999999;
 }
 
+if (url.includes('/vipdress/v1/record_rack/get_user_record_rack')) {
+    obj.data.can_use = 1;
+}
+
+if (url.includes('/vipenergy/v2/entrance/vip_center_user_info')) {
+    obj.data.user_type = 20;
+}
+
+/*
 if (url.includes('gateway.kugou.com/vipcenter/ios')) {
     // 替换 m_list, h_list 和 vip_list 的内容
     body = body.replace(/"m_list":\{[^}]*\}/, `"m_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
@@ -527,7 +541,7 @@ if (url.includes('gateway.kugou.com/vipcenter/ios')) {
     body = body.replace(/"m_clearday":"[^"]*"/, '"m_clearday":"2024-07-26 15:14:09"');
 
 }
-
+*/
 
 
 
