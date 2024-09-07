@@ -48,9 +48,15 @@ hostname = *.mgtv.com, pad.api.mgtv.com, pcc.api.mgtv.com, vip.bz.mgtv.com, vipa
 
 
 
-var url = $request.url,
-  updatedUrl = url;
-if (url.includes("video/getSource")) updatedUrl = url.replace(/([?&]ticket=)\w{32}/, "$AF1FEA58193736728B7146096D5E786A");else url.includes("video/source") && (updatedUrl = url.replace(/([?&]ticket=)\w{32}/, "$AF1FEA58193736728B7146096D5E786A"));
+var url = $request.url;
+var updatedUrl = url;
+
+// 如果 URL 包含 "video/getSource" 或 "video/source"，则替换 ticket 值
+if (url.includes("video/getSource") || url.includes("video/source")) {
+  updatedUrl = url.replace(/([?&]ticket=)\w{32}/, "$1AF1FEA58193736728B7146096D5E786A");
+}
+
 $done({
   "url": updatedUrl
 });
+
