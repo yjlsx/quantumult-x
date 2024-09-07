@@ -510,35 +510,53 @@ if (url.includes('/vipenergy/v2/entrance/vip_center_user_info')) {
 }
 
 if (url.includes('gateway.kugou.com/vipcenter/ios')) {
+            if (obj.data && obj.data["{initState}"]) {
+            let initState = JSON.parse(obj.data["{initState}"]);
+
+            if (initState.props && initState.props.pageProps && initState.props.pageProps.state &&
+                initState.props.pageProps.state.funsionData && initState.props.pageProps.state.funsionData.data &&
+                initState.props.pageProps.state.funsionData.data.get_vip_info_v3) {
+
+                // 转换为字符串，使用 replace 方法替换 VIP 信息
+                let vipInfoStr = JSON.stringify(initState.props.pageProps.state.funsionData.data.get_vip_info_v3);
+
+                // 使用 replace 方法替换 VIP 相关字段
+                vipInfoStr = vipInfoStr
     // 替换 m_list, h_list 和 vip_list 的内容
-    body = body.replace(/"m_list":\{[^}]*\}/, `"m_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
-    body = body.replace(/"h_list":\{[^}]*\}/, `"h_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
-    body = body.replace(/"vip_list":\{[^}]*\}/, `"vip_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
-
+     .replace(/"m_list":\{[^}]*\}/, `"m_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
+     .replace(/"h_list":\{[^}]*\}/, `"h_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
+     .replace(/"vip_list":\{[^}]*\}/, `"vip_list":{ "end_time": "2099-12-31 23:59:59", "type": 1, "begin_time": "2024-07-26 15:14:09" }`);
     // 更新 VIP 信息
-    body = body.replace(/"is_vip":\d+/, '"is_vip":1');
-    body = body.replace(/"svip_first_autotype79":\d+/, '"svip_first_autotype79":1');
-    body = body.replace(/"vip_end_time":"[^"]*"/, '"vip_end_time":"2099-12-31 23:59:59"');
-    body = body.replace(/"su_vip_end_time":"[^"]*"/, '"su_vip_end_time":"2099-12-31 23:59:59"');
-    body = body.replace(/"m_end_time":"[^"]*"/, '"m_end_time":"2099-12-31 23:59:59"');
-    body = body.replace(/"su_vip_y_endtime":"[^"]*"/, '"su_vip_y_endtime":"2099-12-31 23:59:59"');
-    body = body.replace(/"su_vip_clearday":"[^"]*"/, '"su_vip_clearday":"2024-07-26 15:14:09"');
-    body = body.replace(/"vip_begin_time":"[^"]*"/, '"vip_begin_time":"2024-07-26 15:14:09"');
-    body = body.replace(/"m_begin_time":"[^"]*"/, '"m_begin_time":"2024-07-26 15:14:09"');
-    body = body.replace(/"su_vip_begin_time":"[^"]*"/, '"su_vip_begin_time":"2024-07-26 15:14:09"');
-    body = body.replace(/"vip_type":\d+/, '"vip_type":4'); 
-    body = body.replace(/"isExpiredMember":\d+/, '"isExpiredMember":0');
-    body = body.replace(/"m_y_endtime":"[^"]*"/, '"m_y_endtime":"2099-12-31 23:59:59"');
-    body = body.replace(/"vip_y_endtime":"[^"]*"/, '"vip_y_endtime":"2099-12-31 23:59:59"');
-    body = body.replace(/"is_vip":\d+/, '"is_vip":1');
-    body = body.replace(/"m_type":\d+/, '"m_type":1');
-    body = body.replace(/"user_type":\d+/, '"user_type":20');
-    body = body.replace(/"svip_level":\d+/, '"svip_level":8');
-    body = body.replace(/"end_time":"[^"]*"/, '"end_time":"2099-12-31 23:59:59"');
-    body = body.replace(/"svip_score":\d+/, '"svip_score":99999');
-    body = body.replace(/"h_end_time":"[^"]*"/, '"h_end_time":"2099-12-31 23:59:59"');
-    body = body.replace(/"m_clearday":"[^"]*"/, '"m_clearday":"2024-07-26 15:14:09"');
+     .replace(/"is_vip":\d+/, '"is_vip":1');
+     .replace(/"svip_first_autotype79":\d+/, '"svip_first_autotype79":1');
+     .replace(/"vip_end_time":"[^"]*"/, '"vip_end_time":"2099-12-31 23:59:59"');
+     .replace(/"su_vip_end_time":"[^"]*"/, '"su_vip_end_time":"2099-12-31 23:59:59"');
+     .replace(/"m_end_time":"[^"]*"/, '"m_end_time":"2099-12-31 23:59:59"');
+     .replace(/"su_vip_y_endtime":"[^"]*"/, '"su_vip_y_endtime":"2099-12-31 23:59:59"');
+     .replace(/"su_vip_clearday":"[^"]*"/, '"su_vip_clearday":"2024-07-26 15:14:09"');
+     .replace(/"vip_begin_time":"[^"]*"/, '"vip_begin_time":"2024-07-26 15:14:09"');
+     .replace(/"m_begin_time":"[^"]*"/, '"m_begin_time":"2024-07-26 15:14:09"');
+     .replace(/"su_vip_begin_time":"[^"]*"/, '"su_vip_begin_time":"2024-07-26 15:14:09"');
+     .replace(/"vip_type":\d+/, '"vip_type":4'); 
+     .replace(/"isExpiredMember":\d+/, '"isExpiredMember":0');
+     .replace(/"m_y_endtime":"[^"]*"/, '"m_y_endtime":"2099-12-31 23:59:59"');
+     .replace(/"vip_y_endtime":"[^"]*"/, '"vip_y_endtime":"2099-12-31 23:59:59"');
+     .replace(/"is_vip":\d+/, '"is_vip":1');
+     .replace(/"m_type":\d+/, '"m_type":1');
+     .replace(/"user_type":\d+/, '"user_type":20');
+     .replace(/"svip_level":\d+/, '"svip_level":8');
+     .replace(/"end_time":"[^"]*"/, '"end_time":"2099-12-31 23:59:59"');
+     .replace(/"svip_score":\d+/, '"svip_score":99999');
+     .replace(/"h_end_time":"[^"]*"/, '"h_end_time":"2099-12-31 23:59:59"');
+     .replace(/"m_clearday":"[^"]*"/, '"m_clearday":"2024-07-26 15:14:09"');
 
+    // 将修改后的字符串转换回对象
+                initState.props.pageProps.state.funsionData.data.get_vip_info_v3 = JSON.parse(vipInfoStr);
+
+                // 更新原始数据
+                obj.data["{initState}"] = JSON.stringify(initState);
+            }
+        }
 }
 
 
