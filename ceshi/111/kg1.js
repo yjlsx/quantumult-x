@@ -3,7 +3,7 @@
 ^https://gateway\.kugou\.com/v5/url?album_audio_id url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg1.js
 
 [mitm]
-hostname = gateway.kugou.com, m.kugou.com
+hostname = gateway.kugou.com
 */
 
 const url = $request.url;
