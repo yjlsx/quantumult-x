@@ -74,9 +74,9 @@ hostname = m.zhaopin.com, ask.zhaopin.com
             }
         }else if (url.includes("/bapi/vip/privilege/info")) {
             if (obj.data && obj.data.resumeRefreshSurplusDays) {
-                obj.data.resumeRefreshSurplusDays = 99999;
-                obj.data.deliveryReplySurplusCount = 99999;
-                obj.data.resumeTopSurplusDays = 99999;
+                //obj.data.resumeRefreshSurplusDays = 99999;
+                //obj.data.deliveryReplySurplusCount = 99999;
+                //obj.data.resumeTopSurplusDays = 99999;
             }
        } else if (url.includes("/bapi/vip/buy/gray")) {
             if (obj.data) {
