@@ -80,7 +80,7 @@ if (
     requestUrl
   )
 ) {
-  obj.data.content = content" : [
+  obj.data.content =  [
       {
         "cid" : 0,
         "text" : "推荐",
