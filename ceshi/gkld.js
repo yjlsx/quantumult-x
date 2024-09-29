@@ -69,6 +69,56 @@ if (
   obj.data.jobStaff.vipGrade = 2;
   obj.data.articleStaff.vipGrade = 2;
 } else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/home\/v5\/index?/.test(
+    requestUrl
+  )
+) {
+  obj.data.needAuth = [ ];
+
+} else if (
+  /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/getOrderSelect?/.test(
+    requestUrl
+  )
+) {
+  obj.data.content = content" : [
+      {
+        "cid" : 0,
+        "text" : "推荐",
+        "vipAuthKey" : ""
+      },
+      {
+        "cid" : 2,
+        "text" : "最新",
+        "vipAuthKey" : ""
+      },
+      {
+        "cid" : 1,
+        "text" : "匹配度",
+        "vipAuthKey" : ""
+      },
+      {
+        "cid" : 4,
+        "text" : "有编制优先",
+        "vipAuthKey" : " "
+      },
+      {
+        "cid" : 5,
+        "text" : "热度低优先",
+        "vipAuthKey" : " "
+      },
+      {
+        "cid" : 7,
+        "text" : "距离近优先",
+        "vipAuthKey" : " "
+      },
+      {
+        "cid" : 3,
+        "text" : "招录人数多优先",
+        "vipAuthKey" : ""
+      }
+    ];
+
+} else if (
   /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/exam\/getExamList?/.test(
     requestUrl
   )
