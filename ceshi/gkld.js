@@ -69,13 +69,6 @@ if (
   obj.data.jobStaff.vipGrade = 2;
   obj.data.articleStaff.vipGrade = 2;
 } else if (
-  /^https:\/\/api\.gongkaoleida\.com\/api\/home\/v5\/index?/.test(
-    requestUrl
-  )
-) {
-  obj.data.needAuth = [ ];
-
-} else if (
   /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/getOrderSelect?/.test(
     requestUrl
   )
