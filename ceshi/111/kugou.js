@@ -137,6 +137,33 @@ if (url.includes('/mobile/vipinfoV2')) {
         if (!Array.isArray(obj.data.h_list)) {
             obj.data.h_list = [];
         }
+
+        if (!Array.isArray(obj.data.tone_info)) {
+            obj.data.tone_info.user_right_type = 1;
+            obj.data.tone_info.user_right_list = [
+          {
+          "begin_time" : "2024-07-26 15:14:09",
+          "asset_id" : "tone_mudai",
+          "type" : 1,
+          "end_time" : "2099-12-31 23:59:59",
+          "valid" : true
+        },
+        {
+          "begin_time" : "2024-07-26 15:14:09",
+          "asset_id" : "tone_chaoqing",
+          "type" : 2,
+          "end_time" : "2099-12-31 23:59:59",
+          "valid" : true
+        },
+        {
+          "begin_time" : "2024-07-26 15:14:09",
+          "asset_id" : "tone_quanjing",
+          "type" : 4,
+          "end_time" : "2099-12-31 23:59:59",
+          "valid" : true
+             }
+          ];
+        }
         if (obj.data.h_list.length === 0) {
             obj.data.h_list.push({
                 end_time: "2099-12-31 23:59:59",
@@ -318,7 +345,7 @@ if (url.includes('/v1/fusion/userinfo')) {
 
 
 if (url.includes('/v1/get_remain_quota') || url.includes('/goodsmstore/v1/get_remain_quota')) {
-    obj.data.m_clearday = "4102444799";
+    obj.data.m_clearday = "2024-07-26 15:14:09";
     obj.data.upgrade = 4;
     obj.data.m_type = 1;
     obj.data.total = 99999;
