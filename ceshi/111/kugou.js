@@ -30,6 +30,7 @@
 ^https://gateway\.kugou\.com/v1/get_b_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/consumption url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v1/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/updateservice/v1/get_dev_user url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/vipcenter/ios url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v5/url url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg1.js
@@ -358,6 +359,21 @@ if (url.includes('/promotionvip/v3/vip_level/detail')) {
     obj.data.growth = 999999;
     obj.data.level_start_growth = 108000;
     obj.data.next_level_growth = 0;
+}
+
+if (url.includes('/updateservice/v1/get_dev_user')) {
+    if (obj && obj.data && obj.data.list) {
+       obj.data.list.forEach(user => {
+    user.vipinfo.is_vip = 1;         // 将 is_vip 设置为 1
+    user.vipinfo.vip_type = 4;       // 自定义 VIP 类型
+    user.vipinfo.m_type = 1;         // 自定义会员类型
+    user.vipinfo.svip_level = 8;     // 超级会员等级设为 5
+    user.vipinfo.svip_score = 999999;  // 超级会员积分设为 999999
+    user.vipinfo.vip_statu = 1;      // VIP 状态设为已开通
+    user.vipinfo.user_type = 20;      // 用户类型设为 VIP
+    user.vipinfo.user_y_type = 1;    // 额外类型设为 VIP
+              });
+       }
 }
 
 if (url.includes('/v3/get_my_info')) {
