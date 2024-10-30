@@ -15,6 +15,59 @@
       "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/Kuwomusic.js"
     },
     {
+      "id": "yuheng.wsgw",
+      "name": "网上国网小程序",
+      "descs_html": [
+        "<a style='margin-left:20px;color:#686de0;' target='_blank' href='https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/95598/95598.weapp.js'>README.md相关配置请点击</a>",
+        "<p style='margin-top:20px;margin-left:20px;color:#eb4d4b;'>本脚本仅提供查询服务, 不牵扯签到相关</p>",
+        "<p style='margin-left:20px;color:#ff7979;'>1.微信小程序搜索 网上国网 ,打开并登录(请提前绑定户号)</p>",
+        "<p style='margin-left:20px;color:#60a3bc;'>2.代理工具添加重写和Cron脚本</p>",
+        "<p style='margin-left:20px;color:#f0932b;'>3.回到小程序重新进入, 提示获取数据成功即可使用该脚本</p>",
+        "<p style='margin-left:20px;color:#38ada9;'>4.回到代理工具执行Cron脚本, 即可查看相关结果</p>"
+      ],
+      "keys": ["wsgw_debug", "wsgw_openid", "wsgw_token", "wsgw_auth"],
+      "settings": [
+        {
+          "id": "wsgw_debug",
+          "name": "是否查看数据日志",
+          "val": "false",
+          "type": "boolean",
+          "desc": ""
+        },
+        {
+          "id": "wsgw_openid",
+          "name": "用户标识",
+          "val": null,
+          "type": "text",
+          "rows": 1,
+          "desc": ""
+        },
+        {
+          "id": "wsgw_token",
+          "name": "用户凭证",
+          "val": null,
+          "type": "text",
+          "rows": 1,
+          "desc": ""
+        },
+        {
+          "id": "wsgw_auth",
+          "name": "登录凭证",
+          "val": null,
+          "type": "textarea",
+          "rows": 5,
+          "desc": ""
+        }
+      ],
+      "author": "@yjlsx",
+      "repo": "https://github.com/Yuheng0101/X",
+      "icons": [
+        "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/83/d8/8a/83d88a92-5a4d-7a2f-118c-80d795e7a9f6/AppIcon-0-0-1x_U007emarketing-0-5-0-0-sRGB-85-220.png/144x144.png",
+        "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/83/d8/8a/83d88a92-5a4d-7a2f-118c-80d795e7a9f6/AppIcon-0-0-1x_U007emarketing-0-5-0-0-sRGB-85-220.png/144x144.png"
+      ],
+      "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/95598.weapp.js"
+    },
+    {
       "id": "QQreader",
       "name": "QQ阅读",
       "keys": ["qqrdcookie"],
