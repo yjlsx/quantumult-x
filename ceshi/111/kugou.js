@@ -34,6 +34,7 @@
 ^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/vipcenter/ios url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v5/url url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg1.js
+^https://gateway\.kugou\.com/v5/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/welfare\.kugou\.com\/pendant\/v2\/get_user_pendant url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/gatewayretry\.kugou\.com\/v2\/get_kg_bg_pics url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
@@ -551,6 +552,20 @@ if (url.includes('/vipdress/v1/record_rack/get_user_record_rack')) {
 
 if (url.includes('/vipenergy/v2/entrance/vip_center_user_info')) {
     obj.data.user_type = 20;
+}
+
+if (url.includes('/v5/url')) {
+   if(obj && obj.privilege === 10)  {
+      obj.privilege = 0;  // 设置无版权限制
+  obj["128privilege"] = 0;
+  obj["320privilege"] = 0;
+  obj["sqprivilege"] = 0;
+  obj["highprivilege"] = 0;
+  obj.pay_type = 0;  // 设置为无需支付
+  obj.fail_process = 0; // 无错误处理
+  obj.error = "";  // 清除错误信息
+  obj.trans_param.appid_block = "";  // 去除 appid 限制
+  }
 }
 
 if (url.includes('gateway.kugou.com/vipcenter/ios')) {
