@@ -554,7 +554,7 @@ if (url.includes('/vipenergy/v2/entrance/vip_center_user_info')) {
     obj.data.user_type = 20;
 }
 
-if (url.includes('/v5/url')) {
+if (url.includes('/app/i/getSongInfo\.php')) {
    if(obj && obj.privilege === 10)  {
       obj.privilege = 0;  // 设置无版权限制
   obj["128privilege"] = 0;
