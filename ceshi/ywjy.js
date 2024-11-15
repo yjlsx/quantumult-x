@@ -28,7 +28,7 @@
 ^https://proxyweb\.yiwenjy\.com/yiwen_mobile/query_myOrder url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb.\yiwenjy\.com/yiwen_mobile/queryAppProductDetail url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
 ^https://proxyweb.\yiwenjy\.com/yiwen_mobile/queryAppProductList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
-^https://proxyweb.\yiwenjy\.com/yiwen_mobile/qeuryAppSubjectList url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/ywjy.js
+
 
 *
 [mitm]
@@ -73,10 +73,7 @@ if (url.indexOf("/yiwen_mobile/ioscoin_buy") !== -1) {
 } 
 
 
-if (url.indexOf("/yiwen_mobile/qeuryAppSubjectList") !== -1) {
-    obj.msg = "成功";
-    obj.code = 0;
-}
+
 
 if (url.indexOf("/yiwen_mobile/query_useCoupon") !== -1) {
     obj.data.account = 999999;
