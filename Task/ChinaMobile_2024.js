@@ -8,7 +8,7 @@
  * 使用该脚本需DmYY依赖及添加重写，参数获取及重写作者@Yuheng0101
  * 参数获取及boxjs订阅: https://github.com/ChinaTelecomOperators/ChinaMobile/releases/tag/Prerelease-Alpha
  * 重写: https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/ChinaMobile/scripable.qx.conf
- * 依赖: https://raw.githubusercontent.com/dompling/Scriptable/master/Scripts/DmYY.js
+ * 依赖: https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Scripts/DmYY.js
  * boxjs填写手机号码
  * 打开移动app获取参数（手机验证码登录，人脸登录无效）
 */
