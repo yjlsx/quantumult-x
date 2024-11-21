@@ -215,7 +215,7 @@ if (
            }
       }
 
-  obj.data.couponInfo.endTime = "4102358400";
+  //obj.data.couponInfo.endTime = "4102358400";
 } else if (
   /^https:\/\/api\.gongkaoleida\.com\/api\/v.+\/user\/vip\/product?/.test(
     requestUrl
