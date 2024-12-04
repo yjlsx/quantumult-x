@@ -32,7 +32,7 @@
 ^https://gateway\.kugou\.com/v1/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/updateservice/v1/get_dev_user url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
-^https://gateway\.kugou\.com/vipcenter/ios url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gateway\.kugou\.com/vipcenter/ios url reject-200
 ^https://gateway\.kugou\.com/v5/url url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg1.js
 ^https://m\.kugou\.com/app/i/getSongInfo\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
@@ -76,7 +76,7 @@ if (url.includes('/v1/userinfo')) {
     obj.data.su_vip_y_endtime = "2099-12-31 15:14:48";
     obj.data.su_vip_end_time = "2099-12-31 15:14:48";
     obj.data.su_vip_begin_time = "2024-07-26 15:14:09";
-    obj.data.svip_level = 8;
+    obj.data.svip_level = 9;
     obj.data.svip_score = 999999;
     obj.data.su_vip_clearday = "2024-07-26 15:14:09";
     obj.data.m_end_time = "2099-12-31 15:14:48";
@@ -89,7 +89,7 @@ if (url.includes('/v2/get_login_extend_info')) {
     obj.data.vipinfo.su_vip_begin_time = "2024-07-26 15:14:09";
     obj.data.vipinfo.su_vip_clearday = "2024-07-26 15:14:09";
     obj.data.vipinfo.user_type = 20;
-    obj.data.vipinfo.svip_level = 8;
+    obj.data.vipinfo.svip_level = 9;
     obj.data.vipinfo.m_type = 1;
     obj.data.vipinfo.vip_type = 4;
 if(obj.data.vipinfo.svip_score){
@@ -99,7 +99,7 @@ if(obj.data.vipinfo.vip_type){
     obj.data.vipinfo.vip_type = 4;
       }
 if(obj.data.vipinfo.svip_level){
-    obj.data.vipinfo.svip_level = 8;
+    obj.data.vipinfo.svip_level = 9;
       }
 }
 
@@ -230,7 +230,7 @@ if (url.includes('/mobile/vipinfoV2')) {
         obj.data.h_end_time = "2099-12-31 23:59:59";
         obj.data.m_y_endtime = "2099-12-31 23:59:59";
         obj.data.vip_end_time = "2099-12-31 23:59:59";
-        obj.data.svip_level = 8;
+        obj.data.svip_level = 9;
         obj.data.is_vip = 1;
         obj.data.svip_score = 999999;
         obj.data.svip_end_time = "2099-12-31 23:59:59";
@@ -254,7 +254,7 @@ if (url.includes('/mobile/vipinfoV2')) {
         obj.error.h_end_time = "2099-12-31 23:59:59";
         obj.error.vip_end_time = "2099-12-31 23:59:59";
         obj.error.svip_end_time = "2099-12-31 23:59:59";
-        obj.error.svip_level = 8;
+        obj.error.svip_level = 9;
         obj.error.svip_score = 999999;
         obj.error.is_vip = 1;
         obj.error.m_end_time = "2099-12-31 23:59:59";
@@ -341,7 +341,7 @@ if (url.includes('/v1/fusion/userinfo')) {
         obj.data.get_vip_info_v3.data.vip_end_time = "2099-12-31 23:59:59";
         obj.data.get_vip_info_v3.data.is_vip = 1;
         obj.data.get_vip_info_v3.data.svip99 = 1;
-        obj.data.get_vip_info_v3.data.svip_level = 8;
+        obj.data.get_vip_info_v3.data.svip_level = 9;
         obj.data.get_vip_info_v3.data.svip_score = 999999;
     }
 }
@@ -356,10 +356,10 @@ if (url.includes('/v1/get_remain_quota') || url.includes('/goodsmstore/v1/get_re
 }
 
 if (url.includes('/promotionvip/v3/vip_level/detail')) {
-    obj.data.grade = 8;
+    obj.data.grade = 9;
     obj.data.daily_growth = 15;
     obj.data.growth = 999999;
-    obj.data.level_start_growth = 108000;
+    obj.data.level_start_growth = 300000;
     obj.data.next_level_growth = 0;
 }
 
@@ -369,7 +369,7 @@ if (url.includes('/updateservice/v1/get_dev_user')) {
     user.vipinfo.is_vip = 1;         // 将 is_vip 设置为 1
     user.vipinfo.vip_type = 4;       // 自定义 VIP 类型
     user.vipinfo.m_type = 1;         // 自定义会员类型
-    user.vipinfo.svip_level = 8;     // 超级会员等级设为 5
+    user.vipinfo.svip_level = 9;     // 超级会员等级设为 5
     user.vipinfo.svip_score = 999999;  // 超级会员积分设为 999999
     user.vipinfo.vip_statu = 1;      // VIP 状态设为已开通
     user.vipinfo.user_type = 20;      // 用户类型设为 VIP
@@ -381,7 +381,7 @@ if (url.includes('/updateservice/v1/get_dev_user')) {
 if (url.includes('/v3/get_my_info')) {
     if (obj.data) {
         obj.data.svip_score = 999999;
-        obj.data.svip_level = 8;
+        obj.data.svip_level = 9;
         obj.data.vip_type = 4;
         obj.data.user_type = 20;
         obj.data.musical_visible = 1;
@@ -409,7 +409,7 @@ if (url.includes('/v4/follow_list')) {
                 item.m_type = 1; 
             }
             if ('svip_level' in item) {
-                item.svip_level = 8; 
+                item.svip_level = 9; 
             }
         });
     }
@@ -507,7 +507,7 @@ if (url.includes('/user/vipinfo')) {
     obj.data.su_vip_y_endtime = "2099-12-31 15:14:48";
     obj.data.su_vip_end_time = "2099-12-31 15:14:48";
     obj.data.su_vip_begin_time = "2024-07-26 15:14:09";
-    obj.data.svip_level = 8;
+    obj.data.svip_level = 9;
     obj.data.svip_score = 999999;
     obj.data.vip_clearday = "2024-07-26 15:14:09";
     obj.data.su_vip_clearday = "2024-07-26 15:14:09";
@@ -603,7 +603,7 @@ if (url.includes('gateway.kugou.com/vipcenter/ios')) {
                 .replace(/"vip_y_endtime":"[^"]*"/, '"vip_y_endtime":"2099-12-31 23:59:59"')
                 .replace(/"m_type":\d+/, '"m_type":1')
                 .replace(/"user_type":\d+/, '"user_type":20')
-                .replace(/"svip_level":\d+/, '"svip_level":8')
+                .replace(/"svip_level":\d+/, '"svip_level":9')
                 .replace(/"end_time":"[^"]*"/, '"end_time":"2099-12-31 23:59:59"')
                 .replace(/"svip_score":\d+/, '"svip_score":99999')
                 .replace(/"h_end_time":"[^"]*"/, '"h_end_time":"2099-12-31 23:59:59"')
