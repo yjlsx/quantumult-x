@@ -26,7 +26,8 @@ if (url.includes("/v5/url?")) {
 
 // 判断是否为 `gateway.kugou.com/vipcenter/ios` 请求
 if (url.includes("/vipcenter/ios?is_new_song=0")) {
-     const originalHeaders = $request.headers;
+    // 获取原请求头
+    const originalHeaders = $request.headers;
 
     // 修改请求头（保留原 Cookie）
     const newHeaders = {
@@ -40,13 +41,13 @@ if (url.includes("/vipcenter/ios?is_new_song=0")) {
         'Sec-Fetch-Site' : `none`,
         'Accept-Language' : `zh-CN,zh-Hans;q=0.9`,
         'Sec-Fetch-Dest' : `document`
+    };
 
-    // 返回修改后的 URL
+    // 返回修改后的请求头
     $done({
-        url: newUrl
+        headers: newHeaders
     });
-}
-
+} 
 
 if (true) {
     $done({});
