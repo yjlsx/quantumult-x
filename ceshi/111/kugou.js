@@ -38,6 +38,7 @@
 ^https:\/\/vip\.kugou\.com\/user\/vipinfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/welfare\.kugou\.com\/pendant\/v2\/get_user_pendant url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/gatewayretry\.kugou\.com\/v2\/get_kg_bg_pics url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+^https://gatewayretry\.kugou\.com/mobile/vipinfoV2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/record_rack\/set_user_record_rack url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/vipdress\.kugou\.com\/v1\/record_rack\/get_record_rack_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/vipdress/v1/record_rack/get_user_record_rack url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
