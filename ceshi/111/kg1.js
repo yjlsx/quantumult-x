@@ -26,8 +26,20 @@ if (url.includes("/v5/url?")) {
 
 // 判断是否为 `gateway.kugou.com/vipcenter/ios` 请求
 if (url.includes("/vipcenter/ios?is_new_song=0")) {
-    // 只保留基地址
-    const newUrl = "https://gateway.kugou.com/vipcenter/ios";
+     const originalHeaders = $request.headers;
+
+    // 修改请求头（保留原 Cookie）
+    const newHeaders = {
+        'Cookie' : originalHeaders['Cookie'],  // 保留原 Cookie
+        'Sec-Fetch-Mode' : `navigate`,
+        'Connection' : `keep-alive`,
+        'Accept' : `text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8`,
+        'Accept-Encoding' : `gzip, deflate, br`,
+        'Host' : `gateway.kugou.com`,
+        'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1`,
+        'Sec-Fetch-Site' : `none`,
+        'Accept-Language' : `zh-CN,zh-Hans;q=0.9`,
+        'Sec-Fetch-Dest' : `document`
 
     // 返回修改后的 URL
     $done({
