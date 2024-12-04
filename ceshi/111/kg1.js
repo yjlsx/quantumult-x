@@ -31,8 +31,9 @@ if (url.includes("/v5/url?")) {
 if (url.includes('gateway.kugou.com/vipcenter/ios')) {
     // 修改请求头中的 User-Agent
     headers['User-Agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148';
+    headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
+    headers['Accept-Encoding'] = 'gzip, deflate, br';
 
-    // 返回修改后的请求
     $done({
         headers: headers
     });
