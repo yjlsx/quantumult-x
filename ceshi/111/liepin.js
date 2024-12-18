@@ -9,7 +9,7 @@
 ^https://api-c\.liepin\.com/api/com.liepin.usercx.pc.user.base-property url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.goldcard.get-activity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.sale.get-goldcard-dict-h5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
-^https://api-ac\.liepin\.com/api/com.liepin.cresume.register.app.need-improve-info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+//^https://api-ac\.liepin\.com/api/com.liepin.cresume.register.app.need-improve-info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.cashier.pay-sign url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 
 
@@ -35,7 +35,7 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
                     if (obj.data[key] && obj.data[key].data) {
                         if (key === "/api/com.liepin.usercx.user.base-prop") {
                             obj.data[key].data.goldCardUser = false; // 设置为金卡用户
-                            obj.data[key].data.identityKind = 1; // 设置为身份已认证
+                            obj.data[key].data.identityKind = 0; // 设置为身份已认证
                         }
                     }
                 }
@@ -56,8 +56,8 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
         if (url.includes("/api/com.liepin.usercx.user.base-prop")) {
             if (obj.data) {
                 // 修改用户状态为金卡用户，并标记为已认证
-                obj.data.goldCardUser = true;
-                obj.data.identityKind = 1; // 已认证
+                obj.data.goldCardUser = false;
+                obj.data.identityKind = 0; // 已认证
             }
         }
 
