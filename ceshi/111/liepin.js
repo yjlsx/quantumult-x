@@ -11,12 +11,12 @@
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.sale.get-goldcard-dict-h5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 //^https://api-ac\.liepin\.com/api/com.liepin.cresume.register.app.need-improve-info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.cashier.pay-sign url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
-
+^https://api-pay\.liepin\.com/api/com\.liepin\.pay\.apple\.create-order url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin1.js
 
 
 *
 [mitm]
-hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
+hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com, api-pay.liepin.com
 */
 
 
