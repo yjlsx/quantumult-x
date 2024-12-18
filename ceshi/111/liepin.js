@@ -10,6 +10,7 @@
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.goldcard.get-activity url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.sale.get-goldcard-dict-h5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-ac\.liepin\.com/api/com.liepin.cresume.register.app.need-improve-info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+^https://api-c\.liepin\.com/api/com.liepin.cbusi.cashier.pay-sign  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 
 
 
@@ -33,7 +34,7 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
                 for (const key in obj.data) {
                     if (obj.data[key] && obj.data[key].data) {
                         if (key === "/api/com.liepin.usercx.user.base-prop") {
-                            obj.data[key].data.goldCardUser = true; // 设置为金卡用户
+                            obj.data[key].data.goldCardUser = false; // 设置为金卡用户
                             obj.data[key].data.identityKind = 1; // 设置为身份已认证
                         }
                     }
@@ -76,7 +77,7 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
 
         if (url.includes("/api/com.liepin.usercx.pc.user.base-property")) {
             if (obj.data) {
-                obj.data.goldCardUser = true;
+                obj.data.goldCardUser = false;
             }
         }
 
@@ -105,7 +106,16 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
                 obj.data.parseStatus = 1;
                 obj.data.needUserCard = true;
                 obj.data.showLable = true;
-                obj.data.needGuide = true;
+                
+            }
+        }
+
+        if (url.includes("/liepin.cbusi.cashier.pay-sign")) {
+            if (obj.data) {
+                  // 修改实际支付金额和订单金额为 0
+                 obj.data.actualPayAmountCNY = '0.00';
+                 obj.data.orderMoney = 0;
+
             }
         }
 
