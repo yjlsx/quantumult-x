@@ -113,9 +113,9 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com
         if (url.includes("/liepin.cbusi.cashier.pay-sign")) {
             if (obj.data) {
                   // 修改实际支付金额和订单金额为 0
-                 obj.data.actualPayAmountCNY = '0.00';
+                 obj.data.actualPayAmountCNY = "0.00";
                  obj.data.orderMoney = 0;
-
+                 obj.data.showDiscountCNY = "548.00";
             }
         }
 
