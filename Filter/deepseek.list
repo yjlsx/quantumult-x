@@ -1,0 +1,16 @@
+
+# NAME: deepseek
+# AUTHOR: blackmatrix7
+# REPO: 
+# UPDATED: 2025-01-29 01:36:21
+# HOST: 2
+# HOST-SUFFIX: 11
+# TOTAL: 13
+
+DOMAIN-SUFFIX,api.deepseek.com,PROXY
+DOMAIN-SUFFIX,cdn.deepseek.com
+DOMAIN-SUFFIX,platform.deepseek.com
+DOMAIN-SUFFIX,chat.deepseek.com
+DOMAIN-SUFFIX,fengkongcloud.com
+DOMAIN-SUFFIX,intercom.com
+DOMAIN-SUFFIX,volces.com
