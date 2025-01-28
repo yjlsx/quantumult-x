@@ -11,6 +11,7 @@
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.sale.get-goldcard-dict-h5 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 //^https://api-ac\.liepin\.com/api/com.liepin.cresume.register.app.need-improve-info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.cashier.pay-sign url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
+^https://api-pay\.liepin\.com/api/com\.liepin\.pay\.apple\.create-order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-pay\.liepin\.com/api/com\.liepin\.pay\.apple\.create-order url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin1.js
 
 
@@ -119,6 +120,11 @@ hostname = api-ac.liepin.com, api-wanda.liepin.com, api-c.liepin.com, api-pay.li
             }
         }
 
+        if (url.includes("/api/com\.liepin\.pay\.apple\.create-order")) {
+                  // 修改实际支付金额和订单金额为 0
+                 obj.code = "200";
+                 obj.flag = 1;
+        }
 
         // 返回修改后的响应体
         $done({ body: JSON.stringify(obj) });
