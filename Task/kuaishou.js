@@ -21,84 +21,114 @@
 */
 
 /**
- * 快手多账号签到脚本
+ * 快手整合脚本
  * 功能特性：
- * 1. 显示实时金币和现金余额
- * 2. 自动识别多账号Cookie
- * 3. 相同账号使用最新Cookie
- * 4. 获取Cookie冷却时间控制
+ * 1. 自动捕获Cookie与签到一体化
+ * 2. 过期Cookie检测与提醒
+ * 3. 多账号独立管理
+ * 4. 精准通知控制
+ * 5. 日志记录与调试
  */
 
 const $ = API("kuaishou");
-const CACHE_KEY = "ks_accounts_v3";
+const CACHE_KEY = "ks_cookie_v4";
 const COOLDOWN = 60 * 1000; // 1分钟冷却时间
 
-!(async () => {
-  try {
-    if (typeof $request !== "undefined") {
-      await handleCookieCapture();
-    } else {
-      await executeCheckins();
-    }
-  } catch (e) {
-    $.notify("脚本错误", "", e.message);
-  } finally {
-    $.done();
-  }
-})();
+// Quantumult X重写入口
+if (typeof $request !== "undefined") {
+  handleCookieCapture().finally($.done);
+} else {
+  executeCheckins().finally($.done);
+}
 
 /******************
  * 核心功能实现 *
  ******************/
 
 async function handleCookieCapture() {
+  // 验证请求URL
+  if (!$request.url.includes("/rest/wd/encourage/task/list")) return;
+  
   const cookie = $request.headers?.Cookie || $request.headers?.cookie;
   if (!cookie) return;
 
-  // 获取账户信息用于校验
-  const accountInfo = await getAccountInfo(cookie);
-  if (!accountInfo) return;
+  try {
+    // 获取账户信息
+    const accountInfo = await getAccountInfo(cookie);
+    if (!accountInfo) return;
 
-  // 读取历史记录
-  let accounts = $.getval(CACHE_KEY) || [];
-  
-  // 检查冷却时间
-  const lastRecord = accounts.find(a => a.uid === accountInfo.uid);
-  if (lastRecord && Date.now() - lastRecord.timestamp < COOLDOWN) {
-    $.notify("⚠️ 操作过快", `账号 ${accountInfo.nickname}`, "请等待1分钟后再获取");
-    return;
+    // 读取存储数据
+    let accounts = $.getval(CACHE_KEY) || [];
+    
+    // 冷却检查
+    const existing = accounts.find(a => a.uid === accountInfo.uid);
+    if (existing && (Date.now() - existing.timestamp < COOLDOWN)) {
+      $.log("⚠️ 操作过快，请1分钟后重试");
+      return $.notify("快手Cookie", "⚠️ 操作过快", "请1分钟后重试");
+    }
+
+    // 更新存储
+    accounts = accounts.filter(a => a.uid !== accountInfo.uid);
+    accounts.push({
+      uid: accountInfo.uid,
+      cookie: cookie,
+      nickname: accountInfo.nickname,
+      timestamp: Date.now()
+    });
+
+    $.setval(accounts, CACHE_KEY);
+    $.log("✅ Cookie捕获成功: " + accountInfo.nickname);
+    $.notify("快手Cookie", "✅ 捕获成功", accountInfo.nickname);
+  } catch (e) {
+    $.log("❌ Cookie捕获失败: " + e.message);
+    $.notify("快手Cookie", "❌ 捕获失败", e.message);
   }
-
-  // 更新存储
-  accounts = accounts.filter(a => a.uid !== accountInfo.uid);
-  accounts.push({
-    ...accountInfo,
-    timestamp: Date.now()
-  });
-
-  $.setval(accounts, CACHE_KEY);
-  $.notify("✅ 账号更新", accountInfo.nickname, `金币: ${accountInfo.coin} 现金: ${accountInfo.cash}元`);
 }
 
 async function executeCheckins() {
   const accounts = $.getval(CACHE_KEY) || [];
-  if (accounts.length === 0) return $.notify("❌ 无可用账号", "", "请先获取Cookie");
-
-  // 按时间倒序排列
-  accounts.sort((a, b) => b.timestamp - a.timestamp);
+  if (accounts.length === 0) {
+    $.log("❌ 未找到任何账号信息，请先获取快手Cookie");
+    return $.notify("快手签到", "❌ 未找到账号", "请先获取快手Cookie");
+  }
 
   for (const acc of accounts) {
     try {
+      // 检查Cookie是否存在
+      if (!acc.cookie) {
+        $.log("❌ Cookie不存在: " + acc.nickname);
+        $.notify("快手签到", "❌ Cookie不存在", `${acc.nickname} 请先获取快手Cookie`);
+        continue;
+      }
+
+      // 获取最新账户信息
+      const currentInfo = await getAccountInfo(acc.cookie);
+      
+      // 执行签到
       const result = await performCheckin(acc.cookie);
-      const accountInfo = await getAccountInfo(acc.cookie);
       
-      const message = `${result}\n💰 当前金币: ${accountInfo.coin}\n💵 当前现金: ${accountInfo.cash}元`;
-      $.notify(`签到成功 - ${accountInfo.nickname}`, "", message);
+      // 构建通知消息
+      const msg = [
+        `签到状态: ${result}`,
+        `💰 金币: ${currentInfo.coin}`,
+        `💵 现金: ${currentInfo.cash}元`
+      ].join("\n");
       
-      await delay(2000);
+      $.log(`✅ 签到成功: ${currentInfo.nickname} - ${result}`);
+      $.notify(`快手签到 - ${currentInfo.nickname}`, "", msg);
     } catch (e) {
-      $.notify(`❌ 签到失败 - ${acc.nickname}`, "", e.message);
+      if (e.message.includes("身份验证")) {
+        // 移除过期Cookie
+        let accounts = $.getval(CACHE_KEY).filter(a => a.uid !== acc.uid);
+        $.setval(accounts, CACHE_KEY);
+        $.log("⚠️ 登录过期: " + acc.nickname);
+        $.notify("快手Cookie", "⚠️ 登录过期", `${acc.nickname} 请重新获取`);
+      } else {
+        $.log(`❌ 签到失败: ${acc.nickname} - ${e.message}`);
+        $.notify("快手签到", `❌ ${acc.nickname}`, e.message);
+      }
     }
+    await new Promise(resolve => setTimeout(resolve, 2000));
   }
 }
 
@@ -107,23 +137,20 @@ async function executeCheckins() {
  *********************/
 
 async function getAccountInfo(cookie) {
-  try {
-    const { body } = await $.get({
-      url: "https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info",
-      headers: { Cookie: cookie }
-    });
-    const data = JSON.parse(body);
-    
-    return {
-      uid: data.data?.account?.uid,
-      nickname: data.data?.nickname || "未知用户",
-      coin: data.data?.account?.coinAmountDisplay || "0",
-      cash: data.data?.account?.cashAmountDisplay || "0.00"
-    };
-  } catch (e) {
-    $.log("账户信息获取失败:", e);
-    return null;
-  }
+  const { body } = await $.get({
+    url: "https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info",
+    headers: { Cookie: cookie }
+  });
+  
+  const data = JSON.parse(body);
+  if (data.result !== 1) throw new Error("账户信息获取失败");
+  
+  return {
+    uid: data.data?.account?.uid,
+    nickname: data.data?.nickname || "未知用户",
+    coin: data.data?.account?.coinAmountDisplay || "0",
+    cash: data.data?.account?.cashAmountDisplay || "0.00"
+  };
 }
 
 async function performCheckin(cookie) {
@@ -133,25 +160,22 @@ async function performCheckin(cookie) {
   });
 
   const res = JSON.parse(body);
-  if (res.result === 1) return "✅ 签到成功";
-  if (res.result === 102006) return "⏳ 今日已签到";
+  if (res.result === 1) return "✅ 成功";
+  if (res.result === 102006) return "⏳ 已签到";
+  if (res.error_code === 401) throw new Error("身份验证失败");
   throw new Error(res.error_msg || "未知错误");
 }
 
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 /*********************
- * Quantumult X API 适配器 *
+ * Quantumult X适配器 *
  *********************/
-function API(name) {
+function API() {
   return {
     getval: key => $prefs.valueForKey(key),
     setval: (val, key) => $prefs.setValueForKey(val, key),
     notify: (title, subtitle, message) => $notify(title, subtitle, message),
     get: opts => $task.fetch(opts),
-    log: console.log,
-    done: () => $done()
+    done: () => $done(),
+    log: message => console.log(message) // 添加日志输出
   };
 }
