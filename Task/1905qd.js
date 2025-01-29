@@ -17,38 +17,38 @@
 // Cookie捕获地址与签到地址统一版
 
 // ================== 配置区 ==================
-const checkinURL = 'https://50843.activity-42.m.duiba.com.cn/sign/component/signResult?orderNum=355306933&_=';
-const creditURL = 'https://50843.activity-42.m.duiba.com.cn/ctool/getCredits?_=';
+const checkinURL = 'https://50843.activity-42.m.duiba.com.cn/sign/component/signResult?orderNum=355306933&_='; 
+const creditURL = 'https://50843.activity-42.m.duiba.com.cn/ctool/getCredits?_='; // 更新后的获取Cookie地址
 const cookieKey = '1905_cookie';
-const maxRetries = 2; // 增加重试次数
+const maxRetries = 2; // 最大重试次数
 
 // ================== 执行判断 ==================
 if (typeof $response !== 'undefined') {
-    handleResponse(); // 响应模式处理Cookie
+    handleResponse(); // 响应模式处理 Cookie
 } else {
-    checkIn();        // 主动执行签到流程
+    checkIn(); // 主动执行签到流程
 }
 
-// ================== Cookie捕获逻辑 ==================
+// ================== Cookie 捕获逻辑 ==================
 function handleResponse() {
     try {
         const setCookie = $response.headers['Set-Cookie'];
         if (!setCookie) {
-            console.log("❌ 响应头未找到Set-Cookie");
+            console.log("❌ 响应头未找到 Set-Cookie");
             return $done();
         }
 
-        // 合并新旧Cookie
+        // 合并新旧 Cookie
         const currentCookie = $prefs.valueForKey(cookieKey) || '';
         const cookieDict = {};
-        
-        // 解析现有Cookie
+
+        // 解析现有 Cookie
         currentCookie.split('; ').forEach(pair => {
             const [key, value] = pair.split('=');
             if (key) cookieDict[key.trim()] = value;
         });
 
-        // 更新新Cookie（处理数组形式）
+        // 处理新获取的 Cookie
         const newCookies = Array.isArray(setCookie) ? setCookie : [setCookie];
         newCookies.forEach(cookie => {
             const [keyValue] = cookie.split(';');
@@ -56,17 +56,18 @@ function handleResponse() {
             if (key && value) cookieDict[key.trim()] = value;
         });
 
-        // 生成合并后的Cookie字符串
+        // 生成合并后的 Cookie 字符串
         const mergedCookie = Object.entries(cookieDict)
             .map(([k, v]) => `${k}=${v}`)
             .join('; ');
-            
+
+        // 存储新的 Cookie
         $prefs.setValueForKey(mergedCookie, cookieKey);
-        console.log("✅ 合并更新Cookie成功！");
-        console.log("旧Cookie:", maskCookie(currentCookie));
-        console.log("新Cookie:", maskCookie(mergedCookie));
+        console.log("✅ Cookie 更新成功！");
+        console.log("旧 Cookie:", maskCookie(currentCookie));
+        console.log("新 Cookie:", maskCookie(mergedCookie));
     } catch (e) {
-        console.log(`❌ Cookie处理失败: ${e.message}`);
+        console.log(`❌ Cookie 处理失败: ${e.message}`);
     }
     $done();
 }
@@ -74,11 +75,14 @@ function handleResponse() {
 // ================== 主逻辑 ==================
 async function checkIn(retryCount = 0) {
     console.log(`➡️ 开始第 ${retryCount + 1} 次签到尝试`);
-    
+
     try {
-        // 获取并验证Cookie
+        // 先获取 Cookie
+        await fetchAndUpdateCookie();
+
+        // 获取并验证 Cookie
         const cookie = await getValidCookie();
-        
+
         // 执行签到
         const signRes = await $httpClient.get({
             url: checkinURL + Date.now(),
@@ -89,7 +93,7 @@ async function checkIn(retryCount = 0) {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         });
-        
+
         // 处理签到结果
         const signData = parseSignResult(signRes.body);
         if (!signData.success && retryCount < maxRetries) {
@@ -97,13 +101,13 @@ async function checkIn(retryCount = 0) {
             await sleep(2000);
             return checkIn(retryCount + 1);
         }
-        
+
         // 获取积分
         const credits = await getCurrentCredits(cookie);
-        
+
         // 显示结果
         showResult(signData.success, signData.points, credits, signData.error);
-        
+
     } catch (error) {
         console.log(`❗ 异常：${error.message}`);
         if (retryCount < maxRetries) {
@@ -117,18 +121,31 @@ async function checkIn(retryCount = 0) {
 }
 
 // ================== 功能函数 ==================
+async function fetchAndUpdateCookie() {
+    console.log("🔄 尝试从积分接口获取 Cookie...");
+    try {
+        await $httpClient.get({
+            url: creditURL + Date.now(),
+            headers: { 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 M1905/6.6.12.1249 (Open 0.1) From 1905 App' }
+        });
+        console.log("✅ Cookie 获取请求已发送");
+    } catch (e) {
+        console.log(`❌ 获取 Cookie 失败: ${e.message}`);
+    }
+}
+
 async function getValidCookie() {
     let cookie = $prefs.valueForKey(cookieKey);
-    if (!cookie) throw new Error('请先访问签到页面获取Cookie');
-    
-    // 验证Cookie有效性
+    if (!cookie) throw new Error('请先访问积分页面获取 Cookie');
+
+    // 验证 Cookie 有效性
     const checkRes = await $httpClient.get({
         url: checkinURL + Date.now(),
         headers: { 'Cookie': cookie }
     });
-    
+
     if (checkRes.status !== 200 || checkRes.body.includes('NEED_LOGIN')) {
-        throw new Error('Cookie已过期，请重新获取');
+        throw new Error('Cookie 已过期，请重新获取');
     }
     return cookie;
 }
@@ -160,10 +177,10 @@ async function getCurrentCredits(cookie) {
 
 // ================== 工具函数 ==================
 function showResult(success, points, credits, error) {
-    const title = success ? "🎬 1905签到成功" : "🎬 1905签到失败";
+    const title = success ? "🎬 1905 签到成功" : "🎬 1905 签到失败";
     const subtitle = success ? `获得积分：+${points}` : `原因：${error?.slice(0,30)}`;
     const content = `当前积分：${credits}`;
-    
+
     typeof $notification !== 'undefined' 
         ? $notification.post(title, subtitle, content)
         : console.log(`通知内容：${title} - ${subtitle} - ${content}`);

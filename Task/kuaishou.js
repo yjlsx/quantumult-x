@@ -20,207 +20,138 @@
 7、所有直接或间接使用、查看此脚本的人均应该仔细阅读此声明。本人保留随时更改或补充此声明的权利。一旦您使用或复制了此脚本，即视为您已接受此免责声明。
 */
 
-const $ = API("快手签到", true);
-const ERR = MYERR();
+/**
+ * 快手多账号签到脚本
+ * 功能特性：
+ * 1. 显示实时金币和现金余额
+ * 2. 自动识别多账号Cookie
+ * 3. 相同账号使用最新Cookie
+ * 4. 获取Cookie冷却时间控制
+ */
+
+const $ = API("kuaishou");
+const CACHE_KEY = "ks_accounts_v3";
+const COOLDOWN = 60 * 1000; // 1分钟冷却时间
 
 !(async () => {
-  $.log("脚本开始运行");
   try {
-    if (typeof $request != "undefined") {
-      $.log("正在获取Cookie");
-      getCookie();
+    if (typeof $request !== "undefined") {
+      await handleCookieCapture();
     } else {
-      // 多账号处理
-      let accounts = [];
-      let index = 1;
-      while (true) {
-        let cookie = $.getval(`kuaishou_cookies${index}`);
-        if (!cookie) break;
-        accounts.push({ cookie, index });
-        index++;
-      }
-      
-      if (accounts.length === 0) {
-        $.log("未找到Cookie");
-        $.notify("快手签到", "", "❌ 请先获取Cookie");
-        return;
-      }
-
-      for (const account of accounts) {
-        try {
-          $.cookie = account.cookie;
-          $.log(`正在处理账号 ${account.index}`);
-          await checkin(account.index);
-        } catch (err) {
-          $.log(`账号 ${account.index} 处理失败: ${err}`);
-        }
-        await $.wait(2000); // 每个账号间隔2秒
-      }
+      await executeCheckins();
     }
-  } catch (err) {
-    $.log("捕获到错误");
-    if (err instanceof ERR.ParseError) {
-      $.notify("快手签到", "❌ 解析数据出现错误", err.message);
-    } else {
-      $.notify(
-        "快手签到",
-        "❌ 出现错误",
-        JSON.stringify(err, Object.getOwnPropertyNames(err))
-      );
-    }
+  } catch (e) {
+    $.notify("脚本错误", "", e.message);
   } finally {
-    $.log("脚本运行结束");
     $.done();
   }
 })();
 
-function checkin(accountIndex) {
-  const url = `https://encourage.kuaishou.com/rest/wd/encourage/unionTask/signIn/report?__NS_sig3=f7e7a0901f7588d73babc2a8afaea9ccfb84a14f9ac525b52611b8b8bebebdbc83a3&sigCatVer=1`;
-  const method = `GET`;
-  const headers = {
-    // 保持原有headers不变
-  };
+/******************
+ * 核心功能实现 *
+ ******************/
 
-  const myRequest = { url, method, headers, body: `` };
+async function handleCookieCapture() {
+  const cookie = $request.headers?.Cookie || $request.headers?.cookie;
+  if (!cookie) return;
 
-  return new Promise((resolve, reject) => {
-    $task.fetch(myRequest).then(response => {
-      const data = JSON.parse(response.body);
-      let subtitle = "";
-      let content = "";
+  // 获取账户信息用于校验
+  const accountInfo = await getAccountInfo(cookie);
+  if (!accountInfo) return;
 
-      if (data.result === 102006 || data.result === 1) {
-        subtitle = "签到成功";
-        getWalletInfo().then(walletInfo => {
-          const title = `快手签到 - ${walletInfo.nickname}`;
-          content += `💰 金币: ${walletInfo.coinAmountDisplay}\n💵 现金: ${walletInfo.cashAmountDisplay}元`;
-          $.notify(title, subtitle, content);
-          resolve();
-        }).catch(error => {
-          const title = `快手签到 - 账号${accountIndex}`;
-          $.notify(title, "❌ 获取钱包信息失败", error.message);
-          reject(error);
-        });
-      } else {
-        const title = `快手签到 - 账号${accountIndex}`;
-        content = `错误信息: ${data.error_msg || "未知错误"}`;
-        $.notify(title, "❌ 签到失败", content);
-        resolve();
-      }
-    }).catch(error => {
-      const title = `快手签到 - 账号${accountIndex}`;
-      $.notify(title, "❌ 请求失败", error.error || error);
-      reject(error);
+  // 读取历史记录
+  let accounts = $.getval(CACHE_KEY) || [];
+  
+  // 检查冷却时间
+  const lastRecord = accounts.find(a => a.uid === accountInfo.uid);
+  if (lastRecord && Date.now() - lastRecord.timestamp < COOLDOWN) {
+    $.notify("⚠️ 操作过快", `账号 ${accountInfo.nickname}`, "请等待1分钟后再获取");
+    return;
+  }
+
+  // 更新存储
+  accounts = accounts.filter(a => a.uid !== accountInfo.uid);
+  accounts.push({
+    ...accountInfo,
+    timestamp: Date.now()
+  });
+
+  $.setval(accounts, CACHE_KEY);
+  $.notify("✅ 账号更新", accountInfo.nickname, `金币: ${accountInfo.coin} 现金: ${accountInfo.cash}元`);
+}
+
+async function executeCheckins() {
+  const accounts = $.getval(CACHE_KEY) || [];
+  if (accounts.length === 0) return $.notify("❌ 无可用账号", "", "请先获取Cookie");
+
+  // 按时间倒序排列
+  accounts.sort((a, b) => b.timestamp - a.timestamp);
+
+  for (const acc of accounts) {
+    try {
+      const result = await performCheckin(acc.cookie);
+      const accountInfo = await getAccountInfo(acc.cookie);
+      
+      const message = `${result}\n💰 当前金币: ${accountInfo.coin}\n💵 当前现金: ${accountInfo.cash}元`;
+      $.notify(`签到成功 - ${accountInfo.nickname}`, "", message);
+      
+      await delay(2000);
+    } catch (e) {
+      $.notify(`❌ 签到失败 - ${acc.nickname}`, "", e.message);
+    }
+  }
+}
+
+/*********************
+ * 工具函数集 *
+ *********************/
+
+async function getAccountInfo(cookie) {
+  try {
+    const { body } = await $.get({
+      url: "https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info",
+      headers: { Cookie: cookie }
     });
-  });
-}
-
-function getWalletInfo() {
-  const url = `https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info?source=normal&__NS_sig3=2a3a7d4d6c6cf1d6e276107572731a53e634457ae3c4fc68c25f6565636360615e7e&sigCatVer=1`;
-  const method = `GET`;
-  const headers = {
-    // 保持原有headers不变
-  };
-
-  const myRequest = { url, method, headers, body: `` };
-
-  return new Promise((resolve, reject) => {
-    $task.fetch(myRequest).then(response => {
-      const data = JSON.parse(response.body);
-      if (data.result === 1) {
-        resolve({
-          coinAmountDisplay: data.data.account.coinAmountDisplay,
-          cashAmountDisplay: data.data.account.cashAmountDisplay,
-          nickname: data.data.nickname || "未知用户"
-        });
-      } else {
-        reject(new ERR.ParseError("获取钱包信息失败"));
-      }
-    }).catch(error => reject(error));
-  });
-}
-
-function getCookie() {
-  if ($request && $request.method === "GET" && $request.url.match(/rest\/wd\/encourage\/home/)) {
-    let index = 1;
-    while ($.getval(`kuaishou_cookies${index}`)) index++;
+    const data = JSON.parse(body);
     
-    const cookie = $request.headers["Cookie"];
-    $.setval(cookie, `kuaishou_cookies${index}`);
-    $.notify("快手签到", "", `✅ 账号${index} Cookie获取成功`);
+    return {
+      uid: data.data?.account?.uid,
+      nickname: data.data?.nickname || "未知用户",
+      coin: data.data?.account?.coinAmountDisplay || "0",
+      cash: data.data?.account?.cashAmountDisplay || "0.00"
+    };
+  } catch (e) {
+    $.log("账户信息获取失败:", e);
+    return null;
   }
 }
 
-// 保持原有的API和MYERR函数不变
+async function performCheckin(cookie) {
+  const { body } = await $.get({
+    url: "https://encourage.kuaishou.com/rest/wd/encourage/unionTask/signIn/report",
+    headers: { Cookie: cookie }
+  });
 
-function API(name = "untitled", auto = false) {
-  return new (class {
-    constructor(name, auto) {
-      this.name = name;
-      this.auto = auto;
-      this.init = () => {
-        const getval = (key) => {
-          $.log(`读取值: ${key}`);
-          return $prefs.valueForKey(key);
-        };
-        const setval = (val, key) => {
-          $.log(`设置值: ${key} 为 ${val}`);
-          return $prefs.setValueForKey(val, key);
-        };
-        const get = (opts) => {
-          $.log(`发送GET请求: ${JSON.stringify(opts)}`);
-          return $task.fetch(opts).then(response => {
-            if (response.error) {
-              throw response.error;
-            } else {
-              return response;
-            }
-          });
-        };
-        const post = (opts) => {
-          $.log(`发送POST请求: ${JSON.stringify(opts)}`);
-          return $task.fetch(opts).then(response => {
-            if (response.error) {
-              throw response.error;
-            } else {
-              return response;
-            }
-          });
-        };
-        const notify = (title, subTitle, message) => {
-          $.log(`发送通知: ${title}, ${subTitle}, ${message}`);
-          $notify(title, subTitle, message);
-        };
-        const log = (message) => {
-          console.log(message);
-        };
-        const error = (message) => {
-          console.error(message);
-        };
-        const done = () => {
-          $.log("脚本完成");
-          $done();
-        };
-        this.getval = getval;
-        this.setval = setval;
-        this.get = get;
-        this.post = post;
-        this.notify = notify;
-        this.log = log;
-        this.error = error;
-        this.done = done;
-      };
-      this.init();
-    }
-  })();
+  const res = JSON.parse(body);
+  if (res.result === 1) return "✅ 签到成功";
+  if (res.result === 102006) return "⏳ 今日已签到";
+  throw new Error(res.error_msg || "未知错误");
 }
 
-function MYERR() {
-  class ParseError extends Error {
-    constructor(message) {
-      super(message);
-      this.name = "ParseError";
-    }
-  }
-  return { ParseError };
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/*********************
+ * Quantumult X API 适配器 *
+ *********************/
+function API(name) {
+  return {
+    getval: key => $prefs.valueForKey(key),
+    setval: (val, key) => $prefs.setValueForKey(val, key),
+    notify: (title, subtitle, message) => $notify(title, subtitle, message),
+    get: opts => $task.fetch(opts),
+    log: console.log,
+    done: () => $done()
+  };
 }
