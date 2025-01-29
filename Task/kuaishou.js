@@ -32,7 +32,7 @@
 
 const $ = API("kuaishou");
 const CACHE_KEY = "ks_cookie_v4";
-const COOLDOWN = 60 * 1000; // 1分钟冷却时间
+const COOLDOWN = 60 * 1000;
 
 // Quantumult X重写入口
 if (typeof $request !== "undefined") {
@@ -41,33 +41,25 @@ if (typeof $request !== "undefined") {
   executeCheckins().finally($.done);
 }
 
-/******************
- * 核心功能实现 *
- ******************/
-
 async function handleCookieCapture() {
-  // 验证请求URL
   if (!$request.url.includes("/rest/wd/encourage/task/list")) return;
   
   const cookie = $request.headers?.Cookie || $request.headers?.cookie;
   if (!cookie) return;
 
   try {
-    // 获取账户信息
     const accountInfo = await getAccountInfo(cookie);
     if (!accountInfo) return;
 
-    // 读取存储数据
-    let accounts = $.getval(CACHE_KEY) || [];
+    // 修复点：添加JSON序列化处理
+    let accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
     
-    // 冷却检查
     const existing = accounts.find(a => a.uid === accountInfo.uid);
     if (existing && (Date.now() - existing.timestamp < COOLDOWN)) {
-      $.log("⚠️ 操作过快，请1分钟后重试");
-      return $.notify("快手Cookie", "⚠️ 操作过快", "请1分钟后重试");
+      $.notify("快手Cookie", "⚠️ 操作过快", "请1分钟后重试");
+      return;
     }
 
-    // 更新存储
     accounts = accounts.filter(a => a.uid !== accountInfo.uid);
     accounts.push({
       uid: accountInfo.uid,
@@ -76,61 +68,52 @@ async function handleCookieCapture() {
       timestamp: Date.now()
     });
 
-    $.setval(accounts, CACHE_KEY);
-    $.log("✅ Cookie捕获成功: " + accountInfo.nickname);
+    // 修复点：存储时序列化
+    $.setval(JSON.stringify(accounts), CACHE_KEY);
     $.notify("快手Cookie", "✅ 捕获成功", accountInfo.nickname);
   } catch (e) {
-    $.log("❌ Cookie捕获失败: " + e.message);
     $.notify("快手Cookie", "❌ 捕获失败", e.message);
   }
 }
 
 async function executeCheckins() {
-  const accounts = $.getval(CACHE_KEY) || [];
+  // 修复点：读取时反序列化
+  const accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
   if (accounts.length === 0) {
-    $.log("❌ 未找到任何账号信息，请先获取快手Cookie");
     return $.notify("快手签到", "❌ 未找到账号", "请先获取快手Cookie");
   }
 
   for (const acc of accounts) {
     try {
-      // 检查Cookie是否存在
       if (!acc.cookie) {
-        $.log("❌ Cookie不存在: " + acc.nickname);
-        $.notify("快手签到", "❌ Cookie不存在", `${acc.nickname} 请先获取快手Cookie`);
+        $.notify("快手签到", "❌ Cookie不存在", `${acc.nickname} 请重新获取`);
         continue;
       }
 
-      // 获取最新账户信息
-      const currentInfo = await getAccountInfo(acc.cookie);
-      
-      // 执行签到
+      const currentInfo = await getAccountInfo(acc.cookie);      
       const result = await performCheckin(acc.cookie);
       
-      // 构建通知消息
       const msg = [
         `签到状态: ${result}`,
         `💰 金币: ${currentInfo.coin}`,
         `💵 现金: ${currentInfo.cash}元`
       ].join("\n");
       
-      $.log(`✅ 签到成功: ${currentInfo.nickname} - ${result}`);
       $.notify(`快手签到 - ${currentInfo.nickname}`, "", msg);
     } catch (e) {
       if (e.message.includes("身份验证")) {
-        // 移除过期Cookie
-        let accounts = $.getval(CACHE_KEY).filter(a => a.uid !== acc.uid);
-        $.setval(accounts, CACHE_KEY);
-        $.log("⚠️ 登录过期: " + acc.nickname);
+        let accounts = JSON.parse($.getval(CACHE_KEY)).filter(a => a.uid !== acc.uid);
+        $.setval(JSON.stringify(accounts), CACHE_KEY);
         $.notify("快手Cookie", "⚠️ 登录过期", `${acc.nickname} 请重新获取`);
       } else {
-        $.log(`❌ 签到失败: ${acc.nickname} - ${e.message}`);
         $.notify("快手签到", `❌ ${acc.nickname}`, e.message);
       }
     }
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
 }
+
+// 其余工具函数保持不变...
 
 /*********************
  * 工具函数集 *
