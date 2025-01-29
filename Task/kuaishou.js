@@ -6,7 +6,7 @@
  * By @yjlsx
  * 脚本功能：签到领取金币.
  * 使用方法：添加相关规则到quantumult x，进入首页的金币主页，提示获取cookie成功，把rewrite和hostname关闭，以免每次运行都会获取cookie.
- * Date: 2024.07.05
+ * Date: 2025.01.29
  * 此脚本仅个人使用，请勿用于非法途径！
  
 *⚠️【免责声明】
@@ -48,10 +48,11 @@ async function handleCookieCapture() {
   if (!cookie) return;
 
   try {
+    $.log("开始获取账户信息...");
     const accountInfo = await getAccountInfo(cookie);
     if (!accountInfo) return;
 
-    // 修复点：添加JSON序列化处理
+    $.log("账户信息获取成功，开始处理Cookie...");
     let accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
     
     const existing = accounts.find(a => a.uid === accountInfo.uid);
@@ -60,6 +61,7 @@ async function handleCookieCapture() {
       return;
     }
 
+    // 修复点：保留所有用户的Cookie
     accounts = accounts.filter(a => a.uid !== accountInfo.uid);
     accounts.push({
       uid: accountInfo.uid,
@@ -68,24 +70,28 @@ async function handleCookieCapture() {
       timestamp: Date.now()
     });
 
-    // 修复点：存储时序列化
+    $.log("Cookie处理完成，开始存储...");
     $.setval(JSON.stringify(accounts), CACHE_KEY);
     $.notify("快手Cookie", "✅ 捕获成功", accountInfo.nickname);
   } catch (e) {
+    $.log("捕获Cookie时发生错误: " + e.message);
     $.notify("快手Cookie", "❌ 捕获失败", e.message);
   }
 }
 
 async function executeCheckins() {
-  // 修复点：读取时反序列化
+  $.log("开始执行签到任务...");
   const accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
   if (accounts.length === 0) {
+    $.log("未找到账号，请先获取快手Cookie");
     return $.notify("快手签到", "❌ 未找到账号", "请先获取快手Cookie");
   }
 
   for (const acc of accounts) {
     try {
+      $.log(`处理账号: ${acc.nickname}`);
       if (!acc.cookie) {
+        $.log(`账号 ${acc.nickname} 的Cookie不存在`);
         $.notify("快手签到", "❌ Cookie不存在", `${acc.nickname} 请重新获取`);
         continue;
       }
@@ -112,8 +118,6 @@ async function executeCheckins() {
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
 }
-
-// 其余工具函数保持不变...
 
 /*********************
  * 工具函数集 *
