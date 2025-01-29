@@ -1,6 +1,4 @@
 
-
-
 /**
  * App : 快手
  * By @yjlsx
@@ -18,10 +16,22 @@
 5、本人对任何脚本引发的问题概不负责，包括但不限于由脚本错误引起的任何损失和损害。
 6、如果任何单位或个人认为此脚本可能涉嫌侵犯其权利，应及时通知并提供身份证明，所有权证明，我们将在收到认证文件确认后删除此脚本。
 7、所有直接或间接使用、查看此脚本的人均应该仔细阅读此声明。本人保留随时更改或补充此声明的权利。一旦您使用或复制了此脚本，即视为您已接受此免责声明。
-*/
+
+//Quantumult X 重写规则
+ [rewrite_local]
+  https:\/\/encourage\.kuaishou\.com\/rest\/wd\/encourage\/home url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou.js
+ 
+ [mitm] 
+      hostname = encourage.kuaishou.com
+
+  [task_local]
+  1 0 * * * https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou.js, tag=快手签到, img-url=https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png, enabled=true
+ * 
+ */
 
 const $ = API("快手签到", true);
 const ERR = MYERR();
+$.cookie = $.getval("kuaishou_cookies");
 
 !(async () => {
   $.log("脚本开始运行");
@@ -29,33 +39,12 @@ const ERR = MYERR();
     if (typeof $request != "undefined") {
       $.log("正在获取Cookie");
       getCookie();
+    } else if ($.cookie != undefined) {
+      $.log("正在进行签到操作");
+      await checkin();
     } else {
-      // 多账号处理
-      let accounts = [];
-      let index = 1;
-      while (true) {
-        let cookie = $.getval(`kuaishou_cookies${index}`);
-        if (!cookie) break;
-        accounts.push({ cookie, index });
-        index++;
-      }
-      
-      if (accounts.length === 0) {
-        $.log("未找到Cookie");
-        $.notify("快手签到", "", "❌ 请先获取Cookie");
-        return;
-      }
-
-      for (const account of accounts) {
-        try {
-          $.cookie = account.cookie;
-          $.log(`正在处理账号 ${account.index}`);
-          await checkin(account.index);
-        } catch (err) {
-          $.log(`账号 ${account.index} 处理失败: ${err}`);
-        }
-        await $.wait(2000); // 每个账号间隔2秒
-      }
+      $.log("未找到Cookie");
+      $.notify("快手签到", "", "❌ 请先获取Cookie");
     }
   } catch (err) {
     $.log("捕获到错误");
@@ -74,84 +63,76 @@ const ERR = MYERR();
   }
 })();
 
-function checkin(accountIndex) {
+function checkin() {
   const url = `https://encourage.kuaishou.com/rest/wd/encourage/unionTask/signIn/report?__NS_sig3=f7e7a0901f7588d73babc2a8afaea9ccfb84a14f9ac525b52611b8b8bebebdbc83a3&sigCatVer=1`;
   const method = `GET`;
   const headers = {
-    // 保持原有headers不变
+    'Sec-Fetch-Dest': `empty`,
+    'Connection': `keep-alive`,
+    'Accept-Encoding': `gzip, deflate, br`,
+    'Content-Type': `application/x-www-form-urlencoded;charset=UTF-8`,
+    'Sec-Fetch-Site': `same-origin`,
+    'Cache-Control': `no-cache`,
+    'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/12.5.40.8800 ISLP/0 StatusHT/47 ISDM/0 TitleHT/44 NetType/WIFI ICFO/0 locale/zh-Hans CT/0 Yoda/2.13.7 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1`,
+    'PGID': `FCD15D57-5F0F-4690-B66D-CD1A516F4FA7`,
+    'Sec-Fetch-Mode': `cors`,
+    'Cookie': $.cookie,
+    'Host': `encourage.kuaishou.com`,
+    'Referer': `https://encourage.kuaishou.com/kwai/task?layoutType=4&source=pendant&hyId=encourage_earning`,
+    'ZYCK': `encourage_earning`,
+    'Pragma': `no-cache`,
+    'Accept': `*/*`,
+    'Accept-Language': `zh-CN,zh-Hans;q=0.9`
   };
+  const body = ``;
 
-  const myRequest = { url, method, headers, body: `` };
+  const myRequest = {
+    url: url,
+    method: method,
+    headers: headers,
+    body: body
+  };
 
   return new Promise((resolve, reject) => {
     $task.fetch(myRequest).then(response => {
       const data = JSON.parse(response.body);
+      let title = "快手";
       let subtitle = "";
       let content = "";
 
-      if (data.result === 102006 || data.result === 1) {
+      if (data.result === 102006) {
         subtitle = "签到成功";
-        getWalletInfo().then(walletInfo => {
-          const title = `快手签到 - ${walletInfo.nickname}`;
-          content += `💰 金币: ${walletInfo.coinAmountDisplay}\n💵 现金: ${walletInfo.cashAmountDisplay}元`;
-          $.notify(title, subtitle, content);
-          resolve();
-        }).catch(error => {
-          const title = `快手签到 - 账号${accountIndex}`;
-          $.notify(title, "❌ 获取钱包信息失败", error.message);
-          reject(error);
-        });
+        content = data.msg;
+      } else if (data.result === 1) {
+        subtitle = "签到成功";
+        content = data.msg;
       } else {
-        const title = `快手签到 - 账号${accountIndex}`;
-        content = `错误信息: ${data.error_msg || "未知错误"}`;
-        $.notify(title, "❌ 签到失败", content);
-        resolve();
+        title = "签到成功";
+        subtitle = "";
+        content = `错误信息: ${data.error_msg}`;
       }
+
+      $notify(title, subtitle, content);
+      resolve();
     }).catch(error => {
-      const title = `快手签到 - 账号${accountIndex}`;
-      $.notify(title, "❌ 请求失败", error.error || error);
-      reject(error);
+      $notify("签到请求失败", "", error);
+      reject(new ERR.ParseError("签到请求失败，请检查日志"));
     });
   });
 }
 
-function getWalletInfo() {
-  const url = `https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info?source=normal&__NS_sig3=2a3a7d4d6c6cf1d6e276107572731a53e634457ae3c4fc68c25f6565636360615e7e&sigCatVer=1`;
-  const method = `GET`;
-  const headers = {
-    // 保持原有headers不变
-  };
-
-  const myRequest = { url, method, headers, body: `` };
-
-  return new Promise((resolve, reject) => {
-    $task.fetch(myRequest).then(response => {
-      const data = JSON.parse(response.body);
-      if (data.result === 1) {
-        resolve({
-          coinAmountDisplay: data.data.account.coinAmountDisplay,
-          cashAmountDisplay: data.data.account.cashAmountDisplay,
-          nickname: data.data.nickname || "未知用户"
-        });
-      } else {
-        reject(new ERR.ParseError("获取钱包信息失败"));
-      }
-    }).catch(error => reject(error));
-  });
-}
-
 function getCookie() {
-  if ($request && $request.method === "GET" && $request.url.match(/rest\/wd\/encourage\/home/)) {
-    let index = 1;
-    while ($.getval(`kuaishou_cookies${index}`)) index++;
-    
+  if (
+    $request &&
+    $request.method === "GET" &&
+    $request.url.match(/rest\/wd\/encourage\/home/)
+  ) {
     const cookie = $request.headers["Cookie"];
-    $.setval(cookie, `kuaishou_cookies${index}`);
-    $.notify("快手签到", "", `✅ 账号${index} Cookie获取成功`);
+    $.log(`获取到的Cookie: ${cookie}`);
+    $.setval(cookie, "kuaishou_cookies");
+    $.notify("快手签到", "", "获取Cookie成功🎉");
   }
 }
-
-// 保持原有的API和MYERR函数不变
 
 function API(name = "untitled", auto = false) {
   return new (class {
