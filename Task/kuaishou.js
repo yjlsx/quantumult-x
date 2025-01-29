@@ -6,7 +6,7 @@
  * By @yjlsx
  * 脚本功能：签到领取金币.
  * 使用方法：添加相关规则到quantumult x，进入首页的金币主页，提示获取cookie成功，把rewrite和hostname关闭，以免每次运行都会获取cookie.
- * Date: 2025.01.29
+ * Date: 2024.07.05
  * 此脚本仅个人使用，请勿用于非法途径！
  
 *⚠️【免责声明】
@@ -32,7 +32,7 @@
 
 const $ = API("kuaishou");
 const CACHE_KEY = "ks_cookie_v4";
-const COOLDOWN = 60 * 1000;
+const COOLDOWN = 0; // 移除冷却时间
 
 // Quantumult X重写入口
 if (typeof $request !== "undefined") {
@@ -56,13 +56,10 @@ async function handleCookieCapture() {
     let accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
     
     const existing = accounts.find(a => a.uid === accountInfo.uid);
-    if (existing && (Date.now() - existing.timestamp < COOLDOWN)) {
-      $.notify("快手Cookie", "⚠️ 操作过快", "请1分钟后重试");
-      return;
+    if (existing) {
+      accounts = accounts.filter(a => a.uid !== accountInfo.uid); // 移除旧数据
     }
 
-    // 修复点：保留所有用户的Cookie
-    accounts = accounts.filter(a => a.uid !== accountInfo.uid);
     accounts.push({
       uid: accountInfo.uid,
       cookie: cookie,
@@ -71,7 +68,7 @@ async function handleCookieCapture() {
     });
 
     $.log("Cookie处理完成，开始存储...");
-    $.setval(JSON.stringify(accounts), CACHE_KEY);
+    $.setval(CACHE_KEY, JSON.stringify(accounts)); // 修复存储顺序
     $.notify("快手Cookie", "✅ 捕获成功", accountInfo.nickname);
   } catch (e) {
     $.log("捕获Cookie时发生错误: " + e.message);
@@ -109,13 +106,13 @@ async function executeCheckins() {
     } catch (e) {
       if (e.message.includes("身份验证")) {
         let accounts = JSON.parse($.getval(CACHE_KEY)).filter(a => a.uid !== acc.uid);
-        $.setval(JSON.stringify(accounts), CACHE_KEY);
+        $.setval(CACHE_KEY, JSON.stringify(accounts));
         $.notify("快手Cookie", "⚠️ 登录过期", `${acc.nickname} 请重新获取`);
       } else {
         $.notify("快手签到", `❌ ${acc.nickname}`, e.message);
       }
     }
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 2000)); // 增加延迟
   }
 }
 
