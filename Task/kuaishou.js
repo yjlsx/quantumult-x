@@ -6,7 +6,7 @@
  * By @yjlsx
  * 脚本功能：签到领取金币.
  * 使用方法：添加相关规则到quantumult x，进入首页的金币主页，提示获取cookie成功，把rewrite和hostname关闭，以免每次运行都会获取cookie.
- * Date: 2025.01.29
+ * Date: 2024.07.05
  * 此脚本仅个人使用，请勿用于非法途径！
  
 *⚠️【免责声明】
@@ -106,7 +106,7 @@ async function executeCheckins() {
     } catch (e) {
       if (e.message.includes("身份验证")) {
         let accounts = JSON.parse($.getval(CACHE_KEY)).filter(a => a.uid !== acc.uid);
-        $.setval(CACHE_KEY, JSON.stringify(accounts));
+        $.setval(CACHE_KEY, JSON.stringify(accounts)); // 更新缓存
         $.notify("快手Cookie", "⚠️ 登录过期", `${acc.nickname} 请重新获取`);
       } else {
         $.notify("快手签到", `❌ ${acc.nickname}`, e.message);
@@ -160,6 +160,6 @@ function API() {
     notify: (title, subtitle, message) => $notify(title, subtitle, message),
     get: opts => $task.fetch(opts),
     done: () => $done(),
-    log: message => console.log(message) // 添加日志输出
+    log: message => console.log(message)
   };
 }
