@@ -6,7 +6,7 @@
  * By @yjlsx
  * 脚本功能：签到领取金币.
  * 使用方法：添加相关规则到quantumult x，进入首页的金币主页，提示获取cookie成功，把rewrite和hostname关闭，以免每次运行都会获取cookie.
- * Date: 2024.07.05
+ * Date: 2025.01.31
  * 此脚本仅个人使用，请勿用于非法途径！
  
 *⚠️【免责声明】
@@ -32,14 +32,17 @@
 
 const $ = API("kuaishou");
 const CACHE_KEY = "ks_cookie_v4";
-const COOLDOWN = 0; // 移除冷却时间
+const COOLDOWN = 0;
 
-// Quantumult X重写入口
 if (typeof $request !== "undefined") {
   handleCookieCapture().finally($.done);
 } else {
   executeCheckins().finally($.done);
 }
+
+/*********************
+ * 核心逻辑函数 *
+ *********************/
 
 async function handleCookieCapture() {
   if (!$request.url.includes("/rest/wd/encourage/task/list")) return;
@@ -48,18 +51,12 @@ async function handleCookieCapture() {
   if (!cookie) return;
 
   try {
-    $.log("开始获取账户信息...");
     const accountInfo = await getAccountInfo(cookie);
     if (!accountInfo) return;
 
-    $.log("账户信息获取成功，开始处理Cookie...");
     let accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
+    accounts = accounts.filter(a => a.uid !== accountInfo.uid);
     
-    const existing = accounts.find(a => a.uid === accountInfo.uid);
-    if (existing) {
-      accounts = accounts.filter(a => a.uid !== accountInfo.uid); // 移除旧数据
-    }
-
     accounts.push({
       uid: accountInfo.uid,
       cookie: cookie,
@@ -67,57 +64,94 @@ async function handleCookieCapture() {
       timestamp: Date.now()
     });
 
-    $.log("Cookie处理完成，开始存储...");
-    $.setval(CACHE_KEY, JSON.stringify(accounts)); // 修复存储顺序
+    $.setval(CACHE_KEY, JSON.stringify(accounts));
     $.notify("快手Cookie", "✅ 捕获成功", accountInfo.nickname);
   } catch (e) {
-    $.log("捕获Cookie时发生错误: " + e.message);
     $.notify("快手Cookie", "❌ 捕获失败", e.message);
   }
 }
 
 async function executeCheckins() {
-  $.log("开始执行签到任务...");
   const accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
-  if (accounts.length === 0) {
-    $.log("未找到账号，请先获取快手Cookie");
-    return $.notify("快手签到", "❌ 未找到账号", "请先获取快手Cookie");
-  }
+  if (accounts.length === 0) return $.notify("快手签到", "❌ 未找到账号", "请先获取快手Cookie");
 
   for (const acc of accounts) {
     try {
-      $.log(`处理账号: ${acc.nickname}`);
       if (!acc.cookie) {
-        $.log(`账号 ${acc.nickname} 的Cookie不存在`);
         $.notify("快手签到", "❌ Cookie不存在", `${acc.nickname} 请重新获取`);
         continue;
       }
 
-      const currentInfo = await getAccountInfo(acc.cookie);      
-      const result = await performCheckin(acc.cookie);
+      // 执行签到
+      const currentInfo = await getAccountInfo(acc.cookie);
+      const checkinResult = await performCheckin(acc.cookie);
       
+      // 执行开宝箱
+      const boxResult = await openTreasureBox(acc.cookie);
+      
+      // 构建通知消息
       const msg = [
-        `签到状态: ${result}`,
-        `💰 金币: ${currentInfo.coin}`,
-        `💵 现金: ${currentInfo.cash}元`
+        `签到状态: ${checkinResult}`,
+        boxResult.success ? `🎁 宝箱奖励: ${boxResult.reward}金币` : `❌ 宝箱失败: ${boxResult.message}`,
+        `💰 当前金币: ${currentInfo.coin}`,
+        `💵 可提现金额: ${currentInfo.cash}元`
       ].join("\n");
       
       $.notify(`快手签到 - ${currentInfo.nickname}`, "", msg);
     } catch (e) {
-      if (e.message.includes("身份验证")) {
-        let accounts = JSON.parse($.getval(CACHE_KEY)).filter(a => a.uid !== acc.uid);
-        $.setval(CACHE_KEY, JSON.stringify(accounts)); // 更新缓存
-        $.notify("快手Cookie", "⚠️ 登录过期", `${acc.nickname} 请重新获取`);
-      } else {
-        $.notify("快手签到", `❌ ${acc.nickname}`, e.message);
-      }
+      handleAccountError(e, acc);
     }
-    await new Promise(resolve => setTimeout(resolve, 2000)); // 增加延迟
+    await delay(2000); // 账号间操作间隔
   }
 }
 
 /*********************
- * 工具函数集 *
+ * 新增功能函数 *
+ *********************/
+
+async function openTreasureBox(cookie) {
+  const url = `https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report?__NS_sig3=a4b4f3c36d59914b6cf895fbfcfd9640e770f001835972e67d31ebebededeeefd0f0&sigCatVer=1`;
+  
+  const headers = {
+    'Content-Type': 'application/json',
+    'Cookie': cookie,
+    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.0.10.9095 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.0.7 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1',
+    'Referer': 'https://encourage.kuaishou.com/kwai/task?layoutType=4&source=pendant&hyId=encourage_earning'
+  };
+
+  try {
+    const { body } = await $.get({
+      url: url,
+      method: 'POST',
+      headers: headers,
+      body: '{}'
+    });
+
+    const res = JSON.parse(body);
+    if (res.result === 1) {
+      return {
+        success: true,
+        reward: res.data?.title?.rewardCount || '未知',
+        boxStatus: parseBoxProgress(res.data?.progressBar)
+      };
+    }
+    return { success: false, message: res.error_msg || '宝箱开启失败' };
+  } catch (e) {
+    return { success: false, message: e.message };
+  }
+}
+
+function parseBoxProgress(progressBar) {
+  if (!progressBar) return [];
+  return progressBar.nodes.map(node => ({
+    desc: node.desc,
+    status: node.remainSeconds === 0 ? '可开启' : `冷却中(${Math.floor(node.remainSeconds/60)}分钟)`,
+    reward: `${node.rewardCount}${node.rewardUnit}`
+  }));
+}
+
+/*********************
+ * 辅助函数优化 *
  *********************/
 
 async function getAccountInfo(cookie) {
@@ -150,8 +184,22 @@ async function performCheckin(cookie) {
   throw new Error(res.error_msg || "未知错误");
 }
 
+function handleAccountError(e, acc) {
+  if (e.message.includes("身份验证")) {
+    const accounts = JSON.parse($.getval(CACHE_KEY)).filter(a => a.uid !== acc.uid);
+    $.setval(CACHE_KEY, JSON.stringify(accounts));
+    $.notify("快手Cookie", "⚠️ 登录过期", `${acc.nickname} 请重新获取`);
+  } else {
+    $.notify("快手签到", `❌ ${acc.nickname}`, e.message);
+  }
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /*********************
- * Quantumult X适配器 *
+ * 平台适配器 *
  *********************/
 function API() {
   return {
