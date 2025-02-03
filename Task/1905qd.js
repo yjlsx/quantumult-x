@@ -42,6 +42,10 @@ function handleRequest() {
         $prefs.setValueForKey(requestCookie, cookieKey);
         console.log("✅ 从请求中提取 Cookie 并存储成功！");
         console.log("新 Cookie:", maskCookie(requestCookie));
+
+        // 🔔 立即弹窗通知
+        $notification.post("🎬 1905 Cookie 获取成功", "请勿手动清理，自动签到将使用此 Cookie", "🍪 Cookie 已成功存储");
+
     } catch (e) {
         console.log(`❌ 处理请求 Cookie 失败: ${e.message}`);
     }
@@ -57,8 +61,9 @@ async function checkIn(retryCount = 0) {
     try {
         const cookie = await getValidCookie();
 
-        const signRes = await $httpClient.post({
+        const signRes = await $task.fetch({
             url: checkinURL + Date.now(),
+            method: "POST",
             headers: {
                 'Cookie': cookie,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -96,7 +101,6 @@ async function checkIn(retryCount = 0) {
 async function getValidCookie() {
     let cookie = $prefs.valueForKey(cookieKey);
     if (!cookie) throw new Error('请先访问签到页面以获取 Cookie');
-
     return cookie;
 }
 
@@ -120,8 +124,9 @@ function parseSignResult(body) {
  * ✅ 获取当前积分
  */
 async function getCurrentCredits(cookie) {
-    const res = await $httpClient.get({
+    const res = await $task.fetch({
         url: 'https://50843.activity-42.m.duiba.com.cn/ctool/getCredits?_=' + Date.now(),
+        method: "GET",
         headers: { 'Cookie': cookie }
     });
     try {
@@ -139,9 +144,7 @@ function showResult(success, points, credits, error) {
     const subtitle = success ? `获得积分：+${points}` : `原因：${error?.slice(0,30)}`;
     const content = `当前积分：${credits}`;
 
-    typeof $notification !== 'undefined' 
-        ? $notification.post(title, subtitle, content)
-        : console.log(`通知内容：${title} - ${subtitle} - ${content}`);
+    $notification.post(title, subtitle, content);
 }
 
 /**
@@ -157,6 +160,7 @@ function maskCookie(cookie) {
 function sleep(ms) {
     return new Promise(r => setTimeout(r, ms));
 }
+
 
 // ================== 配置说明 ==================
 /*
