@@ -21,54 +21,40 @@ const checkinURL = 'https://50843.activity-42.m.duiba.com.cn/sign/component/doSi
 const cookieKey = '1905_cookie';
 const maxRetries = 2;
 
-if (typeof $response !== 'undefined') {
-    handleResponse();
+if (typeof $request !== 'undefined') {
+    handleRequest();
 } else {
     checkIn();
 }
 
-function handleResponse() {
+/**
+ * ✅ 监听请求并提取 Cookie
+ */
+function handleRequest() {
     try {
-        const setCookie = $response.headers['Set-Cookie'];
-        if (!setCookie) {
-            console.log("❌ 响应头未找到 Set-Cookie");
+        const requestCookie = $request.headers["Cookie"] || $request.headers["cookie"];
+        if (!requestCookie) {
+            console.log("❌ 请求头中未找到 Cookie");
             return $done();
         }
 
-        const currentCookie = $prefs.valueForKey(cookieKey) || '';
-        const cookieDict = {};
-
-        currentCookie.split('; ').forEach(pair => {
-            const [key, value] = pair.split('=');
-            if (key) cookieDict[key.trim()] = value;
-        });
-
-        const newCookies = Array.isArray(setCookie) ? setCookie : [setCookie];
-        newCookies.forEach(cookie => {
-            const [keyValue] = cookie.split(';');
-            const [key, value] = keyValue.split('=');
-            if (key && value) cookieDict[key.trim()] = value;
-        });
-
-        const mergedCookie = Object.entries(cookieDict)
-            .map(([k, v]) => `${k}=${v}`)
-            .join('; ');
-
-        $prefs.setValueForKey(mergedCookie, cookieKey);
-        console.log("✅ Cookie 更新成功！");
-        console.log("旧 Cookie:", maskCookie(currentCookie));
-        console.log("新 Cookie:", maskCookie(mergedCookie));
+        // 存储 Cookie
+        $prefs.setValueForKey(requestCookie, cookieKey);
+        console.log("✅ 从请求中提取 Cookie 并存储成功！");
+        console.log("新 Cookie:", maskCookie(requestCookie));
     } catch (e) {
-        console.log(`❌ Cookie 处理失败: ${e.message}`);
+        console.log(`❌ 处理请求 Cookie 失败: ${e.message}`);
     }
     $done();
 }
 
+/**
+ * ✅ 执行签到流程
+ */
 async function checkIn(retryCount = 0) {
     console.log(`➡️ 开始第 ${retryCount + 1} 次签到尝试`);
 
     try {
-        await fetchAndUpdateCookie();
         const cookie = await getValidCookie();
 
         const signRes = await $httpClient.post({
@@ -77,8 +63,7 @@ async function checkIn(retryCount = 0) {
                 'Cookie': cookie,
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 M1905/6.6.12.1249 (Open 0.1) From 1905 App',
-                'Referer': 'https://50843.activity-42.m.duiba.com.cn/sign/component/page?signOperatingId=285254648573582&from=login&spm=50843.1.1.1',
-                'X-Requested-With': 'XMLHttpRequest'
+                'Referer': 'https://50843.activity-42.m.duiba.com.cn/sign/component/page?signOperatingId=285254648573582&from=login&spm=50843.1.1.1'
             },
             body: 'signOperatingId=285254648573582&token=oip6bv'
         });
@@ -105,39 +90,19 @@ async function checkIn(retryCount = 0) {
     }
 }
 
-async function fetchAndUpdateCookie() {
-    console.log("🔄 尝试从签到接口获取 Cookie...");
-    try {
-        await $httpClient.post({
-            url: checkinURL + Date.now(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 M1905/6.6.12.1249 (Open 0.1) From 1905 App',
-                'Referer': 'https://50843.activity-42.m.duiba.com.cn/sign/component/page?signOperatingId=285254648573582&from=login&spm=50843.1.1.1'
-            },
-            body: 'signOperatingId=285254648573582&token=oip6bv'
-        });
-        console.log("✅ Cookie 获取请求已发送");
-    } catch (e) {
-        console.log(`❌ 获取 Cookie 失败: ${e.message}`);
-    }
-}
-
+/**
+ * ✅ 读取已存储的 Cookie
+ */
 async function getValidCookie() {
     let cookie = $prefs.valueForKey(cookieKey);
-    if (!cookie) throw new Error('请先访问签到页面获取 Cookie');
+    if (!cookie) throw new Error('请先访问签到页面以获取 Cookie');
 
-    const checkRes = await $httpClient.post({
-        url: checkinURL + Date.now(),
-        headers: { 'Cookie': cookie }
-    });
-
-    if (checkRes.status !== 200 || checkRes.body.includes('NEED_LOGIN')) {
-        throw new Error('Cookie 已过期，请重新获取');
-    }
     return cookie;
 }
 
+/**
+ * ✅ 解析签到返回数据
+ */
 function parseSignResult(body) {
     try {
         const data = JSON.parse(body);
@@ -151,6 +116,9 @@ function parseSignResult(body) {
     }
 }
 
+/**
+ * ✅ 获取当前积分
+ */
 async function getCurrentCredits(cookie) {
     const res = await $httpClient.get({
         url: 'https://50843.activity-42.m.duiba.com.cn/ctool/getCredits?_=' + Date.now(),
@@ -163,6 +131,9 @@ async function getCurrentCredits(cookie) {
     }
 }
 
+/**
+ * ✅ 发送通知
+ */
 function showResult(success, points, credits, error) {
     const title = success ? "🎬 1905 签到成功" : "🎬 1905 签到失败";
     const subtitle = success ? `获得积分：+${points}` : `原因：${error?.slice(0,30)}`;
@@ -173,10 +144,16 @@ function showResult(success, points, credits, error) {
         : console.log(`通知内容：${title} - ${subtitle} - ${content}`);
 }
 
+/**
+ * ✅ 保护 Cookie 信息
+ */
 function maskCookie(cookie) {
-    return cookie.replace(/(auth_token|SESSION)=([^;]+)/g, '$1=***');
+    return cookie.replace(/(auth_token|SESSION|tokenId)=([^;]+)/g, '$1=***');
 }
 
+/**
+ * ✅ 延迟执行
+ */
 function sleep(ms) {
     return new Promise(r => setTimeout(r, ms));
 }
