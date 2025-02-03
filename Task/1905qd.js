@@ -18,6 +18,7 @@
 
 // ================== 配置区 ==================
 const checkinURL = 'https://50843.activity-42.m.duiba.com.cn/sign/component/doSign?_=';
+const creditURL = 'https://50843.activity-42.m.duiba.com.cn/ctool/getCredits?_='
 const cookieKey = '1905_cookie';
 const maxRetries = 2;
 
@@ -41,10 +42,14 @@ function handleRequest() {
         // 存储 Cookie
         $prefs.setValueForKey(requestCookie, cookieKey);
         console.log("✅ 从请求中提取 Cookie 并存储成功！");
-        console.log("新 Cookie:", maskCookie(requestCookie));
+        console.log("🍪 新 Cookie:", maskCookie(requestCookie));
 
-        // 🔔 立即弹窗通知
-        $notification.post("🎬 1905 Cookie 获取成功", "请勿手动清理，自动签到将使用此 Cookie", "🍪 Cookie 已成功存储");
+        // 🔔 弹窗通知
+        if (typeof $notification !== 'undefined') {
+            $notification.post("🎬 1905 Cookie 获取成功", "请勿手动清理，自动签到将使用此 Cookie", "🍪 Cookie 已成功存储");
+        } else {
+            console.log("🔔 由于环境限制，无法弹出通知，但 Cookie 已存储！");
+        }
 
     } catch (e) {
         console.log(`❌ 处理请求 Cookie 失败: ${e.message}`);
@@ -96,16 +101,26 @@ async function checkIn(retryCount = 0) {
 }
 
 /**
- * ✅ 读取已存储的 Cookie
+ * 🔄 获取有效 Cookie
  */
 async function getValidCookie() {
     let cookie = $prefs.valueForKey(cookieKey);
-    if (!cookie) throw new Error('请先访问签到页面以获取 Cookie');
+    if (!cookie) throw new Error('请先访问签到页面获取 Cookie');
+
+    const checkRes = await $task.fetch({
+        url: checkinURL + Date.now(),
+        method: "POST",
+        headers: { 'Cookie': cookie }
+    });
+
+    if (checkRes.status !== 200 || checkRes.body.includes('NEED_LOGIN')) {
+        throw new Error('Cookie 已过期，请重新获取');
+    }
     return cookie;
 }
 
 /**
- * ✅ 解析签到返回数据
+ * 📊 解析签到结果
  */
 function parseSignResult(body) {
     try {
@@ -121,11 +136,11 @@ function parseSignResult(body) {
 }
 
 /**
- * ✅ 获取当前积分
+ * 🎯 查询当前积分
  */
 async function getCurrentCredits(cookie) {
     const res = await $task.fetch({
-        url: 'https://50843.activity-42.m.duiba.com.cn/ctool/getCredits?_=' + Date.now(),
+        url: creditURL + Date.now(),
         method: "GET",
         headers: { 'Cookie': cookie }
     });
@@ -137,25 +152,29 @@ async function getCurrentCredits(cookie) {
 }
 
 /**
- * ✅ 发送通知
+ * 🔔 发送通知
  */
 function showResult(success, points, credits, error) {
     const title = success ? "🎬 1905 签到成功" : "🎬 1905 签到失败";
-    const subtitle = success ? `获得积分：+${points}` : `原因：${error?.slice(0,30)}`;
+    const subtitle = success ? `获得积分：+${points}` : `原因：${error?.slice(0, 30)}`;
     const content = `当前积分：${credits}`;
 
-    $notification.post(title, subtitle, content);
+    if (typeof $notification !== 'undefined') {
+        $notification.post(title, subtitle, content);
+    } else {
+        console.log(`通知内容：${title} - ${subtitle} - ${content}`);
+    }
 }
 
 /**
- * ✅ 保护 Cookie 信息
+ * 🔍 Cookie 打码（防止日志泄露）
  */
 function maskCookie(cookie) {
-    return cookie.replace(/(auth_token|SESSION|tokenId)=([^;]+)/g, '$1=***');
+    return cookie.replace(/(auth_token|SESSION)=([^;]+)/g, '$1=***');
 }
 
 /**
- * ✅ 延迟执行
+ * ⏳ 休眠
  */
 function sleep(ms) {
     return new Promise(r => setTimeout(r, ms));
@@ -168,7 +187,7 @@ Quantumult X 配置方法：
 
 1. 添加重写规则（用于捕获Cookie）：
 [rewrite_local]
-^https:\/\/50843\.activity-42\.m\.duiba\.com\.cn\/sign\/component\/signResult url script-response-body https://example.com/1905checkin.js
+https://50843.activity-42.m.duiba.com.cn/sign/component/doSign url script-request-header https://your_server.com/1905qd.js
 
 2. 添加定时任务：
 [task_local]
