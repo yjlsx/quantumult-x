@@ -17,19 +17,16 @@
 // Cookie捕获地址与签到地址统一版
 
 // ================== 配置区 ==================
-const checkinURL = 'https://50843.activity-42.m.duiba.com.cn/sign/component/signResult?orderNum=355306933&_='; 
-const creditURL = 'https://50843.activity-42.m.duiba.com.cn/ctool/getCredits?_='; // 更新后的获取Cookie地址
+const checkinURL = 'https://50843.activity-42.m.duiba.com.cn/sign/component/doSign?_=';
 const cookieKey = '1905_cookie';
-const maxRetries = 2; // 最大重试次数
+const maxRetries = 2;
 
-// ================== 执行判断 ==================
 if (typeof $response !== 'undefined') {
-    handleResponse(); // 响应模式处理 Cookie
+    handleResponse();
 } else {
-    checkIn(); // 主动执行签到流程
+    checkIn();
 }
 
-// ================== Cookie 捕获逻辑 ==================
 function handleResponse() {
     try {
         const setCookie = $response.headers['Set-Cookie'];
@@ -38,17 +35,14 @@ function handleResponse() {
             return $done();
         }
 
-        // 合并新旧 Cookie
         const currentCookie = $prefs.valueForKey(cookieKey) || '';
         const cookieDict = {};
 
-        // 解析现有 Cookie
         currentCookie.split('; ').forEach(pair => {
             const [key, value] = pair.split('=');
             if (key) cookieDict[key.trim()] = value;
         });
 
-        // 处理新获取的 Cookie
         const newCookies = Array.isArray(setCookie) ? setCookie : [setCookie];
         newCookies.forEach(cookie => {
             const [keyValue] = cookie.split(';');
@@ -56,12 +50,10 @@ function handleResponse() {
             if (key && value) cookieDict[key.trim()] = value;
         });
 
-        // 生成合并后的 Cookie 字符串
         const mergedCookie = Object.entries(cookieDict)
             .map(([k, v]) => `${k}=${v}`)
             .join('; ');
 
-        // 存储新的 Cookie
         $prefs.setValueForKey(mergedCookie, cookieKey);
         console.log("✅ Cookie 更新成功！");
         console.log("旧 Cookie:", maskCookie(currentCookie));
@@ -72,29 +64,25 @@ function handleResponse() {
     $done();
 }
 
-// ================== 主逻辑 ==================
 async function checkIn(retryCount = 0) {
     console.log(`➡️ 开始第 ${retryCount + 1} 次签到尝试`);
 
     try {
-        // 先获取 Cookie
         await fetchAndUpdateCookie();
-
-        // 获取并验证 Cookie
         const cookie = await getValidCookie();
 
-        // 执行签到
-        const signRes = await $httpClient.get({
+        const signRes = await $httpClient.post({
             url: checkinURL + Date.now(),
             headers: {
                 'Cookie': cookie,
+                'Content-Type': 'application/x-www-form-urlencoded',
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 M1905/6.6.12.1249 (Open 0.1) From 1905 App',
                 'Referer': 'https://50843.activity-42.m.duiba.com.cn/sign/component/page?signOperatingId=285254648573582&from=login&spm=50843.1.1.1',
                 'X-Requested-With': 'XMLHttpRequest'
-            }
+            },
+            body: 'signOperatingId=285254648573582&token=oip6bv'
         });
 
-        // 处理签到结果
         const signData = parseSignResult(signRes.body);
         if (!signData.success && retryCount < maxRetries) {
             console.log(`🔄 触发重试：${signData.error}`);
@@ -102,10 +90,7 @@ async function checkIn(retryCount = 0) {
             return checkIn(retryCount + 1);
         }
 
-        // 获取积分
         const credits = await getCurrentCredits(cookie);
-
-        // 显示结果
         showResult(signData.success, signData.points, credits, signData.error);
 
     } catch (error) {
@@ -120,13 +105,17 @@ async function checkIn(retryCount = 0) {
     }
 }
 
-// ================== 功能函数 ==================
 async function fetchAndUpdateCookie() {
-    console.log("🔄 尝试从积分接口获取 Cookie...");
+    console.log("🔄 尝试从签到接口获取 Cookie...");
     try {
-        await $httpClient.get({
-            url: creditURL + Date.now(),
-            headers: { 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 M1905/6.6.12.1249 (Open 0.1) From 1905 App' }
+        await $httpClient.post({
+            url: checkinURL + Date.now(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 M1905/6.6.12.1249 (Open 0.1) From 1905 App',
+                'Referer': 'https://50843.activity-42.m.duiba.com.cn/sign/component/page?signOperatingId=285254648573582&from=login&spm=50843.1.1.1'
+            },
+            body: 'signOperatingId=285254648573582&token=oip6bv'
         });
         console.log("✅ Cookie 获取请求已发送");
     } catch (e) {
@@ -136,10 +125,9 @@ async function fetchAndUpdateCookie() {
 
 async function getValidCookie() {
     let cookie = $prefs.valueForKey(cookieKey);
-    if (!cookie) throw new Error('请先访问积分页面获取 Cookie');
+    if (!cookie) throw new Error('请先访问签到页面获取 Cookie');
 
-    // 验证 Cookie 有效性
-    const checkRes = await $httpClient.get({
+    const checkRes = await $httpClient.post({
         url: checkinURL + Date.now(),
         headers: { 'Cookie': cookie }
     });
@@ -154,9 +142,9 @@ function parseSignResult(body) {
     try {
         const data = JSON.parse(body);
         return {
-            success: data.code === 'success' || data.success,
-            points: data.data?.signResult || data.data?.points || 0,
-            error: data.data?.errorMsg || data.desc || data.message || '未知错误'
+            success: data.code === 'success',
+            points: data.data?.points || 0,
+            error: data.msg || data.message || '未知错误'
         };
     } catch (e) {
         return { success: false, error: '响应解析失败' };
@@ -165,7 +153,7 @@ function parseSignResult(body) {
 
 async function getCurrentCredits(cookie) {
     const res = await $httpClient.get({
-        url: creditURL + Date.now(),
+        url: 'https://50843.activity-42.m.duiba.com.cn/ctool/getCredits?_=' + Date.now(),
         headers: { 'Cookie': cookie }
     });
     try {
@@ -175,7 +163,6 @@ async function getCurrentCredits(cookie) {
     }
 }
 
-// ================== 工具函数 ==================
 function showResult(success, points, credits, error) {
     const title = success ? "🎬 1905 签到成功" : "🎬 1905 签到失败";
     const subtitle = success ? `获得积分：+${points}` : `原因：${error?.slice(0,30)}`;
