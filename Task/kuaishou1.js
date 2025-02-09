@@ -43,7 +43,7 @@ if (typeof $request !== "undefined") {
 /*********************
  * 核心逻辑函数 *
  *********************/
-
+const $ = API("kuaishou");
 const ACCOUNT_LIST_KEY = "KUAISHOU_ACCOUNTS";
 
 if (typeof $request !== "undefined") {
@@ -54,7 +54,7 @@ if (typeof $request !== "undefined") {
 
 async function handleCookieCapture() {
   if (!$request.url.includes("/rest/wd/encourage/task/list")) return;
-  
+
   const cookie = $request.headers?.Cookie || $request.headers?.cookie;
   if (!cookie) return;
 
@@ -62,7 +62,7 @@ async function handleCookieCapture() {
     const accountInfo = await getAccountInfo(cookie);
     if (!accountInfo) return;
 
-    // 存储到独立键值
+    // 存储 Cookie
     const cookieKey = `KUAISHOU_${accountInfo.uid}_COOKIE`;
     $.setval(cookie, cookieKey);
 
@@ -86,7 +86,7 @@ async function executeCheckins() {
   for (const uid of accounts) {
     const cookieKey = `KUAISHOU_${uid}_COOKIE`;
     const cookie = $.getval(cookieKey);
-    
+
     if (!cookie) {
       $.notify("快手签到", " Cookie丢失", `UID: ${uid} 请重新获取`);
       continue;
@@ -96,14 +96,14 @@ async function executeCheckins() {
       const currentInfo = await getAccountInfo(cookie);
       const checkinResult = await performCheckin(cookie);
       const boxResult = await openTreasureBox(cookie);
-      
+
       const msg = [
         `签到状态: ${checkinResult}`,
         boxResult.success ? ` 宝箱奖励: ${boxResult.reward}金币` : ` 宝箱失败: ${boxResult.message}`,
         ` 当前金币: ${currentInfo.coin}`,
         ` 可提现金额: ${currentInfo.cash}元`
       ].join("\n");
-      
+
       $.notify(`快手签到 - ${currentInfo.nickname}`, "", msg);
     } catch (e) {
       if (e.message.includes("身份验证")) {
@@ -117,6 +117,8 @@ async function executeCheckins() {
     }
     await delay(2000);
   }
+}
+
 }
 
 // 其他辅助函数保持不变
