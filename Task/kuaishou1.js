@@ -48,53 +48,46 @@ function debugLog(...args) {
 * 主要处理逻辑 *
 *********************/
 async function handleCookieCapture() {
- try {
-   debugLog("开始捕获Cookie流程");
-   
-   if (!$request.url.includes("/rest/wd/encourage/task/list")) {
-     debugLog("非目标请求，已跳过");
-     return;
-   }
+  if (!$request.url.includes("/rest/wd/encourage/task/list")) {
+    $.notify("快手Cookie", " 捕获失败", "非目标请求");
+    return;
+  }
 
-   const cookie = $request.headers?.Cookie || $request.headers?.cookie;
-   if (!cookie) {
-     debugLog("未找到Cookie字段");
-     $.notify("快手Cookie", "❌ 捕获失败", "请求头缺少Cookie");
-     return;
-   }
+  const cookie = $request.headers?.Cookie || $request.headers?.cookie;
+  if (!cookie) {
+    $.notify("快手Cookie", " 捕获失败", "请求头缺少Cookie");
+    return;
+  }
 
-   debugLog("获取到原始Cookie:", cookie.slice(0, 50) + "...");
-   
-   const accountInfo = await getAccountInfo(cookie);
-   if (!accountInfo) {
-     debugLog("账号信息获取失败");
-     return;
-   }
+  try {
+    const accountInfo = await getAccountInfo(cookie);
+    if (!accountInfo) {
+      $.notify("快手Cookie", " 捕获失败", "账号信息获取失败");
+      return;
+    }
 
-   if (!accountInfo.uid) {
-     debugLog("接口返回UID为空值");
-     $.notify("快手Cookie", "❌ 捕获失败", "UID解析失败");
-     return;
-   }
+    if (!accountInfo.uid) {
+      $.notify("快手Cookie", " 捕获失败", "UID解析失败");
+      return;
+    }
 
-   // 存储管理逻辑
-   const cookieKey = `KUAISHOU_${accountInfo.uid}_COOKIE`;
-   $.setval(cookie, cookieKey);
-   debugLog("Cookie存储完成，键名:", cookieKey);
+    let accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
+    accounts = accounts.filter(a => a.uid !== accountInfo.uid);
+    
+    accounts.push({
+      uid: accountInfo.uid,
+      cookie: cookie,
+      nickname: accountInfo.nickname,
+      timestamp: Date.now()
+    });
 
-   let accounts = JSON.parse($.getval(ACCOUNT_LIST_KEY) || '[]');
-   if (!accounts.includes(accountInfo.uid)) {
-     accounts.push(accountInfo.uid);
-     $.setval(JSON.stringify(accounts), ACCOUNT_LIST_KEY);
-     debugLog("账号列表更新完成，当前账号数:", accounts.length);
-   }
-
-   $.notify("快手Cookie", "✅ 捕获成功", `${accountInfo.nickname} (UID:${accountInfo.uid})`);
- } catch (e) {
-   debugLog("捕获流程异常:", e);
-   $.notify("快手Cookie", "❌ 捕获失败", e.message);
- }
+    $.setval(CACHE_KEY, JSON.stringify(accounts));
+    $.notify("快手Cookie", " 捕获成功", `${accountInfo.nickname} (UID:${accountInfo.uid})`);
+  } catch (e) {
+    $.notify("快手Cookie", " 捕获失败", e.message);
+  }
 }
+
 
 async function executeCheckins() {
  try {
@@ -169,46 +162,38 @@ async function executeCheckins() {
 * 功能函数 (带日志) *
 *********************/
 async function getAccountInfo(cookie) {
- try {
-   debugLog("开始获取账号信息");
-   const { body } = await $.get({
-     url: "https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info",
-     headers: { Cookie: cookie }
-   });
+  try {
+    const { body } = await $.get({
+      url: "https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info",
+      headers: { Cookie: cookie }
+    });
 
-   debugLog("账号信息接口响应:", body.slice(0, 200) + "...");
-   const data = JSON.parse(body);
+    const data = JSON.parse(body);
+    if (data.result !== 1) {
+      throw new Error(`账户信息获取失败: ${data.error_msg || "未知错误"}`);
+    }
 
-   if (data.result !== 1) {
-     const errorMsg = `CODE:${data.result} - ${data.error_msg || "未知错误"}`;
-     debugLog("账号信息获取失败:", errorMsg);
-     throw new Error(errorMsg);
-   }
+    const account = data.data?.account;
+    if (!account) {
+      throw new Error("账号数据结构异常");
+    }
 
-   const account = data.data?.account;
-   if (!account) {
-     debugLog("账号数据结构异常");
-     throw new Error("账号数据结构异常");
-   }
+    if (!account.uid) {
+      throw new Error("UID解析失败");
+    }
 
-   debugLog("账号信息解析成功:", {
-     uid: account.uid,
-     coin: account.coinAmountDisplay,
-     cash: account.cashAmountDisplay
-   });
-
-   return {
-     uid: account.uid,
-     nickname: data.data?.nickname || "未知用户",
-     coin: account.coinAmountDisplay || "0",
-     cash: account.cashAmountDisplay || "0.00"
-   };
- } catch (e) {
-   debugLog("获取账号信息异常:", e);
-   $.notify("快手账号信息", "❌ 获取失败", e.message);
-   return null;
- }
+    return {
+      uid: account.uid,
+      nickname: data.data?.nickname || "未知用户",
+      coin: account.coinAmountDisplay || "0",
+      cash: account.cashAmountDisplay || "0.00"
+    };
+  } catch (e) {
+    $.notify("快手账号信息", " 获取失败", e.message);
+    return null;
+  }
 }
+
 
 async function performCheckin(cookie) {
  try {
