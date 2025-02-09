@@ -30,16 +30,6 @@
  * 5. 日志记录与调试
  */
 
-const $ = API("kuaishou");
-const CACHE_KEY = "ks_cookie_v4";
-const COOLDOWN = 0;
-
-if (typeof $request !== "undefined") {
-  handleCookieCapture().finally($.done);
-} else {
-  executeCheckins().finally($.done);
-}
-
 /*********************
  * 核心逻辑函数 *
  *********************/
