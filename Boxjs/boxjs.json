@@ -21,33 +21,80 @@
   "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
   "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"],
   "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou1.js",
-  "keys": ["KUAISHOU_ACCOUNTS", "KUAISHOU_COOKIE"],
+  "keys": ["ks_enabled_1", "ks_cookie_1", "ks_enabled_2", "ks_cookie_2"],
   "functions": [
     {
-      "id": "kuaishou_accounts",
-      "title": "快手账号管理",
-      "desc": "查看、删除或编辑已存储的快手账号",
+      "id": "ks_enabled_1",
+      "title": "启用账号1",
+      "desc": "是否启用账号1",
       "icon": "ks",
       "config": {
-        "name": "KUAISHOU_ACCOUNTS",
-        "type": "array",
-        "list": true,
+        "name": "ks_enabled_1",
+        "type": "boolean",
+        "default": true
+      }
+    },
+    {
+      "id": "ks_cookie_1",
+      "title": "账号1 Cookie",
+      "desc": "用于快手签到",
+      "icon": "ks",
+      "config": {
+        "name": "ks_cookie_1",
+        "type": "text",
+        "input": "password",
         "readonly": false
       }
     },
     {
-      "id": "kuaishou_cookie",
-      "title": "快手 Cookie",
+      "id": "ks_enabled_2",
+      "title": "启用账号2",
+      "desc": "是否启用账号2",
+      "icon": "ks",
+      "config": {
+        "name": "ks_enabled_2",
+        "type": "boolean",
+        "default": true
+      }
+    },
+    {
+      "id": "ks_cookie_2",
+      "title": "账号2 Cookie",
       "desc": "用于快手签到",
       "icon": "ks",
       "config": {
-        "name": "KUAISHOU_COOKIE",
+        "name": "ks_cookie_2",
         "type": "text",
-        "list": false,
+        "input": "password",
         "readonly": false
       }
     }
-  ]
+  ],
+  "boxjs": {
+    "hosts": ["kuaishou.com"],
+    "schema": {
+      "ks_enabled_1": {
+        "type": "boolean",
+        "label": "启用账号1",
+        "default": true
+      },
+      "ks_cookie_1": {
+        "type": "text",
+        "label": "账号1 Cookie",
+        "input": "password"
+      },
+      "ks_enabled_2": {
+        "type": "boolean",
+        "label": "启用账号2",
+        "default": true
+      },
+      "ks_cookie_2": {
+        "type": "text",
+        "label": "账号2 Cookie",
+        "input": "password"
+      }
+    }
+  }
 },
     {
       "id": "QQreader",
