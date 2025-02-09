@@ -14,14 +14,14 @@
       "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuwo.png"],
       "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/Kuwomusic.js"
     },
-    {
-      "id": "kuaishou",
-      "name": "快手签到",
-      "author": "@yjlsx",
-      "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
-      "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"],
-      "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou1.js"
-        "functions": [
+   {
+  "id": "kuaishou",
+  "name": "快手签到",
+  "author": "@yjlsx",
+  "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
+  "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"],
+  "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou1.js",
+  "functions": [
     {
       "title": "快手账号管理",
       "desc": "查看、删除或编辑已存储的快手账号",
@@ -42,11 +42,10 @@
         "type": "text",
         "list": false,
         "readonly": false
-              }
-        }
-      ]
-
-    },
+      }
+    }
+  ]
+},
     {
       "id": "QQreader",
       "name": "QQ阅读",
