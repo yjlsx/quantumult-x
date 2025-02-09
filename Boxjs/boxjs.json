@@ -14,15 +14,17 @@
       "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuwo.png"],
       "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/Kuwomusic.js"
     },
-   {
+ {
   "id": "kuaishou",
   "name": "快手签到",
   "author": "@yjlsx",
   "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
   "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"],
   "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou1.js",
+  "keys": ["KUAISHOU_ACCOUNTS", "KUAISHOU_COOKIE"],
   "functions": [
     {
+      "id": "kuaishou_accounts",
       "title": "快手账号管理",
       "desc": "查看、删除或编辑已存储的快手账号",
       "icon": "ks",
@@ -34,11 +36,12 @@
       }
     },
     {
+      "id": "kuaishou_cookie",
       "title": "快手 Cookie",
       "desc": "用于快手签到",
       "icon": "ks",
       "config": {
-        "name": "KUAISHOU_{{uid}}_COOKIE",
+        "name": "KUAISHOU_COOKIE",
         "type": "text",
         "list": false,
         "readonly": false
