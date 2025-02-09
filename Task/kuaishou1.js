@@ -119,7 +119,6 @@ async function executeCheckins() {
   }
 }
 
-}
 
 // 其他辅助函数保持不变
 
