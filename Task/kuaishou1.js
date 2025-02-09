@@ -6,7 +6,7 @@
  * By @yjlsx
  * 脚本功能：签到领取金币.
  * 使用方法：添加相关规则到quantumult x，进入首页的金币主页，提示获取cookie成功，把rewrite和hostname关闭，以免每次运行都会获取cookie.
- * Date: 2024.07.05
+ * Date: 2025.02.09
  * 此脚本仅个人使用，请勿用于非法途径！
  
 *⚠️【免责声明】
@@ -32,9 +32,20 @@
 
 const $ = API("kuaishou");
 const CACHE_KEY = "ks_cookie_v4";
-const COOLDOWN = 0; // 移除冷却时间
+const COOLDOWN = 0;
 
-// Quantumult X重写入口
+if (typeof $request !== "undefined") {
+  handleCookieCapture().finally($.done);
+} else {
+  executeCheckins().finally($.done);
+}
+
+/*********************
+ * 核心逻辑函数 *
+ *********************/
+
+const ACCOUNT_LIST_KEY = "KUAISHOU_ACCOUNTS";
+
 if (typeof $request !== "undefined") {
   handleCookieCapture().finally($.done);
 } else {
@@ -48,76 +59,70 @@ async function handleCookieCapture() {
   if (!cookie) return;
 
   try {
-    $.log("开始获取账户信息...");
     const accountInfo = await getAccountInfo(cookie);
     if (!accountInfo) return;
 
-    $.log("账户信息获取成功，开始处理Cookie...");
-    let accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
-    
-    const existing = accounts.find(a => a.uid === accountInfo.uid);
-    if (existing) {
-      accounts = accounts.filter(a => a.uid !== accountInfo.uid); // 移除旧数据
+    // 存储到独立键值
+    const cookieKey = `KUAISHOU_${accountInfo.uid}_COOKIE`;
+    $.setval(cookie, cookieKey);
+
+    // 更新账号列表
+    let accounts = JSON.parse($.getval(ACCOUNT_LIST_KEY) || '[]');
+    if (!accounts.includes(accountInfo.uid)) {
+      accounts.push(accountInfo.uid);
+      $.setval(JSON.stringify(accounts), ACCOUNT_LIST_KEY);
     }
 
-    accounts.push({
-      uid: accountInfo.uid,
-      cookie: cookie,
-      nickname: accountInfo.nickname,
-      timestamp: Date.now()
-    });
-
-    $.log("Cookie处理完成，开始存储...");
-    $.setval(CACHE_KEY, JSON.stringify(accounts)); // 修复存储顺序
-    $.notify("快手Cookie", "✅ 捕获成功", accountInfo.nickname);
+    $.notify("快手Cookie", " 捕获成功", `${accountInfo.nickname} (UID:${accountInfo.uid})`);
   } catch (e) {
-    $.log("捕获Cookie时发生错误: " + e.message);
-    $.notify("快手Cookie", "❌ 捕获失败", e.message);
+    $.notify("快手Cookie", " 捕获失败", e.message);
   }
 }
 
 async function executeCheckins() {
-  $.log("开始执行签到任务...");
-  const accounts = JSON.parse($.getval(CACHE_KEY) || '[]');
-  if (accounts.length === 0) {
-    $.log("未找到账号，请先获取快手Cookie");
-    return $.notify("快手签到", "❌ 未找到账号", "请先获取快手Cookie");
-  }
+  const accounts = JSON.parse($.getval(ACCOUNT_LIST_KEY) || '[]');
+  if (accounts.length === 0) return $.notify("快手签到", " 未找到账号", "请先获取快手Cookie");
 
-  for (const acc of accounts) {
+  for (const uid of accounts) {
+    const cookieKey = `KUAISHOU_${uid}_COOKIE`;
+    const cookie = $.getval(cookieKey);
+    
+    if (!cookie) {
+      $.notify("快手签到", " Cookie丢失", `UID: ${uid} 请重新获取`);
+      continue;
+    }
+
     try {
-      $.log(`处理账号: ${acc.nickname}`);
-      if (!acc.cookie) {
-        $.log(`账号 ${acc.nickname} 的Cookie不存在`);
-        $.notify("快手签到", "❌ Cookie不存在", `${acc.nickname} 请重新获取`);
-        continue;
-      }
-
-      const currentInfo = await getAccountInfo(acc.cookie);      
-      const result = await performCheckin(acc.cookie);
+      const currentInfo = await getAccountInfo(cookie);
+      const checkinResult = await performCheckin(cookie);
+      const boxResult = await openTreasureBox(cookie);
       
       const msg = [
-        `签到状态: ${result}`,
-        `💰 金币: ${currentInfo.coin}`,
-        `💵 现金: ${currentInfo.cash}元`
+        `签到状态: ${checkinResult}`,
+        boxResult.success ? ` 宝箱奖励: ${boxResult.reward}金币` : ` 宝箱失败: ${boxResult.message}`,
+        ` 当前金币: ${currentInfo.coin}`,
+        ` 可提现金额: ${currentInfo.cash}元`
       ].join("\n");
       
       $.notify(`快手签到 - ${currentInfo.nickname}`, "", msg);
     } catch (e) {
       if (e.message.includes("身份验证")) {
-        let accounts = JSON.parse($.getval(CACHE_KEY)).filter(a => a.uid !== acc.uid);
-        $.setval(CACHE_KEY, JSON.stringify(accounts)); // 更新缓存
-        $.notify("快手Cookie", "⚠️ 登录过期", `${acc.nickname} 请重新获取`);
+        // 移除失效账号
+        let updatedAccounts = accounts.filter(id => id !== uid);
+        $.setval(JSON.stringify(updatedAccounts), ACCOUNT_LIST_KEY);
+        $.notify("快手Cookie", " 登录过期", `${uid} 已移除`);
       } else {
-        $.notify("快手签到", `❌ ${acc.nickname}`, e.message);
+        $.notify("快手签到", ` UID:${uid}`, e.message);
       }
     }
-    await new Promise(resolve => setTimeout(resolve, 2000)); // 增加延迟
+    await delay(2000);
   }
 }
 
+// 其他辅助函数保持不变
+
 /*********************
- * 工具函数集 *
+ * 辅助函数优化 *
  *********************/
 
 async function getAccountInfo(cookie) {
@@ -150,8 +155,22 @@ async function performCheckin(cookie) {
   throw new Error(res.error_msg || "未知错误");
 }
 
+function handleAccountError(e, acc) {
+  if (e.message.includes("身份验证")) {
+    const accounts = JSON.parse($.getval(CACHE_KEY)).filter(a => a.uid !== acc.uid);
+    $.setval(CACHE_KEY, JSON.stringify(accounts));
+    $.notify("快手Cookie", "⚠️ 登录过期", `${acc.nickname} 请重新获取`);
+  } else {
+    $.notify("快手签到", `❌ ${acc.nickname}`, e.message);
+  }
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /*********************
- * Quantumult X适配器 *
+ * 平台适配器 *
  *********************/
 function API() {
   return {
