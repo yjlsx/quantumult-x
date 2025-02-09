@@ -70,29 +70,33 @@
       }
     }
   ],
-  "boxjs": {
-    "hosts": ["kuaishou.com"],
-    "schema": {
-      "ks_enabled_1": {
-        "type": "boolean",
-        "label": "启用账号1",
-        "default": true
-      },
-      "ks_cookie_1": {
-        "type": "text",
-        "label": "账号1 Cookie",
-        "input": "password"
-      },
-      "ks_enabled_2": {
-        "type": "boolean",
-        "label": "启用账号2",
-        "default": true
-      },
-      "ks_cookie_2": {
-        "type": "text",
-        "label": "账号2 Cookie",
-        "input": "password"
-      }
+"boxjs": {
+  "hosts": ["kuaishou.com"],
+  "schema": {
+    "ks_enabled_1": {
+      "type": "boolean",
+      "label": "启用账号1",
+      "desc": "控制是否启用快手账号1",
+      "default": true
+    },
+    "ks_cookie_1": {
+      "type": "text",
+      "label": "账号1 Cookie",
+      "desc": "用于快手签到",
+      "input": "password"
+    },
+    "ks_enabled_2": {
+      "type": "boolean",
+      "label": "启用账号2",
+      "desc": "控制是否启用快手账号2",
+      "default": true
+    },
+    "ks_cookie_2": {
+      "type": "text",
+      "label": "账号2 Cookie",
+      "desc": "用于快手签到",
+      "input": "password"
+       }
     }
   }
 },
