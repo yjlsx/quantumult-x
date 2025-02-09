@@ -36,63 +36,48 @@ const STORAGE_KEYS = {
 
 // 判断运行模式
 if (typeof $request !== "undefined") {
-   // Rewrite 模式 - 参数捕获
-   handleRewriteCapture();
-} else {
-   // Task 模式 - 执行签到
-   executeSignTask();
+    // Rewrite 模式
+    const url = $request.url;
+    const headers = $request.headers;
+
+    let captured = false;
+
+    // 捕获 user_id
+    if (url.includes('game/waba/home')) {
+        const userIdMatch = url.match(/user_id=(\d+)/);
+        if (userIdMatch && userIdMatch[1]) {
+            $prefs.setValueForKey(userIdMatch[1], 'buzhi_user_id');
+            console.log(` 捕获到 user_id: ${userIdMatch[1]}`);
+            captured = true;
+        }
+    }
+
+    // 捕获 headers 参数
+    if (url.includes('game/waba/sign/logs')) {
+        ['Device-Token', 'Auth-Token', 'Sign'].forEach(key => {
+            if (headers[key]) {
+                const storageKey = {
+                    'Device-Token': 'buzhi_uuid',
+                    'Auth-Token': 'buzhi_auth_token',
+                    'Sign': 'buzhi_sign'
+                }[key];
+                $prefs.setValueForKey(headers[key], storageKey);
+                console.log(` 捕获到 ${key}: ${headers[key]}`);
+                captured = true;
+            }
+        });
+    }
+
+    // 发送通知
+    if (captured) {
+        $notify("步知公考", " 参数捕获成功", "请检查日志查看详情");
+    } else {
+        console.log(" 未捕获到有效参数，请检查匹配规则");
+        $notify("步知公考", " 参数捕获失败", "请打开APP后重试");
+    }
+    $done();
 }
 
-/********************
-* Rewrite 模式逻辑 *
-********************/
-function handleRewriteCapture() {
-   let captured = false;
-   const url = $request.url;
-   const headers = $request.headers;
-
-   // 捕获 user_id
-   if (url.includes('game/waba/home')) {
-       const userIdMatch = url.match(/user_id=(\d+)/);
-       if (userIdMatch && userIdMatch[1]) {
-           $prefs.setValueForKey(userIdMatch[1], STORAGE_KEYS.USER_ID);
-           console.log(`🔧 捕获到 user_id: ${userIdMatch[1]}`);
-           captured = true;
-       }
-   }
-
-   // 捕获 headers 参数
-   if (url.includes('game/waba/sign/logs')) {
-       ['Device-Token', 'Auth-Token', 'Sign'].forEach(key => {
-           if (headers[key]) {
-               const storageKey = {
-                   'Device-Token': STORAGE_KEYS.UUID,
-                   'Auth-Token': STORAGE_KEYS.AUTH_TOKEN,
-                   'Sign': STORAGE_KEYS.SIGN
-               }[key];
-               $prefs.setValueForKey(headers[key], storageKey);
-               console.log(`🔧 捕获到 ${key}: ${headers[key]}`);
-               captured = true;
-           }
-       });
-   }
-
-   // 捕获 app_sign
-   if (url.includes('game/waba/home') && headers['App-Sign']) {
-       $prefs.setValueForKey(headers['App-Sign'], STORAGE_KEYS.APP_SIGN);
-       console.log(`🔧 捕获到 App-Sign: ${headers['App-Sign']}`);
-       captured = true;
-   }
-
-   // 提示捕获结果
-   if (captured) {
-       $notify("步知公考", "✅ 参数捕获成功", "请检查日志查看详情");
-   } else {
-       console.log("⚠️ 未捕获到有效参数，请检查匹配规则");
-       $notify("步知公考", "❌ 参数捕获失败", "请打开APP后重试");
-   }
-   $done();
-}
 
 /*******************
 * Task 模式逻辑 *
