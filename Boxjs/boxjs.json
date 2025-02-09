@@ -77,7 +77,8 @@
       "type": "boolean",
       "label": "启用账号1",
       "desc": "控制是否启用快手账号1",
-      "default": true
+      "default": true,
+      "val": true  // 这里加上 "val" 赋值，确保默认值生效
     },
     "ks_cookie_1": {
       "type": "text",
@@ -89,7 +90,8 @@
       "type": "boolean",
       "label": "启用账号2",
       "desc": "控制是否启用快手账号2",
-      "default": true
+      "default": true,
+      "val": true
     },
     "ks_cookie_2": {
       "type": "text",
