@@ -49,41 +49,42 @@ try {
       }
     }
 
-    // 修正路径：funsionData位于props.pageProps.state下
+    // 检查 funsionData 中的 VIP 信息
     if (initState.props?.pageProps?.state?.funsionData?.data?.data?.get_vip_info_v3?.data) {
       modifyVip(initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data, 
                 "props.pageProps.state.funsionData.data.data.get_vip_info_v3.data");
     } else {
-      logStr += "未找到funsionData中的VIP信息\n";
+      logStr += "未找到 funsionData 中的 VIP 信息\n";
     }
 
-    // 检查vipInfo的正确路径
+    // 检查 vipInfo 的正确路径
     if (initState.props?.pageProps?.state?.vipInfo) {
       modifyVip(initState.props.pageProps.state.vipInfo, "props.pageProps.state.vipInfo");
     } else {
-      logStr += "未找到顶层vipInfo\n";
+      logStr += "未找到顶层 vipInfo\n";
     }
 
-    // 更新initialState.dataVip路径（根据实际结构调整）
+    // 检查 initialState.dataVip 的正确路径
     if (initState.initialState?.dataVip?.data) {
       modifyVip(initState.initialState.dataVip.data, "initialState.dataVip.data");
     } else {
-      logStr += "未找到initialState.dataVip\n";
+      logStr += "未找到 initialState.dataVip\n";
     }
 
+    // 更新响应体
     obj.data["{initState}"] = JSON.stringify(initState);
-    logStr += "{initState}已更新\n";
+    logStr += "{initState} 已更新\n";
     
     $notify("VIP修改成功", "", logStr);
     console.log(logStr);
     $done({ body: JSON.stringify(obj) });
   } else {
-    logStr += "无{initState}节点\n";
+    logStr += "响应体中未找到 {initState} 节点\n";
     $notify("脚本通知", "无目标节点", logStr);
     $done({ body });
   }
 } catch (e) {
-  logStr += "错误: " + e.message;
+  logStr += "脚本执行异常：" + e.message;
   $notify("脚本错误", e.name, e.message);
   $done({ body });
 }
