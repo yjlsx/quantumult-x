@@ -21,7 +21,7 @@ try {
     logStr += "找到 {initState} 节点\n";
     
     // 输出完整的 initState 内容到日志，帮助定位数据结构
-    logStr += "initState 内容： " + JSON.stringify(initState) + "\n";
+    logStr += "initState 内容： " + JSON.stringify(initState).slice(0, 300) + "...\n";
     
     // 修改 VIP / SVIP 信息的函数
     function modifyVip(vip, path) {
