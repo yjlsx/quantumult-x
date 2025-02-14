@@ -9,26 +9,32 @@ hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugo
  */
 
 // 匹配包含VIP信息的JSON脚本块
-// Quantumult X 重写脚本：修改 VIP 和 SVIP 信息（含日志显示）
-// Quantumult X 重写脚本：修改 VIP 和 SVIP 信息（含日志显示）
+// Quantumult X 重写脚本：修改 VIP 和 SVIP 信息（含日志调试）
 let body = $response.body;
-let logStr = "";
+let logStr = "";  // 用于记录调试日志
+
 try {
-  let obj = JSON.parse(body);
+  let obj = JSON.parse(body);  // 解析响应体
   logStr += "响应体解析成功\n";
-  
+
+  // 确保 initState 存在
   if (obj.data && obj.data["{initState}"]) {
     let initState = JSON.parse(obj.data["{initState}"]);
     logStr += "找到 {initState} 节点\n";
     
-    // 定义修改 VIP / SVIP 信息的函数
+    // 输出 initState 的部分内容，便于调试
+    logStr += "initState 内容（截取前300个字符）： " + JSON.stringify(initState).slice(0, 300) + "...\n";
+    
+    // 修改 VIP / SVIP 信息的函数
     function modifyVip(vip, path) {
       if (vip) {
         logStr += "修改路径：" + path + "\n";
-        vip.is_vip = 1;
-        vip.isExpiredMember = 0;
-        vip.vip_type = 4;
-        vip.svip_level = 9;
+        vip.is_vip = 1;               // 设置为 VIP
+        vip.isExpiredMember = 0;      // 设置为未过期
+        vip.vip_type = 4;             // 普通 VIP
+        vip.svip_level = 9;           // 设置 SVIP 等级为最高
+
+        // 修改时间字段为 2099 年
         if (vip.m_end_time) {
           vip.m_end_time = "2099-12-31 23:59:59";
           logStr += "  修改 m_end_time 为 2099-12-31 23:59:59\n";
@@ -49,6 +55,8 @@ try {
           vip.su_vip_y_endtime = "2099-12-31 23:59:59";
           logStr += "  修改 su_vip_y_endtime 为 2099-12-31 23:59:59\n";
         }
+
+        // 启用 SVIP 权限
         vip.svip99 = 1;
         vip.svip_first_autotype76 = 1;
         vip.svip_first_autotype78 = 1;
@@ -61,36 +69,38 @@ try {
         logStr += "路径 " + path + " 的数据为空\n";
       }
     }
-    
+
     // 修改 funsionData 中的 VIP 信息
-    if (initState.funsionData && initState.funsionData.data &&
+    if (initState.funsionData && initState.funsionData.data && 
         initState.funsionData.data.data &&
-        initState.funsionData.data.data.get_vip_info_v3 &&
+        initState.funsionData.data.data.get_vip_info_v3 && 
         initState.funsionData.data.data.get_vip_info_v3.data) {
       modifyVip(initState.funsionData.data.data.get_vip_info_v3.data, "funsionData.data.data.get_vip_info_v3.data");
     } else {
       logStr += "funsionData 中未找到 VIP 信息\n";
     }
-    
+
     // 修改顶层 vipInfo 数据
     if (initState.vipInfo) {
       modifyVip(initState.vipInfo, "vipInfo");
     } else {
       logStr += "未找到顶层 vipInfo 数据\n";
     }
-    
-    // 修改 initialState.dataVip 数据
+
+    // 修改 initialState 内 dataVip 数据
     if (initState.initialState && initState.initialState.dataVip && initState.initialState.dataVip.data) {
       modifyVip(initState.initialState.dataVip.data, "initialState.dataVip.data");
     } else {
       logStr += "initialState.dataVip 中未找到 VIP 信息\n";
     }
-    
+
+    // 更新响应体
     obj.data["{initState}"] = JSON.stringify(initState);
     logStr += "修改后的 {initState} 已更新\n";
-    
+
+    // 输出日志
     $notify("重写脚本执行成功", "", logStr);
-    console.log(logStr);
+    console.log(logStr);  // 打印到控制台进行调试
     $done({ body: JSON.stringify(obj) });
   } else {
     logStr += "响应体中未找到 {initState} 节点，直接返回原始响应\n";
