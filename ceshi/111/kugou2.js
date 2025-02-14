@@ -7,35 +7,61 @@
 [mitm]
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com, welfare.kugou.com
  */
-const timestamp = Math.floor(Date.now() / 1000);
-const url = $request.url;
-const body = $response.body;
-let obj = JSON.parse(body);
 
-if (url.includes('gateway.kugou.com/vipcenter/ios')) {
-    if (obj.data && obj.data["{initState}"]) {
-       let initState = JSON.parse(obj.data["{initState}"]);
+// 匹配包含VIP信息的JSON脚本块
+const html = $response.body;
+const regex = /<script id="__NEXT_DATA__" type="application\/json">(.*?)<\/script>/s;
 
-    // 确认有 get_vip_info_v3 数据
-    if (initState.props && initState.props.pageProps && initState.props.pageProps.state &&
-        initState.props.pageProps.state.funsionData && initState.props.pageProps.state.funsionData.data &&
-        initState.props.pageProps.state.funsionData.data.get_vip_info_v3) {
+if (html) {
+  try {
+    // 提取原始JSON
+    const match = html.match(regex);
+    let jsonData = JSON.parse(match[1]);
+    
+    // 修改VIP核心字段
+    const modifyFields = (obj) => {
+      if (obj.get_vip_info_v3?.data) {
+        // 基础权限
+        obj.get_vip_info_v3.data.is_vip = 1;
+        obj.get_vip_info_v3.data.vip_type = 4;  // 豪华VIP
+        obj.get_vip_info_v3.data.svip_level = 9; // 最高等级
         
-        let vipInfo = initState.props.pageProps.state.funsionData.data.get_vip_info_v3.data;
+        // 时间修改
+        const set2099 = (field) => obj.get_vip_info_v3.data[field] = "2099-12-31 23:59:59";
+        ['vip_end_time', 'm_end_time', 'su_vip_end_time', 'annual_fee_end_time'].forEach(set2099);
         
-        // 修改 VIP 状态
-        vipInfo.is_vip = 1;  // 设置为 VIP
-        vipInfo.isExpiredMember = 0;  // 不是过期会员
-        vipInfo.vip_type = 4;  // 设置 VIP 类型
-        vipInfo.vip_begin_time = "2024-07-28 00:06:08";  // 开始时间不变
-        vipInfo.vip_end_time = "2099-12-31 23:59:59";  // 修改 VIP 结束时间
-        vipInfo.svip_level = 8;  // 假设 SVIP 等级设为最高
-        vipInfo.svip_first_autotype79 = 1;  // 确保相关标识为有效
-    }
+        // 功能全开
+        //obj.get_vip_info_v3.data.autoVipType = 1;
+        obj.get_vip_info_v3.data.hifiAutoChargeType = 1;
+        obj.get_vip_info_v3.data.promotion_tag = 1;
+      }
+      
+      if (obj.props?.pageProps?.vipInfo) {
+        // 状态同步
+        obj.props.pageProps.vipInfo.is_vip = 1;
+        obj.props.pageProps.vipInfo.vip_type = 4;
+        obj.props.pageProps.vipInfo.svip_level = 9;
+      }
+    };
 
-    // 更新原始数据
-    obj.data["{initState}"] = JSON.stringify(initState);
-    }
+    // 递归修改嵌套结构
+    const deepModify = (data) => {
+      if (typeof data === 'object' && data !== null) {
+        modifyFields(data);
+        Object.values(data).forEach(deepModify);
+      }
+    };
+    deepModify(jsonData);
+
+    // 构造新HTML
+    const newJson = JSON.stringify(jsonData).replace(/</g, '\\u003c');
+    const newHtml = html.replace(regex, `<script id="__NEXT_DATA__" type="application/json">${newJson}</script>`);
+    
+    $done({ body: newHtml });
+  } catch (e) {
+    console.log(`VIP修改失败: ${e}`);
+    $done({});
+  }
+} else {
+  $done({});
 }
-
-$done({ body: JSON.stringify(obj) });
