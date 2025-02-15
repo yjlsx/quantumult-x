@@ -8,7 +8,7 @@
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com, welfare.kugou.com
  */
 
-// 匹配包含VIP信息的JSON脚本块 版本1.2
+// 匹配包含VIP信息的JSON脚本块 版本1.3
 let body = $response.body;
 let logStr = "";
 
@@ -20,7 +20,7 @@ try {
     let initState = JSON.parse(obj.data["{initState}"]);
     logStr += "找到 {initState} 节点\n";
 
-    // 调试：打印整个 initState
+    // 调试：打印完整的 initState 内容，查看更多层级数据
     logStr += "完整的 initState 内容：\n";
     console.log("initState 内容:", JSON.stringify(initState, null, 2));
 
@@ -55,34 +55,37 @@ try {
       }
     }
 
-    // 检查 funsionData 和其下的数据路径
+    // 调试：检查 initState 中更多层级的数据
     if (initState.props && initState.props.pageProps && initState.props.pageProps.state) {
       logStr += "props.pageProps.state 存在\n";
       console.log("props.pageProps.state:", JSON.stringify(initState.props.pageProps.state, null, 2));
 
-      // 检查 funsionData
+      // 打印更多的嵌套数据结构
       if (initState.props.pageProps.state.funsionData) {
         logStr += "找到 funsionData\n";
-        if (initState.props.pageProps.state.funsionData.data &&
-            initState.props.pageProps.state.funsionData.data.data &&
-            initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3 &&
-            initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data
-        ) {
-          modifyVip(
-            initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data,
-            "props.pageProps.state.funsionData.data.data.get_vip_info_v3.data"
-          );
-        } else {
-          logStr += "funsionData 中未找到 VIP 信息\n";
-        }
-      } else {
-        logStr += "未找到 funsionData\n";
+        console.log("funsionData:", JSON.stringify(initState.props.pageProps.state.funsionData, null, 2));
       }
-    } else {
-      logStr += "未找到 props.pageProps.state\n";
+
+      if (initState.props.pageProps.state.funsionData && initState.props.pageProps.state.funsionData.data) {
+        logStr += "找到 funsionData.data\n";
+        console.log("funsionData.data:", JSON.stringify(initState.props.pageProps.state.funsionData.data, null, 2));
+
+        if (initState.props.pageProps.state.funsionData.data.get_vip_info_v3) {
+          logStr += "找到 get_vip_info_v3\n";
+          console.log("get_vip_info_v3:", JSON.stringify(initState.props.pageProps.state.funsionData.data.get_vip_info_v3, null, 2));
+
+          // 修改 VIP 信息
+          if (initState.props.pageProps.state.funsionData.data.get_vip_info_v3.data) {
+            modifyVip(
+              initState.props.pageProps.state.funsionData.data.get_vip_info_v3.data,
+              "props.pageProps.state.funsionData.data.get_vip_info_v3.data"
+            );
+          }
+        }
+      }
     }
 
-    // 检查 initialState.dataVip
+    // 检查 initialState.dataVip 是否存在
     if (initState.initialState && initState.initialState.dataVip && initState.initialState.dataVip.data) {
       modifyVip(initState.initialState.dataVip.data, "initialState.dataVip.data");
     } else {
@@ -92,7 +95,7 @@ try {
     // 更新响应体
     obj.data["{initState}"] = JSON.stringify(initState);
     logStr += "{initState} 已更新\n";
-    
+
     $notify("VIP 修改成功", "", logStr);
     console.log(logStr);
     $done({ body: JSON.stringify(obj) });
