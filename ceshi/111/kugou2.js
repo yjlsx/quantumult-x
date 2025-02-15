@@ -8,8 +8,8 @@
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com, welfare.kugou.com
  */
 
-// 匹配包含VIP信息的JSON脚本块
-let body = $response.body;
+// 匹配包含VIP信息的JSON脚本块 版本1.0
+ let body = $response.body;
 let logStr = "";
 try {
   let obj = JSON.parse(body);
@@ -101,4 +101,3 @@ try {
   $notify("脚本错误", e.name, e.message);
   $done({ body });
 }
-
