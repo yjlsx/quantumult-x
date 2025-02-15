@@ -32,15 +32,17 @@ if (url.includes("/vipcenter/ios?is_new_song=0")) {
     // 修改请求头（保留原 Cookie）
     const newHeaders = {
         'Cookie' : originalHeaders['Cookie'],  // 保留原 Cookie
-        'Sec-Fetch-Mode' : `navigate`,
-        'Connection' : `keep-alive`,
         'Accept' : `text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8`,
         'Accept-Encoding' : `gzip, deflate, br`,
+        'Connection' : `keep-alive`,
+        'Sec-Fetch-Mode' : `navigate`,
         'Host' : `gateway.kugou.com`,
         'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1`,
-        'Sec-Fetch-Site' : `none`,
-        'Accept-Language' : `zh-CN,zh-Hans;q=0.9`,
-        'Sec-Fetch-Dest' : `document`
+         'Sec-Fetch-Site' : `same-origin`,
+        'Referer' : `http://openplat-user.kugou.com/`,
+         'Sec-Fetch-Dest' : `document`,
+        'Accept-Language' : `zh-CN,zh-Hans;q=0.9
+
     };
 
     // 返回修改后的请求头
