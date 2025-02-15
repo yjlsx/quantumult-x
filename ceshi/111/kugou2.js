@@ -8,9 +8,10 @@
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com, welfare.kugou.com
  */
 
-// 匹配包含VIP信息的JSON脚本块 版本1.1
+// 匹配包含VIP信息的JSON脚本块 版本1.2
 let body = $response.body;
 let logStr = "";
+
 try {
   let obj = JSON.parse(body);
   logStr += "响应体解析成功\n";
@@ -18,6 +19,10 @@ try {
   if (obj.data && obj.data["{initState}"]) {
     let initState = JSON.parse(obj.data["{initState}"]);
     logStr += "找到 {initState} 节点\n";
+
+    // 调试：打印整个 initState
+    logStr += "完整的 initState 内容：\n";
+    console.log("initState 内容:", JSON.stringify(initState, null, 2));
 
     function modifyVip(vip, path) {
       if (vip) {
@@ -50,7 +55,7 @@ try {
       }
     }
 
-    // 调试：打印 props.pageProps.state 的内容
+    // 检查 funsionData 和其下的数据路径
     if (initState.props && initState.props.pageProps && initState.props.pageProps.state) {
       logStr += "props.pageProps.state 存在\n";
       console.log("props.pageProps.state:", JSON.stringify(initState.props.pageProps.state, null, 2));
