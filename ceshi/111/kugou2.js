@@ -25,8 +25,8 @@ try {
         logStr += "修改路径：" + path + "\n";
         vip.is_vip = 1;
         vip.isExpiredMember = 0;
-        vip.vip_type = 4;
-        vip.svip_level = 9;
+        vip.vip_type = 1;
+        vip.svip_level = 5;
 
         const timeFields = ["m_end_time", "vip_end_time", "su_vip_end_time", "svip_y_endtime", "su_vip_y_endtime"];
         timeFields.forEach(field => {
@@ -49,22 +49,35 @@ try {
       }
     }
 
-    // 检查 funsionData 中的 VIP 信息
-    if (initState.props?.pageProps?.state?.funsionData?.data?.data?.get_vip_info_v3?.data) {
-      modifyVip(initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data, 
-                "props.pageProps.state.funsionData.data.data.get_vip_info_v3.data");
+    // 调试：打印 props.pageProps.state 的内容
+    if (initState.props?.pageProps?.state) {
+      logStr += "props.pageProps.state 存在\n";
+      console.log("props.pageProps.state:", initState.props.pageProps.state);
+
+      // 检查 funsionData
+      if (initState.props.pageProps.state.funsionData) {
+        logStr += "找到 funsionData\n";
+        if (initState.props.pageProps.state.funsionData.data?.data?.get_vip_info_v3?.data) {
+          modifyVip(initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data, 
+                    "props.pageProps.state.funsionData.data.data.get_vip_info_v3.data");
+        } else {
+          logStr += "funsionData 中未找到 VIP 信息\n";
+        }
+      } else {
+        logStr += "未找到 funsionData\n";
+      }
+
+      // 检查 vipInfo
+      if (initState.props.pageProps.state.vipInfo) {
+        modifyVip(initState.props.pageProps.state.vipInfo, "props.pageProps.state.vipInfo");
+      } else {
+        logStr += "未找到 vipInfo\n";
+      }
     } else {
-      logStr += "未找到 funsionData 中的 VIP 信息\n";
+      logStr += "未找到 props.pageProps.state\n";
     }
 
-    // 检查 vipInfo 的正确路径
-    if (initState.props?.pageProps?.state?.vipInfo) {
-      modifyVip(initState.props.pageProps.state.vipInfo, "props.pageProps.state.vipInfo");
-    } else {
-      logStr += "未找到顶层 vipInfo\n";
-    }
-
-    // 检查 initialState.dataVip 的正确路径
+    // 检查 initialState.dataVip
     if (initState.initialState?.dataVip?.data) {
       modifyVip(initState.initialState.dataVip.data, "initialState.dataVip.data");
     } else {
