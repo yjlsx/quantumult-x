@@ -18,14 +18,14 @@ try {
   if (obj.data && obj.data["{initState}"]) {
     let initState = JSON.parse(obj.data["{initState}"]);
     logStr += "找到 {initState} 节点\n";
-    
+
     function modifyVip(vip, path) {
       if (vip) {
         logStr += "修改路径：" + path + "\n";
         vip.is_vip = 1;
         vip.isExpiredMember = 0;
-        vip.vip_type = 4;
-        vip.svip_level = 9;
+        vip.vip_type = 1;
+        vip.svip_level = 5;
 
         // 修改所有时间字段
         const timeFields = ["m_end_time", "vip_end_time", "su_vip_end_time", "svip_y_endtime", "su_vip_y_endtime"];
@@ -50,29 +50,35 @@ try {
       }
     }
 
-    // 修改 funsionData 中的 VIP 信息
-    if (initState.props && 
-        initState.props.pageProps && 
-        initState.props.pageProps.state && 
-        initState.props.pageProps.state.funsionData &&
-        initState.props.pageProps.state.funsionData.data &&
-        initState.props.pageProps.state.funsionData.data.data &&
-        initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3 &&
-        initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data
-    ) {
-      modifyVip(
-        initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data,
-        "props.pageProps.state.funsionData.data.data.get_vip_info_v3.data"
-      );
+    // 调试：打印 props.pageProps.state 的内容
+    if (initState.props && initState.props.pageProps && initState.props.pageProps.state) {
+      logStr += "props.pageProps.state 存在\n";
+      console.log("props.pageProps.state:", initState.props.pageProps.state);
+
+      // 检查 funsionData
+      if (initState.props.pageProps.state.funsionData) {
+        logStr += "找到 funsionData\n";
+        if (initState.props.pageProps.state.funsionData.data &&
+            initState.props.pageProps.state.funsionData.data.data &&
+            initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3 &&
+            initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data
+        ) {
+          modifyVip(
+            initState.props.pageProps.state.funsionData.data.data.get_vip_info_v3.data,
+            "props.pageProps.state.funsionData.data.data.get_vip_info_v3.data"
+          );
+        } else {
+          logStr += "funsionData 中未找到 VIP 信息\n";
+        }
+      } else {
+        logStr += "未找到 funsionData\n";
+      }
     } else {
-      logStr += "未找到 funsionData 中的 VIP 信息\n";
+      logStr += "未找到 props.pageProps.state\n";
     }
 
-    // 修改 initialState.dataVip
-    if (initState.initialState && 
-        initState.initialState.dataVip && 
-        initState.initialState.dataVip.data
-    ) {
+    // 检查 initialState.dataVip
+    if (initState.initialState && initState.initialState.dataVip && initState.initialState.dataVip.data) {
       modifyVip(initState.initialState.dataVip.data, "initialState.dataVip.data");
     } else {
       logStr += "未找到 initialState.dataVip\n";
