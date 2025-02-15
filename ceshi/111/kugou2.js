@@ -8,8 +8,8 @@
 hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com, welfare.kugou.com
  */
 
-// 匹配包含VIP信息的JSON脚本块 版本1.0
- let body = $response.body;
+// 匹配包含VIP信息的JSON脚本块 版本1.1
+let body = $response.body;
 let logStr = "";
 try {
   let obj = JSON.parse(body);
@@ -53,7 +53,7 @@ try {
     // 调试：打印 props.pageProps.state 的内容
     if (initState.props && initState.props.pageProps && initState.props.pageProps.state) {
       logStr += "props.pageProps.state 存在\n";
-      console.log("props.pageProps.state:", initState.props.pageProps.state);
+      console.log("props.pageProps.state:", JSON.stringify(initState.props.pageProps.state, null, 2));
 
       // 检查 funsionData
       if (initState.props.pageProps.state.funsionData) {
