@@ -24,8 +24,8 @@ try {
         logStr += "修改路径：" + path + "\n";
         vip.is_vip = 1;
         vip.isExpiredMember = 0;
-        vip.vip_type = 1;
-        vip.svip_level = 5;
+        vip.vip_type = 4;
+        vip.svip_level = 9;
 
         // 修改所有时间字段
         const timeFields = ["m_end_time", "vip_end_time", "su_vip_end_time", "svip_y_endtime", "su_vip_y_endtime"];
