@@ -35,65 +35,71 @@ const COOKIE_KEYS = ["ks_cookie_1", "ks_cookie_2"];
 const ENABLE_KEYS = ["ks_enabled_1", "ks_enabled_2"];
 
 if (typeof $request !== 'undefined') {
- handleCookieCapture().finally(() => $.done());
+  handleCookieCapture().finally(() => $.done());
 } else {
- main().finally(() => $.done());
+  main().finally(() => $.done());
 }
 
 async function main() {
- console.log("====== 开始执行快手签到任务 ======");
- 
- for (let i = 0; i < 2; i++) {
-   if (!isAccountEnabled(i)) {
-     console.log(`账号${i+1} 未启用，跳过执行`);
-     continue;
-   }
-   
-   const cookie = $.read(COOKIE_KEYS[i]);
-   if (!cookie) {
-     $.notify(NOTIFY_TITLE, `❌ 账号${i+1} Cookie未配置`, "");
-     continue;
-   }
+  console.log("====== 开始执行快手签到任务 ======");
+  
+  for (let i = 0; i < 2; i++) {
+    if (!isAccountEnabled(i)) {
+      console.log(`账号${i+1} 未启用，跳过执行`);
+      continue;
+    }
+    
+    const cookie = $.read(COOKIE_KEYS[i]);
+    if (!cookie) {
+      $.notify(NOTIFY_TITLE, ` 账号${i+1} Cookie未配置`, "");
+      continue;
+    }
 
-   try {
-     console.log(`\n===== 开始处理账号${i+1} =====`);
-     await processAccount(cookie, i+1);
-     await $.wait(2000);
-   } catch (e) {
-     handleError(e, i+1);
-   }
- }
+    try {
+      console.log(`\n===== 开始处理账号${i+1} =====`);
+      await processAccount(cookie, i+1);
+      await $.wait(2000);
+    } catch (e) {
+      handleError(e, i+1);
+    }
+  }
 }
 
 async function processAccount(cookie, accountNum) {
- // 获取账户信息
- console.log("获取账户信息...");
- const accountInfo = await getAccountInfo(cookie);
- console.log(`用户: ${accountInfo.nickname} | 金币: ${accountInfo.coin}`);
+  // 获取初始用户信息（用于显示昵称）
+  console.log("获取用户信息...");
+  const initialInfo = await getAccountInfo(cookie);
+  console.log(`用户昵称: ${initialInfo.nickname}`);
 
- // 执行签到
- console.log("执行签到任务...");
- const checkinRes = await checkIn(cookie);
- console.log(`签到结果: ${checkinRes}`);
+  // 执行签到
+  console.log("执行签到任务...");
+  const checkinRes = await checkIn(cookie);
+  console.log(`签到结果: ${checkinRes}`);
 
- // 开启宝箱
- console.log("尝试开启宝箱...");
- const boxRes = await openTreasureBox(cookie);
- if (boxRes.success) {
-   console.log(`宝箱奖励: ${boxRes.reward}金币`);
- } else {
-   console.log(`宝箱开启失败: ${boxRes.message}`);
- }
+  // 开启宝箱
+  console.log("尝试开启宝箱...");
+  const boxRes = await openTreasureBox(cookie);
+  if (boxRes.success) {
+    console.log(`宝箱奖励: ${boxRes.reward}金币`);
+  } else {
+    console.log(`宝箱开启失败: ${boxRes.message}`);
+  }
 
- // 构建通知消息
- const msg = [
-   `签到状态: ${checkinRes}`,
-   boxRes.success ? `🎁 宝箱奖励: ${boxRes.reward}金币` : `❌ 宝箱失败: ${boxRes.message}`,
-   `💰 当前金币: ${accountInfo.coin}`,
-   `💵 可提现金额: ${accountInfo.cash}元`
- ].join("\n");
+  // 获取最新账户信息（用于金币和现金）
+  console.log("获取最新账户数据...");
+  const latestInfo = await getAccountInfo(cookie);
+  console.log(` 当前金币: ${latestInfo.coin}`);
+  console.log(` 可提现金额: ${latestInfo.cash}元`);
 
- $.notify(`${NOTIFY_TITLE} - 账号${accountNum}`, accountInfo.nickname, msg);
+  // 构建通知消息
+  const msg = [
+    `签到状态: ${checkinRes}`,
+    boxRes.success ? ` 宝箱奖励: ${boxRes.reward}金币` : ` 宝箱失败: ${boxRes.message}`,
+    ` 当前金币: ${latestInfo.coin}`,
+    ` 可提现金额: ${latestInfo.cash}元`
+  ].join("\n");
+
+  $.notify(`${NOTIFY_TITLE} - 账号${accountNum}`, initialInfo.nickname, msg);
 }
 
 async function handleCookieCapture() {
