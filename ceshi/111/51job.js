@@ -8,6 +8,8 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/product\/product-list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51job\.com\/open\/product\/monthly-card\/rec url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51job\.com\/open\/(vip|user-task\/coin\/(getCoinsAmount|getExpiringCoins)|user-task\/(main|reward\/deductionCoins)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51job\.com\/open\/hr\/setting\/push\/switch  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+
 
 ^https:\/\/cupid\.51jobapp\.com\/open\/job-apply url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/appapi\.51jobapp\.com\/api\/payservice\/get_ios_service_info\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
@@ -37,6 +39,16 @@ try {
             obj.resultbody.vipInfo.effectiveDate = "2099-12-31T23:59:59Z";
             obj.resultbody.showManagementPage = 2;
         }
+    }
+
+    if (url.includes('/open/hr/setting/push/switch')) {
+           obj.status = "1";  // 修改为成功状态
+            obj.message = "成功";  // 修改为成功的消息
+            // 根据原始数据修改 resultbody
+            if (obj.resultbody) {
+                obj.resultbody.status = "00";  // 修改为00
+                obj.resultbody.giftType = "1";  // 修改为giftType为1
+            }
     }
 
     // 修改 /open/vip 的响应体
