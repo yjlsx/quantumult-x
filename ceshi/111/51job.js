@@ -48,7 +48,13 @@ try {
             if (obj.resultbody) {
                 obj.resultbody.status = "00";  // 修改为00
                 obj.resultbody.giftType = "1";  // 修改为giftType为1
-            }
+            } else {
+                // 如果 resultbody 不存在，则创建新的 resultbody
+                obj.resultbody = {
+                    status: "00",
+                    giftType: "1"
+                }
+
     }
 
     // 修改 /open/vip 的响应体
