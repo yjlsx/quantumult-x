@@ -113,25 +113,57 @@
       "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/QQ.png"],
       "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/QQreader.js"
     },
-    {
-     "name"：“网易云音乐",
-     "author" ："YourName",
-      "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/wyy.png", 
-      "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wyyyy.js"
-     "apps"：［
-          {
-             "id": "netease music",
-              "name"："网易云配置",
-               "keys":[
-                ｛
-                  "name": "cookies",
-                   "type": "text",
-                   "desc"："账号 Cookie（多个用 &分隔)"
-                              ｝
-                         ]
-                    }
-               ]
-    },
+ 
+{
+    "name": "网易云音乐",
+    "author": "YourName",
+    "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/wyy.png"], 
+    "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wyyyy.js",
+    "apps": [
+        {
+            "id": "netease_music",
+            "name": "网易云配置",
+            "keys": [
+               {
+                    "name": "cookies",
+                    "type": "textarea",
+                    "desc": "账号Cookie（多个用&分隔）"
+                },
+                {
+                    "name": "song_limit",
+                    "type": "number",
+                    "desc": "刷歌数量限制",
+                    "default": 10
+                },
+                {
+                    "name": "request_delay",
+                    "type": "number",
+                    "desc": "请求间隔(毫秒)",
+                    "default": 1000
+                },
+                {
+                    "name": "enable_sign",
+                    "type": "boolean",
+                   "desc": "启用每日签到",
+                  "default": true
+              },
+             {
+                   "name": "enable_yunbei",
+                  "type": "boolean",
+                  "desc": "启用云贝签到",
+                  "default": true
+            },
+               {
+                    "name": "enable_shuffle",
+                    "type": "boolean",
+                    "desc": "启用刷歌功能",
+                    "default": true
+                }
+            ]
+        }
+    ]
+},
+
         {
             "id": "ChinaMobile.10086",
             "name": "移动余量",
