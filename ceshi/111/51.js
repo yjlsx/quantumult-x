@@ -5,7 +5,7 @@
 *
 [mitm]
 hostname = cupid.51jobapp.com, cupid.51job.com, appapi.51jobapp.com
-
+*/
 
 try {
     let body = $request.body;
