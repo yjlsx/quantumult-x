@@ -6,95 +6,163 @@
  * - enable_yunbei: 启用云贝签到(true/false) 
  * - enable_shuffle: 启用刷歌功能(true/false)
  */
-const $ = new Env('网易云音乐启动！');
-// 通知函数改造
-function notify(notice) {
-    `latex-inlineEquation .msg(`.name, '', notice);
+
+
+const $ = new Env('网易云音乐任务');
+const APP_VERSION = '1.2.0';
+
+// ==================== 配置管理 ====================
+const CONFIG_SCHEMA = {
+ cookies: { type: 'textarea', label: '账号Cookie', desc: '多账号用 & 分隔' },
+ song_limit: { type: 'number', label: '刷歌数量', default: 10 },
+ request_delay: { type: 'number', label: '请求间隔(ms)', default: 1000 },
+ enable_sign: { type: 'boolean', label: '启用签到', default: true },
+ enable_yunbei: { type: 'boolean', label: '云贝签到', default: true },
+ enable_shuffle: { type: 'boolean', label: '刷歌功能', default: true },
+ max_retries: { type: 'number', label: '最大重试', default: 3 }
+};
+
+// ==================== 核心类 ====================
+class NeteaseClient {
+ constructor(cookie, index) {
+   this.cookie = cookie;
+   this.accountIndex = index + 1;
+   this.retryCount = 0;
+   this.ua = this.generateUA();
+ }
+
+ generateUA() {
+   const devices = [
+     `Mozilla/5.0 (iPhone; CPU iPhone OS ${this.randomVersion(14,16)} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148`,
+     `Mozilla/5.0 (Linux; Android ${this.randomVersion(10,12)}; ${this.randomModel()}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${this.randomVersion(90,105)}.0.0.0 Mobile Safari/537.36`
+   ];
+   return devices[Math.floor(Math.random() * devices.length)];
+ }
+
+ async request(endpoint, method = 'POST', body = {}) {
+   const url = `https://music.163.com/api/${endpoint}`;
+   try {
+     const response = await $.fetch({
+       url: url,
+       method: method,
+       headers: {
+         'Cookie': this.cookie,
+         'User-Agent': this.ua,
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(body)
+     });
+     return response.json();
+   } catch (e) {
+     if (this.retryCount < getConfig('max_retries')) {
+       this.retryCount++;
+       await this.delay(getConfig('request_delay'));
+       return this.request(endpoint, method, body);
+     }
+     throw new Error(`请求失败: ${e.message}`);
+   }
+ }
+
+ async signin() {
+   if (!getConfig('enable_sign')) return '🔴 签到未启用';
+   const res = await this.request('daily_signin');
+   return res.code === 200 ? '🟢 签到成功' : `🔴 签到失败: ${res.msg}`;
+ }
+
+ async yunbeiSign() {
+   if (!getConfig('enable_yunbei')) return '🔴 云贝未启用';
+   const res = await this.request('yunbei/signs');
+   return res.code === 200 ? '🟢 云贝成功' : `🔴 云贝失败: ${res.msg}`;
+ }
+
+ async shuffleSongs() {
+   if (!getConfig('enable_shuffle')) return '🔴 刷歌未启用';
+   const res = await this.request('personalized', 'POST', {
+     limit: getConfig('song_limit')
+   });
+   return res.code === 200 ? `🟢 刷歌${getConfig('song_limit')}首` : `🔴 刷歌失败`;
+ }
+
+ async delay(ms) {
+   return new Promise(resolve => setTimeout(resolve, ms));
+ }
+
+ randomVersion(min, max) {
+   return min + Math.floor(Math.random() * (max - min + 1));
+ }
+
+ randomModel() {
+   const models = ['Mi 11', 'P50 Pro', 'Galaxy S22', 'Pixel 6'];
+   return models[Math.floor(Math.random() * models.length)];
+ }
 }
-// 获取随机User-Agent保持不变
-function getRandomUserAgent() { /* 原有实现 */ }
-// 云贝签到改造
-async function yunbeiSignin(session, data) {
-    if ($persistentStore.read("enable_yunbei") !== "true") {
-        console.log('云贝签到功能已禁用');
-        return '云贝签到未启用';
-    }
-    const apiUrl = $persistentStore.read("yunbei_url") || 'https://wyyy.ukzs.net/api/yunbei/signs';
-    const response = await session.post(apiUrl, { data });
-    // 原有逻辑保持不变
+
+// ==================== 工具函数 ====================
+function getConfig(key) {
+ const value = $.getdata(key);
+ return value !== undefined ? value : CONFIG_SCHEMA[key]?.default;
 }
-// 签到功能改造
-async function signin(session, data) {
-    if ($persistentStore.read("enable_signin") !== "true") {
-        console.log('签到功能已禁用');
-        return '签到未启用';
-    }
-    
-    const apiUrl = $persistentStore.read("signin_url") || 'https://wyyy.ukzs.net/api/signin';
-    const response = await session.post(apiUrl, { data });
-    // 原有逻辑保持不变
+
+function formatResults(results) {
+ return results.map((r, i) =>
+   `【账号 ${i+1}】\n${r.join('\n')}`).join('\n\n');
 }
-// 刷歌功能改造
-async function shuffleSongs(session, data) {
-    if ($persistentStore.read("enable_shuffle") !== "true") {
-        console.log('刷歌功能已禁用');
-        return '刷歌未启用';
-    }
-    
-    const apiUrl = $persistentStore.read("shuffle_url") || 'https://wyyy.ukzs.net/api/shuffle';
-    const response = await session.post(apiUrl, { data });
-    // 原有逻辑保持不变
+
+function showNotification(title, subtitle) {
+ $.msg($.name, title, subtitle);
 }
-// 启动函数改造
-async function startGenshin(session, Cookie) {
-    const data = {
-        limit: parseInt($persistentStore.read("song_limit")) || 10,
-        cookie: Cookie
-    };
-    
-    // 添加延迟配置
-    const delay = parseInt($persistentStore.read("request_delay")) || 1000;
-    await $.wait(delay);
-    // 并行执行所有启用功能
-    const tasks = [];
-    if ($persistentStore.read("enable_signin") === "true") tasks.push(signin(session, data));
-    if ($persistentStore.read("enable_yunbei") === "true") tasks.push(yunbeiSignin(session, data));
-    if ($persistentStore.read("enable_shuffle") === "true") tasks.push(shuffleSongs(session, data));
-    
-    const results = await Promise.all(tasks);
-    return results.join(" ");
+
+// ==================== 主流程 ====================
+async function processAccounts() {
+ const cookies = getConfig('cookies')?.split('&') || [];
+ if (cookies.length === 0) {
+   showNotification('配置错误', '未找到有效Cookie');
+   return;
+ }
+
+ const results = [];
+ for (const [index, cookie] of cookies.entries()) {
+   try {
+     const client = new NeteaseClient(cookie.trim(), index);
+     const tasks = [
+       client.signin(),
+       client.yunbeiSign(),
+       client.shuffleSongs()
+     ];
+     const accountResults = await Promise.all(tasks);
+     results.push(accountResults);
+   } catch (e) {
+     results.push([`❌ 账号异常: ${e.message}`]);
+   }
+   await client.delay(getConfig('request_delay'));
+ }
+
+ showNotification(
+   `执行完成 (${cookies.length}个账号)`,
+   formatResults(results)
+ );
 }
-// 主函数改造
-async function main() {
-    const Cookie = $persistentStore.read("wyyyy_data");
-    if (!Cookie) {
-        notify("⚠️ 请先通过BoxJS填写wyyyy_data配置");
-        return $.done();
-    }
-   // 原有账号处理逻辑保持不变
-    const CookieArray = Cookie.split('&');
-    // 添加UA随机化
-    const headers = {
-        'User-Agent': getRandomUserAgent(),
-        'Cookie': CookieArray // 首个cookie用于全局headers
-    };
-    const session = new (require('node-fetch'))({ headers });
-    
-    // 任务执行逻辑
-    const tasks = CookieArray.map(cookie => startGenshin(session, cookie));
-    const results = await Promise.all(tasks);
-   
-    // 通知处理优化
-    let notification = `共执行 ${CookieArray.length} 个账号\n`;
-    results.forEach((result, index) => {
-        notification += `【账号`latex-inlineEquation {index + 1}】\n`{result.replace(/ /g, "\n")}\n\n`;
-    });
-    
-    notify(notification);
-    $.done();
+
+// ==================== BoxJS处理 ====================
+if (typeof $request !== 'undefined') {
+ const cookie = $request.headers?.Cookie || $request.headers?.cookie;
+ if (cookie) {
+   const currentCookies = ($.getdata('cookies') || '').split('&');
+   if (!currentCookies.includes(cookie)) {
+     const newCookies = [...currentCookies, cookie].join('&');
+     $.setdata(newCookies, 'cookies');
+     showNotification('账号添加成功', `当前账号数: ${currentCookies.length + 1}`);
+   }
+ }
+ $.done();
+} else {
+ (async () => {
+   try {
+     await processAccounts();
+   } catch (e) {
+     showNotification('执行出错', e.message);
+   } finally {
+     $.done();
+   }
+ })();
 }
-// 错误处理改造
-main().catch(err => {
-    notify(`脚本执行出错: ${err.message}`);
-    $.done({error: err.message});
-});
