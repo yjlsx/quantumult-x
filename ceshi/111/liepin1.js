@@ -29,9 +29,11 @@ hostname = api-pay.liepin.com, api-wanda.liepin.com, api-c.liepin.com
             }
         } else if (url.includes("api-c.liepin.com/api/com.liepin.cbusi.cashier.pay-sign")) {
             // 如果是第二个地址，修改支付方式为1
-           if (body.includes("payKind=3")) {
-       body = body.replace("payKind=3", "payKind=1");
-              }
+          if (obj.body) {
+                // 这里直接修改请求体中的payKind和orderDesc
+                obj.body.payKind = 1;  // 修改支付方式为1
+                obj.body.orderDesc = "猎聘同道-支付订单(支付方式为1)";
+             }
         }
 
         // 返回修改后的请求体
