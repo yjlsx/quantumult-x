@@ -1,3 +1,12 @@
+/*
+[rewrite]
+^https:\/\/appapi\.51jobapp\.com\/api\/3\/util  url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
+
+*
+[mitm]
+hostname = cupid.51jobapp.com, cupid.51job.com, appapi.51jobapp.com
+
+
 try {
     let body = $request.body;
     let obj = JSON.parse(body);
