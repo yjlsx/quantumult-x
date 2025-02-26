@@ -1,6 +1,7 @@
 /*
 [rewrite]
-^https:\/\/appapi\.51jobapp\.com\/api\/3\/util  url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
+^https:\/\/appapi\.51jobapp\.com\/api\/3\/util.*$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
+
 
 *
 [mitm]
@@ -17,7 +18,7 @@ try {
      // 获取动态用户ID（第一个键）
     let userId = Object.keys(logdata);
     // 修改交易状态为成功 (通常0或1表示成功)
-    logdata[userId].log_content.transaction_state = 0;
+    logdata[userId].log_content.transaction_state = 1;
     logdata[userId].log_content.transaction_state_desc = "Success";
        // 重新序列化logdata和data
     data.logdata = JSON.stringify(logdata);
