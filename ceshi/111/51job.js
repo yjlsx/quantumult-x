@@ -11,8 +11,8 @@
 ^https:\/\/cupid\.51job\.com\/open\/hr\/setting\/push\/switch  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 
 
-^https:\/\/appapi\.51jobapp\.com\/api\/3\/util.*$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/qcwy.js
-
+^https:\/\/appapi\.51jobapp\.com\/api\/3\/util.*$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
+^https:\/\/appapi\.51jobapp\.com\/api\/3\/util.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 
 ^https:\/\/cupid\.51jobapp\.com\/open\/job-apply url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/appapi\.51jobapp\.com\/api\/payservice\/get_ios_service_info\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
@@ -44,7 +44,13 @@ try {
         }
     }
 
-    if (url.includes('/open/hr/setting/push/switch')) {
+     if (url.includes('/api/3/util')) { 
+       obj.result = "1";
+       obj.status = "1";
+       obj.message = "成功";
+    }
+
+  if (url.includes('/open/hr/setting/push/switch')) {
            obj.status = "1";  // 修改为成功状态
             obj.message = "成功";  // 修改为成功的消息
             // 根据原始数据修改 resultbody
