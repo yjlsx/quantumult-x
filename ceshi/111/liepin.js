@@ -13,7 +13,7 @@
 ^https://api-c\.liepin\.com/api/com.liepin.cbusi.cashier.pay-sign url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-pay\.liepin\.com/api/com\.liepin\.pay\.apple\.create-order url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin.js
 ^https://api-pay\.liepin\.com/api/com\.liepin\.pay\.apple\.create-order url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin1.js
-
+^https:\/\/api-c\.liepin\.com\/api\/com\.liepin\.cbusi\.cashier\.pay-sign$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/liepin1.js
 
 *
 [mitm]
