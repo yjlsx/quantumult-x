@@ -8,11 +8,10 @@
 ^https:\/\/cupid\.51jobapp\.com\/open\/product\/product-list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51job\.com\/open\/product\/monthly-card\/rec url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51job\.com\/open\/(vip|user-task\/coin\/(getCoinsAmount|getExpiringCoins)|user-task\/(main|reward\/deductionCoins)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
-^https:\/\/cupid\.51job\.com\/open\/hr\/setting\/push\/switch  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
+^https:\/\/cupid\.51jobapp\.com\/open\/(hr\/setting\/push\/switch|gift-order\/interested).*  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 
 
 ^https:\/\/appapi\.51jobapp\.com\/api\/3\/util.*$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
-^https:\/\/appapi\.51jobapp\.com\/api\/3\/util.*$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 
 ^https:\/\/cupid\.51jobapp\.com\/open\/job-apply url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/appapi\.51jobapp\.com\/api\/payservice\/get_ios_service_info\.php url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
@@ -44,27 +43,25 @@ try {
         }
     }
 
-     if (url.includes('/api/3/util')) { 
-       obj.result = "1";
-       obj.status = "1";
-       obj.message = "成功";
-    }
 
-  if (url.includes('/open/hr/setting/push/switch')) {
-           obj.status = "1";  // 修改为成功状态
-            obj.message = "成功";  // 修改为成功的消息
-            // 根据原始数据修改 resultbody
-            if (obj.resultbody) {
-                obj.resultbody.status = "1";  // 修改为00
-                obj.resultbody.giftType = "1";  // 修改为giftType为1
-            } else {
-                // 如果 resultbody 不存在，则创建新的 resultbody
-                obj.resultbody = {
-                    status: "00",
-                    giftType: "1"
-                }
-      }
+
+if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.51jobapp.com/open/gift-order/interested')) {
+    obj.status = "1";  // 修改为成功状态
+    obj.message = "成功";  // 修改为成功的消息
+    
+    // 根据原始数据修改 resultbody
+    if (obj.resultbody) {
+        obj.resultbody.status = "1";  // 修改为成功状态
+        obj.resultbody.giftType = "1";  // 修改为giftType为1
+    } else {
+        // 如果 resultbody 不存在，则创建新的 resultbody
+        obj.resultbody = {
+            status: "1",  // 修改为成功状态
+            giftType: "1"  // giftType为1
+        }
     }
+}
+
 
     // 修改 /open/vip 的响应体
     if (url.includes('/open/vip')) {
