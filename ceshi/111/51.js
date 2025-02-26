@@ -1,30 +1,22 @@
-// modify-payment-status.js
-
-let request = $request;
-
-// 获取原始请求体
-let body = JSON.parse(request.body);
-
-// 检查是否包含支付日志数据，并修改 `transaction_state`
-if (body.data) {
-  let logData = JSON.parse(body.data).logdata;
-
-  // 如果支付状态为失败（transaction_state = 2），则修改为成功（transaction_state = 1）
-  if (logData) {
-    let userLogs = JSON.parse(logData);
-    if (userLogs['169799378']) {
-      let userLog = userLogs['169799378'];
-      if (userLog.log_content) {
-        // 修改 transaction_state 为成功（1）
-        userLog.log_content.transaction_state = 1;
-        userLog.log_content.transaction_state_desc = "Success"; // 修改描述为 "Success"
-      }
-    }
-  }
+try {
+    let body = $request.body;
+    let obj = JSON.parse(body);
+    // 解析嵌套的data字段
+    let data = JSON.parse(obj.data);
+    // 解析logdata字段
+    let logdata = JSON.parse(data.logdata);
+     // 获取动态用户ID（第一个键）
+    let userId = Object.keys(logdata);
+    // 修改交易状态为成功 (通常0或1表示成功)
+    logdata[userId].log_content.transaction_state = 0;
+    logdata[userId].log_content.transaction_state_desc = "Success";
+       // 重新序列化logdata和data
+    data.logdata = JSON.stringify(logdata);
+    obj.data = JSON.stringify(data);
+    // 更新请求体（保留原签名或根据需要修改）
+    // obj.sign = "new_sign_if_needed"; 
+    $done({ body: JSON.stringify(obj) });
+ catch (e) {
+    console.log("脚本错误: " + e.message);
+    $done();
 }
-
-// 将修改后的请求体重新赋值
-request.body = JSON.stringify(body);
-
-// 返回修改后的请求
-$done({ request });
