@@ -67,45 +67,52 @@
      "author": "@yjlsx",
      "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/wyy.png"],
      "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wyyyy.js",
-     "keys": ["cookies", "song_limit", "request_delay", "enable_sign", "enable_yunbei", "enable_shuffle"],
-     "boxjs": {
-       "schema": {
-         "cookies": {
-           "type": "textarea",
-           "label": "账号Cookie",
-           "desc": "多个账号用 & 分隔",
-           "input": "password"
-         },
-         "song_limit": {
-           "type": "number",
-           "label": "刷歌数量限制",
-           "desc": "默认10首",
-           "default": 10
-         },
-         "request_delay": {
-           "type": "number",
-           "label": "请求间隔(毫秒)",
-           "desc": "默认1000ms",
-           "default": 1000
-         },
-         "enable_sign": {
-           "type": "boolean",
-           "label": "启用每日签到",
-           "default": true
-         },
-         "enable_yunbei": {
-           "type": "boolean",
-           "label": "启用云贝签到",
-           "default": true
-         },
-         "enable_shuffle": {
-           "type": "boolean",
-           "label": "启用刷歌功能",
-           "default": true
-         }
-       }
-     }
-   },
+      "keys": [
+        "wyyyy_data",
+        "enable_signin",
+        "enable_yunbei",
+        "enable_shuffle",
+        "song_limit"
+      ],
+      "boxjs": {
+        "schema": {
+          "wyyyy_data": {
+            "type": "textarea",
+            "label": "账号Cookie",
+            "desc": "多账号用 & 分隔",
+            "input": "text",
+            "rows": 3,
+            "placeholder": "MUSIC_U=xxx; __csrf=xxx;"
+          },
+          "enable_signin": {
+            "type": "boolean",
+            "label": "启用签到",
+            "desc": "每日自动签到开关",
+            "default": true
+          },
+          "enable_yunbei": {
+            "type": "boolean",
+            "label": "云贝签到",
+            "desc": "云贝自动签到开关",
+            "default": true
+          },
+          "enable_shuffle": {
+            "type": "boolean",
+            "label": "刷歌功能",
+            "desc": "自动刷歌开关",
+            "default": true
+          },
+          "song_limit": {
+            "type": "number",
+            "label": "刷歌数量",
+            "desc": "默认10首",
+            "default": 10,
+            "min": 5,
+            "max": 30
+          }
+        }
+      }
+    },
    {
      "id": "ChinaMobile.10086",
      "name": "移动余量",
