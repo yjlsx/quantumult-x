@@ -126,6 +126,7 @@ async function checkCloudBean() {
     url: `https://interface3.music.163.com/eapi/pointmall/user/sign`,
     headers: {
       'Connection' : `keep-alive`,
+      'Cookie' : $.cookie,
       'Accept-Encoding' : `gzip, deflate, br`,
        'Content-Type' : `application/x-www-form-urlencoded`,
        'User-Agent' : `neteasemusic/9.2.50 (iPhone; iOS 17.0; Scale/3.00)`,
