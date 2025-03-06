@@ -28,7 +28,7 @@ let url = $request.url;
 try {
 
     if (url.includes('/open/order/vip/pre-check')) {
-            obj.resultbody.existFreeOrder = true;
+            obj.resultbody.existFreeOrder = false;
     }
 
     if (url.includes('/open/order/order/create')) {
