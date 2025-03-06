@@ -65,6 +65,17 @@ try {
             obj.resultbody.taskRewardVO.dailyCurrentInventory = 10;
             obj.resultbody.taskRewardVO.canExchange = true;
             obj.resultbody.exchangeResult.code = "1";
+           obj.resultbody.exchangeResult.msg = "已兑换";
+           obj.resultbody.exchangeResult.rewardExchangeWord = "VIP套餐月卡";
+           obj.resultbody.taskRewardVO.redemptionWard = "VIP套餐月卡";
+  obj.resultbody.taskRewardVO.coinsCnt = 1000;            // 奖励硬币数，可根据实际逻辑调整
+  obj.resultbody.taskRewardVO.countMsg = "30天";           // 显示期限
+  obj.resultbody.taskRewardVO.count = 30;                 // 数量调整为 30 天
+  obj.resultbody.taskRewardVO.estimatedAchieveMentTime = 2; // 预计达成时间（示例值）
+  obj.resultbody.taskRewardVO.value = 58;                  // 奖励价值（示例值）
+  obj.resultbody.taskRewardVO.rewardDictId = 17;          // 奖励字典 ID（示例值）
+  obj.resultbody.taskRewardVO.rewardTypeName = "VIP套餐";   // 奖励类型名称，根据实际情况调整
+
     }
 
     if (url.includes('/user-task/main')) {
