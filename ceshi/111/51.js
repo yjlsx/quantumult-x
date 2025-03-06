@@ -24,7 +24,9 @@ try {
             transaction_state_desc: "Success",
             transaction_date: new Date().getTime().toString(), // 更新时间戳
             transaction_id: `TID${Math.random().toString(36).substr(2, 15)}` // 生成有效交易ID
-        };     });      // 重组数据结构（保持原始JSON格式）
+        };
+    });
+    // 重组数据结构（保持原始JSON格式）
     data.logdata = JSON.stringify(logdata, null, 0) // 避免添加空格
        .replace(/\//g, '\\/'); // 保持斜杠转义    
     obj.data = JSON.stringify(data, null, 0)
