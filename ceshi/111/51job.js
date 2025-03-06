@@ -167,8 +167,13 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
 
     if (url.includes('/open/order/vip/pre-check')) {
             obj.resultbody.existFreeOrder = true;
- 
     }
+
+    if (url.includes('/open/order/order/create')) {
+            obj.status = "1";
+            obj.message = "成功";
+    }
+
 
     if (url.includes('/open/noauth/popUp/getCommonPopUp')) {
         if (obj.resultbody) {
