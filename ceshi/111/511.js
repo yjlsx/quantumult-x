@@ -5,8 +5,9 @@
 ^https:\/\/cupid\.51job\.com url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/511.js
 
 ^https:\/\/cupid\.51job\.com\/open\/order\/vip\/pre-check url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/511.js
-^https:\/\/cupid\.51job\.com\/open\/order\/order\/create  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/511.js
+^https:\/\/cupid\.51job\.com\/open\/order\/order\/create url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/511.js
 ^https:\/\/appapi\.51jobapp\.com\/api\/3\/util.*$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
+^https:\/\/cupid\.51jobapp\.com\/open\/order\/ios\/order\/create url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/511.js
 
 
 
@@ -34,6 +35,12 @@ try {
     if (url.includes('/open/order/order/create')) {
             obj.status = "1";
             obj.message = "成功";
+    }
+
+    if (url.includes('/open/order/ios/order/create')) {
+            obj.result = "1";
+            obj.status = "1";
+            obj.message = "支付成功";
     }
 
 
