@@ -54,6 +54,24 @@ try {
       }
    }
 
+
+    if (url.includes('/getCoinsAmount') || url.includes('/getExpiringCoins')) {
+            obj.resultbody = 9999;
+    }
+
+    if (url.includes('/reward/deductionCoins')) {
+            obj.status = "1";
+            obj.message = "成功";
+            obj.resultbody.taskRewardVO.dailyCurrentInventory = 10;
+            obj.resultbody.taskRewardVO.canExchange = true;
+            obj.resultbody.exchangeResult.code = "1";
+    }
+
+    if (url.includes('/user-task/main')) {
+            obj.resultbody.amount = 9999;
+            obj.resultbody.scoreTip.isExposure = true;
+    }
+
     // 修改 /open/product/monthly-card/rec 的响应体
     if (url.includes('/open/product/monthly-card/rec')) {
         if (obj.resultbody && obj.resultbody.productDetailList) {
