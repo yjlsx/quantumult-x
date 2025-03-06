@@ -34,6 +34,7 @@ let obj = JSON.parse(body);
 let url = $request.url;
 
 try {
+/******************
     // 修改 /open/my-page/v2 的响应体
     if (url.includes('/open/my-page/v2')) {
         if (obj.resultbody) {
@@ -116,6 +117,7 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
                 obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
             }
     }
+******************/
 
     // 修改 /open/equity/equity/duration 的响应体
     if (url.includes('/open/equity/equity/duration')) {
