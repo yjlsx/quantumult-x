@@ -10,6 +10,7 @@
 ^https:\/\/cupid\.51job\.com\/open\/(vip|user-task\/coin\/(getCoinsAmount|getExpiringCoins)|user-task\/(main|reward\/deductionCoins)) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 ^https:\/\/cupid\.51jobapp\.com\/open\/(hr\/setting\/push\/switch|gift-order\/interested).*  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 
+^https:\/\/cupid\.51job\.com\/open\/order\/vip\/pre-check url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51job.js
 
 ^https:\/\/appapi\.51jobapp\.com\/api\/3\/util.*$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/51.js
 
@@ -117,7 +118,7 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
                 obj.resultbody.resumeRefreshVO.maxRefreshCount = 99999;
             }
     }
-******************/
+
 
     // 修改 /open/equity/equity/duration 的响应体
     if (url.includes('/open/equity/equity/duration')) {
@@ -132,7 +133,7 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
             obj.hadbuy = "1";
         }
     }
-
+******************/
     // 修改 /open/job-apply 的响应体
     if (url.includes('/open/job-apply')) {
         if (obj.resultbody) {
@@ -162,6 +163,11 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
     if (url.includes('/user-task/main')) {
             obj.resultbody.amount = 9999;
             obj.resultbody.scoreTip.isExposure = true;
+    }
+
+    if (url.includes('/open/order/vip/pre-check')) {
+            obj.resultbody.existFreeOrder = true;
+ 
     }
 
     if (url.includes('/open/noauth/popUp/getCommonPopUp')) {
