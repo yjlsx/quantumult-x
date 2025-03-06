@@ -178,8 +178,8 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
             obj.resultbody.productDetailList.forEach(product => {
                 if (product.skuList) {
                     product.skuList.forEach(sku => {
-                        sku.price = 0;
-                        sku.originalPrice = 0;
+                        sku.price = 0.01;
+                        sku.originalPrice = 0.01;
                     });
                 }
             });
@@ -192,7 +192,7 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
             obj.resultbody.productDetailList.forEach(product => {
                 if (product.skuList) {
                     product.skuList.forEach(sku => {
-                        sku.price = 0;
+                        sku.price = 0.01;
                     });
                 }
             });
