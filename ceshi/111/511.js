@@ -60,8 +60,8 @@ try {
             obj.resultbody.productDetailList.forEach(product => {
                 if (product.skuList) {
                     product.skuList.forEach(sku => {
-                        sku.price = 0.01;
-                        sku.originalPrice = 0.01;
+                        sku.price = 0;
+                        sku.originalPrice = 0;
                     });
                 }
             });
@@ -74,7 +74,7 @@ try {
             obj.resultbody.productDetailList.forEach(product => {
                 if (product.skuList) {
                     product.skuList.forEach(sku => {
-                        sku.price = 0.01;
+                        sku.price = 0;
                     });
                 }
             });
