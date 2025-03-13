@@ -6,6 +6,9 @@
 ^https:\/\/m\.zhaopin\.com\/bapi\/order\/details url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/order\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 ^https:\/\/dispatch-api-online\.vemarsdev\.com\/mars\/license\/check url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
+^https:\/\/ask\.zhaopin\.com\/plat-zqa-server\/zhiQCoin  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
+
+
 
 
 *
@@ -93,6 +96,12 @@ if (url.includes('https://m.zhaopin.com/bapi/order/list')) {
 if (url.includes('https://dispatch-api-online.vemarsdev.com/mars/license/check')) {
     obj.error = 0;
 }
+
+
+if (url.includes('https://ask.zhaopin.com/plat-zqa-server/zhiQCoin')) {
+    obj.data.balance = 99999;
+}
+
 
 
 body = JSON.stringify(obj);
