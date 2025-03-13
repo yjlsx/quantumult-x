@@ -12,19 +12,16 @@ hostname = m.zhaopin.com, ask.zhaopin.com
 
 // == 配置项 ==
 const CONFIG = {
-  REFERRER_ENTRY: "VipV4.0_VIPCard",  // 强制入口标识
-  REF_CODE: "5073",                   // 关联推荐码
-  USE_COIN_AMOUNT: 0                  // 积分清零
+  REFERRER_ENTRY: "VipV4.0_VIPCard",
+  REF_CODE: "5073",
+  USE_COIN_AMOUNT: 0 // 积分清零
 };
 
 // == 动态参数生成器 ==
 const DynamicUtils = {
-  // 生成符合智联格式的 _v
   generateV() {
     return `0.${Math.floor(Math.random() * 100000000).toString().padStart(8, '0')}`;
   },
-
-  // 生成合规的请求ID
   generateRequestId() {
     const uuid = Array.from({length: 8}, () => 
       Math.random().toString(16).slice(2,6)
@@ -39,88 +36,53 @@ function rewriteRequest(request) {
     let newReq = { ...request };
     let url = new URL(newReq.url);
 
-    // -------------------------------
-    // 第一部分：修改URL参数
-    // -------------------------------
+    // 1. 修改URL参数
     url.searchParams.set('_v', DynamicUtils.generateV());
     url.searchParams.set('x-zp-page-request-id', DynamicUtils.generateRequestId());
 
-    // -------------------------------
-    // 第二部分：修改Headers
-    // -------------------------------
-    // 处理Referer
+    // 2. 修改Headers
     if (newReq.headers?.Referer) {
       newReq.headers.Referer = newReq.headers.Referer
         .replace(/referrerEntry=[^&]+/g, `referrerEntry=${CONFIG.REFERRER_ENTRY}`)
-        .replace(/refcode=[^&]+/g, `refcode=${CONFIG.REF_CODE}`);
+        .replace(/refcode=[^&]+/g, `refcode=${CONFIG.REF_CODE}`)
+        // 新增：修改pageUrl中的积分值
+        .replace(/useCoinAmount=\d+/g, `useCoinAmount=${CONFIG.USE_COIN_AMOUNT}`);
     }
 
-    // 处理Cookie
-    if (newReq.headers?.Cookie) {
-      newReq.headers.Cookie = newReq.headers.Cookie
-        .replace(/referrerEntry=[^;]+/g, `referrerEntry=${CONFIG.REFERRER_ENTRY}`)
-        .replace(/refcode=[^;]+/g, `refcode=${CONFIG.REF_CODE}`);
-    }
-
-    // -------------------------------
-    // 第三部分：修改请求体
-    // -------------------------------
+    // 3. 修改Body
     if (newReq.body) {
       try {
         let body = JSON.parse(newReq.body);
         
-        // 修改remark字段
+        // 3.1 处理外层积分字段
+        if (typeof body.useCoinAmount === 'number') {
+          body.useCoinAmount = CONFIG.USE_COIN_AMOUNT;
+        }
+
+        // 3.2 处理remark内的积分值
         if (body.remark) {
           const remark = JSON.parse(body.remark);
-          
           remark.forEach(item => {
-            // 入口标识修改
-            if (item.contentType === 'referrerEntry') {
-              item.content = CONFIG.REFERRER_ENTRY;
-            }
-            
-            // 推荐码修改
-            if (item.contentType === 'refcode') {
-              item.content = CONFIG.REF_CODE;
-            }
-            
-            // 积分清零 (新增功能)
             if (item.contentType === 'useCoinAmount') {
               item.content = CONFIG.USE_COIN_AMOUNT;
             }
-            
             // 处理嵌套的pageUrl参数
             if (item.contentType === 'pageUrl') {
               item.content = item.content
-                .replace(/referrerEntry=[^&]+/g, `referrerEntry=${CONFIG.REFERRER_ENTRY}`)
-                .replace(/refcode=[^&]+/g, `refcode=${CONFIG.REF_CODE}`);
+                .replace(/useCoinAmount=\d+/g, `useCoinAmount=${CONFIG.USE_COIN_AMOUNT}`);
             }
           });
-          
           body.remark = JSON.stringify(remark);
         }
 
-        // 处理外层积分字段（如果存在）
-        if (body.useCoins !== undefined) {
-          body.useCoins = CONFIG.USE_COIN_AMOUNT;
-        }
-
         newReq.body = JSON.stringify(body);
+        console.log("修改后的Body:", newReq.body); // 调试日志
       } catch (e) {
         console.log(`Body处理失败: ${e}`);
       }
     }
 
-    // -------------------------------
-    // 返回修改后的请求
-    // -------------------------------
-    return {
-      ...newReq,
-      url: url.toString(),
-      headers: newReq.headers,
-      body: newReq.body
-    };
-
+    return { ...newReq, url: url.toString() };
   } catch (e) {
     console.log(`全局错误: ${e.stack}`);
     return request;
@@ -129,9 +91,7 @@ function rewriteRequest(request) {
 
 // == 代理工具适配 ==
 if (typeof $task !== 'undefined') {
-  // Quantumult X
   $done(rewriteRequest($request));
 } else if (typeof $httpClient !== 'undefined') {
-  // Surge/Loon
   $httpClient.onRequest((req) => $done(rewriteRequest(req)));
 }
