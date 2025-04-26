@@ -10,11 +10,14 @@ hostname = phototalk.ivsapi.com
 */
 
 
-/**
- * @supported BCFF6F0E-422A-495A-890E-0C63B9BC9F9A
- */
-
-let obj = JSON.parse($response.body);             
+let body = $response.body;
+let obj = JSON.parse(body);
+           
 obj.beinvited = 1;                               
-obj.user.databaseid = "us2";                     
-$done({ body: obj });  
+obj.user.updatems = 174954261428;   
+obj.user.databaseid = "us2";   
+                 
+
+body = JSON.stringify(obj);
+$done({body});
+
