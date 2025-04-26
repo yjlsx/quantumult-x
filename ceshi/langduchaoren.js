@@ -1,7 +1,7 @@
 /*
 [rewrite_local]
 # PhotoTalk 强制已被邀请，并改 databaseid
-^https:\/\/phototalk\.ivsapi\.com\/api\/user\/info url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/langduchaoren.js
+^https:\/\/phototalk\.ivsapi\.com\/api\/user\/info script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/langduchaoren.js
 ^https:\/\/phototalk\.ivsapi\.com\/api\/chat\/parameters\/v3\/$ url script-request-body_https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/langduchaoren1.js
 
 *
