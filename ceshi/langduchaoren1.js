@@ -1,6 +1,12 @@
-/**
- * @supported BCFF6F0E-422A-495A-890E-0C63B9BC9F9A
- */
+/*
+[rewrite_local]
+^https:\/\/phototalk\.ivsapi\.com\/api\/chat\/parameters\/v3\/$ url script-request-body phototalk_change_https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/langduchaoren1.js
+
+*
+[mitm]
+hostname = phototalk.ivsapi.com
+
+*/
 
 const newBody = {
   "invitationcode": "D42476",
