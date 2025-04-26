@@ -6,7 +6,7 @@ const newBody = {
   "invitationcode": "D42476",
   "user_id": "_5f8789a82656d528c315379063b0d40f",
   "voiceType": "microsoft",
-  "speechCount": 999,
+  "speechCount": 1,
   "chattype": "tts",
   "messagetypes": []
 };
