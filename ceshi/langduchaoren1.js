@@ -1,6 +1,6 @@
 /*
 [rewrite_local]
-^https:\/\/phototalk\.ivsapi\.com\/api\/chat\/parameters\/v3\/$ url script-request-body phototalk_change_https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/langduchaoren1.js
+^https:\/\/phototalk\.ivsapi\.com\/api\/chat\/parameters\/v3\/$ url script-request-body_https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/langduchaoren1.js
 
 *
 [mitm]
