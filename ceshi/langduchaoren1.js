@@ -17,4 +17,5 @@ const newBody = {
   "messagetypes": []
 };
 
-$done({ body: newBody });
+$done({ body: JSON.stringify(newBody) });
+
