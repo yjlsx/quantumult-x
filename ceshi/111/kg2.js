@@ -1,6 +1,6 @@
 /*
 [rewrite_local]
-^https:\/\/m\.kugou\.com\/app\/i\/getSongInfo\.php\?cmd=playInfo&hash=[0-9a-fA-F]{32} url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg_response.js
+^https:\/\/gateway\.kugou\.com\/tracker\/v5\/url\?album url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg2.js
 
 [mitm]
 hostname = m.kugou.com
