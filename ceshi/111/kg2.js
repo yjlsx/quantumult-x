@@ -3,7 +3,11 @@
 ^https:\/\/gateway\.kugou\.com\/tracker\/v5\/url\?album url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg2.js
 
 [mitm]
-hostname = m.kugou.com
+passphrase = 
+p12 = 
+hostname = *.kugou.com, gateway.kugou.com, m.kugou.com
+skip_validating_cert = true
+
 */
 
 let body = $response.body;
