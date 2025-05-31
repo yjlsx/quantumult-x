@@ -26,9 +26,11 @@ if (typeof $request !== 'undefined') {
           if (item.contentType === "pageUrl" && item.content.includes("referrerEntry=Me5.0_VipUser")) {
             item.content = item.content.replace("referrerEntry=Me5.0_VipUser", "referrerEntry=VipV4.0_VIPCard");
           }
+/*
           if (item.contentType === "useCoinAmount") {
             item.content = 0;
           }
+*/
         }
 
         parsed.remark = JSON.stringify(remarkArray);
