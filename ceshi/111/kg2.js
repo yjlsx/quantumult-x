@@ -11,26 +11,32 @@ skip_validating_cert = true
 
 */
 
-let body = $response.body;
+if (typeof $response !== 'undefined') {
+  let body = $response.body;
 
-try {
-    const trimmed = body.trim();
+  try {
+    if (body && (body.trim().startsWith('{') || body.trim().startsWith('['))) {
+      let obj = JSON.parse(body);
 
-    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
-        let obj = JSON.parse(trimmed);
-        console.log("🎯 命中 JSON");
+      // 示例：解除播放限制
+      obj.pay_type = 0;
+      obj.fail_process = 0;
+      obj.error = "";
 
-        obj.fail_process = 0;
-        obj.error = "";
-        obj.pay_type = 0;
+      // 特权解锁字段（按需）
+      ['privilege', '128privilege', '320privilege', 'sqprivilege', 'highprivilege'].forEach(k => {
+        if (obj.hasOwnProperty(k)) {
+          obj[k] = 10;
+        }
+      });
 
-        $done({ body: JSON.stringify(obj) });
+      $done({ body: JSON.stringify(obj) });
     } else {
-        console.log("⚠️ 非 JSON 内容（可能为 HTML），不修改");
-        $done({ body });
+      console.log("⚠️ 响应体非 JSON 格式，内容预览：", body.substring(0, 200));
+      $done({ body }); // 不处理
     }
-
-} catch (e) {
-    console.log("❌ JSON 解析失败：" + e.message);
-    $done({ body });
+  } catch (e) {
+    console.log("❌ JSON 解析失败:", e.message);
+    $done({ body }); // 保持原样
+  }
 }
