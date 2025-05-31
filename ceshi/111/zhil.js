@@ -16,32 +16,22 @@ hostname = m.zhaopin.com, ask.zhaopin.com
  * 智联招聘创建订单：请求字段规范化 + 响应价格伪装显示为 0 元
  */
 
-// 请求体处理（修改 remark 字段）
 if (typeof $request !== 'undefined') {
-  let body = $request.body;
-
   try {
+    let body = $request.body;
     let parsed = JSON.parse(body);
 
     if (parsed.remark && typeof parsed.remark === 'string') {
       let remarkArray = JSON.parse(parsed.remark);
 
       for (let item of remarkArray) {
-        // 替换 referrerEntry
         if (item.contentType === "referrerEntry") {
-          console.log(`原 referrerEntry: ${item.content}`);
           item.content = "VipV4.0_VIPCard";
         }
-
-        // 替换 pageUrl 中的 referrerEntry 参数
-        if (item.contentType === "pageUrl" && item.content.includes("referrerEntry=Me5.0_VipUser")) {
-          console.log(`原 pageUrl: ${item.content}`);
+        if (item.contentType === "pageUrl") {
           item.content = item.content.replace("referrerEntry=Me5.0_VipUser", "referrerEntry=VipV4.0_VIPCard");
         }
-
-        // 将 useCoinAmount 设置为 0（避免失败）
         if (item.contentType === "useCoinAmount") {
-          console.log(`原 useCoinAmount: ${item.content}`);
           item.content = 0;
         }
       }
@@ -53,34 +43,31 @@ if (typeof $request !== 'undefined') {
     $done({ body });
 
   } catch (e) {
-    console.log("请求体处理失败: " + e);
-    $done({});
+    console.log("请求处理错误: " + e);
+    $done({ body: $request.body }); // 保底兜底返回原始请求
   }
 }
 
-// 响应体处理（将价格显示改为 0 元）
-if (typeof $response !== 'undefined') {
+else if (typeof $response !== 'undefined') {
   try {
     let obj = JSON.parse($response.body);
 
     if (obj.code === 200 && obj.data) {
-      console.log("订单原始价格: " + obj.data.realPrice);
-
-      // 修改实际支付价格
       obj.data.realPrice = "0";
-
       if (obj.data.orderDetailProductDTO) {
         obj.data.orderDetailProductDTO.productRealPrice = "0";
       }
-
-      console.log("已将价格伪装为 0 元");
-      $done({ body: JSON.stringify(obj) });
-    } else {
-      $done({});
     }
 
+    $done({ body: JSON.stringify(obj) });
+
   } catch (e) {
-    console.log("响应体处理失败: " + e);
-    $done({});
+    console.log("响应处理错误: " + e);
+    $done({ body: $response.body }); // 保底兜底返回原始响应
   }
+}
+
+else {
+  console.log("未识别的脚本上下文");
+  $done();
 }
