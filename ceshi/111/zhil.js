@@ -8,6 +8,8 @@
 hostname = m.zhaopin.com, ask.zhaopin.com
 */
 
+
+
 if ($request.body) {
   let body = $request.body;
 
@@ -21,7 +23,15 @@ if ($request.body) {
         if (item.contentType === "referrerEntry") {
           console.log(`原 referrerEntry: ${item.content}`);
           item.content = "VipV4.0_VIPCard";
-          console.log(`新 referrerEntry: ${item.content}`);
+          console.log(`替换为: ${item.content}`);
+        }
+
+        if (item.contentType === "pageUrl") {
+          if (item.content.includes("referrerEntry=Me5.0_VipUser")) {
+            console.log(`原 pageUrl: ${item.content}`);
+            item.content = item.content.replace("referrerEntry=Me5.0_VipUser", "referrerEntry=VipV4.0_VIPCard");
+            console.log(`更新后 pageUrl: ${item.content}`);
+          }
         }
       }
 
