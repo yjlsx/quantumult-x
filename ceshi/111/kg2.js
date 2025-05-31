@@ -10,39 +10,31 @@ hostname = *.kugou.com, gateway.kugou.com, m.kugou.com
 skip_validating_cert = true
 
 */
+
+/*
+[rewrite_local]
+^https:\/\/m\.kugou\.com\/app\/i\/getSongInfo\.php\?cmd=playInfo url script-response-body https://your_cdn_or_github/your_kg_unlock.js
+[mitm]
+hostname = m.kugou.com
+*/
+
 if ($response?.body) {
   let body = $response.body;
 
   try {
-    const obj = JSON.parse(body);
+    // 强制替换关键字段，即使响应是 text/html
+    body = body.replace(/"pay_type"\s*:\s*\d+/g, `"pay_type": 0`);
+    body = body.replace(/"fail_process"\s*:\s*\d+/g, `"fail_process": 0`);
+    body = body.replace(/"error"\s*:\s*".*?"/g, `"error": ""`);
 
-    // 顶层状态字段
-    obj.status = 1;
-    obj.error_code = 0;
-    obj.error = "";
-    obj.fail_process = [];
-
-    // 处理 tracker_through
-    if (obj.tracker_through) {
-      obj.tracker_through.all_quality_free = 1;
-    }
-
-    // 处理 auth_through
-    if (obj.auth_through) {
-      obj.auth_through.status = 1;
-      obj.auth_through.pay_type = 0;
-      obj.auth_through.fail_process = 0;
-      obj.auth_through.pay_block_tpl = 0;
-    }
-
-    console.log("✅ 响应字段伪装完成");
-    $done({ body: JSON.stringify(obj) });
+    console.log(" 响应体字段替换完成");
+    $done({ body });
 
   } catch (e) {
-    console.log("❌ JSON 解析失败: ", e.message);
+    console.log(" 替换失败: " + e.message);
     $done({ body });
   }
 } else {
-  console.log("⚠️ 响应体为空");
+  console.log("响应体为空");
   $done({});
 }
