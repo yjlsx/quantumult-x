@@ -4,7 +4,7 @@
 ^https:\/\/m\.zhaopin\.com\/bapi\/order\/creation url script-response-body  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhil1.js
 
 
-*
+**
 [mitm]
 hostname = m.zhaopin.com, ask.zhaopin.com
 */
