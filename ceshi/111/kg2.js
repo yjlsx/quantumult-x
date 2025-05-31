@@ -11,32 +11,30 @@ skip_validating_cert = true
 
 */
 
-if (typeof $response !== 'undefined') {
+/*
+[rewrite_local]
+^https:\/\/m\.kugou\.com\/app\/i\/getSongInfo\.php\?cmd=playInfo url script-response-body https://your_cdn_or_github/your_kg_unlock.js
+[mitm]
+hostname = m.kugou.com
+*/
+
+if ($response?.body) {
   let body = $response.body;
 
   try {
-    if (body && (body.trim().startsWith('{') || body.trim().startsWith('['))) {
-      let obj = JSON.parse(body);
+    // 强制替换关键字段，即使响应是 text/html
+    body = body.replace(/"pay_type"\s*:\s*\d+/g, `"pay_type": 0`);
+    body = body.replace(/"fail_process"\s*:\s*\d+/g, `"fail_process": 0`);
+    body = body.replace(/"error"\s*:\s*".*?"/g, `"error": ""`);
 
-      // 示例：解除播放限制
-      obj.pay_type = 0;
-      obj.fail_process = 0;
-      obj.error = "";
+    console.log(" 响应体字段替换完成");
+    $done({ body });
 
-      // 特权解锁字段（按需）
-      ['privilege', '128privilege', '320privilege', 'sqprivilege', 'highprivilege'].forEach(k => {
-        if (obj.hasOwnProperty(k)) {
-          obj[k] = 10;
-        }
-      });
-
-      $done({ body: JSON.stringify(obj) });
-    } else {
-      console.log("⚠️ 响应体非 JSON 格式，内容预览：", body.substring(0, 200));
-      $done({ body }); // 不处理
-    }
   } catch (e) {
-    console.log("❌ JSON 解析失败:", e.message);
-    $done({ body }); // 保持原样
+    console.log(" 替换失败: " + e.message);
+    $done({ body });
   }
+} else {
+  console.log("响应体为空");
+  $done({});
 }
