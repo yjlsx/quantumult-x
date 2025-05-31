@@ -23,12 +23,12 @@ try {
         obj.fail_process = 0;
         obj.error = "";
         obj.pay_type = 0;
-        obj.errcode = 0;
 
-        // 解锁特权字段
+    /*    // 解锁特权字段
         ['privilege', '128privilege', '320privilege', 'sqprivilege', 'highprivilege'].forEach(k => {
             if (k in obj) obj[k] = 10;
         });
+*/
 
         $done({ body: JSON.stringify(obj) });
     } else {
