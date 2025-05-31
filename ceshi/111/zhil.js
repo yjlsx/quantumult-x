@@ -10,7 +10,9 @@
 hostname = m.zhaopin.com, ask.zhaopin.com
 */
 
-
+/*
+ * 
+ */
 if (typeof $request !== 'undefined') {
   // 请求体处理逻辑
   if ($request.body) {
