@@ -8,7 +8,7 @@ unlock Egoreader PRO
 
 [rewrite_local]
 # unlock Shapr3D
-^https?:\/\/api\.pxmage\.com\/egoreader\/user\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/ego_reader.js
+^https?:\/\/api\.pxmage\.com\/egoreader\/user\/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/rewrite/egoreader.js
 [mitm]
 hostname = api.pxmage.com
 
