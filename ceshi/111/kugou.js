@@ -46,6 +46,8 @@
 ^https://gateway\.kugou\.com/vipdress/v1/record_rack/get_user_record_rack url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
 ^https:\/\/gateway\.kugou\.com\/tracker\/v5\/url url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg2.js
 ^https:\/\/m\.kugou\.com\/app\/i\/getSongInfo\.php\?cmd=playInfo url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kg2.js
+^https://gateway\.kugou\.com/media\.store/v1/audio/get_buy_info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou.js
+
 
 
 *
@@ -558,6 +560,12 @@ if (url.includes('/vipdress/v1/record_rack/get_user_record_rack')) {
 
 if (url.includes('/vipenergy/v2/entrance/vip_center_user_info')) {
     obj.data.user_type = 20;
+}
+
+if (url.includes('/audio/get_buy_info?')) {
+    obj.status = 0;
+    obj.error_code = 0;
+    obj.message = " ";
 }
 
 if (url.includes('/app/i/getSongInfo\.php')) {
