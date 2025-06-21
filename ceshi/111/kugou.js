@@ -566,6 +566,16 @@ if (url.includes('/audio/get_buy_info?')) {
     obj.status = 0;
     obj.error_code = 0;
     obj.message = " ";
+     // 修改 data 数组中所有元素的购买状态
+  if (Array.isArray(obj.data)) {
+    obj.data.forEach(item => {
+      item.buy = 1;      
+      item.pay_type = 0;  
+      item.is_super_vip = 1; 
+    });
+  }
+
+
 }
 
 if (url.includes('/app/i/getSongInfo\.php')) {
