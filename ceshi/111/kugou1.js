@@ -12,6 +12,8 @@
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/record_rack\/set_user_record_rack url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/vipdress\.kugou\.com\/v1\/record_rack\/get_record_rack_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/vipdress\.kugou\.com\/v1\/dress_sales\/get_dress_by_version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https:\/\/.*\/vip\/v1\/fusion\/userinfo url script-response-bodyhttps://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+
 
 
 
@@ -193,6 +195,90 @@ if ($request.url.includes('/v1/dress_sales/get_dress_by_version')) {
     });
   }
 } 
+
+if (url.includes("/vip/v1/fusion/userinfo") && obj?.data?.get_vip_info_v3?.data) {
+  let d = obj.data.get_vip_info_v3.data;
+
+  d.is_vip = 1;
+  d.vip_type = 4;
+  d.user_type = 20;
+  d.producttype = 4;
+  d.autotype = 1;
+  d.autoVipType = 1;
+  d.autostatus = 1;
+  d.first_svip = 1;
+  d.super_vip_upgrade_month = 999;
+
+  d.vip_begin_time = "2024-07-01 00:00:00";
+  d.vip_end_time = "2099-12-31 23:59:59";
+  d.vip_y_endtime = "2099-12-31 23:59:59";
+
+  d.su_vip_begin_time = "2024-07-01 00:00:00";
+  d.su_vip_end_time = "2099-12-31 23:59:59";
+  d.su_vip_y_endtime = "2099-12-31 23:59:59";
+  d.su_vip_upgrade_days = 99999;
+  d.super_vip_upgrade_month = 9999;
+
+  d.svip_upgrade_info = {
+    days: 99999,
+    autotype: 1,
+    next_price: 0,
+    ts: 1751557983,
+    price: 0,
+    activity_id: 123456,
+    sign: "fake_sign_001"
+  };
+
+  d.su_vip_upgrade_info = {
+    days: 99999,
+    ts: 1751557983,
+    next_price: 0,
+    autotype: 1,
+    activity_model_type: 0,
+    price: 0,
+    activity_id: 123456,
+    sign: "fake_sign_002"
+  };
+
+  d.vip_list = {
+    "1": {
+      type: 1,
+      begin_time: "2024-07-01 00:00:00",
+      end_time: "2099-12-31 23:59:59"
+    }
+  };
+
+  d.m_list = {
+    "1": {
+      type: 1,
+      begin_time: "2024-07-01 00:00:00",
+      end_time: "2099-12-31 23:59:59"
+    }
+  };
+
+  d.h_list = {
+    "1": {
+      type: 1,
+      begin_time: "2024-07-01 00:00:00",
+      end_time: "2099-12-31 23:59:59"
+    }
+  };
+
+  d.h_type = 1;
+  d.m_type = 1;
+  d.y_type = 1;
+  d.m_is_old = 0;
+  d.expire_sign_3 = 0;
+  d.signed_svip_before = 1;
+  d.svip_first_autotype76 = 0;
+  d.svip_first_autotype78 = 0;
+  d.svip_first_autotype79 = 0;
+  d.svip_score = 999999;
+  d.servertime = "2025-07-03 23:59:59";
+  d.m_begin_time = "2024-07-01 00:00:00";
+  d.m_end_time = "2099-12-31 23:59:59";
+  d.m_y_endtime = "2099-12-31 23:59:59";
+}
 
 
 $done({ body: JSON.stringify(obj) });
