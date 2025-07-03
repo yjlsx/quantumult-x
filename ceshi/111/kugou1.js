@@ -11,11 +11,12 @@
 ^https://gateway\.kugou\.com/v3/search/mixed url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/record_rack\/set_user_record_rack url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/vipdress\.kugou\.com\/v1\/record_rack\/get_record_rack_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https:\/\/vipdress\.kugou\.com\/v1\/dress_sales\/get_dress_by_version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+
 
 
 [mitm]
-hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress\.kugou\.com
- */
+hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com */
 
 const timestamp = Math.floor(Date.now() / 1000);
 const url = $request.url;
@@ -178,10 +179,20 @@ if (url.includes('/ocean/v6/theme/record_save')) {
     obj.status = 1;
 }
 
+
 if (url.includes('/vipdress/v1/record_rack/set_user_record_rack')) {
     obj.errcode =0;
     obj.status = 1;
 }
+
+if ($request.url.includes('/v1/dress_sales/get_dress_by_version')) {
+
+  if (obj && Array.isArray(obj.data)) {
+    obj.data.forEach(item => {
+      item.is_purchase = 1; // 改为已购买
+    });
+  }
+} 
 
 
 $done({ body: JSON.stringify(obj) });
