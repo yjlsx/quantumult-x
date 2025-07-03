@@ -191,6 +191,7 @@ if ($request.url.indexOf('/api/v1/app/vip/center/vip/info') !== -1) {
  if ($request.url.indexOf('/v3\/user\/userInfo') !== -1) {
         if (obj.data) {
             obj.data.validPcSvip = 1;
+            obj.data.vipIcon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; 
             obj.data.level = 9;
             obj.data.vipType = 2;
         }
