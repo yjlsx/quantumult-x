@@ -1,0 +1,11 @@
+# > 海岛分流
+host,webchat.helpshift.com,PROXY
+
+host,sws.helpshift.com,PROXY
+
+host,ingame.help.supercellsupport.com,PROXY
+
+host,id.supercell.com,PROXY
+
+host,api.helpshift.com,PROXY
+
