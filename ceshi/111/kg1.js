@@ -40,19 +40,25 @@ if (url.includes("/v5/url?") || url.includes("/tracker/v5/url?")) {
 
 // 处理 /vipcenter/ios 请求头修改
 if (url.includes("/vipcenter/ios")) {
-    console.log("🧾 命中 VIPCenter 请求头重写逻辑");
+  const 截取长度 = 112; // 你给的浏览器抓包的 user_label 长度
+  let url = $request.url;
+  let match = url.match(/user_label=([^&]*)/);
+  if (match) {
+    let userLabelEncoded = match[1];
+    if (userLabelEncoded.length > 截取长度) {
+      let newUserLabelEncoded = userLabelEncoded.substring(0, 截取长度);
+      let newUrl = url.replace(/user_label=[^&]*/, `user_label=${newUserLabelEncoded}`);
+      console.log("重写后 user_label 长度:", newUserLabelEncoded.length);
+      console.log("重写新 URL:", newUrl);
+      $done({
+        url: newUrl,
+        headers: $request.headers,
+        body: $request.body
+      });
+      return;
+    }
+  }
 
-    const originalHeaders = $request.headers;
-    const newHeaders = {
-        ...originalHeaders,
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-        'Referer': 'http://openplat-user.kugou.com/'
-    };
-
-    console.log("✅ VIPCenter 请求头修改成功");
-    $done({ headers: newHeaders });
-    return;
 }
 
 // 未命中重写逻辑
