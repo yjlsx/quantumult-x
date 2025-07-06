@@ -550,6 +550,8 @@ if (url.includes('/v1/get_b_info') || url.includes('/v1/get_buy_info')) {
 
 if (url.includes('/pendant\/v2\/get_user_pendant')) {
     obj.data.end_time = "2099-12-31 23:59:59";
+    obj.status = 1;
+    obj.error_code = 0;
 }
 
 if (url.includes('/v1/userbalance')) {
