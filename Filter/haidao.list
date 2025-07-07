@@ -10,3 +10,15 @@ host,id.supercell.com,PROXY
 host,api.helpshift.com,PROXY
 host,rt.applovin.com,PROXY
 
+host,rt.support.superccell.com,PROXY
+
+host,cdn.supercell.com,PROXY
+
+host,*.supercell.com,PROXY
+
+host,help.supercellsupport.com,PROXY
+
+host,www.recaptcha.net,PROXY
+
+host,app-analytics-services.com,PROXY
+
