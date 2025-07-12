@@ -159,6 +159,7 @@ if (jsonpMatch && jsonpEndMatch) {
             obj.data.vipExpiretime = 4102358400; // 设置过期时间为 2099-12-31
             obj.data.vipinfo.growth.score = 99999; // 设置积分
             obj.data.vipinfo.growth.level = 9; // 设置等级
+            obj.data.vipinfo.ext.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; 
         }
         let newBody = JSON.stringify(obj);
         $done({body: `${jsonpFunction}(${newBody})`});

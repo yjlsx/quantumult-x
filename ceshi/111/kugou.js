@@ -569,7 +569,7 @@ if (url.includes('/vipenergy/v2/entrance/vip_center_user_info')) {
 }
 
 if (url.includes('/audio/get_buy_info?')) {
-    obj.status = 0;
+    obj.status = 1;
     obj.error_code = 0;
     obj.message = " ";
      // 修改 data 数组中所有元素的购买状态
