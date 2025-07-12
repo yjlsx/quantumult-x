@@ -185,6 +185,7 @@ if (url.includes('/ocean/v6/theme/record_save')) {
 if (url.includes('/vipdress/v1/record_rack/set_user_record_rack')) {
     obj.errcode =0;
     obj.status = 1;
+    obj.errmsg = " ";
 }
 
 if ($request.url.includes('/v1/dress_sales/get_dress_by_version')) {
