@@ -13,7 +13,7 @@
 ^https:\/\/vipdress\.kugou\.com\/v1\/record_rack\/get_record_rack_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/vipdress\.kugou\.com\/v1\/dress_sales\/get_dress_by_version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/vip/v1/fusion/userinfo url script-response-bodyhttps://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
-
+^https:\/\/gateway\.kugou\.com\/player\/v1\/model\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 
 
@@ -279,6 +279,31 @@ if (url.includes("/vip/v1/fusion/userinfo") && obj?.data?.get_vip_info_v3?.data)
   d.m_begin_time = "2024-07-01 00:00:00";
   d.m_end_time = "2099-12-31 23:59:59";
   d.m_y_endtime = "2099-12-31 23:59:59";
+}
+
+
+if (url.includes("/player/v1/model/list")) {
+  try {
+    let obj = JSON.parse(body);
+
+    const unlockThemeList = (data) => {
+      for (const key in data) {
+        if (data[key]?.list) {
+          data[key].list.forEach((tab) => {
+            if (tab.list && Array.isArray(tab.list)) {
+              tab.list.forEach((theme) => {
+                theme.is_free = "1"; // 标记为免费
+                if (theme.theme_content) theme.theme_content.is_free = 1;
+                if (theme.theme_content_5) theme.theme_content_5.free_type = 1;
+              });
+            }
+          });
+        }
+      }
+    };
+
+    unlockThemeList(obj.data);
+  } 
 }
 
 
