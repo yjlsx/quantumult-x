@@ -31,6 +31,7 @@ if ($request.url.indexOf('MobileCodeLogin') !== -1 || $request.url.indexOf('GetU
     obj.data.vipinfo.platform = "mpp";
     obj.data.vipinfo.ext.first_recharge_time = "2022-12-31 00:00:00";
     obj.data.vipinfo.ext.valid_pc_svip = 1;
+    obj.data.vipinfo.ext.vip_icon = "https://vipcdn.mgtv.com/act/assets/badge/icon/3/9.png"; 
     obj.data.vipinfo.growth.level = 9;
     obj.data.vipinfo.growth.score = 99999;
     obj.data.vipinfo.vipdetail = [
