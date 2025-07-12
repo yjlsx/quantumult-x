@@ -283,20 +283,30 @@ if (url.includes("/vip/v1/fusion/userinfo") && obj?.data?.get_vip_info_v3?.data)
 
 
 if (url.includes("/player/v1/model/list")) {
-  for (const key in obj.data) {
-    if (obj.data[key]?.list) {
-      obj.data[key].list.forEach((tab) => {
-        if (Array.isArray(tab.list)) {
-          tab.list.forEach((theme) => {
-            theme.is_free = "1";
-            if (theme.theme_content) theme.theme_content.is_free = 1;
-            if (theme.theme_content_5) theme.theme_content_5.free_type = 1;
-          });
-        }
-      });
+  const unlock = (data) => {
+    for (const key in data) {
+      const section = data[key];
+      if (Array.isArray(section.list)) {
+        section.list.forEach(tab => {
+          if (Array.isArray(tab.list)) {
+            tab.list.forEach(theme => {
+              theme.is_free = "1";
+              if (theme.theme_content && typeof theme.theme_content === "object") {
+                theme.theme_content.is_free = 1;
+              }
+              if (theme.theme_content_5 && typeof theme.theme_content_5 === "object") {
+                theme.theme_content_5.free_type = 1;
+              }
+            });
+          }
+        });
+      }
     }
+  };
+
+  if (obj?.data && typeof obj.data === "object") {
+    unlock(obj.data);
   }
 }
-
 
 $done({ body: JSON.stringify(obj) });
