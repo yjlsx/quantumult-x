@@ -283,27 +283,19 @@ if (url.includes("/vip/v1/fusion/userinfo") && obj?.data?.get_vip_info_v3?.data)
 
 
 if (url.includes("/player/v1/model/list")) {
-  try {
-    let obj = JSON.parse(body);
-
-    const unlockThemeList = (data) => {
-      for (const key in data) {
-        if (data[key]?.list) {
-          data[key].list.forEach((tab) => {
-            if (tab.list && Array.isArray(tab.list)) {
-              tab.list.forEach((theme) => {
-                theme.is_free = "1"; // 标记为免费
-                if (theme.theme_content) theme.theme_content.is_free = 1;
-                if (theme.theme_content_5) theme.theme_content_5.free_type = 1;
-              });
-            }
+  for (const key in obj.data) {
+    if (obj.data[key]?.list) {
+      obj.data[key].list.forEach((tab) => {
+        if (Array.isArray(tab.list)) {
+          tab.list.forEach((theme) => {
+            theme.is_free = "1";
+            if (theme.theme_content) theme.theme_content.is_free = 1;
+            if (theme.theme_content_5) theme.theme_content_5.free_type = 1;
           });
         }
-      }
-    };
-
-    unlockThemeList(obj.data);
-  } 
+      });
+    }
+  }
 }
 
 
