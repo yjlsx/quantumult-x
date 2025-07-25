@@ -41,24 +41,24 @@ if (url.includes("/v5/url?") || url.includes("/tracker/v5/url?")) {
 // 处理 /vipcenter/ios 请求头修改
 if (url.includes("/vipcenter/ios")) {
   const 截取长度 = 112; // 你给的浏览器抓包的 user_label 长度
-  let url = $request.url;
   let match = url.match(/user_label=([^&]*)/);
   if (match) {
     let userLabelEncoded = match[1];
     if (userLabelEncoded.length > 截取长度) {
       let newUserLabelEncoded = userLabelEncoded.substring(0, 截取长度);
       let newUrl = url.replace(/user_label=[^&]*/, `user_label=${newUserLabelEncoded}`);
-      console.log("重写后 user_label 长度:", newUserLabelEncoded.length);
-      console.log("重写新 URL:", newUrl);
+      
+      console.log("重写后 user_label 长度: " + newUserLabelEncoded.length);
+      console.log("重写新 URL: " + newUrl);
+      
       $done({
         url: newUrl,
-        headers: $request.headers,
+        headers: headers,
         body: $request.body
       });
       return;
     }
   }
-
 }
 
 // 未命中重写逻辑
