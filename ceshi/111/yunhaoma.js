@@ -51,7 +51,7 @@ hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com
       }
       body = JSON.stringify(obj);
     } catch (e) {}
-  } else if (url.includes("/services/go_0/activate/v2`")) {
+  } else if (url.includes("/services/go_0/activate/v2")) {
     try {
       const obj = JSON.parse(body);
       if (obj) {
@@ -60,7 +60,7 @@ hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com
              }
       body = JSON.stringify(obj);
     } catch (e) {}
-  } else if (url.includes("/app/queryBalance`")) {
+  } else if (url.includes("/app/queryBalance")) {
     try {
       const obj = JSON.parse(body);
       if (obj) {
@@ -68,13 +68,12 @@ hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com
              }
       body = JSON.stringify(obj);
     } catch (e) {}
-  } else if (url.includes("/app/queryBalanceAndBonus`")) {
-    try {
-      const obj = JSON.parse(body);
-      if (obj && obj.result) {
+  } else if (url.includes("/app/queryBalanceAndBonus")) {
+  try {
+    const obj = JSON.parse(body);
+    if (obj && obj.result) {
       const r = obj.result;
 
-      // 余额和积分
       r.balance = 999999;
       r.points = 99999;
       r.totalVideoBonus = 999999;
@@ -84,24 +83,20 @@ hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com
       r.tapjoyBonus = 9999;
       r.totalCheckInBonus = 9999;
 
-      // 会员权益描述
       r.membershipBenefits = "尊享无限会员特权，去除广告，专属服务，永久有效！";
       r.membershipExpireDate = "2099-12-31T23:59:59Z";
 
-      // 权限相关字段全部允许
       r.isallowcheckin = true;
       r.canSetInviter = true;
-      r.voicemailStatus = 1;  // 开启语音信箱
+      r.voicemailStatus = 1;
       r.canInvite = true;
       r.enableEsimPopup = true;
       r.enableVirtualNumberPopup = true;
       r.notallowvideobonusreason = "";
       r.notallowcheckinreason = "";
 
-      // 设置邀请提示为空，或自定义
       r.setInviterTip = "";
 
-      // 允许观看视频获取奖励
       if (Array.isArray(r.watchVideoOrder)) {
         r.watchVideoOrder.forEach(item => item.isAllow = true);
       }
@@ -110,9 +105,9 @@ hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com
         r.checkInOrder.forEach(item => item.isAllow = true);
       }
     }
-      body = JSON.stringify(obj);
-    } catch (e) {}
-  }
+    body = JSON.stringify(obj);
+  } catch (e) {}
+}
 
 
 
