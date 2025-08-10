@@ -6,11 +6,12 @@
 ^https:\/\/api\.smsvirtual\.app\/services\/go_0\/activate\/v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 ^https:\/\/api\.pingmelite\.com\/app\/queryBalance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 ^https:\/\/api\.pingmelite\.com\/app\/queryBalanceAndBonus url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
+^http:\/\/at-sms\.wesdipda\.com\/api\/v1\/sms-v2\/user\/information url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 
 
 *
 [mitm]
-hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com
+hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com, at-sms.wesdipda.com
 
 */
 
@@ -19,7 +20,7 @@ hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com
   const url = $request.url;
   let body = $response.body;
 
-  if (url.includes("/api/v1/sms/user/information")) {
+  if (url.includes("/user/information")) {
     try {
       const obj = JSON.parse(body);
       if (obj && obj.data && typeof obj.data.coin !== 'undefined') {
