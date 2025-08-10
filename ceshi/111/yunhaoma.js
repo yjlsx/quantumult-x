@@ -4,11 +4,13 @@
 ^http:\/\/at\.kwedxef\.pro\/api\/v1\/sms\/rent\/store url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 ^https:\/\/api\.smsvirtual\.app\/profile\/me url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 ^https:\/\/api\.smsvirtual\.app\/services\/go_0\/activate\/v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
+^https:\/\/api\.pingmelite\.com\/app\/queryBalance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
+^https:\/\/api\.pingmelite\.com\/app\/queryBalanceAndBonus url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 
 
 *
 [mitm]
-hostname =at.kwedxef.pro, api.smsvirtual.app
+hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com
 
 */
 
@@ -58,7 +60,63 @@ hostname =at.kwedxef.pro, api.smsvirtual.app
              }
       body = JSON.stringify(obj);
     } catch (e) {}
+  } else if (url.includes("/app/queryBalance`")) {
+    try {
+      const obj = JSON.parse(body);
+      if (obj) {
+        obj.result.balance = 999999;
+             }
+      body = JSON.stringify(obj);
+    } catch (e) {}
+  } else if (url.includes("/app/queryBalanceAndBonus`")) {
+    try {
+      const obj = JSON.parse(body);
+      if (obj && obj.result) {
+      const r = obj.result;
+
+      // 余额和积分
+      r.balance = 999999;
+      r.points = 99999;
+      r.totalVideoBonus = 999999;
+      r.inviteBonus = 9999;
+      r.checkinbonus = 9999;
+      r.videobonus = 9999;
+      r.tapjoyBonus = 9999;
+      r.totalCheckInBonus = 9999;
+
+      // 会员权益描述
+      r.membershipBenefits = "尊享无限会员特权，去除广告，专属服务，永久有效！";
+      r.membershipExpireDate = "2099-12-31T23:59:59Z";
+
+      // 权限相关字段全部允许
+      r.isallowcheckin = true;
+      r.canSetInviter = true;
+      r.voicemailStatus = 1;  // 开启语音信箱
+      r.canInvite = true;
+      r.enableEsimPopup = true;
+      r.enableVirtualNumberPopup = true;
+      r.notallowvideobonusreason = "";
+      r.notallowcheckinreason = "";
+
+      // 设置邀请提示为空，或自定义
+      r.setInviterTip = "";
+
+      // 允许观看视频获取奖励
+      if (Array.isArray(r.watchVideoOrder)) {
+        r.watchVideoOrder.forEach(item => item.isAllow = true);
+      }
+
+      if (Array.isArray(r.checkInOrder)) {
+        r.checkInOrder.forEach(item => item.isAllow = true);
+      }
+    }
+      body = JSON.stringify(obj);
+    } catch (e) {}
   }
+
+
+
+
 
 
   $done({ body });
