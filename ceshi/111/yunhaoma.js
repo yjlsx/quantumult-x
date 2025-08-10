@@ -3,6 +3,8 @@
 ^http:\/\/at\.kwedxef\.pro\/api\/v1\/sms\/user\/information url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 ^http:\/\/at\.kwedxef\.pro\/api\/v1\/sms\/rent\/store url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 ^https:\/\/api\.smsvirtual\.app\/profile\/me url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
+^https:\/\/api\.smsvirtual\.app\/services\/go_0\/activate\/v2 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
+
 
 *
 [mitm]
@@ -47,7 +49,17 @@ hostname =at.kwedxef.pro, api.smsvirtual.app
       }
       body = JSON.stringify(obj);
     } catch (e) {}
+  } else if (url.includes("/services/go_0/activate/v2`")) {
+    try {
+      const obj = JSON.parse(body);
+      if (obj) {
+        obj.detail = "success";
+        obj.code = 200;
+             }
+      body = JSON.stringify(obj);
+    } catch (e) {}
   }
+
 
   $done({ body });
 })();
