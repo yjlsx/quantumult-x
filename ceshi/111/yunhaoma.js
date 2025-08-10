@@ -7,7 +7,7 @@
 ^https:\/\/api\.pingmelite\.com\/app\/queryBalance url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 ^https:\/\/api\.pingmelite\.com\/app\/queryBalanceAndBonus url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 ^http:\/\/at-sms\.wesdipda\.com\/api\/v1\/sms-v2\/user\/information url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
-
+^http:\/\/at-sms\.wesdipda\.com\/api\/v1\/sms-v2\/sz\/get-phone url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/yunhaoma.js
 
 *
 [mitm]
@@ -53,6 +53,15 @@ hostname =at.kwedxef.pro, api.smsvirtual.app, api.pingmelite.com, at-sms.wesdipd
       body = JSON.stringify(obj);
     } catch (e) {}
   } else if (url.includes("/services/go_0/activate/v2")) {
+    try {
+      const obj = JSON.parse(body);
+      if (obj) {
+        obj.detail = "success";
+        obj.code = 200;
+             }
+      body = JSON.stringify(obj);
+    } catch (e) {}
+  } else if (url.includes("/sz/get-phone")) {
     try {
       const obj = JSON.parse(body);
       if (obj) {
