@@ -170,10 +170,10 @@ async function openTreasureBox(cookie) {
    url: url,
    headers: {
      'Cookie': cookie,
-     'Content-Type': 'application/json',
+     'Content-Type': 'application/x-www-form-urlencoded',
      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.0.10.9095'
    },
-   body: '{}'
+   body: ' '
  });
 
  const res = JSON.parse(body);
