@@ -163,7 +163,8 @@ async function checkIn(cookie) {
 }
 
 async function openTreasureBox(cookie) {
- const url = `https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report`;
+ const url = `https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/info`;
+//  备用 https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report
  
  const { body } = await $.post({
    url: url,
