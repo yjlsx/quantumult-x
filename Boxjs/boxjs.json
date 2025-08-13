@@ -95,6 +95,57 @@
     ]
   }
 },
+{
+  "id": "kuaishoujisu",
+  "name": "快手极速版签到",
+  "author": "@yjlsx",
+  "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
+  "icons": [
+    "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"
+  ],
+  "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishoujisu.js",
+  "keys": [
+    "ksjs_enabled_1",
+    "ksjs_cookie_1",
+    "ksjs_enabled_2",
+    "ksjs_cookie_2",
+  ],
+  "boxjs": {
+    "hosts": [
+      "kuaishou.com"
+    ],
+    "schema": {
+      "ksjs_cookie_1": {
+        "type": "text",
+        "label": "账号1 Cookie",
+        "desc": "用于快手极速版签到",
+        "input": "password"
+      },
+      "ksjs_cookie_2": {
+        "type": "text",
+        "label": "账号2 Cookie",
+        "desc": "用于快手极速版签到",
+        "input": "password"
+      }
+    },
+    "settings": [
+      {
+        "id": "ksjs_enabled_1",
+        "name": "启用账号1",
+        "val": true,
+        "type": "boolean",
+        "desc": "控制是否启用快手极速版账号1"
+      },
+      {
+        "id": "ksjs_enabled_2",
+        "name": "启用账号2",
+        "val": true,
+        "type": "boolean",
+        "desc": "控制是否启用快手极速版账号2"
+      }
+    ]
+  }
+},
    {
      "id": "QQreader",
      "name": "QQ阅读",
