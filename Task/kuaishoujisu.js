@@ -88,8 +88,16 @@ async function processAccount(cookie, accountNum) {
   $.notify(`${NOTIFY_TITLE} - 账号${accountNum}`, initialInfo.nickname, msg);
 }
 
+
+function getAvailableAccountSlot() {
+  for (let i = 0; i < COOKIE_KEYS.length; i++) {
+    if (!$.read(COOKIE_KEYS[i])) return i + 1; // 返回第一个空位
+  }
+  return null; // 都有 Cookie，返回 null
+}
+
 async function handleCookieCapture() {
-  if (!$request.url.includes("/rest/n/nebula/activity/earn")) return;
+  if (!$request.url.includes("/rest/wd/encourage/unionTask/signIn/report")) return;
 
   const cookie = $request.headers?.Cookie || $request.headers?.cookie;
   if (!cookie) {
@@ -100,13 +108,14 @@ async function handleCookieCapture() {
   const accountNum = getAvailableAccountSlot();
   if (accountNum) {
     $.write(cookie, COOKIE_KEYS[accountNum - 1]);
-    console.log(`成功捕获账号${accountNum} Cookie: ${cookie}`);
-    $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, cookie);
+    console.log(`成功捕获账号${accountNum} Cookie: ${cookie}`); // 日志显示
+    $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, "请在日志查看"); // 通知栏不显示
   } else {
     console.log("账号槽位已满，请先禁用旧账号");
     $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
   }
 }
+
 
 /*********************
 * 工具函数 *
