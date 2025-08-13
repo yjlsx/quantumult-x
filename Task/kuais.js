@@ -38,39 +38,34 @@ if (isGetCookie) {
   }
 
   !(async() => {
-      for (let i = 0; i < cookieArr.length; i++) {
-          if (!cookieArr[i]) continue;
-          let cookieVal = cookieArr[i];
-          $.index = i + 1;
-          console.log(`\n------------------------\n开始【快手视频账号${$.index}】\n`);
-          try {
-              await nebulaInfo();
-              await nebulaPopup();
-              await formalCenter();
-              await formalSign();
-              if (offici_code !== 100119) await formalinfo();
+for (let i = 0; i < cookieArr.length; i++) {
+    if (!cookieArr[i]) continue;
+    let cookieVal = cookieArr[i];  // <- 这里必须加 let
+    $.index = i + 1;
+    console.log(`\n------------------------\n开始【快手视频账号${$.index}】\n`);
+    try {
+        await nebulaInfo();
+        await nebulaPopup();
+        await formalCenter();
+        await formalSign();
+        if (offici_code !== 100119) await formalinfo();
 
-              $.desc = `【正式版】:\n  ${offic_info}\n  ${offic_sign}\n`;
-              $.desc += `【极速版】:\n  ${speed_rewards}\n  ${speed_info}`;
+        $.desc = `【正式版】:\n  ${offic_info}\n  ${offic_sign}\n`;
+        $.desc += `【极速版】:\n  ${speed_rewards}\n  ${speed_info}`;
 
-              if (offici_code == 1) {
-                  $.msg($.name + "  昵称:" + nickname, "", $.desc);
-                  if (notify.sendNotify) await notify.sendNotify($.name + " " + nickname, $.desc);
-              } else {
-                  $.log("~~~~~~~~~~~~~~~~~\n 昵称:" + nickname + "\n" + $.desc);
-              }
-          } catch (e) {
-              $.log(`账号${$.index}执行异常:`, e);
-          }
-      }
+        if (offici_code == 1) {
+            $.msg($.name + "  昵称:" + nickname, "", $.desc);
+            if (notify.sendNotify) await notify.sendNotify($.name + " " + nickname, $.desc);
+        } else {
+            $.log("~~~~~~~~~~~~~~~~~\n 昵称:" + nickname + "\n" + $.desc);
+        }
+    } catch (e) {
+        $.log(`账号${$.index}执行异常:`, e);
+         }
+   }
+
   })().catch(e => $.logErr(e)).finally(() => $.done());
 }
-
-// 其他函数保持原有逻辑，只需注意以下修正：
-// 1. GetCookie 中模板字符串拼写修正
-// 2. nebulaHost() 调用需传 api 参数
-// 3. bdinvet() 里调用 nebulaHost('sign/sign').headers
-// 4. 各函数 async/await 保证调用顺序正确
 
 
 function formalHost(api,body){
