@@ -43,11 +43,20 @@ if (typeof $request !== 'undefined') {
 
 async function main() {
   console.log("====== 开始执行快手签到任务 ======");
-  
+
   for (let i = 0; i < COOKIE_KEYS.length; i++) {
-    if (!isAccountEnabled(i)) {
-      console.log(`账号${i+1} 未启用，跳过执行`);
-      continue;
+    // 针对第三、第四账号启用开关控制
+    if (i >= 2) { // 0,1是账号1和2，2,3是账号3和4
+      if (!isAccountEnabled(i)) {
+        console.log(`账号${i+1} 未启用，跳过执行`);
+        continue;
+      }
+    } else {
+      // 对账号1、2，默认启用或也根据开关（按你需求）
+      if (!isAccountEnabled(i)) {
+        console.log(`账号${i+1} 未启用，跳过执行`);
+        continue;
+      }
     }
 
     const cookie = $.read(COOKIE_KEYS[i]);
@@ -246,4 +255,5 @@ function API() {
     wait: ms => new Promise(resolve => setTimeout(resolve, ms)),
     done: () => $done()
   };
+
 }
