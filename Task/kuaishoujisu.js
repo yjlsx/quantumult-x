@@ -19,34 +19,58 @@
 
 
 
+
 /*********************
- * 核心逻辑函数 *
+ * 常量与环境封装 *
  *********************/
 const $ = new API();
 const NOTIFY_TITLE = "快手极速版签到";
+
 const COOKIE_KEYS = ["ksjs_cookie_1", "ksjs_cookie_2"];
 const ENABLE_KEYS = ["ksjs_enabled_1", "ksjs_enabled_2"];
 
-if (typeof $request !== 'undefined') {
+const UA =
+  "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 ksNebula/13.7.10.3947 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0";
+
+const BASE = "https://nebula.kuaishou.com";
+const API = {
+  info: "/rest/wd/encourage/account/withdraw/info",
+  sign: "/rest/wd/encourage/unionTask/signIn/report",
+  boxInfo: "/rest/wd/encourage/unionTask/treasureBox/info",
+  // 若后续需要主动开宝箱可尝试：boxOpen: "/rest/wd/encourage/unionTask/treasureBox/open",
+};
+
+/*********************
+ * 入口 *
+ *********************/
+if (typeof $request !== "undefined") {
   handleCookieCapture().finally(() => $.done());
 } else {
   main().finally(() => $.done());
 }
 
+/*********************
+ * 主流程 *
+ *********************/
 async function main() {
   console.log("====== 开始执行快手签到任务 ======");
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < COOKIE_KEYS.length; i++) {
     if (!isAccountEnabled(i)) {
       console.log(`账号${i + 1} 未启用，跳过执行`);
       continue;
     }
 
-  const cookie = $.read(COOKIE_KEYS[i]);
+    let cookie = $.read(COOKIE_KEYS[i]);
     if (!cookie) {
       $.notify(NOTIFY_TITLE, `账号${i + 1} Cookie未配置`, "");
       continue;
     }
+    // 兼容你之前保存过的 encodeURIComponent 版本
+    if (/%[0-9A-Fa-f]{2}/.test(cookie)) {
+      try { cookie = decodeURIComponent(cookie); } catch (e) {}
+    }
+    cookie = cookie.trim();
 
     try {
       console.log(`\n===== 开始处理账号${i + 1} =====`);
@@ -67,11 +91,13 @@ async function processAccount(cookie, accountNum) {
   const checkinRes = await checkIn(cookie);
   console.log(`签到结果: ${checkinRes}`);
 
-  console.log("尝试开启宝箱...");
+  console.log("尝试获取宝箱信息...");
   const boxRes = await openTreasureBox(cookie);
-  console.log(boxRes.success
-    ? `宝箱奖励: ${boxRes.reward}金币`
-    : `宝箱开启失败: ${boxRes.message}`);
+  console.log(
+    boxRes.success
+      ? `宝箱奖励: ${boxRes.reward}金币`
+      : `宝箱开启失败: ${boxRes.message}`
+  );
 
   console.log("获取最新账户数据...");
   const latestInfo = await getAccountInfo(cookie);
@@ -80,152 +106,161 @@ async function processAccount(cookie, accountNum) {
 
   const msg = [
     `签到状态: ${checkinRes}`,
-    boxRes.success ? `宝箱奖励: ${boxRes.reward}金币` : `宝箱失败: ${boxRes.message}`,
+    boxRes.success
+      ? `宝箱奖励: ${boxRes.reward}金币`
+      : `宝箱失败: ${boxRes.message}`,
     `当前金币: ${latestInfo.coin}`,
-    `可提现金额: ${latestInfo.cash}元`
+    `可提现金额: ${latestInfo.cash}元`,
   ].join("\n");
 
   $.notify(`${NOTIFY_TITLE} - 账号${accountNum}`, initialInfo.nickname, msg);
 }
 
-
+/*********************
+ * Cookie 捕获 *
+ *********************/
 function getAvailableAccountSlot() {
   for (let i = 0; i < COOKIE_KEYS.length; i++) {
-    if (!$.read(COOKIE_KEYS[i])) return i + 1; // 返回第一个空位
+    if (!$.read(COOKIE_KEYS[i])) return i + 1;
   }
-  return null; // 都有 Cookie，返回 null
+  return null;
 }
 
-// 捕获 Cookie
 async function handleCookieCapture() {
-  let cookie = $request.headers?.Cookie || $request.headers?.cookie;
+  let cookie = $request?.headers?.Cookie || $request?.headers?.cookie;
   if (!cookie) {
     console.log("未找到Cookie信息");
     return;
   }
-
-  // ✅ 不再 encodeURIComponent，保持原样
   cookie = cookie.trim();
 
   let accountNum = getAvailableAccountSlot();
-  if (!accountNum) {
-    accountNum = 1;
-  }
+  if (!accountNum) accountNum = 1;
 
   $.write(cookie, COOKIE_KEYS[accountNum - 1]);
   console.log(`成功保存账号${accountNum} Cookie: ${cookie}`);
   $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, "可在 BoxJS 中查看或修改");
 }
 
-
 /*********************
-* 工具函数 *
-*********************/
+ * 业务接口 *
+ *********************/
+function ksHeaders(cookie) {
+  return {
+    Host: "nebula.kuaishou.com",
+    Connection: "keep-alive",
+    'Accept' : `*/*`,
+    "Accept-Language": "zh-CN,zh;q=0.9",
+    "User-Agent": `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 ksNebula/13.7.10.3947 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1`,
+    Referer: "https://nebula.kuaishou.com/",
+    Cookie: cookie,
+  };
+}
+
 async function getAccountInfo(cookie) {
-  const { body } = await $.get({
-    url: "https://nebula.kuaishou.com/rest/wd/encourage/account/withdraw/info",
-    headers: { Cookie: cookie }
+  const { statusCode, headers, body } = await $.get({
+    url: BASE + API.info,
+    headers: ksHeaders(cookie),
   });
 
-  let data;
-  try {
-    data = JSON.parse(body);
-  } catch {
-    console.log("返回内容非 JSON:", body);
-    throw new Error("JSON解析失败，Cookie可能无效");
+  const data = safeJSON(body, "账户信息");
+  // 可能 302/重定向到登录导致 body 为 HTML
+  ensureJSONOrThrow(statusCode, body, "账户信息");
+
+  if (data?.result !== 1) {
+    throw new Error(data?.error_msg || "账户信息获取失败");
   }
 
-  if (data.result !== 1) throw new Error("账户信息获取失败");
-
   return {
-    uid: data.data?.account?.uid,
-    nickname: data.data?.nickname || "未知用户",
-    coin: data.data?.account?.coinAmountDisplay || "0",
-    cash: data.data?.account?.cashAmountDisplay || "0.00"
+    uid: data?.data?.account?.uid,
+    nickname: data?.data?.nickname || "未知用户",
+    coin: data?.data?.account?.coinAmountDisplay || "0",
+    cash: data?.data?.account?.cashAmountDisplay || "0.00",
   };
 }
 
 async function checkIn(cookie) {
-  const { body } = await $.get({
-    url: "https://nebula.kuaishou.com/rest/wd/encourage/unionTask/signIn/report",
-    headers: { Cookie: cookie }
+  const { statusCode, body } = await $.get({
+    url: BASE + API.sign,
+    headers: ksHeaders(cookie),
   });
 
-  let res;
-  try {
-    res = JSON.parse(body);
-  } catch {
-    console.log("签到返回非 JSON:", body);
-    throw new Error("JSON解析失败，Cookie可能无效");
-  }
+  const res = safeJSON(body, "签到");
+  ensureJSONOrThrow(statusCode, body, "签到");
 
-  if (res.result === 1) return "✅ 签到成功";
-  if (res.result === 102006) return "⏳ 已签到";
-  throw new Error(res.error_msg || "未知错误");
+  if (res?.result === 1) return "✅ 签到成功";
+  if (res?.result === 102006) return "⏳ 已签到";
+  throw new Error(res?.error_msg || "未知错误");
 }
 
 async function openTreasureBox(cookie) {
-  const url = `https://nebula.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/info`;
-
-  const { body } = await $.get({
-    url,
-    headers: {
-      'Cookie': cookie,
-      'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 ksNebula/13.7.10.3947 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1`
-
-    }
+  const { statusCode, body } = await $.get({
+    url: BASE + API.boxInfo,
+    headers: ksHeaders(cookie),
   });
 
-  let res;
-  try {
-    res = JSON.parse(body);
-  } catch {
-    console.log("宝箱返回非 JSON:", body);
-    return { success: false, message: "宝箱返回解析失败" };
-  }
+  const res = safeJSON(body, "宝箱");
+  ensureJSONOrThrow(statusCode, body, "宝箱");
 
-  if (res.result === 1) {
+  if (res?.result === 1) {
     return {
       success: true,
-      reward: res.data?.rewardCount || '未知',
-      message: '宝箱开启成功'
+      reward: res?.data?.rewardCount ?? "未知",
+      message: "宝箱信息获取成功",
     };
   }
-  return { success: false, message: res.error_msg || '宝箱开启失败' };
+  return { success: false, message: res?.error_msg || "宝箱信息获取失败" };
 }
 
-function getAvailableAccountSlot() {
-  for (let i = 0; i < 2; i++) {
-    if (!$.read(COOKIE_KEYS[i])) return i + 1;
-  }
-  return null;
-}
-
+/*********************
+ * 工具与容错 *
+ *********************/
 function isAccountEnabled(index) {
-  return $.read(ENABLE_KEYS[index]) === 'true';
+  return $.read(ENABLE_KEYS[index]) === "true";
 }
 
 function handleError(e, accountNum) {
-  console.log(`账号${accountNum} 处理失败: ${e.message}`);
-  if (e.message.includes("身份验证")) {
+  const msg = (e && e.message) || String(e);
+  console.log(`账号${accountNum} 处理失败: ${msg}`);
+  if (/登录|auth|鉴权|验证|未登录|身份|403|302/i.test(msg)) {
     $.notify(NOTIFY_TITLE, `⚠️ 账号${accountNum} Cookie失效`, "请重新获取Cookie");
-    $.write('', COOKIE_KEYS[accountNum - 1]);
+    $.write("", COOKIE_KEYS[accountNum - 1]);
   } else {
-    $.notify(NOTIFY_TITLE, `❌ 账号${accountNum} 执行错误`, e.message);
+    $.notify(NOTIFY_TITLE, `❌ 账号${accountNum} 执行错误`, msg);
+  }
+}
+
+// 安全 JSON 解析：失败时输出前 300 字定位是 HTML/跳转还是 JSON
+function safeJSON(text, tag) {
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    console.log(`【${tag}】返回非 JSON，前300字：\n${String(text).slice(0, 300)}\n`);
+    return null;
+  }
+}
+
+// 如果不是 2xx 或 body 不是 JSON，则抛错（触发上面的错误处理）
+function ensureJSONOrThrow(status, body, tag) {
+  if (!(status >= 200 && status < 300)) {
+    throw new Error(`HTTP ${status}（${tag}）`);
+  }
+  if (typeof body !== "string" || !/^{|\[/.test(body.trim())) {
+    throw new Error(`${tag}返回不是 JSON，可能未带上 App UA 或 Cookie 失效`);
   }
 }
 
 /*********************
-* Quantumult X API适配器 *
-*********************/
+ * Quantumult X API 适配器 *
+ *********************/
 function API() {
   return {
-    read: key => $prefs.valueForKey(key),
+    read: (key) => $prefs.valueForKey(key),
     write: (val, key) => $prefs.setValueForKey(val, key),
     notify: (title, subtitle, message) => $notify(title, subtitle, message),
-    get: opts => $task.fetch(opts),
-    post: opts => $task.fetch({ method: 'POST', ...opts }),
-    wait: ms => new Promise(resolve => setTimeout(resolve, ms)),
-    done: () => $done()
+    get: (opts) => $task.fetch({ method: "GET", ...opts }),
+    post: (opts) => $task.fetch({ method: "POST", ...opts }),
+    wait: (ms) => new Promise((r) => setTimeout(r, ms)),
+    done: () => $done(),
   };
 }
