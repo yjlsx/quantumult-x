@@ -14,72 +14,84 @@
      "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuwo.png"],
      "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/Kuwomusic.js"
    },
-{
+ {
   "id": "kuaishou",
   "name": "快手签到",
   "author": "@yjlsx",
   "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
-  "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"],
+  "icons": [
+    "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"
+  ],
   "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou1.js",
-"keys": [
-  "ks_enabled_1", "ks_cookie_1",
-  "ks_enabled_2", "ks_cookie_2",
-  "ks_enabled_3", "ks_cookie_3",
-  "ks_enabled_4", "ks_cookie_4"
-],
-"boxjs": {
-  "hosts": ["kuaishou.com"],
-  "schema": {
-    "ks_enabled_1": {
-      "type": "boolean",
-      "label": "启用账号1",
-      "desc": "控制是否启用快手账号1",
-      "default": true
+  "keys": [
+    "ks_enabled_1",
+    "ks_cookie_1",
+    "ks_enabled_2",
+    "ks_cookie_2",
+    "ks_enabled_3",
+    "ks_cookie_3",
+    "ks_enabled_4",
+    "ks_cookie_4"
+  ],
+  "boxjs": {
+    "hosts": ["kuaishou.com"],
+    "schema": {
+      "ks_cookie_1": {
+        "type": "text",
+        "label": "账号1 Cookie",
+        "desc": "用于快手签到",
+        "input": "password"
+      },
+      "ks_cookie_2": {
+        "type": "text",
+        "label": "账号2 Cookie",
+        "desc": "用于快手签到",
+        "input": "password"
+      },
+      "ks_cookie_3": {
+        "type": "text",
+        "label": "账号3 Cookie",
+        "desc": "用于快手签到",
+        "input": "password"
+      },
+      "ks_cookie_4": {
+        "type": "text",
+        "label": "账号4 Cookie",
+        "desc": "用于快手签到",
+        "input": "password"
+      }
     },
-    "ks_cookie_1": {
-      "type": "text",
-      "label": "账号1 Cookie",
-      "desc": "用于快手签到",
-      "input": "password"
-    },
-    "ks_enabled_2": {
-      "type": "boolean",
-      "label": "启用账号2",
-      "desc": "控制是否启用快手账号2",
-      "default": true
-    },
-    "ks_cookie_2": {
-      "type": "text",
-      "label": "账号2 Cookie",
-      "desc": "用于快手签到",
-      "input": "password"
-    },
-    "ks_enabled_3": {
-      "type": "boolean",
-      "label": "启用账号3",
-      "desc": "控制是否启用快手账号3",
-      "default": true
-    },
-    "ks_cookie_3": {
-      "type": "text",
-      "label": "账号3 Cookie",
-      "desc": "用于快手签到",
-      "input": "password"
-    },
-    "ks_enabled_4": {
-      "type": "boolean",
-      "label": "启用账号4",
-      "desc": "控制是否启用快手账号4",
-      "default": false
-    },
-    "ks_cookie_4": {
-      "type": "text",
-      "label": "账号4 Cookie",
-      "desc": "用于快手签到",
-      "input": "password"
-     }
-   }
- }
+    "settings": [
+      {
+        "id": "ks_enabled_1",
+        "name": "启用账号1",
+        "val": true,
+        "type": "boolean",
+        "desc": "控制是否启用快手账号1"
+      },
+      {
+        "id": "ks_enabled_2",
+        "name": "启用账号2",
+        "val": true,
+        "type": "boolean",
+        "desc": "控制是否启用快手账号2"
+      },
+      {
+        "id": "ks_enabled_3",
+        "name": "启用账号3",
+        "val": true,
+        "type": "boolean",
+        "desc": "控制是否启用快手账号3"
+      },
+      {
+        "id": "ks_enabled_4",
+        "name": "启用账号4",
+        "val": false,
+        "type": "boolean",
+        "desc": "控制是否启用快手账号4"
+      }
+    ]
+  }
 },
    {
      "id": "QQreader",
