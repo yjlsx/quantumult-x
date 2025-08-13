@@ -14,7 +14,7 @@
      "icons": ["https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuwo.png"],
      "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/Kuwomusic.js"
    },
- {
+{
   "id": "kuaishou",
   "name": "快手签到",
   "author": "@yjlsx",
@@ -34,7 +34,9 @@
     "ks_cookie_4"
   ],
   "boxjs": {
-    "hosts": ["kuaishou.com"],
+    "hosts": [
+      "kuaishou.com"
+    ],
     "schema": {
       "ks_cookie_1": {
         "type": "text",
