@@ -208,39 +208,42 @@ async function openTreasureBox(cookie) {
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.7.10.9371 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1',
       'Content-Type': 'application/json'
     },
-    body: '{}' // POST请求体
+    body: '{}'
   });
 
   const res = JSON.parse(body);
-
   if (res.result !== 1) {
     return { success: false, message: res.error_msg || '宝箱开启失败' };
   }
 
-  const progress = res.data?.progressBar?.nodes || [];
-  let availableBoxes = progress.filter(node => node.remainSeconds === 0 && node.rewardCount !== "?");
+  const nodes = res.data?.progressBar?.nodes || [];
+  if (!nodes.length) return { success: false, message: '没有宝箱数据' };
 
-  if (availableBoxes.length === 0) {
-    // 没有可开宝箱，查下一个宝箱时间
-    const nextBox = progress.find(node => node.remainSeconds > 0);
-    const nextIn = nextBox ? nextBox.remainSeconds : 0;
-    return { 
-      success: false, 
-      message: `今天没有可开宝箱，下一个宝箱 ${nextIn} 秒后可开`
+  // 找到可开宝箱
+  const availableBox = nodes.find(node => node.remainSeconds === 0);
+  if (availableBox) {
+    return {
+      success: true,
+      reward: availableBox.rewardCount || '未知',
+      boxNumber: availableBox.boxNumber,
+      message: `宝箱${availableBox.boxNumber}开启成功，奖励: ${availableBox.rewardCount || '未知'}金币`
     };
   }
 
-  // 有可开宝箱，取第一个
-  const box = availableBoxes[0];
-  const rewardAmount = res.data?.eventTrackingAwardInfo?.awardInfo?.[0]?.amount || '未知';
+  // 没有可开宝箱，找下一个宝箱
+  const nextBox = nodes.find(node => node.remainSeconds > 0);
+  if (nextBox) {
+    return {
+      success: false,
+      reward: nextBox.rewardCount || '未知',
+      boxNumber: nextBox.boxNumber,
+      message: `今天没有可开宝箱，下一个宝箱${nextBox.boxNumber} ${nextBox.remainSeconds}秒后可开，奖励: ${nextBox.rewardCount || '未知'}金币`
+    };
+  }
 
-  return {
-    success: true,
-    reward: rewardAmount,
-    boxNumber: box.boxNumber,
-    message: `宝箱${box.boxNumber}开启成功`
-  };
+  return { success: false, message: '今天没有宝箱可开' };
 }
+
 
 function getAvailableAccountSlot() {
   for (let i = 0; i < COOKIE_KEYS.length; i++) {
