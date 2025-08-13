@@ -205,38 +205,34 @@ async function openTreasureBox(cookie) {
     url,
     headers: {
       'Cookie': cookie,
-      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.7.10.9371 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1',
+      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.7.10.9371 ISLP/0',
       'Content-Type': 'application/json'
     },
     body: '{}'
   });
 
   const res = JSON.parse(body);
-  if (res.result !== 1) {
-    return { success: false, message: res.error_msg || '宝箱开启失败' };
-  }
+  if (res.result !== 1) return { success: false, message: res.error_msg || '宝箱开启失败' };
 
   const nodes = res.data?.progressBar?.nodes || [];
   if (!nodes.length) return { success: false, message: '没有宝箱数据' };
 
-  // 找到可开宝箱
-  const availableBox = nodes.find(node => node.remainSeconds === 0);
+  // 可开宝箱
+  const availableBox = nodes.find(node => node.remainSeconds === 0 && !node.hasReceived);
   if (availableBox) {
     return {
       success: true,
       reward: availableBox.rewardCount || '未知',
-      boxNumber: availableBox.boxNumber,
-      message: `宝箱${availableBox.boxNumber}开启成功，奖励: ${availableBox.rewardCount || '未知'}金币`
+      message: `宝箱${availableBox.boxNumber}已开启，奖励: ${availableBox.rewardCount || '未知'}金币`
     };
   }
 
-  // 没有可开宝箱，找下一个宝箱
+  // 下一个宝箱
   const nextBox = nodes.find(node => node.remainSeconds > 0);
   if (nextBox) {
     return {
       success: false,
       reward: nextBox.rewardCount || '未知',
-      boxNumber: nextBox.boxNumber,
       message: `今天没有可开宝箱，下一个宝箱${nextBox.boxNumber} ${nextBox.remainSeconds}秒后可开，奖励: ${nextBox.rewardCount || '未知'}金币`
     };
   }
