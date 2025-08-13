@@ -97,23 +97,14 @@ async function handleCookieCapture() {
     return;
   }
 
-  console.log("捕获到原始Cookie:", cookie);
-
-  try {
-    const accountInfo = await getAccountInfo(cookie);
-    const accountNum = getAvailableAccountSlot();
-
-    if (accountNum) {
-      $.write(cookie, COOKIE_KEYS[accountNum - 1]);
-      console.log(`成功保存账号${accountNum} Cookie`);
-      $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, accountInfo.nickname);
-    } else {
-      console.log("账号槽位已满，请先禁用旧账号");
-      $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
-    }
-  } catch (e) {
-    console.log("捕获 Cookie 返回内容可能非 JSON，捕获失败");
-    $.notify(NOTIFY_TITLE, "❌ Cookie捕获失败", e.message);
+  const accountNum = getAvailableAccountSlot();
+  if (accountNum) {
+    $.write(cookie, COOKIE_KEYS[accountNum - 1]);
+    console.log(`成功捕获账号${accountNum} Cookie: ${cookie}`);
+    $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, cookie);
+  } else {
+    console.log("账号槽位已满，请先禁用旧账号");
+    $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
   }
 }
 
