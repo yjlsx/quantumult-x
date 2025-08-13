@@ -29,10 +29,11 @@
 /*********************
  * 核心逻辑函数 *
  *********************/
+
 const $ = new API();
 const NOTIFY_TITLE = "快手签到";
-const COOKIE_KEYS = ["ks_cookie_1", "ks_cookie_2"];
-const ENABLE_KEYS = ["ks_enabled_1", "ks_enabled_2"];
+const COOKIE_KEYS = ["ks_cookie_1", "ks_cookie_2", "ks_cookie_3"];
+const ENABLE_KEYS = ["ks_enabled_1", "ks_enabled_2", "ks_enabled_3"];
 
 if (typeof $request !== 'undefined') {
   handleCookieCapture().finally(() => $.done());
@@ -43,15 +44,15 @@ if (typeof $request !== 'undefined') {
 async function main() {
   console.log("====== 开始执行快手签到任务 ======");
   
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < COOKIE_KEYS.length; i++) {
     if (!isAccountEnabled(i)) {
       console.log(`账号${i+1} 未启用，跳过执行`);
       continue;
     }
-    
+
     const cookie = $.read(COOKIE_KEYS[i]);
     if (!cookie) {
-      $.notify(NOTIFY_TITLE, ` 账号${i+1} Cookie未配置`, "");
+      $.notify(NOTIFY_TITLE, `账号${i+1} Cookie未配置`, "");
       continue;
     }
 
@@ -66,7 +67,7 @@ async function main() {
 }
 
 async function processAccount(cookie, accountNum) {
-  // 获取初始用户信息（用于显示昵称）
+  // 获取用户信息
   console.log("获取用户信息...");
   const initialInfo = await getAccountInfo(cookie);
   console.log(`用户昵称: ${initialInfo.nickname}`);
@@ -85,88 +86,100 @@ async function processAccount(cookie, accountNum) {
     console.log(`宝箱开启失败: ${boxRes.message}`);
   }
 
-  // 获取最新账户信息（用于金币和现金）
+  // 获取最新账户数据
   console.log("获取最新账户数据...");
   const latestInfo = await getAccountInfo(cookie);
   console.log(` 当前金币: ${latestInfo.coin}`);
   console.log(` 可提现金额: ${latestInfo.cash}元`);
 
-  // 构建通知消息
+  // 通知
   const msg = [
     `签到状态: ${checkinRes}`,
-    boxRes.success ? ` 宝箱奖励: ${boxRes.reward}金币` : ` 宝箱失败: ${boxRes.message}`,
-    ` 当前金币: ${latestInfo.coin}`,
-    ` 可提现金额: ${latestInfo.cash}元`
+    boxRes.success ? `宝箱奖励: ${boxRes.reward}金币` : `宝箱失败: ${boxRes.message}`,
+    `当前金币: ${latestInfo.coin}`,
+    `可提现金额: ${latestInfo.cash}元`
   ].join("\n");
 
   $.notify(`${NOTIFY_TITLE} - 账号${accountNum}`, initialInfo.nickname, msg);
 }
 
 async function handleCookieCapture() {
- if (!$request.url.includes("/rest/wd/encourage/task/list")) return;
- 
- const cookie = $request.headers?.Cookie || $request.headers?.cookie;
- if (!cookie) {
-   console.log("未找到Cookie信息");
-   return;
- }
+  // 只抓取指定接口的请求
+  if (!$request.url.includes("/rest/wd/encourage/task/list")) return;
 
- try {
-   const accountInfo = await getAccountInfo(cookie);
-   const accountNum = getAvailableAccountSlot();
-   
-   if (accountNum) {
-     $.write(cookie, COOKIE_KEYS[accountNum-1]);
-     console.log(`成功保存账号${accountNum} Cookie`);
-     $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, accountInfo.nickname);
-   } else {
-     console.log("账号槽位已满，请先禁用旧账号");
-     $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
-   }
- } catch (e) {
-   console.log(`Cookie捕获失败: ${e.message}`);
-   $.notify(NOTIFY_TITLE, "❌ Cookie捕获失败", e.message);
- }
+  const cookie = $request.headers?.Cookie || $request.headers?.cookie;
+  if (!cookie) {
+    console.log("未找到Cookie信息");
+    return;
+  }
+
+  try {
+    // 验证cookie有效性
+    const accountInfo = await getAccountInfo(cookie);
+    const accountNum = getAvailableAccountSlot();
+
+    if (accountNum) {
+      // 防止重复写入相同cookie
+      for (let i = 0; i < COOKIE_KEYS.length; i++) {
+        const storedCookie = $.read(COOKIE_KEYS[i]);
+        if (storedCookie === cookie) {
+          console.log(`Cookie已存在于账号${i + 1}，不重复保存`);
+          $.notify(NOTIFY_TITLE, `账号${i + 1} Cookie已存在`, accountInfo.nickname);
+          return;
+        }
+      }
+
+      // 保存cookie并开启账号
+      $.write(cookie, COOKIE_KEYS[accountNum - 1]);
+      $.write('true', ENABLE_KEYS[accountNum - 1]);
+      console.log(`成功保存账号${accountNum} Cookie`);
+      $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, accountInfo.nickname);
+    } else {
+      console.log("账号槽位已满，请先禁用旧账号");
+      $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
+    }
+  } catch (e) {
+    console.log(`Cookie捕获失败: ${e.message}`);
+    $.notify(NOTIFY_TITLE, "❌ Cookie捕获失败", e.message);
+  }
 }
 
 /*********************
-* 工具函数 *
-*********************/
-
+ * 工具函数 *
+ *********************/
 async function getAccountInfo(cookie) {
- const { body } = await $.get({
-   url: "https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info",
-   headers: { Cookie: cookie }
- });
- 
- const data = JSON.parse(body);
- if (data.result !== 1) throw new Error("账户信息获取失败");
- 
- return {
-   uid: data.data?.account?.uid,
-   nickname: data.data?.nickname || "未知用户",
-   coin: data.data?.account?.coinAmountDisplay || "0",
-   cash: data.data?.account?.cashAmountDisplay || "0.00"
- };
+  const { body } = await $.get({
+    url: "https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info",
+    headers: { Cookie: cookie }
+  });
+
+  const data = JSON.parse(body);
+  if (data.result !== 1) throw new Error("账户信息获取失败");
+
+  return {
+    uid: data.data?.account?.uid,
+    nickname: data.data?.nickname || "未知用户",
+    coin: data.data?.account?.coinAmountDisplay || "0",
+    cash: data.data?.account?.cashAmountDisplay || "0.00"
+  };
 }
 
 async function checkIn(cookie) {
- const { body } = await $.get({
-   url: "https://encourage.kuaishou.com/rest/wd/encourage/unionTask/signIn/report",
-   headers: { Cookie: cookie }
- });
+  const { body } = await $.get({
+    url: "https://encourage.kuaishou.com/rest/wd/encourage/unionTask/signIn/report",
+    headers: { Cookie: cookie }
+  });
 
- const res = JSON.parse(body);
- if (res.result === 1) return "✅ 签到成功";
- if (res.result === 102006) return "⏳ 已签到";
- throw new Error(res.error_msg || "未知错误");
+  const res = JSON.parse(body);
+  if (res.result === 1) return "✅ 签到成功";
+  if (res.result === 102006) return "⏳ 已签到";
+  throw new Error(res.error_msg || "未知错误");
 }
 
 async function openTreasureBox(cookie) {
- const url = `https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/info`;
-//  备用 https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report
- 
- const { body } = await $.get({
+  const url = 'https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/info';
+
+  const { body } = await $.get({
     url,
     headers: {
       'Cookie': cookie,
@@ -182,44 +195,42 @@ async function openTreasureBox(cookie) {
       message: '宝箱开启成功'
     };
   }
-  return {
-    success: false,
-    message: res.error_msg || '宝箱开启失败'
-  };
+  return { success: false, message: res.error_msg || '宝箱开启失败' };
 }
 
 function getAvailableAccountSlot() {
- for (let i = 0; i < 2; i++) {
-   if (!$.read(COOKIE_KEYS[i])) return i+1;
- }
- return null;
+  for (let i = 0; i < COOKIE_KEYS.length; i++) {
+    if (!$.read(COOKIE_KEYS[i])) return i + 1;
+  }
+  return null;
 }
 
 function isAccountEnabled(index) {
- return $.read(ENABLE_KEYS[index]) === 'true';
+  return $.read(ENABLE_KEYS[index]) === 'true';
 }
 
 function handleError(e, accountNum) {
- console.log(`账号${accountNum} 处理失败: ${e.message}`);
- if (e.message.includes("身份验证")) {
-   $.notify(NOTIFY_TITLE, `⚠️ 账号${accountNum} Cookie失效`, "请重新获取Cookie");
-   $.write('', COOKIE_KEYS[accountNum-1]);
- } else {
-   $.notify(NOTIFY_TITLE, `❌ 账号${accountNum} 执行错误`, e.message);
- }
+  console.log(`账号${accountNum} 处理失败: ${e.message}`);
+  if (e.message.includes("身份验证")) {
+    $.notify(NOTIFY_TITLE, `⚠️ 账号${accountNum} Cookie失效`, "请重新获取Cookie");
+    $.write('', COOKIE_KEYS[accountNum - 1]);
+    $.write('false', ENABLE_KEYS[accountNum - 1]);
+  } else {
+    $.notify(NOTIFY_TITLE, `❌ 账号${accountNum} 执行错误`, e.message);
+  }
 }
 
 /*********************
-* Quantumult X API适配器 *
-*********************/
+ * Quantumult X API适配器 *
+ *********************/
 function API() {
- return {
-   read: key => $prefs.valueForKey(key),
-   write: (val, key) => $prefs.setValueForKey(val, key),
-   notify: (title, subtitle, message) => $notify(title, subtitle, message),
-   get: opts => $task.fetch(opts),
-   post: opts => $task.fetch({ method: 'POST', ...opts }),
-   wait: ms => new Promise(resolve => setTimeout(resolve, ms)),
-   done: () => $done()
- };
+  return {
+    read: key => $prefs.valueForKey(key),
+    write: (val, key) => $prefs.setValueForKey(val, key),
+    notify: (title, subtitle, message) => $notify(title, subtitle, message),
+    get: opts => $task.fetch(opts),
+    post: opts => $task.fetch({ method: 'POST', ...opts }),
+    wait: ms => new Promise(resolve => setTimeout(resolve, ms)),
+    done: () => $done()
+  };
 }
