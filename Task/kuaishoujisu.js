@@ -96,26 +96,56 @@ function getAvailableAccountSlot() {
   return null; // 都有 Cookie，返回 null
 }
 
+// 捕获 Cookie
 async function handleCookieCapture() {
-  if (!$request.url.includes("/rest/n/nebula/activity/earn/overview")) return;
+  if (!$request || $request.method === 'OPTIONS') return;
 
-  const cookie = $request.headers?.Cookie || $request.headers?.cookie;
+  const UA = $request.headers['User-Agent'] || $request.headers['user-agent'] || '';
+  const cookie = $request.headers['Cookie'] || $request.headers['cookie'];
   if (!cookie) {
     console.log("未找到Cookie信息");
     return;
   }
 
-  const accountNum = getAvailableAccountSlot();
-  if (accountNum) {
-    $.write(cookie, COOKIE_KEYS[accountNum - 1]);
-    console.log(`成功捕获账号${accountNum} Cookie: ${cookie}`); // 日志显示
-    $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, "请在日志查看"); // 通知栏不显示
+  // 判断应用类型
+  let accountType = '';
+  if (UA.includes('ksNebula')) {
+    accountType = '极速版';
+  } else if (UA.includes('Kwai')) {
+    accountType = '正式版';
   } else {
+    console.log("未知App类型，无法捕获Cookie");
+    return;
+  }
+
+  // 获取可用账号槽位
+  const accountNum = getAvailableAccountSlot();
+  if (!accountNum) {
     console.log("账号槽位已满，请先禁用旧账号");
     $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
+    return;
   }
+
+  // 避免重复保存同一账号
+  const existingCookies = COOKIE_KEYS.map(k => $.read(k)).filter(c => c);
+  if (existingCookies.some(c => c.includes(cookie.match(/userId=\d+/)?.[0]))) {
+    console.log("Cookie重复，已跳过保存");
+    return;
+  }
+
+  // 保存 Cookie
+  $.write(cookie, COOKIE_KEYS[accountNum - 1]);
+  console.log(`✅ 成功捕获 ${accountType} 账号${accountNum} Cookie: ${cookie}`);
+  $.notify(NOTIFY_TITLE, `✅ ${accountType} 账号${accountNum} Cookie保存成功`, "请在日志查看");
 }
 
+// 获取第一个空闲账号槽位
+function getAvailableAccountSlot() {
+  for (let i = 0; i < COOKIE_KEYS.length; i++) {
+    if (!$.read(COOKIE_KEYS[i])) return i + 1;
+  }
+  return null;
+}
 
 /*********************
 * 工具函数 *
