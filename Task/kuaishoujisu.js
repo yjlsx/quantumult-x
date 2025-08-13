@@ -202,13 +202,13 @@ async function openTreasureBox(cookie) {
   const res = safeJSON(body, "宝箱");
   ensureJSONOrThrow(statusCode, body, "宝箱");
 
-  if (!res || res.result !== 1) {
-    return { success: false, message: "宝箱信息获取失败" };
+  if (!res || res.result !== 1 || !res.data) {
+    return { success: false, message: "暂无宝箱可领" };
   }
 
   const data = res.data;
 
-  // 已领取奖励
+  // 已领取宝箱奖励
   if (data.type === 1 && data.title && data.title.rewardCount) {
     return {
       success: true,
@@ -228,6 +228,7 @@ async function openTreasureBox(cookie) {
     }
   }
 
+  // 完全没有可领取宝箱
   return { success: false, message: "暂无可领取宝箱" };
 }
 
