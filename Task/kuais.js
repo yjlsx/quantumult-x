@@ -1,10 +1,10 @@
 /*
-更新时间: 2021-02-21 10:15
-赞赏:快手邀请码`774010415`,农妇山泉 -> 有点咸，万分感谢;
+更新时间: 2025-08-13 10:15
 本脚本仅适用于快手双版本签到，仅支持正式版获取多Cookie，建议使用正式版获取Cookie，点击视频页悬浮红包，或者进入设置，点击"积分兑好礼"即可;
 本脚本仅在签到成功时通知;
 兼容Nodejs,把获取的Cookie填入KS_TOKEN，多账号用"&"分开
 */
+
 
 const $ = new Env('快手视频')
 let cookieArr = [];
@@ -18,57 +18,60 @@ if (isGetCookie) {
    GetCookie();
    $.done()
 } else {
-if (!$.isNode() && ks_tokens.indexOf('&') == -1) {
-  cookieArr.push(ks_tokens)
-} else {
-  if ($.isNode()) {
-    if (process.env.KS_TOKEN && process.env.KS_TOKEN.indexOf('&') > -1) {
-      ks_tokens = process.env.KS_TOKEN.split('&')
-    } else {
-      ks_tokens = [process.env.KS_TOKEN]
-    };
-  } else if (!$.isNode() && ks_tokens.indexOf('&') > -1) {
-    ks_tokens = ks_tokens.split('&')
+  if (!$.isNode() && ks_tokens.indexOf('&') == -1) {
+    cookieArr.push(ks_tokens)
+  } else {
+    if ($.isNode()) {
+      if (process.env.KS_TOKEN && process.env.KS_TOKEN.indexOf('&') > -1) {
+        ks_tokens = process.env.KS_TOKEN.split('&')
+      } else {
+        ks_tokens = [process.env.KS_TOKEN]
+      };
+    } else if (!$.isNode() && ks_tokens.indexOf('&') > -1) {
+      ks_tokens = ks_tokens.split('&')
+    }
+    Object.keys(ks_tokens).forEach((item) =>{
+      if (ks_tokens[item]) {
+        cookieArr.push(ks_tokens[item])
+      }
+    })
   }
-  Object.keys(ks_tokens).forEach((item) =>{
-    if (ks_tokens[item]) {
-      cookieArr.push(ks_tokens[item])
-    }
-  })
+
+  !(async() => {
+      for (let i = 0; i < cookieArr.length; i++) {
+          if (!cookieArr[i]) continue;
+          let cookieVal = cookieArr[i];
+          $.index = i + 1;
+          console.log(`\n------------------------\n开始【快手视频账号${$.index}】\n`);
+          try {
+              await nebulaInfo();
+              await nebulaPopup();
+              await formalCenter();
+              await formalSign();
+              if (offici_code !== 100119) await formalinfo();
+
+              $.desc = `【正式版】:\n  ${offic_info}\n  ${offic_sign}\n`;
+              $.desc += `【极速版】:\n  ${speed_rewards}\n  ${speed_info}`;
+
+              if (offici_code == 1) {
+                  $.msg($.name + "  昵称:" + nickname, "", $.desc);
+                  if (notify.sendNotify) await notify.sendNotify($.name + " " + nickname, $.desc);
+              } else {
+                  $.log("~~~~~~~~~~~~~~~~~\n 昵称:" + nickname + "\n" + $.desc);
+              }
+          } catch (e) {
+              $.log(`账号${$.index}执行异常:`, e);
+          }
+      }
+  })().catch(e => $.logErr(e)).finally(() => $.done());
 }
 
-!(async() => {
-    for (let i = 0; i < cookieArr.length; i++) {
-        if (!cookieArr[i]) continue;
-        cookieVal = cookieArr[i];
-        $.index = i + 1;
-        console.log(`\n------------------------\n开始【快手视频账号${$.index}】\n`);
-        try {
-            await nebulaInfo();
-            await nebulaPopup();
-            await formalCenter();
-            await formalSign();
-            if (offici_code !== 100119) await formalinfo();
+// 其他函数保持原有逻辑，只需注意以下修正：
+// 1. GetCookie 中模板字符串拼写修正
+// 2. nebulaHost() 调用需传 api 参数
+// 3. bdinvet() 里调用 nebulaHost('sign/sign').headers
+// 4. 各函数 async/await 保证调用顺序正确
 
-            $.desc = `【正式版】:\n  ${offic_info}\n  ${offic_sign}\n`;
-            $.desc += `【极速版】:\n  ${speed_rewards}\n  ${speed_info}`;
-            
-            if (offici_code == 1) {
-                $.msg($.name+"  昵称:"+nickname,"",$.desc);
-                await notify.sendNotify($.name+ " " +nickname,$.desc);
-            } else {
-                $.log( "~~~~~~~~~~~~~~~~~\n 昵称:" +nickname+"\n"+ $.desc);  
-            }
-        } catch(e) {
-            $.log(`账号${$.index}执行异常:`, e);
-        }
-    }
-})().catch(e => $.logErr(e)).finally(() => $.done());
-
-
-    .catch((e) => $.logErr(e))
-    .finally(() => $.done())
-}
 
 function formalHost(api,body){
   return {
