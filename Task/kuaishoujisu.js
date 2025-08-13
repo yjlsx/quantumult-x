@@ -42,7 +42,7 @@ async function main() {
       continue;
     }
 
-    const cookie = $.read(COOKIE_KEYS[i]);
+  const cookie = $.read(COOKIE_KEYS[i]);
     if (!cookie) {
       $.notify(NOTIFY_TITLE, `账号${i + 1} Cookie未配置`, "");
       continue;
@@ -98,29 +98,24 @@ function getAvailableAccountSlot() {
 
 // 捕获 Cookie
 async function handleCookieCapture() {
-  const cookie = $request.headers?.Cookie || $request.headers?.cookie;
+  let cookie = $request.headers?.Cookie || $request.headers?.cookie;
   if (!cookie) {
     console.log("未找到Cookie信息");
     return;
   }
 
-  // 先判断当前请求是不是快手的签到页面请求
-  // 如果你不想限制，只要有 Cookie 就存，可以直接删掉下面这行判断
-  // if (!$request.url.includes("/rest/n/nebula/activity/earn/overview")) return;
+  // ✅ 不再 encodeURIComponent，保持原样
+  cookie = cookie.trim();
 
-  // 找空位或覆盖旧的
   let accountNum = getAvailableAccountSlot();
   if (!accountNum) {
-    // 如果已经满了，可以覆盖第一个
     accountNum = 1;
   }
 
-  // 写入 BoxJS
   $.write(cookie, COOKIE_KEYS[accountNum - 1]);
   console.log(`成功保存账号${accountNum} Cookie: ${cookie}`);
   $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, "可在 BoxJS 中查看或修改");
 }
-
 
 
 /*********************
@@ -176,7 +171,8 @@ async function openTreasureBox(cookie) {
     url,
     headers: {
       'Cookie': cookie,
-      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 ksNebula/13.7.10.3947 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0'
+      'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 ksNebula/13.7.10.3947 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1`
+
     }
   });
 
