@@ -37,7 +37,7 @@ const API_PATH = {
   info: "/rest/n/nebula/activity/earn/overview/basicInfo?source=timer",
   sign: "/rest/wd/encourage/unionTask/signIn/report",
   boxInfo: "/rest/wd/encourage/unionTask/treasureBox/info",
-  boxOpen: "/rest/wd/encourage/unionTask/treasureBox/open",
+  boxOpen: "/rest/wd/encourage/unionTask/treasureBox/report",
 };
 
 /*********************
