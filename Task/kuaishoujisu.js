@@ -149,9 +149,9 @@ function ksHeaders(cookie) {
   return {
     Host: "nebula.kuaishou.com",
     Connection: "keep-alive",
-    'Accept' : `*/*`,
+    'Accept' : “*/*”,
     "Accept-Language": "zh-CN,zh;q=0.9",
-    "User-Agent": `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 ksNebula/13.7.10.3947 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1`,
+    "User-Agent": “Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 ksNebula/13.7.10.3947 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1”,
     Referer: "https://nebula.kuaishou.com/",
     Cookie: cookie,
   };
