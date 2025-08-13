@@ -201,19 +201,21 @@ async function checkIn(cookie) {
 async function openTreasureBox(cookie) {
   const url = 'https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report';
 
-  const { body } = await $.get({
+  const { body } = await $.post({
     url,
     headers: {
       'Cookie': cookie,
-      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.7.10.9371 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1'
-    }
+      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.7.10.9371 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1',
+      'Content-Type': 'application/json'
+    },
+    body: '{}' // POST请求体可以为空 JSON 对象
   });
 
   const res = JSON.parse(body);
   if (res.result === 1) {
     return {
       success: true,
-      reward: res.data?.rewardCount || '未知',
+      reward: res.data?.eventTrackingAwardInfo?.awardInfo?.[0]?.amount || '未知',
       message: '宝箱开启成功'
     };
   }

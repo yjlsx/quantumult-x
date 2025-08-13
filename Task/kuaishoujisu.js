@@ -201,7 +201,7 @@ async function openTreasureBox(cookie) {
     'Content-Type': 'application/json',
     'Host': 'nebula.kuaishou.com',
     'Origin': 'https://nebula.kuaishou.com',
-    'Referer': 'https://nebula.kuaishou.com/nebula/task/earning?layoutType=4&hyId=nebula_earning_ug_cdn',
+
   };
 
   const { statusCode, body } = await $.post({
