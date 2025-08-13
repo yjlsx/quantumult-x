@@ -58,7 +58,7 @@
       "type": "boolean",
       "label": "启用账号3",
       "desc": "控制是否启用快手账号3",
-      "default": false
+      "default": true
     },
     "ks_cookie_3": {
       "type": "text",
