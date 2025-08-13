@@ -192,35 +192,43 @@ async function checkIn(cookie) {
   throw new Error((res && res.error_msg) || "未知错误");
 }
 
+
 async function openTreasureBox(cookie) {
   const { statusCode, body } = await $.get({
-    url: BASE + API_PATH.boxInfo,
+    url: "https://nebula.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report",
     headers: ksHeaders(cookie),
   });
 
   const res = safeJSON(body, "宝箱");
   ensureJSONOrThrow(statusCode, body, "宝箱");
 
-  if (res && res.result === 1) {
-    const status = res.data?.status;
-    if (status === 3) {
-      // 宝箱可领取
-      return {
-        success: true,
-        reward: res.data?.rewardCount || "未知",
-        message: "宝箱已领取",
-      };
-    } else if (status === 2) {
-      // 宝箱未到时间
+  if (!res || res.result !== 1) {
+    return { success: false, message: "宝箱信息获取失败" };
+  }
+
+  const data = res.data;
+
+  // 已领取奖励
+  if (data.type === 1 && data.title && data.title.rewardCount) {
+    return {
+      success: true,
+      reward: data.title.rewardCount,
+      message: "宝箱奖励已到账",
+    };
+  }
+
+  // 下一个可领取宝箱
+  if (data.progressBar && data.progressBar.nodes && data.progressBar.nodes.length) {
+    const nextBox = data.progressBar.nodes.find(n => n.nextOpen || n.remainSeconds > 0);
+    if (nextBox) {
       return {
         success: false,
-        reward: res.data?.rewardCount || "未知",
-        message: `下一个宝箱还需 ${res.data?.remainSeconds || 0} 秒`,
+        message: `下一个宝箱还需 ${nextBox.remainSeconds} 秒，可奖励 ${nextBox.rewardCount} ${nextBox.rewardUnit}`,
       };
     }
   }
 
-  return { success: false, message: (res && res.error_msg) || "宝箱信息获取失败" };
+  return { success: false, message: "暂无可领取宝箱" };
 }
 
 
