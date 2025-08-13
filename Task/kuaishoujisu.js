@@ -98,54 +98,30 @@ function getAvailableAccountSlot() {
 
 // 捕获 Cookie
 async function handleCookieCapture() {
-  if (!$request || $request.method === 'OPTIONS') return;
-
-  const UA = $request.headers['User-Agent'] || $request.headers['user-agent'] || '';
-  const cookie = $request.headers['Cookie'] || $request.headers['cookie'];
+  const cookie = $request.headers?.Cookie || $request.headers?.cookie;
   if (!cookie) {
     console.log("未找到Cookie信息");
     return;
   }
 
-  // 判断应用类型
-  let accountType = '';
-  if (UA.includes('ksNebula')) {
-    accountType = '极速版';
-  } else if (UA.includes('Kwai')) {
-    accountType = '正式版';
-  } else {
-    console.log("未知App类型，无法捕获Cookie");
-    return;
-  }
+  // 先判断当前请求是不是快手的签到页面请求
+  // 如果你不想限制，只要有 Cookie 就存，可以直接删掉下面这行判断
+  // if (!$request.url.includes("/rest/n/nebula/activity/earn/overview")) return;
 
-  // 获取可用账号槽位
-  const accountNum = getAvailableAccountSlot();
+  // 找空位或覆盖旧的
+  let accountNum = getAvailableAccountSlot();
   if (!accountNum) {
-    console.log("账号槽位已满，请先禁用旧账号");
-    $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
-    return;
+    // 如果已经满了，可以覆盖第一个
+    accountNum = 1;
   }
 
-  // 避免重复保存同一账号
-  const existingCookies = COOKIE_KEYS.map(k => $.read(k)).filter(c => c);
-  if (existingCookies.some(c => c.includes(cookie.match(/userId=\d+/)?.[0]))) {
-    console.log("Cookie重复，已跳过保存");
-    return;
-  }
-
-  // 保存 Cookie
+  // 写入 BoxJS
   $.write(cookie, COOKIE_KEYS[accountNum - 1]);
-  console.log(`✅ 成功捕获 ${accountType} 账号${accountNum} Cookie: ${cookie}`);
-  $.notify(NOTIFY_TITLE, `✅ ${accountType} 账号${accountNum} Cookie保存成功`, "请在日志查看");
+  console.log(`成功保存账号${accountNum} Cookie: ${cookie}`);
+  $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, "可在 BoxJS 中查看或修改");
 }
 
-// 获取第一个空闲账号槽位
-function getAvailableAccountSlot() {
-  for (let i = 0; i < COOKIE_KEYS.length; i++) {
-    if (!$.read(COOKIE_KEYS[i])) return i + 1;
-  }
-  return null;
-}
+
 
 /*********************
 * 工具函数 *
