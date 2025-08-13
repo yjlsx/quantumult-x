@@ -104,7 +104,6 @@ async function processAccount(cookie, accountNum) {
 }
 
 async function handleCookieCapture() {
-  // 只抓取指定接口的请求
   if (!$request.url.includes("/rest/wd/encourage/task/list")) return;
 
   const cookie = $request.headers?.Cookie || $request.headers?.cookie;
@@ -114,30 +113,44 @@ async function handleCookieCapture() {
   }
 
   try {
-    // 验证cookie有效性
     const accountInfo = await getAccountInfo(cookie);
-    const accountNum = getAvailableAccountSlot();
+    const targetSlotSetting = parseInt($.read("ks_cookie_target") || "0");
 
-    if (accountNum) {
-      // 防止重复写入相同cookie
-      for (let i = 0; i < COOKIE_KEYS.length; i++) {
-        const storedCookie = $.read(COOKIE_KEYS[i]);
-        if (storedCookie === cookie) {
-          console.log(`Cookie已存在于账号${i + 1}，不重复保存`);
-          $.notify(NOTIFY_TITLE, `账号${i + 1} Cookie已存在`, accountInfo.nickname);
-          return;
-        }
-      }
+    let slotIndex = -1;
 
-      // 保存cookie并开启账号
-      $.write(cookie, COOKIE_KEYS[accountNum - 1]);
-      $.write('true', ENABLE_KEYS[accountNum - 1]);
-      console.log(`成功保存账号${accountNum} Cookie`);
-      $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, accountInfo.nickname);
+    if (targetSlotSetting >= 1 && targetSlotSetting <= COOKIE_KEYS.length) {
+      // 手动指定槽位
+      slotIndex = targetSlotSetting - 1;
     } else {
-      console.log("账号槽位已满，请先禁用旧账号");
-      $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
+      // 自动模式：先找同 UID
+      slotIndex = COOKIE_KEYS.findIndex(key => {
+        const oldCookie = $.read(key);
+        if (!oldCookie) return false;
+        try {
+          const oldInfo = JSON.parse(getAccountInfoSync(oldCookie)); // 同步方式或用缓存
+          return oldInfo.uid === accountInfo.uid;
+        } catch {
+          return false;
+        }
+      });
+
+      // 如果没有找到同 UID 的账号，则找空槽
+      if (slotIndex === -1) {
+        slotIndex = COOKIE_KEYS.findIndex(key => !$.read(key));
+      }
     }
+
+    if (slotIndex === -1) {
+      console.log("账号槽位已满");
+      $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
+      return;
+    }
+
+    $.write(cookie, COOKIE_KEYS[slotIndex]);
+    $.write('true', ENABLE_KEYS[slotIndex]);
+    console.log(`✅ 成功保存账号${slotIndex + 1} Cookie`);
+    $.notify(NOTIFY_TITLE, `✅ 账号${slotIndex + 1} Cookie保存成功`, accountInfo.nickname);
+
   } catch (e) {
     console.log(`Cookie捕获失败: ${e.message}`);
     $.notify(NOTIFY_TITLE, "❌ Cookie捕获失败", e.message);
