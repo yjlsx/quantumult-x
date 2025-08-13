@@ -37,45 +37,44 @@ if (isGetCookie) {
     })
   }
 
-  !(async() => {
-for (let i = 0; i < cookieArr.length; i++) {
-    if (!cookieArr[i]) continue;
-    let cookieVal = cookieArr[i];  // <- 这里必须加 let
-    $.index = i + 1;
-    console.log(`\n------------------------\n开始【快手视频账号${$.index}】\n`);
-    try {
-        await nebulaInfo();
-        await nebulaPopup();
-        await formalCenter();
-        await formalSign();
-        if (offici_code !== 100119) await formalinfo();
+ !(async() => {
+    for (let i = 0; i < cookieArr.length; i++) {
+        if (!cookieArr[i]) continue;
+        const cookieVal = cookieArr[i]; // 这里用 const
+        $.index = i + 1;
+        console.log(`\n------------------------\n开始【快手视频账号${$.index}】\n`);
+        try {
+            await nebulaInfo(cookieVal);
+            await nebulaPopup(cookieVal);
+            await formalCenter(cookieVal);
+            await formalSign(cookieVal);
+            if (offici_code !== 100119) await formalinfo(cookieVal);
 
-        $.desc = `【正式版】:\n  ${offic_info}\n  ${offic_sign}\n`;
-        $.desc += `【极速版】:\n  ${speed_rewards}\n  ${speed_info}`;
-
-        if (offici_code == 1) {
-            $.msg($.name + "  昵称:" + nickname, "", $.desc);
-            if (notify.sendNotify) await notify.sendNotify($.name + " " + nickname, $.desc);
-        } else {
-            $.log("~~~~~~~~~~~~~~~~~\n 昵称:" + nickname + "\n" + $.desc);
+            $.desc = `【正式版】:\n  ${offic_info}\n  ${offic_sign}\n`;
+            $.desc += `【极速版】:\n  ${speed_rewards}\n  ${speed_info}`;
+            
+            if (offici_code == 1) {
+                $.msg($.name+"  昵称:"+nickname,"",$.desc);
+                await notify.sendNotify($.name+ " " +nickname,$.desc);
+            } else {
+                $.log( "~~~~~~~~~~~~~~~~~\n 昵称:" +nickname+"\n"+ $.desc);  
+            }
+        } catch(e) {
+            $.log(`账号${$.index}执行异常:`, e);
         }
-    } catch (e) {
-        $.log(`账号${$.index}执行异常:`, e);
-         }
-   }
-
-  })().catch(e => $.logErr(e)).finally(() => $.done());
-}
+    }
+})().catch(e => $.logErr(e)).finally(() => $.done());
 
 
-function formalHost(api,body){
+
+function formalHost(cookieVal, api, body){
   return {
-     url: 'https://activity.m.kuaishou.com/rest/wd/taskCenter/'+api,
+     url: 'https://activity.m.kuaishou.com/rest/wd/taskCenter/' + api,
      headers:{
       'Host': 'activity.m.kuaishou.com',
       'Cookie': cookieVal,
       'Content-Type': 'application/json;charset=utf-8',
-      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/9.0.50.4936 CT/0 WebViewType/WK NetType/WIFI Yoda/2.3.7-rc5 TitleHT/44 StatusHT/20'
+      'User-Agent': 'Mozilla/5.0 ...'
     },
      body: body
   }
