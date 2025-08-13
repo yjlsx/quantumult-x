@@ -112,7 +112,7 @@
   ],
   "boxjs": {
     "hosts": [
-      "kuaishou.com"
+      "kuaishou.com","*.kuaishou.com"
     ],
     "schema": {
       "ksjs_cookie_1": {
