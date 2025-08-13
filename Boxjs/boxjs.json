@@ -125,8 +125,8 @@
       "ksjs_cookie_1": {
         "type": "text",
         "label": "账号1 Cookie",
-        "desc": "用于快手极速版签到",
-        "input": "password"
+        "desc": "支持自动捕获（打开App签到页）或手动输入",
+        "input": "text"
       },
       "ksjs_enabled_2": {
         "type": "boolean",
@@ -137,8 +137,8 @@
       "ksjs_cookie_2": {
         "type": "text",
         "label": "账号2 Cookie",
-        "desc": "用于快手极速版签到",
-        "input": "password"
+        "desc": "支持自动捕获（打开App签到页）或手动输入",
+        "input": "text"
       }
     },
     "settings": [
