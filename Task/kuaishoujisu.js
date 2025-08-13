@@ -92,11 +92,13 @@ async function processAccount(cookie, accountNum) {
   const checkinRes = await checkIn(cookie);
   console.log(`签到结果: ${checkinRes}`);
 
-  console.log("尝试获取宝箱信息...");
-  const boxRes = await openTreasureBox(cookie);
-  console.log(boxRes.success
-    ? `宝箱奖励: ${boxRes.reward}金币`
-    : `宝箱开启失败: ${boxRes.message}`);
+ console.log("尝试获取宝箱信息...");
+ const boxRes = await openTreasureBox(cookie);
+ if (boxRes.success) {
+  console.log(`宝箱奖励: ${boxRes.reward}金币`);
+ } else {
+  console.log(`宝箱暂不可领取: ${boxRes.message}`);
+}
 
   console.log("获取最新账户数据...");
   const latestInfo = await getAccountInfo(cookie);
@@ -200,14 +202,27 @@ async function openTreasureBox(cookie) {
   ensureJSONOrThrow(statusCode, body, "宝箱");
 
   if (res && res.result === 1) {
-    return {
-      success: true,
-      reward: (res.data && res.data.rewardCount) != null ? res.data.rewardCount : "未知",
-      message: "宝箱信息获取成功",
-    };
+    const status = res.data?.status;
+    if (status === 3) {
+      // 宝箱可领取
+      return {
+        success: true,
+        reward: res.data?.rewardCount || "未知",
+        message: "宝箱已领取",
+      };
+    } else if (status === 2) {
+      // 宝箱未到时间
+      return {
+        success: false,
+        reward: res.data?.rewardCount || "未知",
+        message: `下一个宝箱还需 ${res.data?.remainSeconds || 0} 秒`,
+      };
+    }
   }
+
   return { success: false, message: (res && res.error_msg) || "宝箱信息获取失败" };
 }
+
 
 /*********************
  * 工具与容错 *
