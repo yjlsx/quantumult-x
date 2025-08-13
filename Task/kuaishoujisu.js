@@ -22,208 +22,150 @@
 /*********************
  * 核心逻辑函数 *
  *********************/
-const $ = new API();
-const NOTIFY_TITLE = "快手极速版签到";
-const COOKIE_KEYS = ["ksjs_cookie_1", "ksjs_cookie_2"];
-const ENABLE_KEYS = ["ksjs_enabled_1", "ksjs_enabled_2"];
 
-if (typeof $request !== 'undefined') {
-  handleCookieCapture().finally(() => $.done());
-} else {
-  main().finally(() => $.done());
+
+const isNode = typeof $request === "undefined";
+const logPrefix = "💎快手极速版自动任务💎";
+
+// 多账号用数组存储
+let cookies = JSON.parse($persistentStore.read("KS_COOKIE") || "[]");
+
+// -------------------- 抓取 Cookie --------------------
+if ($request && $request.url.includes("nebula.kuaishou.com")) {
+    let cookie = $request.headers["Cookie"] || $request.headers["cookie"];
+    if (cookie) {
+        if (!cookies.includes(cookie)) {
+            cookies.push(cookie);
+            $persistentStore.write(JSON.stringify(cookies), "KS_COOKIE");
+            console.log(`${logPrefix} 保存新的 Cookie 成功！`);
+        } else {
+            console.log(`${logPrefix} Cookie 已存在`);
+        }
+    }
+    $done({});
 }
 
+// -------------------- 主任务 --------------------
 async function main() {
-  console.log("====== 开始执行快手签到任务 ======");
-
-  for (let i = 0; i < 2; i++) {
-    if (!isAccountEnabled(i)) {
-      console.log(`账号${i + 1} 未启用，跳过执行`);
-      continue;
+    if (cookies.length === 0) {
+        console.log(`${logPrefix} 没有可用 Cookie，请先抓取 Cookie`);
+        return;
     }
 
-    const cookie = $.read(COOKIE_KEYS[i]);
-    if (!cookie) {
-      $.notify(NOTIFY_TITLE, `账号${i + 1} Cookie未配置`, "");
-      continue;
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        console.log(`\n========== 开始账号 ${i+1} ==========`);
+
+        await getBaoXiang(cookie);
+        await getFanBu(cookie);
+        await getWalk(cookie);
+        await getQianDao(cookie);
+        await getMoney(cookie);
     }
+}
 
-    try {
-      console.log(`\n===== 开始处理账号${i + 1} =====`);
-      await processAccount(cookie, i + 1);
-      await $.wait(2000);
-    } catch (e) {
-      handleError(e, i + 1);
+// -------------------- 开宝箱 --------------------
+async function getBaoXiang(cookie) {
+    console.log(`${logPrefix} 开始领取宝箱`);
+    let url = "https://nebula.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report?__NS_sig3=你的_sig3&sigCatVer=1";
+    let resp = await fetchPost(url, cookie);
+    if (resp && resp.result === 1) {
+        let count = resp.data.title.rewardCount;
+        console.log(`${logPrefix} 宝箱金币: ${count}`);
+    } else {
+        console.log(resp?.error_msg || "宝箱领取失败");
     }
-  }
 }
 
-async function processAccount(cookie, accountNum) {
-  console.log("获取用户信息...");
-  const initialInfo = await getAccountInfo(cookie);
-  console.log(`用户昵称: ${initialInfo.nickname}`);
-
-  console.log("执行签到任务...");
-  const checkinRes = await checkIn(cookie);
-  console.log(`签到结果: ${checkinRes}`);
-
-  console.log("尝试开启宝箱...");
-  const boxRes = await openTreasureBox(cookie);
-  console.log(boxRes.success
-    ? `宝箱奖励: ${boxRes.reward}金币`
-    : `宝箱开启失败: ${boxRes.message}`);
-
-  console.log("获取最新账户数据...");
-  const latestInfo = await getAccountInfo(cookie);
-  console.log(`当前金币: ${latestInfo.coin}`);
-  console.log(`可提现金额: ${latestInfo.cash}元`);
-
-  const msg = [
-    `签到状态: ${checkinRes}`,
-    boxRes.success ? `宝箱奖励: ${boxRes.reward}金币` : `宝箱失败: ${boxRes.message}`,
-    `当前金币: ${latestInfo.coin}`,
-    `可提现金额: ${latestInfo.cash}元`
-  ].join("\n");
-
-  $.notify(`${NOTIFY_TITLE} - 账号${accountNum}`, initialInfo.nickname, msg);
-}
-
-
-function getAvailableAccountSlot() {
-  for (let i = 0; i < COOKIE_KEYS.length; i++) {
-    if (!$.read(COOKIE_KEYS[i])) return i + 1; // 返回第一个空位
-  }
-  return null; // 都有 Cookie，返回 null
-}
-
-async function handleCookieCapture() {
-  if (!$request.url.includes("/rest/wd/encourage/unionTask/signIn/report")) return;
-
-  const cookie = $request.headers?.Cookie || $request.headers?.cookie;
-  if (!cookie) {
-    console.log("未找到Cookie信息");
-    return;
-  }
-
-  const accountNum = getAvailableAccountSlot();
-  if (accountNum) {
-    $.write(cookie, COOKIE_KEYS[accountNum - 1]);
-    console.log(`成功捕获账号${accountNum} Cookie: ${cookie}`); // 日志显示
-    $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, "请在日志查看"); // 通知栏不显示
-  } else {
-    console.log("账号槽位已满，请先禁用旧账号");
-    $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
-  }
-}
-
-
-/*********************
-* 工具函数 *
-*********************/
-async function getAccountInfo(cookie) {
-  const { body } = await $.get({
-    url: "https://nebula.kuaishou.com/rest/wd/encourage/account/withdraw/info",
-    headers: { Cookie: cookie }
-  });
-
-  let data;
-  try {
-    data = JSON.parse(body);
-  } catch {
-    console.log("返回内容非 JSON:", body);
-    throw new Error("JSON解析失败，Cookie可能无效");
-  }
-
-  if (data.result !== 1) throw new Error("账户信息获取失败");
-
-  return {
-    uid: data.data?.account?.uid,
-    nickname: data.data?.nickname || "未知用户",
-    coin: data.data?.account?.coinAmountDisplay || "0",
-    cash: data.data?.account?.cashAmountDisplay || "0.00"
-  };
-}
-
-async function checkIn(cookie) {
-  const { body } = await $.get({
-    url: "https://nebula.kuaishou.com/rest/wd/encourage/unionTask/signIn/report",
-    headers: { Cookie: cookie }
-  });
-
-  let res;
-  try {
-    res = JSON.parse(body);
-  } catch {
-    console.log("签到返回非 JSON:", body);
-    throw new Error("JSON解析失败，Cookie可能无效");
-  }
-
-  if (res.result === 1) return "✅ 签到成功";
-  if (res.result === 102006) return "⏳ 已签到";
-  throw new Error(res.error_msg || "未知错误");
-}
-
-async function openTreasureBox(cookie) {
-  const url = `https://nebula.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/info`;
-
-  const { body } = await $.get({
-    url,
-    headers: {
-      'Cookie': cookie,
-      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 ksNebula/13.7.10.3947 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0'
+// -------------------- 饭补 --------------------
+async function getFanBu(cookie) {
+    console.log(`${logPrefix} 开始领取饭补`);
+    let url = "https://encourage.kuaishou.com/rest/wd/encourage/unionTask/dish/report?__NS_sig4=你的_sig4&sigCatVer=1";
+    let resp = await fetchPost(url, cookie);
+    if (resp && resp.result === 1) {
+        console.log(`${logPrefix} 饭补: ${resp.data.title} 共计 ${resp.data.amount}`);
+    } else {
+        console.log(resp?.error_msg || "饭补领取失败");
     }
-  });
-
-  let res;
-  try {
-    res = JSON.parse(body);
-  } catch {
-    console.log("宝箱返回非 JSON:", body);
-    return { success: false, message: "宝箱返回解析失败" };
-  }
-
-  if (res.result === 1) {
-    return {
-      success: true,
-      reward: res.data?.rewardCount || '未知',
-      message: '宝箱开启成功'
-    };
-  }
-  return { success: false, message: res.error_msg || '宝箱开启失败' };
 }
 
-function getAvailableAccountSlot() {
-  for (let i = 0; i < 2; i++) {
-    if (!$.read(COOKIE_KEYS[i])) return i + 1;
-  }
-  return null;
+// -------------------- 步数兑换 --------------------
+async function getWalk(cookie) {
+    console.log(`${logPrefix} 开始步数兑换`);
+    let url = "https://encourage.kuaishou.com/rest/wd/encourage/unionTask/walking/detail?__NS_sig4=你的_sig4&sigCatVer=1";
+    let data = {"reportCount":56060,"authorized":true,"stepDataStatus":1,"updateStepInfo":true};
+    let resp = await fetchPost(url, cookie, data);
+    if (resp && resp.result === 1) {
+        console.log(`${logPrefix} 步数兑换信息：${JSON.stringify(resp.data.button)}`);
+    } else {
+        console.log(resp?.error_msg || "步数兑换失败");
+    }
 }
 
-function isAccountEnabled(index) {
-  return $.read(ENABLE_KEYS[index]) === 'true';
+// -------------------- 签到 --------------------
+async function getQianDao(cookie) {
+    console.log(`${logPrefix} 开始签到`);
+    let url = "https://nebula.kuaishou.com/rest/wd/encourage/unionTask/signIn/report?__NS_sig3=你的_sig3&sigCatVer=1";
+    let resp = await fetchGet(url, cookie);
+    if (resp && resp.result === 1) {
+        console.log(`${logPrefix} 签到成功: ${JSON.stringify(resp.data)}`);
+    } else {
+        console.log(resp?.error_msg || "签到失败");
+    }
 }
 
-function handleError(e, accountNum) {
-  console.log(`账号${accountNum} 处理失败: ${e.message}`);
-  if (e.message.includes("身份验证")) {
-    $.notify(NOTIFY_TITLE, `⚠️ 账号${accountNum} Cookie失效`, "请重新获取Cookie");
-    $.write('', COOKIE_KEYS[accountNum - 1]);
-  } else {
-    $.notify(NOTIFY_TITLE, `❌ 账号${accountNum} 执行错误`, e.message);
-  }
+// -------------------- 查询现金 --------------------
+async function getMoney(cookie) {
+    console.log(`${logPrefix} 查询现金余额`);
+    let url = "https://nebula.kuaishou.com/rest/n/nebula/activity/earn/overview/basicInfo";
+    let resp = await fetchGet(url, cookie);
+    if (resp && resp.data) {
+        console.log(`${logPrefix} 当前现金: ${resp.data.allCash}`);
+    } else {
+        console.log(resp?.error_msg || "查询失败");
+    }
 }
 
-/*********************
-* Quantumult X API适配器 *
-*********************/
-function API() {
-  return {
-    read: key => $prefs.valueForKey(key),
-    write: (val, key) => $prefs.setValueForKey(val, key),
-    notify: (title, subtitle, message) => $notify(title, subtitle, message),
-    get: opts => $task.fetch(opts),
-    post: opts => $task.fetch({ method: 'POST', ...opts }),
-    wait: ms => new Promise(resolve => setTimeout(resolve, ms)),
-    done: () => $done()
-  };
+// -------------------- 封装 GET / POST --------------------
+function fetchGet(url, cookie) {
+    return new Promise(resolve => {
+        $task.fetch({
+            url: url,
+            method: "GET",
+            headers: {
+                "Cookie": cookie,
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X)"
+            }
+        }).then(resp => {
+            resolve(JSON.parse(resp.body));
+        }).catch(e => {
+            console.log(`${logPrefix} 请求异常: ${e}`);
+            resolve(null);
+        });
+    });
+}
+
+function fetchPost(url, cookie, body={}) {
+    return new Promise(resolve => {
+        $task.fetch({
+            url: url,
+            method: "POST",
+            headers: {
+                "Cookie": cookie,
+                "Content-Type": "application/json",
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X)"
+            },
+            body: JSON.stringify(body)
+        }).then(resp => {
+            resolve(JSON.parse(resp.body));
+        }).catch(e => {
+            console.log(`${logPrefix} 请求异常: ${e}`);
+            resolve(null);
+        });
+    });
+}
+
+// -------------------- 执行 --------------------
+if (!isNode) {
+    main().then(()=>{console.log(`${logPrefix} 全部任务完成`)});
 }
