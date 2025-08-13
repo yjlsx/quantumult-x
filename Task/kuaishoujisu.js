@@ -103,30 +103,40 @@ async function processAccount(cookie, accountNum) {
 }
 
 async function handleCookieCapture() {
- if (!$request.url.includes("/rest/n/nebula/activity/earn")) return;
- 
- const cookie = $request.headers?.Cookie || $request.headers?.cookie;
- if (!cookie) {
-   console.log("未找到Cookie信息");
-   return;
- }
+    console.log("===== 开始捕获 Cookie =====");
 
- try {
-   const accountInfo = await getAccountInfo(cookie);
-   const accountNum = getAvailableAccountSlot();
-   
-   if (accountNum) {
-     $.write(cookie, COOKIE_KEYS[accountNum-1]);
-     console.log(`成功保存账号${accountNum} Cookie`);
-     $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, accountInfo.nickname);
-   } else {
-     console.log("账号槽位已满，请先禁用旧账号");
-     $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
-   }
- } catch (e) {
-   console.log(`Cookie捕获失败: ${e.message}`);
-   $.notify(NOTIFY_TITLE, "❌ Cookie捕获失败", e.message);
- }
+    // 判断是否匹配拦截请求
+    if (!$request.url.includes("/rest/n/nebula/activity/earn")) {
+        console.log("当前请求 URL 不匹配 /rest/n/nebula/activity/earn，跳过捕获");
+        return;
+    }
+
+    const cookie = $request.headers?.Cookie || $request.headers?.cookie;
+    console.log("请求 URL:", $request.url);
+    console.log("捕获到 Cookie:", cookie || "未捕获到 Cookie");
+
+    if (!cookie) {
+        $.notify(NOTIFY_TITLE, "❌ 未捕获到 Cookie", "请求头中没有 Cookie");
+        return;
+    }
+
+    try {
+        const accountInfo = await getAccountInfo(cookie); // 验证 Cookie
+        const accountNum = getAvailableAccountSlot();
+
+        if (accountNum) {
+            $.write(cookie, COOKIE_KEYS[accountNum - 1]);
+            console.log(`✅ 成功保存账号${accountNum} Cookie`);
+            console.log(`昵称: ${accountInfo.nickname}`);
+            $.notify(NOTIFY_TITLE, `✅ 账号${accountNum} Cookie保存成功`, `昵称: ${accountInfo.nickname}`);
+        } else {
+            console.log("❌ 账号槽位已满，请先禁用旧账号");
+            $.notify(NOTIFY_TITLE, "❌ Cookie保存失败", "账号槽位已满");
+        }
+    } catch (e) {
+        console.log(`❌ Cookie捕获失败: ${e.message}`);
+        $.notify(NOTIFY_TITLE, "❌ Cookie捕获失败", e.message);
+    }
 }
 
 /*********************
