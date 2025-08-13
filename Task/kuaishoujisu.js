@@ -34,10 +34,10 @@ const UA =
 
 const BASE = "https://nebula.kuaishou.com";
 const API_PATH = {
-  info: "/rest/wd/encourage/account/withdraw/info",
+  info: "/rest/n/nebula/activity/earn/overview/basicInfo?source=timer",
   sign: "/rest/wd/encourage/unionTask/signIn/report",
   boxInfo: "/rest/wd/encourage/unionTask/treasureBox/info",
-  // 如果需要主动开宝箱，可尝试：boxOpen: "/rest/wd/encourage/unionTask/treasureBox/open",
+  boxOpen: "/rest/wd/encourage/unionTask/treasureBox/open",
 };
 
 /*********************
@@ -169,10 +169,10 @@ async function getAccountInfo(cookie) {
   }
 
   return {
-    uid: data.data && data.data.account && data.data.account.uid,
-    nickname: (data.data && data.data.nickname) || "未知用户",
-    coin: (data.data && data.data.account && data.data.account.coinAmountDisplay) || "0",
-    cash: (data.data && data.data.account && data.data.account.cashAmountDisplay) || "0.00",
+    uid: data.data?.userData?.uid || "",
+    nickname: data.data?.userData?.nickname || "未知用户",
+    coin: data.data?.totalCoin != null ? String(data.data.totalCoin) : "0",
+    cash: data.data?.totalCash != null ? String(data.data.totalCash) : "0.00",
   };
 }
 
