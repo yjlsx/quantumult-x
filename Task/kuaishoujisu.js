@@ -194,9 +194,20 @@ async function checkIn(cookie) {
 
 
 async function openTreasureBox(cookie) {
-  const { statusCode, body } = await $.get({
-    url: BASE + API_PATH.boxOpen,
-    headers: ksHeaders(cookie),
+  const url = "https://nebula.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report";
+  const headers = {
+    'User-Agent': UA,
+    'Cookie': cookie,
+    'Content-Type': 'application/json',
+    'Host': 'nebula.kuaishou.com',
+    'Origin': 'https://nebula.kuaishou.com',
+    'Referer': 'https://nebula.kuaishou.com/nebula/task/earning?layoutType=4&hyId=nebula_earning_ug_cdn',
+  };
+
+  const { statusCode, body } = await $.post({
+    url: url,
+    headers: headers,
+    body: JSON.stringify({})
   });
 
   const res = safeJSON(body, "宝箱");
@@ -212,34 +223,26 @@ async function openTreasureBox(cookie) {
   if (data.type === 1 && data.title && data.title.rewardCount) {
     return {
       success: true,
-      reward: `${data.title.rewardCount} ${data.title.rewardUnit || "金币"}`,
+      reward: data.title.rewardCount,
       message: "宝箱奖励已到账",
     };
   }
 
-  // 查找下一个可领取宝箱
+  // 下一个可领取宝箱
   if (data.progressBar && data.progressBar.nodes && data.progressBar.nodes.length) {
-    const nextBox = data.progressBar.nodes.find(n => n.remainSeconds === 0 && n.rewardCount);
+    const nextBox = data.progressBar.nodes.find(n => n.nextOpen || n.remainSeconds > 0);
     if (nextBox) {
       return {
-        success: true,
-        reward: `${nextBox.rewardCount} ${nextBox.rewardUnit || "金币"}`,
-        message: `宝箱可领取: 第${nextBox.boxNumber || "?"}个`,
-      };
-    }
-    // 如果所有宝箱都还没到时间，显示倒计时
-    const upcomingBox = data.progressBar.nodes.find(n => n.remainSeconds > 0 && n.rewardCount);
-    if (upcomingBox) {
-      return {
         success: false,
-        message: `下一个宝箱还需 ${upcomingBox.remainSeconds} 秒，可奖励 ${upcomingBox.rewardCount} ${upcomingBox.rewardUnit || "金币"}`,
+        message: `下一个宝箱还需 ${nextBox.remainSeconds} 秒，可奖励 ${nextBox.rewardCount} ${nextBox.rewardUnit}`,
       };
     }
   }
 
-  // 没有可领取宝箱
   return { success: false, message: "暂无可领取宝箱" };
 }
+
+
 
 
 
