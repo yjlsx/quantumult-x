@@ -97,7 +97,7 @@ function getAvailableAccountSlot() {
 }
 
 async function handleCookieCapture() {
-  if (!$request.url.includes("/rest/wd/encourage/unionTask/signIn/report")) return;
+  if (!$request.url.includes("/rest/n/nebula/activity/earn/overview")) return;
 
   const cookie = $request.headers?.Cookie || $request.headers?.cookie;
   if (!cookie) {
