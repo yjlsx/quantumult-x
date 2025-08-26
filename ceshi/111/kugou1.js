@@ -14,7 +14,7 @@
 ^https:\/\/vipdress\.kugou\.com\/v1\/dress_sales\/get_dress_by_version url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https://gateway\.kugou\.com/vip/v1/fusion/userinfo url script-response-bodyhttps://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/gateway\.kugou\.com\/player\/v1\/model\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
-
+^https:\/\/gateway\.kugou\.com\/media\.store\/v1\/album\/check_buy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 
 [mitm]
@@ -179,6 +179,11 @@ if (url.includes('/record_rack/get_record_rack_list')) {
 if (url.includes('/ocean/v6/theme/record_save')) {
     obj.errcode =0;
     obj.status = 1;
+}
+
+
+if (url.includes('/album/check_buy')) {
+      obj.data[0].is_buy = 1;
 }
 
 
