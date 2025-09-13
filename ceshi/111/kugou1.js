@@ -15,6 +15,10 @@
 ^https://gateway\.kugou\.com/vip/v1/fusion/userinfo url script-response-bodyhttps://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/gateway\.kugou\.com\/player\/v1\/model\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/gateway\.kugou\.com\/media\.store\/v1\/album\/check_buy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/favor\/list\? url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+
+
+
 
 
 [mitm]
@@ -285,6 +289,29 @@ if (url.includes("/vip/v1/fusion/userinfo") && obj?.data?.get_vip_info_v3?.data)
   d.m_end_time = "2099-12-31 23:59:59";
   d.m_y_endtime = "2099-12-31 23:59:59";
 }
+
+if (url.includes("/vipdress/v1/favor/list")) {
+
+    if (obj?.data) {
+      let list = obj.data.list || obj.data.config || obj.data.items;
+
+      if (Array.isArray(list)) {
+        list.forEach(item => {
+          if ('end_time' in item) item.end_time = "2099-12-31 23:59:59";
+          if ('expire_time' in item) item.expire_time = "2099-12-31 23:59:59";
+          // 解锁状态
+          if ('locked' in item) item.locked = false;
+          if ('status' in item && (item.status === "locked" || item.status === "expired")) {
+            item.status = "available";
+          }
+          if (item.name && !item.name.includes("解锁")) {
+            item.name = "解锁 - " + item.name;
+          }
+        });
+      }
+    }
+  }
+
 
 
 if (url.includes("/player/v1/model/list")) {
