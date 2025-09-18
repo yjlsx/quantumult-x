@@ -7,13 +7,13 @@
 ^https:\/\/m\.zhaopin\.com\/bapi\/order\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 ^https:\/\/dispatch-api-online\.vemarsdev\.com\/mars\/license\/check url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 ^https:\/\/ask\.zhaopin\.com\/plat-zqa-server\/zhiQCoin  url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
-
+^https:\/\/pro\.bugly\.qq\.com\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 
 
 
 *
 [mitm]
-hostname = m.zhaopin.com, ask.zhaopin.com
+hostname = m.zhaopin.com, ask.zhaopin.com, pro.bugly.qq.com
 */
 
 let body = $response.body;
@@ -95,6 +95,11 @@ if (url.includes('https://m.zhaopin.com/bapi/order/list')) {
 
 if (url.includes('https://dispatch-api-online.vemarsdev.com/mars/license/check')) {
     obj.error = 0;
+}
+
+
+if (url.includes('https://pro.bugly.qq.com/v1')) {
+    obj.code = 200;
 }
 
 

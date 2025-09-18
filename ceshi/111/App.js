@@ -4,7 +4,7 @@
 # 重写地址：https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/App.js
 
 # > 主机名合并
-hostname = *.wps.cndocer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, pay.wps.cn, vipos.kugou.com, gateway.kugou.com, gateway3.kugou.com, vip.kugou.com, vipuser.kygou.com, login.user.kugou.com, userinfoservice.kugou.com, richapi.yestiku.com, sxbapi.xuesai.net, keapi.fenbi.com, ke.fenbi.com, proxyweb.yiwenjy.com, m.zhaopin.com, app.thwlqy.com, appss.baomingding.com, apis.lifeweek.com.cn, app.yinxiang.com, appss.rhinoxlab.com, appss.rhinoxlab.com, 39.107.159.85, dynamicentry.kugou.com, cupid.51jobapp.com, cupid.51job.com, appapi.51jobapp.com, m.zhaopin.com, ask.zhaopin.com,  gatewayretry.kugou.com, drive*.quark.cn, api-wanda.liepin.com, api-ac.liepin.com, api-c.liepin.com, coral2.quark.cn, order-api.sm.cn, keapi.fenbi.com, ke.fenbi.com, live.fenbi.com, api.wondercv.com, xluser-ssl.xunlei.com
+hostname = *.wps.cndocer.wps.cn, docer-api.wps.cn, tiance.wps.cn, softbus-device.wps.cn, pay.wps.cn, vipos.kugou.com, gateway.kugou.com, gateway3.kugou.com, vip.kugou.com, vipuser.kygou.com, login.user.kugou.com, userinfoservice.kugou.com, richapi.yestiku.com, sxbapi.xuesai.net, keapi.fenbi.com, ke.fenbi.com, proxyweb.yiwenjy.com, m.zhaopin.com, app.thwlqy.com, appss.baomingding.com, apis.lifeweek.com.cn, app.yinxiang.com, appss.rhinoxlab.com, appss.rhinoxlab.com, 39.107.159.85, dynamicentry.kugou.com, cupid.51jobapp.com, cupid.51job.com, appapi.51jobapp.com, m.zhaopin.com, ask.zhaopin.com,  gatewayretry.kugou.com, drive*.quark.cn, api-wanda.liepin.com, api-ac.liepin.com, api-c.liepin.com, coral2.quark.cn, order-api.sm.cn, keapi.fenbi.com, ke.fenbi.com, live.fenbi.com, api.wondercv.com, xluser-ssl.xunlei.com, pro.bugly.qq.com
 
 # >>>>>>>>>>>>>>> ✅ A ✅ <<<<<<<<<<<<<<
 
@@ -170,6 +170,7 @@ https://xluser-ssl.xunlei.com/xluser.core.login/v3/getuserinfo url script-respon
 ^https://m\.zhaopin\.com/bapi/resume/top/order/info/v3 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https://m\.zhaopin\.com/bapi/vip/privilege/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/vip\/buy\/gray url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+^https:\/\/pro\.bugly\.qq\.com\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
 
 # >证件照相馆-美颜证件照&一寸证件照相机（永久会员）
 ^https?:\/\/appss.rhinoxlab.com\/app\/account\/getAccountInfo url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/zjzxg.js
