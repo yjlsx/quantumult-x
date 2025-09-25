@@ -10,6 +10,9 @@
 ^https://m\.zhaopin\.com/bapi/vip/privilege/info url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https:\/\/m\.zhaopin\.com\/bapi\/vip\/buy\/gray url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
 ^https:\/\/pro\.bugly\.qq\.com\/v1 url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/zhilian1.js
+^https:\/\/m\zhaopin\.com\/bapi\/order\/prepay-creation url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/zhilian.js
+
+
 
 
 *
@@ -82,6 +85,10 @@ hostname = m.zhaopin.com, ask.zhaopin.com, pro.bugly.qq.com
        } else if (url.includes("/bapi/vip/buy/gray")) {
             if (obj.data) {
                 obj.data = true;
+            }
+       } else if (url.includes("/bapi/order/prepay-creation")) {
+            if (obj) {
+                obj.code = 200;
             }
        } 
 
