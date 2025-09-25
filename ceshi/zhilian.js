@@ -87,9 +87,7 @@ hostname = m.zhaopin.com, ask.zhaopin.com, pro.bugly.qq.com
                 obj.data = true;
             }
        } else if (url.includes("/bapi/order/prepay-creation")) {
-            if (obj) {
                 obj.code = 200;
-            }
        } 
 
 
