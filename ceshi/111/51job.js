@@ -152,7 +152,6 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
     if (url.includes('/getCoinsAmount') || url.includes('/getExpiringCoins')) {
             obj.resultbody = 99999;
             obj.status = 1;
-            obj.message = "成功";
     }
 
     if (url.includes('/reward/deductionCoins')) {
