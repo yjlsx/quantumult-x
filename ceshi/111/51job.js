@@ -75,6 +75,7 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
             if (url.includes('/open/vip/competitiveness')) {
                 obj.resultbody.hasCompetitivenessService = true;
                 obj.resultbody.remainCompetitivenessCount = true;
+                obj.resultbody.competitiveMaxViewedCount = 10;
                 obj.resultbody.isVip = true;
             }
 
@@ -149,15 +150,28 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
     }
 
     if (url.includes('/getCoinsAmount') || url.includes('/getExpiringCoins')) {
-            obj.resultbody = 9999;
+            obj.resultbody = 0;
+            obj.status = 1;
+            obj.message = "成功";
     }
 
     if (url.includes('/reward/deductionCoins')) {
             obj.status = "1";
             obj.message = "成功";
+            obj.resultbody.exchangeResult.msg = "已兑换";
             obj.resultbody.taskRewardVO.dailyCurrentInventory = 10;
-            obj.resultbody.taskRewardVO.canExchange = true;
+            obj.resultbody.taskRewardVO.canExchange = false;
+            obj.resultbody.taskRewardVO.isPreREwardUsed = true;
             obj.resultbody.exchangeResult.code = "1";
+            obj.resultbody.taskRewardVO.isStockEmpty = false;
+            obj.resultbody.taskRewardVO.isExchangeLimit = false;
+            obj.resultbody.taskRewardVO.rewardDictId = 13;
+            obj.resultbody.taskRewardVO.value = 38;
+            obj.resultbody.taskRewardVO.redemptionFrequency = 5;
+            obj.resultbody.taskRewardVO.estimatedAchieveMentTime = 50;
+            obj.resultbody.taskRewardVO.dailyInventory = 20;
+
+
     }
 
     if (url.includes('/user-task/main')) {
