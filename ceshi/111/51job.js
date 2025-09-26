@@ -76,6 +76,7 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
                 obj.resultbody.hasCompetitivenessService = true;
                 obj.resultbody.remainCompetitivenessCount = true;
                 obj.resultbody.competitiveMaxViewedCount = 10;
+                obj.resultbody.competitiveViewedCount = 99999;
                 obj.resultbody.isVip = true;
             }
 
