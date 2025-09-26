@@ -76,7 +76,6 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
                 obj.resultbody.hasCompetitivenessService = true;
                 obj.resultbody.remainCompetitivenessCount = true;
                 obj.resultbody.competitiveMaxViewedCount = 10;
-                obj.resultbody.competitiveViewedCount = 99999;
                 obj.resultbody.isVip = true;
             }
 
@@ -151,7 +150,7 @@ if (url.includes('/open/hr/setting/push/switch') || url.includes('https://cupid.
     }
 
     if (url.includes('/getCoinsAmount') || url.includes('/getExpiringCoins')) {
-            obj.resultbody = 0;
+            obj.resultbody = 99999;
             obj.status = 1;
             obj.message = "成功";
     }
