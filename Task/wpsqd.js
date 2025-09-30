@@ -13,263 +13,208 @@
 **/
 
 
-const $ = new Env("WPS签到");
+const $ = new QxEnv("WPS签到");
 
-const ckKey = "wps_cookie";
-const extraKey = "wps_signin_extra"; // 变量保留，但不再是执行任务的强制依赖
+// 从持久化存储中读取变量
+const wps_token = $.getdata('wps_signin_token');
+const wps_cookie = $.getdata('wps_signin_cookie');
+const wps_extra = $.getdata('wps_signin_extra'); 
 
-// 从持久化存储中读取值
-// ckval 格式: { cookie: "wps_sid=xxx; uid=yyy; ..." }
-let ckval = $.toObj($.getdata(ckKey), null);
-let wps_extra = $.getdata(extraKey); // 仍然读取，但不再强制检查
-
-// --- 主程序入口 ---
-!(async () => {
-    if (typeof $request !== "undefined") {
-        // 如果是重写模式，执行抓取逻辑
-        await captureData();
-        return;
-    }
-
-    // 如果是任务模式，检查依赖 (只需要 Cookie)
-    if (!ckval || !ckval.cookie) {
-        $.msg($.name, "❌ 请先获取Cookie", "打开WPS App/PC版触发脚本获取");
-        return;
-    }
-
-    /*
-    // 移除对 wps_extra 的依赖检查，因为签到 body 现在是硬编码的。
-    if (!wps_extra) {
-        $.msg($.name, "❌ 缺少配置", `请尝试手动签到一次以获取并存储 ${extraKey}`);
-        return;
-    }
-    */
-
-    $.cookie = ckval.cookie;
-    await main();
-})()
-    .catch((e) => $.logErr(e))
-    .finally(() => $.done());
-
-/* 核心任务逻辑 */
-async function main() {
-    // 1. 用户信息校验
-    const { result, msg, nickname } = await getUsername();
-    if (result !== "ok") {
-        // 如果登录失败，清除 cookie，强制重新抓取
-        $.setdata('', ckKey); 
-        $.msg($.name, "⚠️ 登录失败/Cookie失效", wps_msg(msg));
-        return;
-    }
-    // 2. 签到
-    await signIn(nickname);
+// 通用 HTTP 请求函数
+function httpRequest(options) {
+    return new Promise((resolve, reject) => {
+        $task.fetch(options).then(response => {
+            let data = response.body;
+            try {
+                data = JSON.parse(response.body);
+            } catch (e) {
+                // 如果不是 JSON，直接返回原始数据
+            }
+            resolve(data);
+        }, reason => {
+            reject(reason);
+        });
+    });
 }
 
-/* 签到 */
-async function signIn(nickname) {
-    // 签到前查询积分 (可选)
-    // const pointBefore = await getIntegral(); 
-    
-    const url = "https://personal-bus.wps.cn/sign_in/v1/sign_in";
-    const headers = {
-        "Content-Type": "application/json",
-        // 使用抓包提供的 User-Agent
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Safari/604.1",
-        "Origin": "https://personal-act.wps.cn",
-        "Referer": "https://personal-act.wps.cn/",
-        "Cookie": $.cookie,
-    };
-    
-    // *** 根据用户要求，使用硬编码的请求体。请注意 extra 值可能失效。 ***
-    const body = `{"encrypt":true,"extra":"shfDZxB63hOSzgWr7cJtfMmPPa70rhxzLYFRXqkN40ROxRP/RC+Y/7hpVL4VDdOt","pay_origin":"ios_ucs_rwzx sign","channel":""}`;
+// ------------------------------------
+// 辅助函数
+// ------------------------------------
 
-
-    const res = await httpRequest({ url, headers, body, method: "POST" });
-    const point = await getIntegral(); // 签到后查询积分
-
-    let title = `${$.name} | ${nickname}`;
-    if (res.result === "ok" || res.code === 1000000) {
-        const rewards = res.data?.rewards || [];
-        let rewardText =
-            rewards.length > 0
-                ? rewards.map((r) => `${r.reward_name} x${r.num || 1}`).join(", ")
-                : "无";
-
-        $.msg(title, "✅ 签到成功", `奖励：${rewardText}\n当前总积分：${point}`);
-    } else if (res.msg === "has sign") {
-        $.msg(title, "⚠️ 已签到", `今日无需重复签到\n当前总积分：${point}`);
-    } else {
-        $.msg(title, "❌ 签到失败", res.msg || `未知错误 (Code: ${res.code || 'N/A'})`);
-    }
-}
-
-/* 步骤 1：获取用户信息 */
+// 获取用户名
 async function getUsername() {
-    const url = "https://account.wps.cn/p/auth/check";
-    const headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        // 保持与签到请求一致的 User-Agent
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Safari/604.1", 
-        "Cookie": $.cookie,
-    };
-    return await httpRequest({ url, headers, method: "POST" });
+    const user_url = 'https://account.wps.cn/p/auth/check';
+    const user_headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        // 使用 PC User-Agent 以匹配辅助函数中的请求习惯
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 WpsOfficeApp/12.1.0.18276 (per,windows)',
+        "Origin": "https://personal-act.wps.cn",
+        "Cookie": wps_cookie
+    };
+    
+    const options = { url: user_url, body: '', headers: user_headers, method: 'POST' };
+
+    try {
+        const data = await httpRequest(options);
+        if (data && data.result === 'ok' && data.nickname) {
+            return data.nickname;
+        } else {
+            return `未知用户 (${data.msg || '获取失败'})`;
+        }
+    } catch (e) {
+        $.log(`[${$.name}] 获取用户信息请求异常: ${e.error || e}`);
+        return '用户信息请求失败';
+    }
 }
 
-/* **步骤 2：查询积分 (使用新的 API)** */
+// 获取总积分
 async function getIntegral() {
-    const url = "https://personal-act.wps.cn/vip_day/v1/user/integral/info";
-    // 使用签到请求的 User-Agent 和 Cookie 即可
-    const headers = { 
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Safari/604.1",
-        "Cookie": $.cookie,
-    };
-    const res = await httpRequest({ url, headers });
-    // 根据响应体 {"data": {"integral": 44, ...}, "result": "ok"} 提取积分
-    return res?.data?.integral || "未知";
+    $.log(`[${$.name}] 尝试获取总积分...`);
+    const integral_url = `https://personal-act.wps.cn/vip_day/v1/user/integral/info`;
+    const integral_headers = {
+        'Accept' : `application/json, text/plain, */*`,
+        'Accept-Encoding' : `gzip, deflate, br`,
+        'Cookie' : wps_cookie, // 只需要 Cookie
+        'Connection' : `keep-alive`,
+        'Host' : `personal-act.wps.cn`,
+        // 使用签到请求的 User-Agent
+        'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1`,
+        'Referer' : `https://personal-act.wps.cn/vip-spa/2025/user-integral-rewards/list?active_tab=integral`,
+        'Accept-Language' : `zh-CN,zh-Hans;q=0.9`
+    };
+
+    const options = {
+        url: integral_url,
+        method: 'GET',
+        headers: integral_headers
+    };
+
+    try {
+        const data = await httpRequest(options);
+        if (data && data.result === 'ok' && data.data && typeof data.data.integral === 'number') {
+            return data.data.integral;
+        } else {
+            $.log(`[${$.name}] 积分获取失败: ${data.msg || '数据结构错误'}`);
+            return '获取失败';
+        }
+    } catch (e) {
+        $.log(`[${$.name}] 积分请求异常: ${e.error || e}`);
+        return '请求失败';
+    }
 }
 
-/* --- 数据抓取逻辑 --- */
-async function captureData() {
-    const url = $request.url;
 
-    // 1. 抓取 Cookie (通过 script-request-header 规则, 拦截任意包含重要Cookie的请求)
-    if (url.includes("wps.cn") && $request.headers?.Cookie) {
-        const fullCookie = $request.headers.Cookie;
-        // 过滤出关键的 cookie 键值对进行存储，避免存储过期或无关信息
-        const essentialCookie = getCookieString(fullCookie); 
-        
-        if (essentialCookie.includes("wps_sid")) {
-            const ckVal = { cookie: essentialCookie };
-            const currentStoredCk = $.getdata(ckKey);
-            
-            if (currentStoredCk !== $.toStr(ckVal)) {
-                $.setdata($.toStr(ckVal), ckKey);
-                $.msg($.name, "🎉 获取Cookie成功", "wps_sid/关键Cookie已存储/更新");
-            } else {
-                console.log("Cookie未更新，跳过存储");
-            }
-        }
-    }
+// ------------------------------------
+// 主函数
+// ------------------------------------
 
-    // 2. 抓取 extra 值 (通过 script-request-body 规则, 拦截签到请求)
-    if (url.includes("personal-bus.wps.cn/sign_in/v1/sign_in")) {
-        try {
-            const bodyObj = JSON.parse($request.body);
-            const extra = bodyObj.extra;
-            
-            if (extra) {
-                const currentExtra = $.getdata(extraKey);
-                if (currentExtra !== extra) {
-                    $.setdata(extra, extraKey);
-                    $.msg($.name, "🎉 获取Extra成功 (仅供参考/备用)", "wps_signin_extra已存储/更新");
-                } else {
-                    console.log("Extra未更新，跳过存储");
-                }
-            } else {
-                $.log(`[Extra Capture] 请求体中未找到 extra 字段`);
-            }
-        } catch (e) {
-            $.logErr(`Extra抓取 Body解析失败: ${e.message}`);
-        }
-    }
+async function checkIn() {
+    if (!wps_token || !wps_cookie || !wps_extra) {
+        $.notify($.name, "❌ 配置错误", "请检查 wps_signin_token/cookie/extra 变量是否已配置");
+        $.done();
+        return;
+    }
+
+    // 1. 获取用户名
+    const nickname = await getUsername();
+    $.messages.push(`👤 用户: ${nickname}`);
+
+    // 2. 执行签到请求
+    const sign_url = `https://personal-bus.wps.cn/sign_in/v1/sign_in`;
+    const sign_method = `POST`;
+    
+    // 使用抓取到的 wps_extra 变量构造 body
+    const sign_body = JSON.stringify({
+        "encrypt": true,
+        "extra": wps_extra,
+        "pay_origin": "ios_ucs_rwzx sign",
+        "channel": ""
+    });
+
+    // 构造 Headers
+    const sign_headers = {
+        'Sec-Fetch-Dest' : `empty`,
+        'Connection' : `keep-alive`,
+        'Accept-Encoding' : `gzip, deflate, br`,
+        'Content-Type' : `application/json`,
+        'Sec-Fetch-Site' : `same-site`,
+        'Origin' : `https://personal-act.wps.cn`,
+        'User-Agent' : `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1`,
+        'token' : wps_token, 
+        'Sec-Fetch-Mode' : `cors`,
+        'Cookie' : wps_cookie, 
+        'Referer' : `https://personal-act.wps.cn/`,
+        'Host' : `personal-bus.wps.cn`,
+        'Accept-Language' : `zh-CN,zh-Hans;q=0.9`,
+        'Accept' : `application/json, text/plain, */*`
+    };
+
+    const request = { url: sign_url, method: sign_method, headers: sign_headers, body: sign_body };
+
+    let integralBeforeSign = await getIntegral(); // 签到前先获取积分
+    if (typeof integralBeforeSign === 'number') {
+        $.messages.push(`💰 签到前积分: ${integralBeforeSign}`);
+    } else {
+        $.messages.push(`💰 签到前积分: ${integralBeforeSign}`);
+    }
+
+
+    $task.fetch(request).then(async response => { // 异步处理签到响应
+        let data = {};
+        let resultMsg = '❌ 签到失败: 响应体为空';
+
+        try {
+            data = JSON.parse(response.body);
+        } catch (e) {
+            resultMsg = "❌ 签到失败: 响应体解析错误";
+        }
+        
+        if (data.code === 1000000 && data.result === "ok") {
+            const reward = data.data.rewards[0];
+            const rewardName = reward ? `${reward.reward_name} (${reward.num}个)` : "未知奖励";
+            resultMsg = `✅ 签到成功: ${rewardName}`;
+        } else if (data.result === "error" && data.msg === "has sign") {
+            resultMsg = `⚠️ 签到结果: 今日已签到`;
+        } else if (data.result) {
+            resultMsg = `❌ 签到失败: ${data.msg || '未知错误'}`;
+        }
+        
+        $.messages.push(resultMsg);
+
+        // 3. 签到后再次获取积分
+        let integralAfterSign = await getIntegral();
+        if (typeof integralAfterSign === 'number') {
+            $.messages.push(`📈 签到后积分: ${integralAfterSign}`);
+            if (typeof integralBeforeSign === 'number' && integralAfterSign > integralBeforeSign) {
+                $.messages.push(`✨ 积分变动: +${integralAfterSign - integralBeforeSign}`);
+            }
+        } else {
+            $.messages.push(`📈 签到后积分: ${integralAfterSign}`);
+        }
+
+    }, reason => {
+        $.messages.push(`❌ 签到失败: 网络请求错误 (${reason.error})`);
+    }).finally(() => {
+        // 统一推送所有消息
+        $.notify($.name, $.messages[0], $.messages.slice(1).join('\n'));
+        $.done();
+    });
 }
 
-/* --- 工具函数 --- */
-
-// 仅获取关键 Cookie 组成的字符串，以防整串太长
-function getCookieString(cookie) {
-    // 这些是经验证对 WPS 登录态重要的 Cookie 键
-    const keys = ["wps_sid", "uid", "_ku", "csrf", "tfstk", "kso_sid", "cv", "exp", "nexp", "coa_id", "cid"]; 
-    
-    // 将 Cookie 字符串分割成键值对
-    const parts = cookie.split("; ").filter(item => {
-        const key = item.split("=")[0];
-        return keys.includes(key);
-    });
-    return parts.join("; ");
+// 迷你 Quantumult X 环境类 (QxEnv)
+function QxEnv(name) {
+    return new class {
+        constructor(name) {
+            this.name = name;
+            this.messages = [];
+            this.log = (msg) => console.log(msg);
+            // ***** 关键修改点：修复定时任务环境下读取持久化变量的方法 *****
+            this.getdata = (key) => $prefs.valueForKey(key);
+            // ************************************************************
+            this.notify = (title, subtitle, body) => $notify(title, subtitle, body);
+            this.done = () => $done();
+        }
+    }(name);
 }
 
-function getCookieValue(cookie, key) {
-    const cookies = cookie.split("; ");
-    for (let item of cookies) {
-        const [k, v] = item.split("=");
-        if (k === key) return v;
-    }
-    return null;
-}
-
-function wps_msg(msg) {
-    const messages = {
-        userNotLogin: "请重新获取Cookie",
-        "has sign": "今天已经签过了",
-    };
-    return messages[msg] || msg;
-}
-
-/* 用 $task.fetch 发请求 */
-async function httpRequest(options) {
-    return new Promise((resolve) => {
-        const request = {
-            url: options.url,
-            method: options.method || "GET",
-            headers: options.headers || {},
-            body: options.body || null,
-        };
-
-        $task.fetch(request).then(
-            (resp) => {
-                try {
-                    resolve(JSON.parse(resp.body));
-                } catch {
-                    $.log(`[${options.url}] JSON解析失败，返回原始响应。`);
-                    resolve({});
-                }
-            },
-            (err) => {
-                $.logErr(err);
-                resolve({});
-            }
-        );
-    });
-}
-
-/* 环境封装 - 适配 Quantumult X */
-function Env(t, e) {
-    class s {
-        constructor(t) {
-            this.name = t;
-            this.startTime = new Date().getTime();
-            Object.assign(this, e);
-        }
-        toStr(t) {
-            return JSON.stringify(t);
-        }
-        toObj(t, e = null) {
-            try {
-                return JSON.parse(t);
-            } catch {
-                return e;
-            }
-        }
-        getdata(t) {
-            return $persistentStore.read(t) || $prefs.valueForKey(t); // 兼容QX和JSBox
-        }
-        setdata(t, e) {
-            return $persistentStore.write(t, e) || $prefs.setValueForKey(t, e); // 兼容QX和JSBox
-        }
-        msg(t = this.name, e = "", s = "", i) {
-            $notify(t, e, s, i);
-        }
-        log(...t) {
-            console.log(t.join(" "));
-        }
-        logErr(t, e) {
-            this.log(`❌ 错误:`, t, e);
-        }
-        done(t = {}) {
-            const e = (new Date().getTime() - this.startTime) / 1e3;
-            this.log(`🔔 ${this.name}, 结束! ⏱ ${e} 秒`), $done(t);
-        }
-    }
-    return new s(t, e);
-}
+checkIn();
