@@ -55,7 +55,7 @@ async function main() {
     const { result, msg, nickname } = await getUsername();
     if (result !== "ok") {
         // 如果登录失败，清除 cookie，强制重新抓取
-        $.setdata('', ckKey); 
+        $.setdata('', ckKey); 
         $.msg($.name, "⚠️ 登录失败/Cookie失效", wps_msg(msg));
         return;
     }
@@ -65,20 +65,22 @@ async function main() {
 
 /* 签到 */
 async function signIn(nickname) {
-    // 从 ckval 中提取 token（如果需要），但WPS签到请求通常直接使用Cookie中的 wps_sid
-    const token = getCookieValue($.cookie, "wps_sid"); 
-    
+    // 签到前查询积分 (可选)
+    // const pointBefore = await getIntegral(); 
+    
     const url = "https://personal-bus.wps.cn/sign_in/v1/sign_in";
     const headers = {
         "Content-Type": "application/json",
-        // 确保 User-Agent 与抓包时一致
+        // 使用抓包提供的 User-Agent
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Safari/604.1",
         "Origin": "https://personal-act.wps.cn",
         "Referer": "https://personal-act.wps.cn/",
         "Cookie": $.cookie,
-        // WPS PC端签到可能需要 token 字段，这里先不添加，如果任务失败，可能需要加上
+        // 注意: 签到请求中需要 token 字段，这里从 Cookie 中提取 wps_sid 或使用外部 token 变量
+        // 鉴于您的抓包Headers包含 token 字段，但这里没有持久化，为了保险，我们暂时不加，如果失败，需在抓取脚本中增加 token 抓取
     };
-    
+    
+    // 使用抓取到的 extra 字段构造 body
     const body = JSON.stringify({
         encrypt: true,
         extra: wps_extra, // 使用持久化变量
@@ -87,7 +89,7 @@ async function signIn(nickname) {
     });
 
     const res = await httpRequest({ url, headers, body, method: "POST" });
-    const point = await getPoint(); // 查询积分
+    const point = await getIntegral(); // 签到后查询积分
 
     let title = `${$.name} | ${nickname}`;
     if (res.result === "ok" || res.code === 1000000) {
@@ -97,9 +99,9 @@ async function signIn(nickname) {
                 ? rewards.map((r) => `${r.reward_name} x${r.num || 1}`).join(", ")
                 : "无";
 
-        $.msg(title, "✅ 签到成功", `奖励：${rewardText}\n当前积分：${point}`);
+        $.msg(title, "✅ 签到成功", `奖励：${rewardText}\n当前总积分：${point}`);
     } else if (res.msg === "has sign") {
-        $.msg(title, "⚠️ 已签到", `今日无需重复签到\n当前积分：${point}`);
+        $.msg(title, "⚠️ 已签到", `今日无需重复签到\n当前总积分：${point}`);
     } else {
         $.msg(title, "❌ 签到失败", res.msg || `未知错误 (Code: ${res.code || 'N/A'})`);
     }
@@ -110,19 +112,24 @@ async function getUsername() {
     const url = "https://account.wps.cn/p/auth/check";
     const headers = {
         "Content-Type": "application/x-www-form-urlencoded",
-        // 确保 User-Agent 与签到保持一致
+        // 保持与签到请求一致的 User-Agent
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Safari/604.1", 
         "Cookie": $.cookie,
     };
     return await httpRequest({ url, headers, method: "POST" });
 }
 
-/* 查询积分 */
-async function getPoint() {
-    const url = "https://vip.wps.cn/points/balance";
-    const headers = { Cookie: $.cookie };
+/* **步骤 2：查询积分 (使用新的 API)** */
+async function getIntegral() {
+    const url = "https://personal-act.wps.cn/vip_day/v1/user/integral/info";
+    // 使用签到请求的 User-Agent 和 Cookie 即可
+    const headers = { 
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Safari/604.1",
+        "Cookie": $.cookie,
+    };
     const res = await httpRequest({ url, headers });
-    return res?.data?.balance || "未知";
+    // 根据响应体 {"data": {"integral": 44, ...}, "result": "ok"} 提取积分
+    return res?.data?.integral || "未知";
 }
 
 /* --- 数据抓取逻辑 --- */
@@ -133,12 +140,12 @@ async function captureData() {
     if (url.includes("wps.cn") && $request.headers?.Cookie) {
         const fullCookie = $request.headers.Cookie;
         // 过滤出关键的 cookie 键值对进行存储，避免存储过期或无关信息
-        const essentialCookie = getCookieString(fullCookie); 
-        
+        const essentialCookie = getCookieString(fullCookie); 
+        
         if (essentialCookie.includes("wps_sid")) {
             const ckVal = { cookie: essentialCookie };
             const currentStoredCk = $.getdata(ckKey);
-            
+            
             if (currentStoredCk !== $.toStr(ckVal)) {
                 $.setdata($.toStr(ckVal), ckKey);
                 $.msg($.name, "🎉 获取Cookie成功", "wps_sid/关键Cookie已存储/更新");
@@ -153,7 +160,7 @@ async function captureData() {
         try {
             const bodyObj = JSON.parse($request.body);
             const extra = bodyObj.extra;
-            
+            
             if (extra) {
                 const currentExtra = $.getdata(extraKey);
                 if (currentExtra !== extra) {
@@ -177,8 +184,8 @@ async function captureData() {
 function getCookieString(cookie) {
     // 这些是经验证对 WPS 登录态重要的 Cookie 键
     const keys = ["wps_sid", "uid", "_ku", "csrf", "tfstk", "kso_sid", "cv", "exp", "nexp", "coa_id", "cid"]; 
-    
-    // 将 Cookie 字符串分割成键值对
+    
+    // 将 Cookie 字符串分割成键值对
     const parts = cookie.split("; ").filter(item => {
         const key = item.split("=")[0];
         return keys.includes(key);
@@ -249,10 +256,10 @@ function Env(t, e) {
             }
         }
         getdata(t) {
-            return $prefs.valueForKey(t);
+            return $persistentStore.read(t) || $prefs.valueForKey(t); // 兼容QX和JSBox
         }
         setdata(t, e) {
-            return $prefs.setValueForKey(t, e);
+            return $persistentStore.write(t, e) || $prefs.setValueForKey(t, e); // 兼容QX和JSBox
         }
         msg(t = this.name, e = "", s = "", i) {
             $notify(t, e, s, i);
