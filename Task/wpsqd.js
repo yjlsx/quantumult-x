@@ -79,9 +79,7 @@ async function signIn() {
   });
 
   const res = await httpRequest({ url, headers, body, method: "POST" });
-
-  // 查询积分
-  const point = await getPoint();
+  const point = await getPoint(); // 查询积分
 
   if (res.result === "ok") {
     // 奖励详情
@@ -140,21 +138,29 @@ function wps_msg(msg) {
   return messages[msg] || msg;
 }
 
+/* 用 $task.fetch 发请求 */
 async function httpRequest(options) {
   return new Promise((resolve) => {
-    const method = options.method || "GET";
-    $[method.toLowerCase()](options, (err, resp, data) => {
-      if (err) {
-        $.logErr(err);
-        resolve({});
-      } else {
+    const request = {
+      url: options.url,
+      method: options.method || "GET",
+      headers: options.headers || {},
+      body: options.body || null,
+    };
+
+    $task.fetch(request).then(
+      (resp) => {
         try {
-          resolve(JSON.parse(data));
+          resolve(JSON.parse(resp.body));
         } catch {
           resolve({});
         }
+      },
+      (err) => {
+        $.logErr(err);
+        resolve({});
       }
-    });
+    );
   });
 }
 
@@ -198,5 +204,3 @@ function Env(t, e) {
   }
   return new s(t, e);
 }
-
-
