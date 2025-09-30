@@ -1,4 +1,4 @@
-
+/**
 
 
 
@@ -10,7 +10,7 @@
 # WPS 签到，每天自动运行
 1 0 * * * https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wpsqd.js, tag= WPS_PC签到, enabled=true
 
-
+**/
 
 
 const $ = new Env("WPS签到");
