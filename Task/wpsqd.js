@@ -30,13 +30,14 @@ let wps_token = $.getdata(tokenKey);
     return;
   }
 
-  // 检查关键变量：只需检查 Cookie 和 Token
-  if (!ckval || !wps_token) {
-    $.msg(
-      $.name,
-      "❌ 配置不全",
-      "请先通过抓包获取Cookie和token并存储"
-    );
+  // 检查关键变量：Cookie 和 Token 必须存在
+  if (!ckval) {
+    $.msg($.name, "❌ 配置不全", "请先通过抓取获取Cookie");
+    return;
+  }
+  if (!wps_token) {
+    // 明确提示用户需要手动配置 token
+    $.msg($.name, "❌ Token 缺失", "请手动配置持久化变量 wps_signin_token");
     return;
   }
 
@@ -119,7 +120,7 @@ async function signIn() {
   };
   const body = JSON.stringify({
     encrypt: true,
-    // 【关键点】：直接使用硬编码的固定 extra 值
+    // 【Extra 固定值】：使用硬编码的固定 extra 值
     extra: "shfDZxB63hOSzgWr7cJtfMmPPa70rhxzLYFRXqkN40ROxRP/RC+Y/7hpVL4VDdOt", 
     pay_origin: "ios_ucs_rwzx sign",
     channel: "",
@@ -172,10 +173,6 @@ async function getPoint() {
 /* -------------------- 抓取函数 -------------------- */
 
 async function getRequiredHeaders() {
-  if (!$request || !$request.url.includes("/sign_in/v1/sign_in")) {
-    return;
-  }
-  
   const headers = $request.headers || {};
   let changed = false;
 
@@ -191,21 +188,13 @@ async function getRequiredHeaders() {
     }
   }
 
-  // 2. 抓取 token (可能位于 Header中)
-  const currentToken = headers.Token || headers.token;
-  if (currentToken) {
-    if ($.getdata(tokenKey) !== currentToken) {
-      $.setdata(currentToken, tokenKey);
-      $.log("🎉 Token 抓取成功并更新");
-      changed = true;
-    }
-  }
+  // 2. Token/Extra 无法通过当前规则抓取，忽略。
 
   if (changed) {
     $.msg(
       $.name,
-      "✅ Cookie/Token 已更新",
-      "请关闭 MitM 或 Rewrite，运行定时任务"
+      "✅ Cookie 已更新",
+      "请手动配置 wps_signin_token 后运行定时任务。"
     );
   }
 }
