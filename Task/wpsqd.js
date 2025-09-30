@@ -16,12 +16,12 @@
 const $ = new Env("WPS签到");
 
 const ckKey = "wps_cookie";
-const extraKey = "wps_signin_extra";
+const extraKey = "wps_signin_extra"; // 变量保留，但不再是执行任务的强制依赖
 
 // 从持久化存储中读取值
 // ckval 格式: { cookie: "wps_sid=xxx; uid=yyy; ..." }
 let ckval = $.toObj($.getdata(ckKey), null);
-let wps_extra = $.getdata(extraKey);
+let wps_extra = $.getdata(extraKey); // 仍然读取，但不再强制检查
 
 // --- 主程序入口 ---
 !(async () => {
@@ -31,17 +31,19 @@ let wps_extra = $.getdata(extraKey);
         return;
     }
 
-    // 如果是任务模式，检查依赖
+    // 如果是任务模式，检查依赖 (只需要 Cookie)
     if (!ckval || !ckval.cookie) {
         $.msg($.name, "❌ 请先获取Cookie", "打开WPS App/PC版触发脚本获取");
         return;
     }
-    
-    // 检查 extra 是否存在
+
+    /*
+    // 移除对 wps_extra 的依赖检查，因为签到 body 现在是硬编码的。
     if (!wps_extra) {
         $.msg($.name, "❌ 缺少配置", `请尝试手动签到一次以获取并存储 ${extraKey}`);
         return;
     }
+    */
 
     $.cookie = ckval.cookie;
     await main();
@@ -76,17 +78,11 @@ async function signIn(nickname) {
         "Origin": "https://personal-act.wps.cn",
         "Referer": "https://personal-act.wps.cn/",
         "Cookie": $.cookie,
-        // 注意: 签到请求中需要 token 字段，这里从 Cookie 中提取 wps_sid 或使用外部 token 变量
-        // 鉴于您的抓包Headers包含 token 字段，但这里没有持久化，为了保险，我们暂时不加，如果失败，需在抓取脚本中增加 token 抓取
     };
     
-    // 使用抓取到的 extra 字段构造 body
-    const body = JSON.stringify({
-        encrypt: true,
-        extra: wps_extra, // 使用持久化变量
-        pay_origin: "ios_ucs_rwzx sign",
-        channel: "",
-    });
+    // *** 根据用户要求，使用硬编码的请求体。请注意 extra 值可能失效。 ***
+    const body = `{"encrypt":true,"extra":"shfDZxB63hOSzgWr7cJtfMmPPa70rhxzLYFRXqkN40ROxRP/RC+Y/7hpVL4VDdOt","pay_origin":"ios_ucs_rwzx sign","channel":""}`;
+
 
     const res = await httpRequest({ url, headers, body, method: "POST" });
     const point = await getIntegral(); // 签到后查询积分
@@ -165,7 +161,7 @@ async function captureData() {
                 const currentExtra = $.getdata(extraKey);
                 if (currentExtra !== extra) {
                     $.setdata(extra, extraKey);
-                    $.msg($.name, "🎉 获取Extra成功", "wps_signin_extra已存储/更新");
+                    $.msg($.name, "🎉 获取Extra成功 (仅供参考/备用)", "wps_signin_extra已存储/更新");
                 } else {
                     console.log("Extra未更新，跳过存储");
                 }
