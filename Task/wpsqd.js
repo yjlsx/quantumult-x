@@ -12,14 +12,18 @@
 
 
 [rewrite_local]
-# 获取 WPS Cookie
-^https:\/\/(vip|account)(userinfo|\.wps\.cn\/p\/auth\/check)$ url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wps.js
+^https:\/\/(?:account\.wps\.cn\/p\/auth\/check|personal-bus\.wps\.cn\/sign_in\/v1\/sign_in) url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wpsqd.js
+
 
 [task_local]
 # WPS 签到，每天自动运行
 1 0 * * * https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wpsqd.js, tag= WPS_PC签到, enabled=true
 
-**/
+
+[mitm]
+hostname = account.wps.cn, personal-bus.wps.cn, personal-act.wps.cn, zt.wps.cn
+
+*/
 
 
 
@@ -114,7 +118,7 @@ async function main(wps_token) {
  // 1. 获取用户信息，确认登录
  const userRes = await getUsername();
  if (userRes.result !== "ok") {
-   $.msg($.name, ⚠️ 登录失败", wps_msg(userRes.msg || JSON.stringify(userRes)));
+   $.msg($.name, "⚠️ 登录失败", wps_msg(userRes.msg || JSON.stringify(userRes)));
    return;
  }
  const nickname = userRes.nickname || userRes.data?.nickname || "未知";
