@@ -1,5 +1,14 @@
 /**
-
+*  自动签到 + 抽奖（含抓包保存 token/cookie）
+* 用途：
+*  - 抓包时（$request 存在）：从请求头抓取 token 和 Cookie，保存到持久化变量
+*  - 定时任务时：读取持久化的 token/cookie，执行 查询用户 -> 签到 -> 抽奖 -> 查询积分 -> 推送
+*
+* 持久化键：
+*  - wps_cookie          : 存储 { "cookie": "xxx" } 的 JSON 字符串
+*  - wps_signin_token    : 存储最新的 token 字符串
+*
+* 适配：Quantumult X / Surge / Loon（Env 封装里用到了 $prefs / $task.fetch / $notify / $done）
 
 
 [rewrite_local]
@@ -13,62 +22,123 @@
 **/
 
 
-const $ = new Env("WPS签到");
+
+const $ = new Env("WPS 签到与抓包");
 
 const ckKey = "wps_cookie";
 const tokenKey = "wps_signin_token";
 
-// 从持久化存储中读取 token 和 cookie
-let ckval = $.toObj($.getdata(ckKey), null);
-let wps_token = $.getdata(tokenKey);
+/* 抓包时执行：保存 token/cookie */
+if (typeof $request !== "undefined") {
+ (async () => {
+   try {
+     const headers = $request.headers || {};
+     // 抓 token：优先 token 字段，再尝试 Authorization（大小写都支持）
+     const token =
+       headers["token"] ||
+       headers["Token"] ||
+       headers["authorization"] ||
+       headers["Authorization"] ||
+       "";
 
-// 主程序
-!(async () => {
- if (typeof $request !== "undefined") {
-   // 抓包时触发
-   await getRequiredHeaders();
+     const cookie = headers["Cookie"] || headers["cookie"] || "";
+
+     let changed = false;
+
+     if (cookie && cookie.length > 0) {
+       const ckObj = { cookie: cookie };
+       const old = $.getdata(ckKey);
+       const newVal = $.toStr(ckObj);
+       if (old !== newVal) {
+         $.setdata(newVal, ckKey);
+         $.log("🎉 已保存/更新 wps_cookie");
+         changed = true;
+       } else {
+         $.log("wps_cookie 未变化");
+       }
+     } else {
+       $.log("未在请求头中发现 Cookie");
+     }
+
+     if (token && token.length > 0) {
+       const oldt = $.getdata(tokenKey) || "";
+       if (oldt !== token) {
+         $.setdata(token, tokenKey);
+         $.log("🎉 已保存/更新 wps_signin_token:", token);
+         changed = true;
+       } else {
+         $.log("wps_signin_token 未变化");
+       }
+     } else {
+       $.log("未在请求头中发现 token（尝试 Authorization）");
+     }
+
+     if (changed) {
+       $notify($.name + " — 抓取成功", "", "已保存 token/cookie（如有）");
+     } else {
+       // 仍通知：以便知道脚本被触发但无更新
+       console.log("脚本触发，但无数据更新");
+     }
+   } catch (e) {
+     $.logErr("抓包处理异常:", e);
+   } finally {
+     $done({});
+   }
+ })();
+} else {
+ /* 定时任务/手动运行时执行主流程 */
+ (async () => {
+   try {
+     // 读取 cookie（JSON 字符串）和 token
+     let ckval = $.toObj($.getdata(ckKey), null);
+     if (!ckval || !ckval.cookie) {
+       $.msg($.name, "❌ 配置缺失", "未找到 wps_cookie，请先抓取 Cookie（使用抓包触发本脚本）");
+       return;
+     }
+     $.cookie = ckval.cookie;
+
+     // 这里实时读取 token（以便抓包时刚保存的 token 立即生效）
+     let wps_token = $.getdata(tokenKey) || "";
+
+     await main(wps_token);
+   } catch (e) {
+     $.logErr(e);
+   } finally {
+     $.done();
+   }
+ })();
+}
+
+/* -------------------- 主流程 -------------------- */
+async function main(wps_token) {
+ // 1. 获取用户信息，确认登录
+ const userRes = await getUsername();
+ if (userRes.result !== "ok") {
+   $.msg($.name, ⚠️ 登录失败", wps_msg(userRes.msg || JSON.stringify(userRes)));
    return;
  }
-
- if (!ckval) {
-   $.msg($.name, "❌ 配置不全", "请先通过抓取获取Cookie");
-   return;
- }
- $.cookie = ckval.cookie;
-
- await main();
-})()
- .catch((e) => $.logErr(e))
- .finally(() => $.done());
-
-/* -------------------- 主逻辑 -------------------- */
-async function main() {
- // 用户信息
- const { result, msg, nickname } = await getUsername();
- if (result !== "ok") {
-   $.msg($.name, "⚠️ 登录失败", wps_msg(msg));
-   return;
- }
+ const nickname = userRes.nickname || userRes.data?.nickname || "未知";
  $.log(`👤 用户: ${nickname}`);
 
- // 签到前积分
+ // 2. 签到前积分
  const integralBefore = await getPoint();
  $.log(`💰 签到前积分: ${integralBefore}`);
 
- // 签到
- const signResult = await signIn();
+ // 3. 签到（signIn 内会尝试保存 token）
+ const signResult = await signIn(wps_token);
 
- // 抽奖任务
- const lottery = await lotteryTask();
+ // 4. 抽奖任务（使用签到后最新 token，若签到保存了新 token，会在 signIn 内更新本地）
+ const latestToken = $.getdata(tokenKey) || wps_token || "";
+ const lottery = await lotteryTask(latestToken);
 
- // 签到后积分
+ // 5. 签到后积分
  const integralAfter = await getPoint();
  const integralChange =
    integralAfter !== "获取失败" && integralBefore !== "获取失败"
      ? integralAfter - integralBefore
      : "无法计算";
 
- // 推送通知
+ // 6. 推送结果
  let statusMsg = "";
  if (signResult.isSuccess) {
    statusMsg = `✅ 签到成功: ${signResult.rewardText}`;
@@ -78,9 +148,7 @@ async function main() {
    statusMsg = `❌ 签到失败: ${signResult.msg}`;
  }
 
- const lotteryMsg = lottery.success
-   ? lottery.msg
-   : `⚠️ ${lottery.msg || "抽奖未完成"}`;
+ const lotteryMsg = lottery.success ? `🎉 抽奖: ${lottery.msg}` : `⚠️ 抽奖: ${lottery.msg || "未完成"}`;
 
  $.msg(
    $.name,
@@ -93,9 +161,8 @@ async function main() {
  );
 }
 
-/* -------------------- API 请求函数 -------------------- */
+/* -------------------- API 函数 -------------------- */
 
-// 用户信息
 async function getUsername() {
  const url = "https://account.wps.cn/p/auth/check";
  const headers = {
@@ -107,15 +174,16 @@ async function getUsername() {
  return await httpRequest({ url, headers, method: "POST" });
 }
 
-// 签到
-async function signIn() {
+async function signIn(wps_token) {
  const url = "https://personal-bus.wps.cn/sign_in/v1/sign_in";
+ // 每次调用实时读取本地 token（防止抓包后 token 已更新）
+ const currentToken = $.getdata(tokenKey) || wps_token || "";
  const headers = {
    "Content-Type": "application/json",
    "User-Agent":
      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
    Cookie: $.cookie,
-   token: wps_token || "", // 使用旧token，如果有
+   token: currentToken,
  };
  const body = JSON.stringify({
    encrypt: true,
@@ -126,29 +194,31 @@ async function signIn() {
 
  const res = await httpRequest({ url, headers, body, method: "POST" });
 
- if (res.result === "ok") {
-   const rewards = res.data?.rewards || [];
-   let rewardText =
-     rewards.length > 0
-       ? rewards.map((r) => `${r.reward_name} x${r.num || 1}`).join(", ")
-       : "未知奖励";
-
-   // ⬇️ 自动抓取并保存 token
-   if (res.data?.token) {
-     $.setdata(res.data.token, tokenKey);
-     wps_token = res.data.token;
-     $.log("🎉 已更新 token");
+ // 如果 sign_in 请求是通过抓包得到的 token 发出（即 token 在请求头），服务器可能会返回 ok 或 has sign
+ try {
+   if (res.result === "ok") {
+     // 如果响应体里也返回 token（有些版本会），则保存
+     const returnedToken = res.data?.token || res.token || "";
+     if (returnedToken && returnedToken.length > 0) {
+       $.setdata(returnedToken, tokenKey);
+       $.log("🎉 signIn 响应中含 token，已保存:", returnedToken);
+     }
+     const rewards = res.data?.rewards || [];
+     let rewardText =
+       rewards.length > 0
+         ? rewards.map((r) => `${r.reward_name} x${r.num || 1}`).join(", ")
+         : "未知奖励";
+     return { isSuccess: true, rewardText, isSigned: false, msg: "" };
+   } else if (res.msg === "has sign" || res.result === "has sign") {
+     return { isSuccess: false, rewardText: "", isSigned: true, msg: "今天已签到" };
+   } else {
+     return { isSuccess: false, rewardText: "", isSigned: false, msg: res.msg || JSON.stringify(res) };
    }
-
-   return { isSuccess: true, rewardText, isSigned: false, msg: "" };
- } else if (res.msg === "has sign") {
-   return { isSuccess: false, rewardText: "", isSigned: true, msg: res.msg };
- } else {
-   return { isSuccess: false, rewardText: "", isSigned: false, msg: res.msg };
+ } catch (e) {
+   return { isSuccess: false, rewardText: "", isSigned: false, msg: "解析 signIn 返回时出错" };
  }
 }
 
-// 查询积分
 async function getPoint() {
  const url = `https://personal-act.wps.cn/vip_day/v1/user/integral/info`;
  const headers = {
@@ -159,21 +229,20 @@ async function getPoint() {
  };
 
  const res = await httpRequest({ url, headers, method: "GET" });
- if (res.result === "ok" && typeof res.data?.integral === "number") {
+ if (res && res.result === "ok" && typeof res.data?.integral === "number") {
    return res.data.integral;
  }
  return "获取失败";
 }
 
-// 抽奖任务
-async function lotteryTask() {
+async function lotteryTask(wps_token) {
  const url = `https://personal-act.wps.cn/activity-rubik/activity/component_action`;
  const headers = {
    "Content-Type": "application/json",
    "User-Agent":
      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
    Cookie: $.cookie,
-   token: wps_token || "", // 使用签到获取的 token
+   token: wps_token || "",
  };
  const body = JSON.stringify({
    component_uniq_number: {
@@ -189,35 +258,17 @@ async function lotteryTask() {
  });
 
  const res = await httpRequest({ url, headers, body, method: "POST" });
- if (res.result === "ok" && res.data?.task_center?.success) {
-   return { success: true, msg: "🎉 抽奖任务完成" };
+ if (res && res.result === "ok" && res.data?.task_center?.success) {
+   return { success: true, msg: res.data?.task_center?.reason || "抽奖任务完成" };
  } else {
-   return { success: false, msg: res.msg || "抽奖失败" };
+   // 若服务器返回 0x00018，res 可能为空或包含 error
+   const errMsg = res?.msg || res?.message || JSON.stringify(res) || "抽奖返回未知";
+   return { success: false, msg: errMsg };
  }
 }
 
-/* -------------------- 抓取函数 -------------------- */
-async function getRequiredHeaders() {
- const headers = $request.headers || {};
- let changed = false;
+/* -------------------- 通用工具 -------------------- */
 
- const currentCookie = headers.Cookie || headers.cookie;
- if (currentCookie) {
-   const newCkVal = { cookie: currentCookie };
-   const storedCk = $.getdata(ckKey);
-   if (storedCk !== $.toStr(newCkVal)) {
-     $.setdata($.toStr(newCkVal), ckKey);
-     $.log("🎉 Cookie 抓取成功并更新");
-     changed = true;
-   }
- }
-
- if (changed) {
-   $.msg($.name, "✅ Cookie 已更新", "后续会自动获取 token，无需手动配置");
- }
-}
-
-/* -------------------- 工具函数 -------------------- */
 function wps_msg(msg) {
  const messages = {
    userNotLogin: "请重新获取Cookie",
@@ -238,20 +289,26 @@ async function httpRequest(options) {
    $task.fetch(request).then(
      (resp) => {
        try {
-         resolve(JSON.parse(resp.body));
-       } catch {
+         const text = resp.body || "";
+         // 有些接口会返回空 body 或非 json
+         if (!text) return resolve({});
+         const obj = JSON.parse(text);
+         resolve(obj);
+       } catch (e) {
+         // 解析失败时记录原始 body，便于排错
+         $.logErr("httpRequest parse error:", e, "body:", resp.body);
          resolve({});
        }
      },
      (err) => {
-       $.logErr(err);
+       $.logErr("httpRequest fetch error:", err);
        resolve({});
      }
    );
  });
 }
 
-/* -------------------- 环境封装 -------------------- */
+/* -------------------- 环境封装（Env） -------------------- */
 function Env(t, e) {
  class s {
    constructor(t) {
@@ -260,7 +317,11 @@ function Env(t, e) {
      Object.assign(this, e);
    }
    toStr(t) {
-     return JSON.stringify(t);
+     try {
+       return JSON.stringify(t);
+     } catch {
+       return String(t);
+     }
    }
    toObj(t, e = null) {
      try {
@@ -269,11 +330,20 @@ function Env(t, e) {
        return e;
      }
    }
+   // QX 使用 $prefs.valueForKey / setValueForKey
    getdata(t) {
-     return $prefs.valueForKey(t);
+     try {
+       return $prefs.valueForKey(t);
+     } catch {
+       return null;
+     }
    }
    setdata(t, e) {
-     return $prefs.setValueForKey(t, e);
+     try {
+       return $prefs.setValueForKey(t, e);
+     } catch (err) {
+       this.logErr("setdata error", err);
+     }
    }
    msg(t = this.name, e = "", s = "", i) {
      $notify(t, e, s, i);
@@ -281,12 +351,13 @@ function Env(t, e) {
    log(...t) {
      console.log(t.join(" "));
    }
-   logErr(t, e) {
-     this.log(`❌ 错误:`, t, e);
+   logErr(...t) {
+     console.log(...t);
    }
    done(t = {}) {
      const e = (new Date().getTime() - this.startTime) / 1e3;
-     this.log(`🔔 ${this.name}, 结束! ⏱ ${e} 秒`), $done(t);
+     this.log(`🔔 ${this.name}, 结束! ⏱ ${e} 秒`);
+     $done(t);
    }
  }
  return new s(t, e);
