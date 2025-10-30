@@ -1,28 +1,26 @@
 /**
-*  自动签到 + 抽奖（含抓包保存 token/cookie）
+* WPS 自动签到 + 抽奖 (2025/10/30 修复版)
 * 用途：
-*  - 抓包时（$request 存在）：从请求头抓取 token 和 Cookie，保存到持久化变量
-*  - 定时任务时：读取持久化的 token/cookie，执行 查询用户 -> 签到 -> 抽奖 -> 查询积分 -> 推送
+* - 抓包时（$request 存在）：从请求头抓取 token 和 Cookie，保存到持久化变量
+* - 定时任务时：读取持久化的 token/cookie，执行 签到 -> 2次抽奖 -> 查询积分 -> 推送
+*
+* *** 警告：SIGNIN_EXTRA 和抽奖 ID 仍然是硬编码，请定期检查其有效性！ ***
 *
 * 持久化键：
-*  - wps_cookie          : 存储 { "cookie": "xxx" } 的 JSON 字符串
-*  - wps_signin_token    : 存储最新的 token 字符串
+* - wps_cookie          : 存储 { "cookie": "xxx" } 的 JSON 字符串
+* - wps_signin_token    : 存储最新的 token 字符串
 *
 * 适配：Quantumult X / Surge / Loon（Env 封装里用到了 $prefs / $task.fetch / $notify / $done）
-
-
-[rewrite_local]
-^https:\/\/(?:account\.wps\.cn\/p\/auth\/check|personal-bus\.wps\.cn\/sign_in\/v1\/sign_in) url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wpsqd.js
-
-
-[task_local]
-# WPS 签到，每天自动运行
-1 0 * * * https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wpsqd.js, tag= WPS_PC签到, enabled=true
-
-
-[mitm]
-hostname = account.wps.cn, personal-bus.wps.cn, personal-act.wps.cn, zt.wps.cn
-
+*
+* [rewrite_local]
+* ^https:\/\/(?:account\.wps\.cn\/p\/auth\/check|personal-bus\.wps\.cn\/sign_in\/v1\/sign_in) url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wpsqd.js
+*
+* [task_local]
+* # WPS 签到，每天自动运行
+* 1 0 * * * https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/wpsqd.js, tag= WPS_PC签到, enabled=true
+*
+* [mitm]
+* hostname = account.wps.cn, personal-bus.wps.cn, personal-act.wps.cn, zt.wps.cn
 */
 
 
@@ -30,6 +28,33 @@ const $ = new Env("WPS 签到");
 
 const ckKey = "wps_cookie";
 const tokenKey = "wps_signin_token";
+
+// 签到请求中的动态参数 (!!! 硬编码，请定期检查 !!!)
+// 根据最新抓包数据更新
+const SIGNIN_EXTRA = "ypwQd1pj2JElLipQ8YNHV8gbvWj2satfWFdXnsc5eZ7a3+qr9wTfz7EG0QbX6knk"; 
+
+// 抽奖请求中的活动参数 (!!! 硬编码，请定期检查 !!!)
+// 根据最新抓包数据更新
+const LOTTERY_BODY_BASE = {
+  component_uniq_number: {
+    activity_number: "HD2025031821201822",
+    page_number: "YM2025041116446466",
+    component_number: "ZJ2024083022081230", // 最新抓包值
+    component_node_id: "FN1744160189gBtt", // 最新抓包值
+  },
+  component_type: 2, // 最新抓包值 (lottery)
+  component_action: "lottery.exec", // 最新抓包值
+  lottery: {
+    pay_source: "",
+    integral_source: "",
+    position: "onsale_2025_sign_cj",
+    source: "",
+    ids: "1080,1081,1082,1083,1158,1200,1085,1084",
+    sign: ""
+  },
+};
+const LOTTERY_TIMES = 2; // 默认签到奖励 2 次抽奖机会
+
 
 /* ---------------- 捕获逻辑（request / response / 定时运行） ---------------- */
 if (typeof $request !== "undefined") {
@@ -157,17 +182,19 @@ if (typeof $request !== "undefined") {
        const sc = Array.isArray(setCookie) ? setCookie.join("; ") : String(setCookie);
        const wps_sid = getCookieValue(sc, "wps_sid");
        if (wps_sid) {
+         // 提取 wps_sid
          const ckObj = { cookie: "wps_sid=" + wps_sid };
          const old = $.getdata(ckKey) || "";
          const newVal = $.toStr(ckObj);
          if (old !== newVal) {
            $.setdata(newVal, ckKey);
-           $.log("🎉 已保存/更新 wps_cookie (来自 response.set-cookie)");
+           $.log("🎉 已保存/更新 wps_cookie (来自 response.set-cookie - wps_sid)");
            changed = true;
          } else {
-           $.log("wps_cookie (response set-cookie) 未变化");
+           $.log("wps_cookie (response set-cookie - wps_sid) 未变化");
          }
        } else {
+         // 尝试保存整个 set-cookie
          const ckObj = { cookie: sc };
          const old = $.getdata(ckKey) || "";
          const newVal = $.toStr(ckObj);
@@ -247,50 +274,74 @@ if (typeof $request !== "undefined") {
 
 /* -------------------- 主流程 -------------------- */
 async function main(wps_token) {
- const userRes = await getUsername();
- if (userRes.result !== "ok") {
-   $.msg($.name, "⚠️ 登录失败", wps_msg(userRes.msg || JSON.stringify(userRes)));
-   return;
- }
- const nickname = userRes.nickname || userRes.data?.nickname || "未知";
- $.log(`👤 用户: ${nickname}`);
+  let finalMessage = "";
 
- const integralBefore = await getPoint();
- $.log(`💰 签到前积分: ${integralBefore}`);
+  const userRes = await getUsername();
+  if (userRes.result !== "ok") {
+    $.msg($.name, "⚠️ 登录失败", wps_msg(userRes.msg || JSON.stringify(userRes)));
+    return;
+  }
+  const nickname = userRes.nickname || userRes.data?.nickname || "未知";
+  $.log(`👤 用户: ${nickname}`);
+  finalMessage += `👤 用户: ${nickname}\n`;
 
- /* 1. 签到 */
- const signResult = await signIn(wps_token);
+  const integralBefore = await getPoint();
+  $.log(`💰 签到前积分: ${integralBefore}`);
+  finalMessage += `💰 签到前积分: ${integralBefore}\n`;
 
- /* 2. 抽奖 */
- const latestToken = $.getdata(tokenKey) || wps_token || "";
- const lottery = await lotteryTask(latestToken);
+  /* 1. 签到 */
+  const signResult = await signIn(wps_token);
+  let statusMsg = "";
+  if (signResult.isSuccess) {
+    statusMsg = `✅ 签到成功: ${signResult.rewardText}`;
+  } else if (signResult.isSigned) {
+    statusMsg = "⚠️ 今日已签到";
+  } else {
+    statusMsg = `❌ 签到失败: ${signResult.msg}`;
+  }
+  finalMessage += statusMsg + "\n";
+  $.log(statusMsg);
+  
+  /* 2. 抽奖（即使签到失败，也继续执行） */
+  const latestToken = $.getdata(tokenKey) || wps_token || "";
+  let lotteryMsg = "🎉 抽奖结果: ";
 
- const integralAfter = await getPoint();
- const integralChange =
-   integralAfter !== "获取失败" && integralBefore !== "获取失败"
-     ? integralAfter - integralBefore
-     : "无法计算";
+  for (let i = 1; i <= LOTTERY_TIMES; i++) {
+      $.log(`🔄 正在执行第 ${i} 次抽奖...`);
+      const lottery = await lotteryTask(latestToken);
 
- let statusMsg = "";
- if (signResult.isSuccess) {
-   statusMsg = `✅ 签到成功: ${signResult.rewardText}`;
- } else if (signResult.isSigned) {
-   statusMsg = "⚠️ 今日已签到";
- } else {
-   statusMsg = `❌ 签到失败: ${signResult.msg}`;
- }
+      if (lottery.success) {
+          lotteryMsg += `第${i}次: ${lottery.msg} | `;
+      } else {
+          lotteryMsg += `第${i}次: ${lottery.msg || "失败"} | `;
+          // 第一次抽奖失败后，可能后续也无法进行，但为了完整性，继续尝试。
+      }
+      // 避免请求过快，等待 1 秒
+      await new Promise(r => setTimeout(r, 1000));
+  }
+  lotteryMsg = lotteryMsg.replace(/ \| $/, ''); // 去掉末尾的 " | "
 
- const lotteryMsg = lottery.success ? `🎉 抽奖: ${lottery.msg}` : `⚠️ 抽奖: ${lottery.msg || "未完成"}`;
+  /* 3. 查询积分（即使签到和抽奖失败，也继续查询） */
+  const integralAfter = await getPoint();
+  const integralChange =
+    integralAfter !== "获取失败" && integralBefore !== "获取失败" && typeof integralBefore === 'number' && typeof integralAfter === 'number'
+      ? integralAfter - integralBefore
+      : "无法计算";
 
- $.msg(
-   $.name,
-   statusMsg,
-   `👤 用户: ${nickname}\n` +
-     `💰 签到前积分: ${integralBefore}\n` +
-     `📈 签到后积分: ${integralAfter}\n` +
-     `✨ 积分变动: ${integralChange > 0 ? "+" : ""}${integralChange}\n` +
-     `${lotteryMsg}`
- );
+  finalMessage += `📈 签到后积分: ${integralAfter}\n`;
+  finalMessage += `✨ 积分变动: ${integralChange > 0 ? "+" : ""}${integralChange}\n`;
+  finalMessage += lotteryMsg;
+  
+  $.log(`💰 签到后积分: ${integralAfter}`);
+  $.log(`✨ 积分变动: ${integralChange}`);
+  $.log(lotteryMsg);
+
+
+  $.msg(
+    $.name,
+    statusMsg,
+    finalMessage
+  );
 }
 
 /* -------------------- API 函数 -------------------- */
@@ -313,9 +364,10 @@ async function signIn(wps_token) {
    Cookie: $.cookie,
    token: currentToken,
  };
+ // *** 签到 body 已更新为最新抓包值，extra 仍然是硬编码 ***
  const body = JSON.stringify({
    encrypt: true,
-   extra: "shfDZxB63hOSzgWr7cJtfMmPPa70rhxzLYFRXqkN40ROxRP/RC+Y/7hpVL4VDdOt",
+   extra: SIGNIN_EXTRA,
    pay_origin: "ios_ucs_rwzx sign",
    channel: "",
  });
@@ -335,7 +387,7 @@ async function signIn(wps_token) {
          ? rewards.map((r) => `${r.reward_name || r.source_name || r.type} x${r.num || r.count || 1}`).join(", ")
          : "未知奖励";
      return { isSuccess: true, rewardText, isSigned: false, msg: "" };
-   } else if (res.msg === "has sign" || res.result === "has sign") {
+   } else if (res.msg === "has sign" || res.result === "has sign" || res.code === 10001) { // 增加 code 10001 处理
      return { isSuccess: false, rewardText: "", isSigned: true, msg: "今天已签到" };
    } else {
      return { isSuccess: false, rewardText: "", isSigned: false, msg: res.msg || JSON.stringify(res) };
@@ -353,21 +405,18 @@ async function lotteryTask(wps_token) {
    Cookie: $.cookie,
    token: wps_token || "",
  };
- const body = JSON.stringify({
-   component_uniq_number: {
-     activity_number: "HD2025031821201822",
-     page_number: "YM2025041116446466",
-     component_number: "ZJ2025040709458367",
-     component_node_id: "FN1744160180RthG",
-     filter_params: { cs_from: "", position: "ad_pad_rwzx_qd" },
-   },
-   component_type: 35,
-   component_action: "task_center.reward",
-   task_center: { task_id: 20 },
- });
+ 
+ // *** 抽奖 body 已更新为最新抓包值 ***
+ const body = JSON.stringify(LOTTERY_BODY_BASE);
+
  const res = await httpRequest({ url, headers, body, method: "POST" });
- if (res && res.result === "ok" && res.data?.task_center?.success) {
-   return { success: true, msg: res.data?.task_center?.reason || "抽奖任务完成" };
+
+ // *** 抽奖成功逻辑已更新 ***
+ if (res && res.result === "ok" && res.data?.lottery?.name) {
+   const rewardName = res.data.lottery.name;
+   return { success: true, msg: `抽中 ${rewardName}` };
+ } else if (res && res.msg && (res.msg.includes("次数不足") || res.msg.includes("已抽完"))) {
+   return { success: false, msg: "抽奖次数已用完" };
  } else {
    const errMsg = res?.msg || res?.message || JSON.stringify(res) || "抽奖返回未知";
    return { success: false, msg: errMsg };
@@ -384,14 +433,14 @@ async function getPoint() {
  };
  const res = await httpRequest({ url, headers, method: "GET" });
  try {
-   if (res && (res.result === "ok" || res.result === "ok") && res.data && typeof res.data.integral !== "undefined") {
-     return Number(res.data.integral) || 0;
-   } else if (res && typeof res.data?.integral !== "undefined") {
+   // 根据你的抓包响应结构调整
+   if (res && res.data && typeof res.data.integral !== "undefined") {
      return Number(res.data.integral) || 0;
    } else {
      return "获取失败";
    }
  } catch (e) {
+   $.logErr("获取积分时出错:", e);
    return "获取失败";
  }
 }
