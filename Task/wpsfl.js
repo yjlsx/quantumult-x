@@ -19,9 +19,14 @@ hostname = personal-act.wps.cn, *.wps.cn
 const BASE_URL = `https://personal-act.wps.cn/activity-rubik/activity/component_action`;
 const NOTIFY_TITLE = '🏆 WPS 福利中心任务';
 
+// --- 固定的活动 ID，直接引用初始请求中的不变值 ---
+const ACTIVITY_NUMBER = 'HD2025031721339450'; 
+const PAGE_NUMBER = 'YM2025041115554241';
+const SERIES_ID = 'EyDfq2n_8w7o42JDEzUWXKcIWc3pJaZx'; 
+const LOTTERY_SESSION_ID = 3001; 
+
 // --- 工具函数 ---
 
-/** 获取今天的日期，格式为 YYYY-MM-DD */
 function getTodayDate() {
     const date = new Date();
     const year = date.getFullYear();
@@ -30,7 +35,6 @@ function getTodayDate() {
     return `${year}-${month}-${day}`;
 }
 
-/** 延迟函数 */
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -38,18 +42,18 @@ function sleep(ms) {
 // --- 模式 A: 抓包逻辑 (用于重写) ---
 
 function wpsCatch() {
-    const url = $request.url;
     const method = $request.method;
     const body = $request.body;
-    const headers = $request.headers;
     
-    // 仅处理 POST 请求
     if (method !== 'POST') {
         $done({});
         return;
     }
     
+    const headers = $request.headers;
+    // 确保从 Headers 中获取 Cookie
     const cookie = headers['Cookie'] || headers['cookie'];
+    
     if (!cookie || cookie.length < 50) {
         $notify('WPS 抓包失败', '未捕获到有效的 Cookie', '请检查 MitM 和重写是否开启。');
         $done({});
@@ -60,39 +64,29 @@ function wpsCatch() {
         const jsonBody = JSON.parse(body);
         const action = jsonBody.component_action;
         
-        // 1. 统一保存 Cookie，并尝试保存签到参数
+        // 统一保存最新 Cookie
+        $prefs.setValueForKey(cookie, 'WPS_COOKIE');
+
         if (action === 'fragment_collect.sign_in') {
-            const ACTIVITY_NUMBER = jsonBody.component_uniq_number.activity_number;
-            const PAGE_NUMBER = jsonBody.component_uniq_number.page_number;
-            const SIGN_COMPONENT_NUMBER = jsonBody.component_uniq_number.component_number;
-            const SIGN_COMPONENT_NODE_ID = jsonBody.component_uniq_number.component_node_id;
-            const SERIES_ID = jsonBody.fragment_collect.series_id;
             
-            // 保存到 QX 存储
-            $prefs.setValueForKey(cookie, 'WPS_COOKIE');
-            $prefs.setValueForKey(ACTIVITY_NUMBER, 'WPS_ACTIVITY_NUMBER');
-            $prefs.setValueForKey(PAGE_NUMBER, 'WPS_PAGE_NUMBER');
-            $prefs.setValueForKey(SIGN_COMPONENT_NUMBER, 'WPS_SIGN_COMPONENT_NUMBER');
-            $prefs.setValueForKey(SIGN_COMPONENT_NODE_ID, 'WPS_SIGN_COMPONENT_NODE_ID');
-            $prefs.setValueForKey(SERIES_ID, 'WPS_SERIES_ID');
+            // 抓取并保存签到组件 ID
+            $prefs.setValueForKey(jsonBody.component_uniq_number.component_number, 'WPS_SIGN_COMPONENT_NUMBER');
+            $prefs.setValueForKey(jsonBody.component_uniq_number.component_node_id, 'WPS_SIGN_COMPONENT_NODE_ID');
+            // 虽然是固定ID，但为了确认它们在请求中出现，也可以保存一次，但这里我们直接使用上面的常量
 
-            $notify('WPS 签到参数捕获成功 ✅', 'Cookie 和签到ID已保存到本地存储', '请记得手动执行一次抽奖请求，并禁用此重写规则！');
-            console.log('WPS 签到参数捕获成功并保存:', { ACTIVITY_NUMBER, SIGN_COMPONENT_NUMBER });
+            $notify('WPS 签到参数捕获成功 ✅', 'Cookie 和签到ID已保存', '请手动执行一次抽奖请求，并禁用此重写规则！');
+            console.log('WPS 签到参数捕获成功并保存。');
 
-        } 
-        
-        // 2. 尝试保存抽奖参数
-        else if (action === 'lottery_v2.exec') {
-            const LOTTERY_COMPONENT_NUMBER = jsonBody.component_uniq_number.component_number;
-            const LOTTERY_COMPONENT_NODE_ID = jsonBody.component_uniq_number.component_node_id;
-            const LOTTERY_SESSION_ID = jsonBody.lottery_v2.session_id;
-
-            $prefs.setValueForKey(LOTTERY_COMPONENT_NUMBER, 'WPS_LOTTERY_COMPONENT_NUMBER');
-            $prefs.setValueForKey(LOTTERY_COMPONENT_NODE_ID, 'WPS_LOTTERY_COMPONENT_NODE_ID');
-            $prefs.setValueForKey(LOTTERY_SESSION_ID.toString(), 'WPS_LOTTERY_SESSION_ID');
+        } else if (action === 'lottery_v2.exec') {
             
-            $notify('WPS 抽奖参数捕获成功 🎉', '抽奖 ID 已保存到本地存储', '可以禁用抓包重写，并运行定时任务脚本了。');
-            console.log('WPS 抽奖参数捕获成功并保存:', { LOTTERY_COMPONENT_NUMBER, LOTTERY_SESSION_ID });
+            // 抓取并保存抽奖组件 ID
+            $prefs.setValueForKey(jsonBody.component_uniq_number.component_number, 'WPS_LOTTERY_COMPONENT_NUMBER');
+            $prefs.setValueForKey(jsonBody.component_uniq_number.component_node_id, 'WPS_LOTTERY_COMPONENT_NODE_ID');
+            // 抓取并保存抽奖 session_id (虽然是固定值，但以防万一)
+            $prefs.setValueForKey(jsonBody.lottery_v2.session_id.toString(), 'WPS_LOTTERY_SESSION_ID');
+            
+            $notify('WPS 抽奖参数捕获成功 🎉', '抽奖 ID 已保存', '现在可以禁用抓包重写，运行定时任务了。');
+            console.log('WPS 抽奖参数捕获成功并保存。');
         }
         
     } catch (e) {
@@ -108,21 +102,16 @@ function wpsCatch() {
 async function wpsTask() {
     let notify_body = '';
 
-    // --- 读取存储参数 ---
+    // --- 从存储中读取所有动态/必要的参数 ---
     const WPS_COOKIE = $prefs.valueForKey('WPS_COOKIE');
-    const ACTIVITY_NUMBER = $prefs.valueForKey('WPS_ACTIVITY_NUMBER');
-    const PAGE_NUMBER = $prefs.valueForKey('WPS_PAGE_NUMBER');
     const SIGN_COMPONENT_NUMBER = $prefs.valueForKey('WPS_SIGN_COMPONENT_NUMBER');
     const SIGN_COMPONENT_NODE_ID = $prefs.valueForKey('WPS_SIGN_COMPONENT_NODE_ID');
-    const SERIES_ID = $prefs.valueForKey('WPS_SERIES_ID');
-
     const LOTTERY_COMPONENT_NUMBER = $prefs.valueForKey('WPS_LOTTERY_COMPONENT_NUMBER'); 
     const LOTTERY_COMPONENT_NODE_ID = $prefs.valueForKey('WPS_LOTTERY_COMPONENT_NODE_ID'); 
-    const LOTTERY_SESSION_ID = $prefs.valueForKey('WPS_LOTTERY_SESSION_ID'); 
     
-    // 检查关键参数是否已成功获取
-    if (!WPS_COOKIE || !ACTIVITY_NUMBER || !SIGN_COMPONENT_NUMBER || !LOTTERY_COMPONENT_NUMBER) {
-        $notify(NOTIFY_TITLE, '运行中止 🛑', `关键参数缺失。请先启用重写规则，手动签到和抽奖以抓取参数！`);
+    // 检查关键参数是否已存储
+    if (!WPS_COOKIE || !SIGN_COMPONENT_NUMBER || !LOTTERY_COMPONENT_NUMBER) {
+        $notify(NOTIFY_TITLE, '运行中止 🛑', `关键参数缺失或 Cookie 失效。请先启用重写规则，手动签到和抽奖以重新抓取参数！`);
         $done();
         return;
     }
@@ -134,7 +123,7 @@ async function wpsTask() {
             'Content-Type': `application/json`,
             'Origin': `https://personal-act.wps.cn`,
             'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1`,
-            'Cookie': WPS_COOKIE, 
+            'Cookie': WPS_COOKIE, // 从存储中读取 Cookie
             'Host': `personal-act.wps.cn`,
             'Referer': `https://personal-act.wps.cn/rubik2/portal/${ACTIVITY_NUMBER}/${PAGE_NUMBER}?cs_from=&position=pc_flzx_wpssqbanner`,
             'Accept': `application/json, text/plain, */*`
@@ -150,7 +139,13 @@ async function wpsTask() {
         try {
             const response = await $task.fetch(myRequest);
             if (response.statusCode === 200) {
-                return JSON.parse(response.body);
+                const resJson = JSON.parse(response.body);
+                // 检查 Cookie 是否过期
+                if (resJson.result === 'error' && resJson.msg.includes('user not login')) {
+                    $notify(NOTIFY_TITLE, '❌ 任务失败', 'Cookie 已过期，请重新抓包更新！');
+                    return null;
+                }
+                return resJson;
             } else {
                 notify_body += `\n- ${component_action.includes('sign_in') ? '签到' : '抽奖'}：请求失败! (状态码${response.statusCode})`;
                 return null;
@@ -173,7 +168,7 @@ async function wpsTask() {
         "component_type": 42,
         "component_action": "fragment_collect.sign_in",
         "fragment_collect": {
-            "sign_date": today, 
+            "sign_date": today, // 动态日期
             "series_id": SERIES_ID,
             "is_new_sign_series": false
         }
@@ -213,7 +208,7 @@ async function wpsTask() {
             "component_type": 45,
             "component_action": "lottery_v2.exec",
             "lottery_v2": {
-                "session_id": parseInt(LOTTERY_SESSION_ID)
+                "session_id": LOTTERY_SESSION_ID
             }
         });
 
@@ -238,11 +233,10 @@ async function wpsTask() {
 }
 
 // --- 脚本入口 ---
-
-// QX 会通过 $request 判断是否是重写模式
+// QX 通过 $request 判断是否为重写模式
 if (typeof $request !== 'undefined') {
     wpsCatch();
 } else {
-    // 否则是定时任务模式
+    // 定时任务模式
     wpsTask();
 }
