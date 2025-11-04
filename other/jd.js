@@ -1,22 +1,22 @@
 /*
-
 [rewrite_local]
 # 匹配订单列表接口：order_list_m
 ^https:\/\/api\.m\.jd\.com\/client\.action\?.*functionId=order_list_m\b url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/other/jd.js
 
 # 匹配订单详情接口：order_detail_m
-^https:\/\/api\.m\.jd\.com\/client\.action\?.*functionId=order_detail_m\b url script-response-body_https://raw.githubusercontent.com/yjlsx/quantumult-x/master/other/jd.js
+^https:\/\/api\.m\.jd\.com\/client\.action\?.*functionId=order_detail_m\b url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/other/jd.js
 
 
 [mitm]
 hostname = api.m.jd.com
- */
+*/
+
 
 let obj = JSON.parse($response.body);
 
 function replaceTime(data, regex, replacement) {
+    // 基础情况：如果是字符串，则尝试替换时间
     if (typeof data === 'string') {
-        // 使用正则表达式替换时间 (例如: ' 18:' 替换为 ' 21:')
         if (regex.test(data)) {
             let newStr = data.replace(regex, replacement);
             console.log(`[Time Replace] Replaced: "${data}" -> "${newStr}"`);
@@ -25,22 +25,17 @@ function replaceTime(data, regex, replacement) {
         return data;
     }
     
+    // 递归处理数组
     if (Array.isArray(data)) {
-        // 递归处理数组
         return data.map(item => replaceTime(item, regex, replacement));
     }
     
+    // 递归处理对象（简化版，仅遍历）
     if (typeof data === 'object' && data !== null) {
-        // 递归处理对象
         for (let key in data) {
             if (Object.prototype.hasOwnProperty.call(data, key)) {
-                // 特殊处理时间相关的已知字段
-                if (key === 'submitDate' || key === 'dateSubmit' || key === 'orderCompleteTime' || key === 'tip' || key === 'content') {
-                     data[key] = replaceTime(data[key], regex, replacement);
-                } else {
-                    // 对所有其他字段进行深度搜索替换
-                    data[key] = replaceTime(data[key], regex, replacement);
-                }
+                // 这里进行递归调用，将替换逻辑交给上面的 string 分支处理
+                data[key] = replaceTime(data[key], regex, replacement);
             }
         }
     }
@@ -48,12 +43,12 @@ function replaceTime(data, regex, replacement) {
     return data;
 }
 
-// 匹配 " 年-月-日 18:xx:xx" 或 " 18:xx" 的通用时间模式
-// 目标: 将 ' 18:' 改为 ' 21:'
-const timeRegex = /(\s\d{4}-\d{2}-\d{2}\s)18:/;
+// 匹配 " 年-月-日 18:xx:xx" 的通用时间模式
+const timeRegex = /(\s\d{4}-\d{2}-\d{2}\s)18:/g; // 添加 g (全局) 确保替换完全
 const timeReplacement = '$121:';
-const timeRegexShort = /(\s)18:/; // 针对某些只有小时分钟的简短时间（例如 progressList.tip）
-const timeReplacementShort = '$121:';
+// 针对只有小时分钟或不带日期的简短时间（例如 "18:xx:xx" 或 " 18:xx"）
+const timeRegexShort = /18:/g; // 只需要匹配并替换 "18:"
+const timeReplacementShort = '21:';
 
 try {
     // ----------------------------------------------------
@@ -68,8 +63,7 @@ try {
     }
 
     // ----------------------------------------------------
-    // 2. 针对 order_detail_m 接口的修改 (深度替换)
-    // 涉及字段: dateSubmit, orderCompleteTime, progressList[].tip, summaryList[].content
+    // 2. 针对 order_detail_m 接口的修改
     // ----------------------------------------------------
     
     // a. 修改 orderCommonVo 下的时间 (下单时间和完成时间)
@@ -83,24 +77,22 @@ try {
         }
     }
 
-    // b. 修改 progressList (物流时间)
+    // b. 修改 progressList (物流时间 tip)
     if (obj.body && Array.isArray(obj.body.progressList)) {
         obj.body.progressList.forEach(item => {
             if (item.tip) {
-                // 注意：progressList.tip 可能是 '2025-11-04 18:35:11'，也可能只是 '18:xx'
-                // 这里使用更宽松的正则来替换所有出现的 ' 18:'
+                // 使用短正则替换（因为它可能是完整的日期时间，或只是简短时间）
                 item.tip = replaceTime(item.tip, timeRegexShort, timeReplacementShort);
             }
         });
     }
 
-    // c. 修改 summaryList (下单时间、支付时间等)
+    // c. 修改 summaryList (下单时间、支付时间等 content)
     if (obj.body && Array.isArray(obj.body.summaryList)) {
         obj.body.summaryList.forEach(item => {
-            if (item.title === '下单时间：' || item.title === '支付时间：') {
-                 if (item.content) {
-                    item.content = replaceTime(item.content, timeRegexShort, timeReplacementShort);
-                 }
+            // 注意：summaryList 中的 content 可能只包含时间，所以使用短正则
+            if (item.title && (item.title.includes('下单时间') || item.title.includes('支付时间')) && item.content) {
+                item.content = replaceTime(item.content, timeRegexShort, timeReplacementShort);
             }
         });
     }
@@ -111,6 +103,6 @@ try {
 } catch (e) {
     // 捕获 JSON 解析或处理错误
     console.log(`[jd_time_modify] Error: ${e.message}`);
-    // 如果出错，则返回原始响应体
+    // 如果出错，则返回空响应，防止应用崩溃
     $done({}); 
 }
