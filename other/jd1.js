@@ -14,14 +14,15 @@ hostname = api.m.jd.com
 
 
 /*
- * Quantumult X 脚本: 终极高可配置订单信息修改脚本 (V13 - 修复 JSON Parse 错误)
+ * Quantumult X 脚本: 终极高可配置订单信息修改脚本 (V14 - 修复价格重复和详情页问题)
  * 核心功能: 
- * 1. 【修复】处理 $response.body 为空或非 JSON 格式的情况。
- * 2. 包含订单号、时间、店铺信息、价格的全部自定义逻辑。
+ * 1. 修复订单列表页价格重复显示的问题。
+ * 2. 移除对复杂价格明细的修改，只修改最终实付价格。
+ * 3. 包含订单号、时间、店铺信息、价格的全部自定义逻辑。
  */
 
 // -------------------------------------------------------
-// 【V13 修复】：健壮性检查，防止 JSON Parse error: Unexpected identifier "undefined"
+// 【V14 健壮性检查】防止 JSON Parse error
 // -------------------------------------------------------
 const body = $response.body;
 if (!body) {
@@ -34,18 +35,15 @@ let obj = {};
 try {
     obj = JSON.parse(body);
 } catch (e) {
-    // 捕获 JSON 解析错误，返回原始响应体，防止应用崩溃
     console.log(`[JD Modify] JSON Parse Error: ${e.message}. URL: ${$request.url}`);
     $done({});
     return;
 }
 // -------------------------------------------------------
-// 健壮性检查结束
-// -------------------------------------------------------
 
 
 // =======================================================
-// 【配置区】请根据您提供的响应体和目标值进行配置
+// 【配置区】保持您的目标配置不变
 // =======================================================
 
 const CONFIG = {
@@ -71,21 +69,16 @@ const CONFIG = {
     NEW_BUSINESS_HOURS: "10:00-23:59",
     NEW_SHOP_ADDRESS: "云南省昆明市官渡区六甲街道办事处陈家社区居委会陈家营村N01-03号商铺",
     
-    // ---- 价格相关修改 ----
+    // ---- 价格相关修改 (只修改最终金额，不碰明细) ----
     ENABLE_PRICE_REPLACE: true, 
     ORIGINAL_FACT_PRICE: "21.24",
     NEW_SHOULD_PAY: "25.24", 
     NEW_FACT_PRICE: "25.24", 
-    
-    // 价格明细调整目标
-    TARGET_DISCOUNT_INDEX: 4, 
-    TARGET_DISCOUNT_VALUE: "10.00", 
-    DISCOUNT_TO_REMOVE_INDEX: 5 
 };
 
 
 // =======================================================
-// 【核心逻辑】(保持您提供的逻辑不变)
+// 【核心逻辑】(保留所有替换函数，移除价格明细函数)
 // =======================================================
 
 function replaceAllTimes(data) {
@@ -132,25 +125,6 @@ function replaceAllFields(data) {
     return modifiedData;
 }
 
-function fixPriceDetails(body) {
-    if (!CONFIG.ENABLE_PRICE_REPLACE || !body || !Array.isArray(body.billsList)) return;
-
-    let billsList = body.billsList;
-    
-    // 1. 移除指定的优惠项
-    if (CONFIG.DISCOUNT_TO_REMOVE_INDEX < billsList.length && billsList[CONFIG.DISCOUNT_TO_REMOVE_INDEX].money.startsWith('-')) {
-        billsList.splice(CONFIG.DISCOUNT_TO_REMOVE_INDEX, 1);
-    }
-    
-    // 2. 调整目标优惠项 1 的金额
-    if (CONFIG.TARGET_DISCOUNT_INDEX < billsList.length) {
-        let item = billsList[CONFIG.TARGET_DISCOUNT_INDEX];
-        if (item.money.startsWith('-')) {
-            item.money = `- ¥ ${CONFIG.TARGET_DISCOUNT_VALUE}`;
-        }
-    }
-}
-
 
 try {
     const url = $request.url;
@@ -180,12 +154,10 @@ try {
                 firstOrder.shopInfo.shopName = replaceAllFields(firstOrder.shopInfo.shopName);
             }
             
-            // 实付金额强制覆盖
+            // 【V14 修复】：只修改 shouldPay 字段，不修改 shouldPayTip，防止重复价格
             if (CONFIG.ENABLE_PRICE_REPLACE) {
                  firstOrder.shouldPay = CONFIG.NEW_SHOULD_PAY; 
-                 if (firstOrder.shouldPayTip === '实付') {
-                     firstOrder.shouldPayTip = `实付￥${CONFIG.NEW_SHOULD_PAY}`;
-                 }
+                 // 移除对 shouldPayTip 的修改
             }
         }
     }
@@ -195,9 +167,8 @@ try {
     // ----------------------------------------------------
     else if (url.includes('functionId=order_detail_m')) {
         
-        // 价格明细调整
-        if (obj.body && obj.body.orderPriceInfo) {
-            fixPriceDetails(obj.body.orderPriceInfo);
+        // 【V14 修复】：只覆盖实付金额，不调用 fixPriceDetails
+        if (CONFIG.ENABLE_PRICE_REPLACE && obj.body && obj.body.orderPriceInfo) {
             obj.body.orderPriceInfo.factPrice = CONFIG.NEW_FACT_PRICE; 
         }
 
@@ -275,6 +246,5 @@ try {
 
 } catch (e) {
     console.log(`[jd_custom_modify] Error: ${e.message}`);
-    // 如果发生错误，返回原始响应体，防止应用崩溃
     $done({}); 
 }
