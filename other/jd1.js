@@ -14,15 +14,15 @@ hostname = api.m.jd.com
 
 
 /*
- * Quantumult X 脚本: 终极高可配置订单信息修改脚本 (V14 - 修复价格重复和详情页问题)
+ * Quantumult X 脚本: 终极高可配置订单信息修改脚本 (V15 - 修复期望配送时间日期)
  * 核心功能: 
  * 1. 修复订单列表页价格重复显示的问题。
- * 2. 移除对复杂价格明细的修改，只修改最终实付价格。
- * 3. 包含订单号、时间、店铺信息、价格的全部自定义逻辑。
+ * 2. 修复期望配送时间日期未随下单时间变化的问题。
+ * 3. 包含订单号、时间、店铺信息、价格的全部自定义逻辑和健壮性检查。
  */
 
 // -------------------------------------------------------
-// 【V14 健壮性检查】防止 JSON Parse error
+// 【V15 健壮性检查】防止 JSON Parse error
 // -------------------------------------------------------
 const body = $response.body;
 if (!body) {
@@ -55,7 +55,7 @@ const CONFIG = {
     // ---- 时间相关修改 (精确替换) ----
     ENABLE_TIME_REPLACE: true, 
     ORDER_ORIGINAL_DATETIME: '2025-11-04 18:04:55', 
-    ORDER_TARGET_DATETIME: '2025-11-05 10:05:30', 
+    ORDER_TARGET_DATETIME: '2025-11-05 10:05:30', // <--- 目标日期是 11-05
     PAYMENT_ORIGINAL_DATETIME: '2025-11-04 18:05:11', 
     PAYMENT_TARGET_DATETIME: '2025-11-05 10:06:00', 
     COMPLETE_ORIGINAL_DATETIME: '2025-11-04 18:35:12', 
@@ -78,8 +78,11 @@ const CONFIG = {
 
 
 // =======================================================
-// 【核心逻辑】(保留所有替换函数，移除价格明细函数)
+// 【核心逻辑】
 // =======================================================
+
+// 提取目标下单日期 (例如 '2025-11-05')
+const TARGET_DATE_PART = CONFIG.ORDER_TARGET_DATETIME.substring(0, 10);
 
 function replaceAllTimes(data) {
     if (!CONFIG.ENABLE_TIME_REPLACE || typeof data !== 'string') return data;
@@ -154,10 +157,9 @@ try {
                 firstOrder.shopInfo.shopName = replaceAllFields(firstOrder.shopInfo.shopName);
             }
             
-            // 【V14 修复】：只修改 shouldPay 字段，不修改 shouldPayTip，防止重复价格
+            // 实付金额强制覆盖 (V14 修复：只修改 shouldPay)
             if (CONFIG.ENABLE_PRICE_REPLACE) {
                  firstOrder.shouldPay = CONFIG.NEW_SHOULD_PAY; 
-                 // 移除对 shouldPayTip 的修改
             }
         }
     }
@@ -167,7 +169,7 @@ try {
     // ----------------------------------------------------
     else if (url.includes('functionId=order_detail_m')) {
         
-        // 【V14 修复】：只覆盖实付金额，不调用 fixPriceDetails
+        // 价格修改
         if (CONFIG.ENABLE_PRICE_REPLACE && obj.body && obj.body.orderPriceInfo) {
             obj.body.orderPriceInfo.factPrice = CONFIG.NEW_FACT_PRICE; 
         }
@@ -213,9 +215,8 @@ try {
 
                 // 3. 特殊处理期望配送时间
                 if (CONFIG.ENABLE_TIME_REPLACE && item.title === '期望配送时间：') {
-                    let datePartMatch = item.content.match(/^\d{4}-\d{2}-\d{2}/);
-                    let datePart = datePartMatch ? datePartMatch[0] : '';
-                    item.content = (datePart + " " + CONFIG.NEW_DELIVERY_TIME).trim();
+                    // 【V15 修复】：强制使用目标下单日期，避免使用原始日期
+                    item.content = (TARGET_DATE_PART + " " + CONFIG.NEW_DELIVERY_TIME).trim();
                 }
 
                 // 4. 替换店铺信息 (硬编码替换)
