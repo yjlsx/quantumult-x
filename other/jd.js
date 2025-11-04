@@ -14,95 +14,94 @@ hostname = api.m.jd.com
 
 let obj = JSON.parse($response.body);
 
-function replaceTime(data, regex, replacement) {
-    // 基础情况：如果是字符串，则尝试替换时间
+// 正则表达式: 匹配前面带空格的 '18:'，并全局替换
+const timeRegexShort = /(\s)18:/g; 
+const timeReplacementShort = '$121:';
+
+/**
+ * 替换字符串中的 ' 18:' 为 ' 21:'
+ * @param {string} data 
+ * @returns {string}
+ */
+function replaceTime(data) {
     if (typeof data === 'string') {
-        if (regex.test(data)) {
-            let newStr = data.replace(regex, replacement);
-            console.log(`[Time Replace] Replaced: "${data}" -> "${newStr}"`);
+        if (timeRegexShort.test(data)) {
+            let newStr = data.replace(timeRegexShort, timeReplacementShort);
             return newStr;
         }
-        return data;
     }
-    
-    // 递归处理数组
-    if (Array.isArray(data)) {
-        return data.map(item => replaceTime(item, regex, replacement));
-    }
-    
-    // 递归处理对象（简化版，仅遍历）
-    if (typeof data === 'object' && data !== null) {
-        for (let key in data) {
-            if (Object.prototype.hasOwnProperty.call(data, key)) {
-                // 这里进行递归调用，将替换逻辑交给上面的 string 分支处理
-                data[key] = replaceTime(data[key], regex, replacement);
-            }
-        }
-    }
-    
     return data;
 }
 
-// 匹配 " 年-月-日 18:xx:xx" 的通用时间模式
-const timeRegex = /(\s\d{4}-\d{2}-\d{2}\s)18:/g; // 添加 g (全局) 确保替换完全
-const timeReplacement = '$121:';
-// 针对只有小时分钟或不带日期的简短时间（例如 "18:xx:xx" 或 " 18:xx"）
-const timeRegexShort = /18:/g; // 只需要匹配并替换 "18:"
-const timeReplacementShort = '21:';
-
 try {
     // ----------------------------------------------------
-    // 1. 针对 order_list_m 接口的修改
+    // 1. 针对 order_list_m 接口的修改 (订单列表)
     // 路径: obj.body.orderList[0].submitDate
     // ----------------------------------------------------
     if (obj.body && Array.isArray(obj.body.orderList) && obj.body.orderList.length > 0) {
         let firstOrder = obj.body.orderList[0];
         if (firstOrder.submitDate) {
-            firstOrder.submitDate = replaceTime(firstOrder.submitDate, timeRegex, timeReplacement);
+            firstOrder.submitDate = replaceTime(firstOrder.submitDate);
+            console.log(`[QLX-JD] List time modified to: ${firstOrder.submitDate}`);
         }
     }
 
     // ----------------------------------------------------
-    // 2. 针对 order_detail_m 接口的修改
+    // 2. 针对 order_detail_m 接口的修改 (订单详情)
     // ----------------------------------------------------
     
     // a. 修改 orderCommonVo 下的时间 (下单时间和完成时间)
     if (obj.body && obj.body.orderCommonVo) {
         let common = obj.body.orderCommonVo;
         if (common.dateSubmit) {
-            common.dateSubmit = replaceTime(common.dateSubmit, timeRegex, timeReplacement);
+            common.dateSubmit = replaceTime(common.dateSubmit);
         }
         if (common.orderCompleteTime) {
-            common.orderCompleteTime = replaceTime(common.orderCompleteTime, timeRegex, timeReplacement);
+            common.orderCompleteTime = replaceTime(common.orderCompleteTime);
         }
     }
 
-    // b. 修改 progressList (物流时间 tip)
+    // b. 修改 progressList (物流时间)
     if (obj.body && Array.isArray(obj.body.progressList)) {
         obj.body.progressList.forEach(item => {
             if (item.tip) {
-                // 使用短正则替换（因为它可能是完整的日期时间，或只是简短时间）
-                item.tip = replaceTime(item.tip, timeRegexShort, timeReplacementShort);
+                item.tip = replaceTime(item.tip);
             }
         });
     }
 
-    // c. 修改 summaryList (下单时间、支付时间等 content)
+    // c. 修改 summaryList (下单时间、支付时间、期望配送时间)
     if (obj.body && Array.isArray(obj.body.summaryList)) {
         obj.body.summaryList.forEach(item => {
-            // 注意：summaryList 中的 content 可能只包含时间，所以使用短正则
-            if (item.title && (item.title.includes('下单时间') || item.title.includes('支付时间')) && item.content) {
-                item.content = replaceTime(item.content, timeRegexShort, timeReplacementShort);
+            if (!item.content) return;
+
+            if (item.title === '下单时间：' || item.title === '支付时间：') {
+                // 通用时间替换 (18:xx -> 21:xx)
+                let newContent = replaceTime(item.content);
+                if (newContent !== item.content) {
+                    item.content = newContent;
+                }
+            } else if (item.title === '期望配送时间：') {
+                // 期望配送时间特殊处理: 替换时间段为 '20:30-21:30'
+                const originalContent = item.content;
+                const newTimeRange = "20:30-21:30";
+                
+                // 尝试匹配日期部分 (e.g., "2025-11-04 ")
+                let datePartMatch = originalContent.match(/^\d{4}-\d{2}-\d{2}\s/);
+                let datePart = datePartMatch ? datePartMatch[0] : '';
+                
+                // 组合新的内容
+                item.content = (datePart + newTimeRange).trim();
+                console.log(`[QLX-JD] Expected delivery time modified to: ${item.content}`);
             }
         });
     }
     
-    // 将修改后的对象重新序列化为 JSON 字符串
+    // 返回修改后的响应体
     $done({body: JSON.stringify(obj)});
 
 } catch (e) {
-    // 捕获 JSON 解析或处理错误
-    console.log(`[jd_time_modify] Error: ${e.message}`);
-    // 如果出错，则返回空响应，防止应用崩溃
+    console.error(`[QLX-JD] Script execution error: ${e.message}`);
+    // 如果解析出错，返回原始响应
     $done({}); 
 }
