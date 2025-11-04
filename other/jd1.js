@@ -168,6 +168,10 @@ try {
             // 订单号修改
             if (CONFIG.ENABLE_ORDER_ID_REPLACE && firstOrder.orderId) {
                 firstOrder.orderId = CONFIG.ORDER_ID_TARGET;
+                // 同时修改订单详情链接中的 orderId
+                if(firstOrder.orderDetailLink && firstOrder.orderDetailLink.url) {
+                    firstOrder.orderDetailLink.url = firstOrder.orderDetailLink.url.replace(CONFIG.ORDER_ID_ORIGINAL, CONFIG.ORDER_ID_TARGET);
+                }
             }
 
             // 下单时间修改
@@ -179,10 +183,17 @@ try {
             if (CONFIG.ENABLE_SHOP_INFO_REPLACE && firstOrder.shopInfo && firstOrder.shopInfo.shopName) {
                 firstOrder.shopInfo.shopName = CONFIG.NEW_SHOP_NAME; 
             }
+            // 同时修改商品列表中的店铺名
+            if (CONFIG.ENABLE_SHOP_INFO_REPLACE && Array.isArray(firstOrder.wareInfoList)) {
+                 firstOrder.wareInfoList.forEach(ware => {
+                     // order_list_m 接口的商品列表没有 shopName 字段，无需修改
+                 });
+            }
 
-            // 实付金额修改
-            if (CONFIG.ENABLE_PRICE_REPLACE && firstOrder.shouldPay === CONFIG.ORIGINAL_FACT_PRICE) {
+            // 【修复点】实付金额强制覆盖
+            if (CONFIG.ENABLE_PRICE_REPLACE) {
                  firstOrder.shouldPay = CONFIG.NEW_SHOULD_PAY; 
+                 // 列表页的价格通常显示在 orderStatusInfo.stateTip 或 otherInfo，但您的响应体只在 shouldPay 中，已覆盖。
             }
         }
     }
@@ -234,12 +245,15 @@ try {
             obj.body.summaryList.forEach(item => {
                 if (!item.content) return;
                 
-                // 1. 通用字段替换 (包含订单号和时间)
+                // 1. 通用字段替换 (包含订单号和店铺名)
                 item.content = replaceAllFields(item.content);
-                item.content = replaceAllTimes(item.content); // 确保所有时间都替换
-
                 
-                // 2. 特殊处理期望配送时间
+                // 2. 替换所有时间点
+                if (CONFIG.ENABLE_TIME_REPLACE) {
+                    item.content = replaceAllTimes(item.content);
+                }
+
+                // 3. 特殊处理期望配送时间
                 if (CONFIG.ENABLE_TIME_REPLACE && item.title === '期望配送时间：') {
                     // 替换时间段，但保留替换后的日期部分
                     let datePartMatch = item.content.match(/^\d{4}-\d{2}-\d{2}/);
@@ -247,7 +261,7 @@ try {
                     item.content = (datePart + " " + CONFIG.NEW_DELIVERY_TIME).trim();
                 }
 
-                // 3. 替换店铺信息
+                // 4. 替换店铺信息
                 if (CONFIG.ENABLE_SHOP_INFO_REPLACE) {
                     switch (item.title) {
                         case '营业时间：': item.content = CONFIG.NEW_BUSINESS_HOURS; break;
