@@ -51,47 +51,42 @@ function wpsCatch() {
     }
     
     const headers = $request.headers;
-    // 确保从 Headers 中获取 Cookie
     const cookie = headers['Cookie'] || headers['cookie'];
     
     if (!cookie || cookie.length < 50) {
+        console.log('【WPS抓包】未捕获到有效的 Cookie。');
         $notify('WPS 抓包失败', '未捕获到有效的 Cookie', '请检查 MitM 和重写是否开启。');
         $done({});
         return;
     }
+    
+    $prefs.setValueForKey(cookie, 'WPS_COOKIE');
 
     try {
         const jsonBody = JSON.parse(body);
         const action = jsonBody.component_action;
         
-        // 统一保存最新 Cookie
-        $prefs.setValueForKey(cookie, 'WPS_COOKIE');
-
         if (action === 'fragment_collect.sign_in') {
             
-            // 抓取并保存签到组件 ID
             $prefs.setValueForKey(jsonBody.component_uniq_number.component_number, 'WPS_SIGN_COMPONENT_NUMBER');
             $prefs.setValueForKey(jsonBody.component_uniq_number.component_node_id, 'WPS_SIGN_COMPONENT_NODE_ID');
-            // 虽然是固定ID，但为了确认它们在请求中出现，也可以保存一次，但这里我们直接使用上面的常量
 
+            console.log('【WPS抓包】签到参数捕获成功并保存。');
             $notify('WPS 签到参数捕获成功 ✅', 'Cookie 和签到ID已保存', '请手动执行一次抽奖请求，并禁用此重写规则！');
-            console.log('WPS 签到参数捕获成功并保存。');
 
         } else if (action === 'lottery_v2.exec') {
             
-            // 抓取并保存抽奖组件 ID
             $prefs.setValueForKey(jsonBody.component_uniq_number.component_number, 'WPS_LOTTERY_COMPONENT_NUMBER');
             $prefs.setValueForKey(jsonBody.component_uniq_number.component_node_id, 'WPS_LOTTERY_COMPONENT_NODE_ID');
-            // 抓取并保存抽奖 session_id (虽然是固定值，但以防万一)
             $prefs.setValueForKey(jsonBody.lottery_v2.session_id.toString(), 'WPS_LOTTERY_SESSION_ID');
             
+            console.log('【WPS抓包】抽奖参数捕获成功并保存。');
             $notify('WPS 抽奖参数捕获成功 🎉', '抽奖 ID 已保存', '现在可以禁用抓包重写，运行定时任务了。');
-            console.log('WPS 抽奖参数捕获成功并保存。');
         }
         
     } catch (e) {
+        console.log(`【WPS抓包】解析 Body 失败: ${e.message}`);
         $notify('WPS 参数捕获失败', '解析 Body 时出错或参数缺失', e.message);
-        console.log('WPS Body 解析失败:', e);
     }
 
     $done({});
@@ -109,12 +104,14 @@ async function wpsTask() {
     const LOTTERY_COMPONENT_NUMBER = $prefs.valueForKey('WPS_LOTTERY_COMPONENT_NUMBER'); 
     const LOTTERY_COMPONENT_NODE_ID = $prefs.valueForKey('WPS_LOTTERY_COMPONENT_NODE_ID'); 
     
-    // 检查关键参数是否已存储
     if (!WPS_COOKIE || !SIGN_COMPONENT_NUMBER || !LOTTERY_COMPONENT_NUMBER) {
-        $notify(NOTIFY_TITLE, '运行中止 🛑', `关键参数缺失或 Cookie 失效。请先启用重写规则，手动签到和抽奖以重新抓取参数！`);
+        console.log('【WPS任务】关键参数缺失，任务中止。');
+        $notify(NOTIFY_TITLE, '🛑 任务中止', `关键参数缺失或 Cookie 失效。请先启用重写规则，手动签到和抽奖以重新抓取参数！`);
         $done();
         return;
     }
+    
+    console.log('【WPS任务】开始执行每日任务...');
 
     /** 执行请求核心函数 (在任务模式下定义) */
     async function executeRequest(component_action, body) {
@@ -123,7 +120,7 @@ async function wpsTask() {
             'Content-Type': `application/json`,
             'Origin': `https://personal-act.wps.cn`,
             'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1`,
-            'Cookie': WPS_COOKIE, // 从存储中读取 Cookie
+            'Cookie': WPS_COOKIE,
             'Host': `personal-act.wps.cn`,
             'Referer': `https://personal-act.wps.cn/rubik2/portal/${ACTIVITY_NUMBER}/${PAGE_NUMBER}?cs_from=&position=pc_flzx_wpssqbanner`,
             'Accept': `application/json, text/plain, */*`
@@ -138,10 +135,11 @@ async function wpsTask() {
 
         try {
             const response = await $task.fetch(myRequest);
+            console.log(`【WPS任务】${component_action} 请求状态码: ${response.statusCode}`);
             if (response.statusCode === 200) {
                 const resJson = JSON.parse(response.body);
-                // 检查 Cookie 是否过期
                 if (resJson.result === 'error' && resJson.msg.includes('user not login')) {
+                    console.log('【WPS任务】Cookie 已过期，任务失败。');
                     $notify(NOTIFY_TITLE, '❌ 任务失败', 'Cookie 已过期，请重新抓包更新！');
                     return null;
                 }
@@ -151,27 +149,20 @@ async function wpsTask() {
                 return null;
             }
         } catch (reason) {
+            console.log(`【WPS任务】${component_action} 请求异常: ${reason.error}`);
             notify_body += `\n- ${component_action.includes('sign_in') ? '签到' : '抽奖'}：请求异常! (${reason.error})`;
             return null;
         }
     }
 
     // --- 签到任务 ---
+    console.log('【WPS任务】开始执行签到...');
     const today = getTodayDate();
     const signBody = JSON.stringify({
-        "component_uniq_number": {
-            "activity_number": ACTIVITY_NUMBER,
-            "page_number": PAGE_NUMBER,
-            "component_number": SIGN_COMPONENT_NUMBER,
-            "component_node_id": SIGN_COMPONENT_NODE_ID
-        },
+        "component_uniq_number": { "activity_number": ACTIVITY_NUMBER, "page_number": PAGE_NUMBER, "component_number": SIGN_COMPONENT_NUMBER, "component_node_id": SIGN_COMPONENT_NODE_ID },
         "component_type": 42,
         "component_action": "fragment_collect.sign_in",
-        "fragment_collect": {
-            "sign_date": today, // 动态日期
-            "series_id": SERIES_ID,
-            "is_new_sign_series": false
-        }
+        "fragment_collect": { "sign_date": today, "series_id": SERIES_ID, "is_new_sign_series": false }
     });
 
     let signResult = false;
@@ -185,31 +176,20 @@ async function wpsTask() {
             notify_body += '\n- ⚠️ **签到**：今日已重复签到。';
             signResult = true;
         } else {
-            const msg = signRes.msg || '未知错误';
-            notify_body += `\n- ❌ **签到**：失败！原因: ${msg}`;
+            notify_body += `\n- ❌ **签到**：失败！原因: ${signRes.msg || '未知错误'}`;
         }
     }
 
     // --- 抽奖任务 ---
     if (signResult) {
+        console.log('【WPS任务】签到成功/已签到，等待1秒后执行抽奖...');
         await sleep(1000); 
 
         const lotteryBody = JSON.stringify({
-            "component_uniq_number": {
-                "activity_number": ACTIVITY_NUMBER,
-                "page_number": PAGE_NUMBER,
-                "component_number": LOTTERY_COMPONENT_NUMBER,
-                "component_node_id": LOTTERY_COMPONENT_NODE_ID,
-                "filter_params": {
-                    "cs_from": "",
-                    "position": "pc_flzx_wpssqbanner"
-                }
-            },
+            "component_uniq_number": { "activity_number": ACTIVITY_NUMBER, "page_number": PAGE_NUMBER, "component_number": LOTTERY_COMPONENT_NUMBER, "component_node_id": LOTTERY_COMPONENT_NODE_ID, "filter_params": { "cs_from": "", "position": "pc_flzx_wpssqbanner" } },
             "component_type": 45,
             "component_action": "lottery_v2.exec",
-            "lottery_v2": {
-                "session_id": LOTTERY_SESSION_ID
-            }
+            "lottery_v2": { "session_id": LOTTERY_SESSION_ID }
         });
 
         const lotteryRes = await executeRequest('lottery_v2.exec', lotteryBody);
@@ -219,24 +199,21 @@ async function wpsTask() {
                 const rewardName = lotteryRes.data.lottery_v2.reward_name || '未知奖励';
                 notify_body += `\n- 🎁 **抽奖**：成功！获得 ${rewardName}`;
             } else {
-                const msg = lotteryRes.msg || '未知错误';
-                notify_body += `\n- ❌ **抽奖**：失败！原因: ${msg}`;
+                notify_body += `\n- ❌ **抽奖**：失败！原因: ${lotteryRes.msg || '未知错误'}`;
             }
         }
     } else {
         notify_body += '\n- ⚠️ **抽奖**：未执行 (签到未成功)';
     }
 
-    // 发送最终通知
-    $notify(NOTIFY_TITLE, '任务执行完毕', notify_body.trim());
+    // 发送最终通知，不包含“任务执行完毕”
+    $notify(NOTIFY_TITLE, notify_body.trim(), '');
     $done();
 }
 
 // --- 脚本入口 ---
-// QX 通过 $request 判断是否为重写模式
 if (typeof $request !== 'undefined') {
     wpsCatch();
 } else {
-    // 定时任务模式
     wpsTask();
 }
