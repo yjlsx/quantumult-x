@@ -14,15 +14,14 @@ hostname = api.m.jd.com
 
 
 /*
- * Quantumult X 脚本: 终极高可配置订单信息修改脚本 (V15 - 修复期望配送时间日期)
+ * Quantumult X 脚本: 终极高可配置订单信息修改脚本 (V17 - 取消列表页订单号修改，防止详情页失效)
  * 核心功能: 
- * 1. 修复订单列表页价格重复显示的问题。
- * 2. 修复期望配送时间日期未随下单时间变化的问题。
- * 3. 包含订单号、时间、店铺信息、价格的全部自定义逻辑和健壮性检查。
+ * 1. 列表页只修改时间、店铺和实付金额，保留原始订单号以确保详情页请求成功。
+ * 2. 详情页修改所有字段，包括订单号、时间、链接等。
  */
 
 // -------------------------------------------------------
-// 【V15 健壮性检查】防止 JSON Parse error
+// 健壮性检查
 // -------------------------------------------------------
 const body = $response.body;
 if (!body) {
@@ -47,7 +46,7 @@ try {
 // =======================================================
 
 const CONFIG = {
-    // ---- 订单号修改 ----
+    // ---- 订单号修改 (用于详情页) ----
     ENABLE_ORDER_ID_REPLACE: true,
     ORDER_ID_ORIGINAL: '342228745359', 
     ORDER_ID_TARGET: '345882584156', 
@@ -55,7 +54,7 @@ const CONFIG = {
     // ---- 时间相关修改 (精确替换) ----
     ENABLE_TIME_REPLACE: true, 
     ORDER_ORIGINAL_DATETIME: '2025-11-04 18:04:55', 
-    ORDER_TARGET_DATETIME: '2025-11-05 10:05:30', // <--- 目标日期是 11-05
+    ORDER_TARGET_DATETIME: '2025-11-05 10:05:30', 
     PAYMENT_ORIGINAL_DATETIME: '2025-11-04 18:05:11', 
     PAYMENT_TARGET_DATETIME: '2025-11-05 10:06:00', 
     COMPLETE_ORIGINAL_DATETIME: '2025-11-04 18:35:12', 
@@ -78,11 +77,30 @@ const CONFIG = {
 
 
 // =======================================================
-// 【核心逻辑】
+// 【核心逻辑】(保持函数不变)
 // =======================================================
 
-// 提取目标下单日期 (例如 '2025-11-05')
 const TARGET_DATE_PART = CONFIG.ORDER_TARGET_DATETIME.substring(0, 10);
+
+function replaceOrderIdInLinks(node) {
+    if (!CONFIG.ENABLE_ORDER_ID_REPLACE) return;
+    
+    if (typeof node === 'object' && node !== null) {
+        if (node.link && typeof node.link === 'string') {
+            const regex = new RegExp(CONFIG.ORDER_ID_ORIGINAL, 'g');
+            node.link = node.link.replace(regex, CONFIG.ORDER_ID_TARGET);
+        }
+        
+        for (const key in node) {
+            if (Object.prototype.hasOwnProperty.call(node, key)) {
+                replaceOrderIdInLinks(node[key]);
+            }
+        }
+    } else if (Array.isArray(node)) {
+        node.forEach(item => replaceOrderIdInLinks(item));
+    }
+}
+
 
 function replaceAllTimes(data) {
     if (!CONFIG.ENABLE_TIME_REPLACE || typeof data !== 'string') return data;
@@ -115,11 +133,7 @@ function replaceAllFields(data) {
     if (typeof data !== 'string') return data;
     let modifiedData = data;
 
-    if (CONFIG.ENABLE_ORDER_ID_REPLACE && CONFIG.ORDER_ID_ORIGINAL && CONFIG.ORDER_ID_TARGET) {
-        const idRegex = new RegExp(CONFIG.ORDER_ID_ORIGINAL.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
-        modifiedData = modifiedData.replace(idRegex, CONFIG.ORDER_ID_TARGET);
-    }
-
+    // **注意：这里只替换店铺名，订单号替换逻辑留给详情页处理**
     if (CONFIG.ENABLE_SHOP_INFO_REPLACE && CONFIG.ORIGINAL_SHOP_NAME && CONFIG.NEW_SHOP_NAME) {
         const shopRegex = new RegExp(CONFIG.ORIGINAL_SHOP_NAME.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
         modifiedData = modifiedData.replace(shopRegex, CONFIG.NEW_SHOP_NAME);
@@ -139,14 +153,9 @@ try {
         if (obj.body && Array.isArray(obj.body.orderList) && obj.body.orderList.length > 0) {
             let firstOrder = obj.body.orderList[0];
             
-            // 订单号修改
-            if (CONFIG.ENABLE_ORDER_ID_REPLACE && firstOrder.orderId) {
-                firstOrder.orderId = CONFIG.ORDER_ID_TARGET;
-                if(firstOrder.orderDetailLink && firstOrder.orderDetailLink.url) {
-                    firstOrder.orderDetailLink.url = firstOrder.orderDetailLink.url.replace(CONFIG.ORDER_ID_ORIGINAL, CONFIG.ORDER_ID_TARGET);
-                }
-            }
-
+            // 【V17 修复】：移除列表页订单号修改，确保点击能请求到正确的详情页
+            // if (CONFIG.ENABLE_ORDER_ID_REPLACE && firstOrder.orderId) { ... }
+            
             // 下单时间修改
             if (CONFIG.ENABLE_TIME_REPLACE && firstOrder.submitDate) {
                 firstOrder.submitDate = replaceAllTimes(firstOrder.submitDate); 
@@ -154,10 +163,11 @@ try {
 
             // 店铺名称修改
             if (CONFIG.ENABLE_SHOP_INFO_REPLACE && firstOrder.shopInfo && firstOrder.shopInfo.shopName) {
+                // 仅替换店铺名
                 firstOrder.shopInfo.shopName = replaceAllFields(firstOrder.shopInfo.shopName);
             }
             
-            // 实付金额强制覆盖 (V14 修复：只修改 shouldPay)
+            // 实付金额强制覆盖
             if (CONFIG.ENABLE_PRICE_REPLACE) {
                  firstOrder.shouldPay = CONFIG.NEW_SHOULD_PAY; 
             }
@@ -169,14 +179,19 @@ try {
     // ----------------------------------------------------
     else if (url.includes('functionId=order_detail_m')) {
         
+        // **【V17 关键】** 在详情页内执行所有订单号相关替换
+        if (CONFIG.ENABLE_ORDER_ID_REPLACE) {
+             // 替换所有 link 字段中的旧订单号
+             replaceOrderIdInLinks(obj.body); 
+             // 替换 orderCommonVo.orderId
+             if (obj.body && obj.body.orderCommonVo) {
+                 obj.body.orderCommonVo.orderId = CONFIG.ORDER_ID_TARGET;
+             }
+        }
+        
         // 价格修改
         if (CONFIG.ENABLE_PRICE_REPLACE && obj.body && obj.body.orderPriceInfo) {
             obj.body.orderPriceInfo.factPrice = CONFIG.NEW_FACT_PRICE; 
-        }
-
-        // 订单号修改
-        if (CONFIG.ENABLE_ORDER_ID_REPLACE && obj.body && obj.body.orderCommonVo) {
-             obj.body.orderCommonVo.orderId = CONFIG.ORDER_ID_TARGET;
         }
 
         // 时间修改
@@ -196,6 +211,7 @@ try {
         
         // 店铺修改
         if (CONFIG.ENABLE_SHOP_INFO_REPLACE && obj.body && Array.isArray(obj.body.shopList) && obj.body.shopList.length > 0) {
+            // 需要再次进行字段替换，以防万一
             const shopListStr = replaceAllFields(JSON.stringify(obj.body.shopList[0]));
             obj.body.shopList[0] = JSON.parse(shopListStr);
         }
@@ -206,7 +222,9 @@ try {
                 if (!item.content) return;
                 
                 // 1. 通用字段替换 (订单号和店铺名)
-                item.content = replaceAllFields(item.content);
+                // 这里的订单号替换现在依赖 replaceAllTimes 和 replaceAllFields 以外的逻辑
+                item.content = item.content.replace(new RegExp(CONFIG.ORDER_ID_ORIGINAL, 'g'), CONFIG.ORDER_ID_TARGET);
+                item.content = replaceAllFields(item.content); // 店铺名替换
                 
                 // 2. 替换所有时间点
                 if (CONFIG.ENABLE_TIME_REPLACE) {
@@ -215,7 +233,7 @@ try {
 
                 // 3. 特殊处理期望配送时间
                 if (CONFIG.ENABLE_TIME_REPLACE && item.title === '期望配送时间：') {
-                    // 【V15 修复】：强制使用目标下单日期，避免使用原始日期
+                    // 强制使用目标下单日期
                     item.content = (TARGET_DATE_PART + " " + CONFIG.NEW_DELIVERY_TIME).trim();
                 }
 
