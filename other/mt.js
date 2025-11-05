@@ -45,7 +45,6 @@ try {
     let obj = JSON.parse(body);
 
     if (!obj || obj.code !== 0 || !obj.data) {
-        // console.log("[美团外卖重写] 响应体状态异常，跳过修改。");
         $done({});
         return;
     }
@@ -55,8 +54,8 @@ try {
         rewriteOrderList(obj.data.orderList);
         body = JSON.stringify(obj);
     } else if (url.includes("/openh5/order/manager/v3/detail")) {
-        // --- 🚀 订单详情接口重写逻辑：仅修改订单号 ---
-        rewriteOrderDetailID(obj.data);
+        // --- 🚀 订单详情接口重写逻辑：修改订单号、店铺名和时间 ---
+        rewriteOrderDetail(obj.data);
         body = JSON.stringify(obj);
     }
 
@@ -86,40 +85,74 @@ function rewriteOrderList(orderList) {
                 let oldTime = order.orderTime.split(' ')[1] || TARGET_TIME; 
                 order.orderTime = `${TARGET_DATE} ${oldTime}`;
             }
+            
+            // ❗ 注意：不修改订单号
         });
         console.log(`[美团外卖重写] 订单列表处理完成，店铺名和日期已修改。`);
     }
 }
 
 /**
- * 订单详情 (order/manager/v3/detail) 接口重写：仅修改订单号
+ * 订单详情 (order/manager/v3/detail) 接口重写：修改订单号、店铺名和时间
  * @param {Object} data - 订单详情数据对象
  */
-function rewriteOrderDetailID(data) {
-    
-    // 调试信息：记录修改前的ID
-    const originalID = data.id || data.id_view || 'N/A';
-    
-    // 1. 修改数字类型订单ID (id)
+function rewriteOrderDetail(data) {
+    // 🛠️ 关键：计算包含目标时间的 Unix 时间戳（秒）
+    const targetDateTimeString = `${TARGET_DATE} ${TARGET_TIME}:00`; 
+    const targetTimestampSec = Math.floor(new Date(targetDateTimeString).getTime() / 1000);
+    const originalID = data.id || data.id_view || 'N/A'; // 用于日志和 scheme 替换
+
+    // --- 🎯 订单号修改 ---
     if (data.id !== undefined) {
-        data.id = TARGET_ORDER_ID_NUM;
+        data.id = TARGET_ORDER_ID_NUM; // 数字ID
     }
-    
-    // 2. 修改字符串类型订单ID (id_view)
     if (data.id_view !== undefined) {
-        data.id_view = TARGET_ORDER_ID_STR;
+        data.id_view = TARGET_ORDER_ID_STR; // 字符串ID
     }
-    
-    // 3. 修改另一个字符串类型订单ID (id_text)
     if (data.id_text !== undefined) {
-        data.id_text = TARGET_ORDER_ID_STR;
+        data.id_text = TARGET_ORDER_ID_STR; // 字符串ID
+    }
+    // *******************
+
+    // --- 🎯 店铺名和时间修改 (已恢复) ---
+
+    // 1. 修改店铺名 (poi_name)
+    if (data.poi_name) {
+        data.poi_name = TARGET_SHOP_NAME;
     }
     
-    // 4. 修改订单 URL scheme 中的订单号 (如果存在)
-    if (data.scheme) {
-        // 尝试替换 URL 中的数字订单号，以防点击后跳回原始订单
-        data.scheme = data.scheme.replace(new RegExp(originalID, 'g'), TARGET_ORDER_ID_STR);
+    // 2. 修改期望送达时间 (expected_arrival_time)
+    if (data.expected_arrival_time) {
+        data.expected_arrival_time = TARGET_ARRIVAL_TIME;
     }
 
-    console.log(`[美团外卖重写] 订单详情订单号修改成功。原ID: ${originalID} -> 新ID: ${TARGET_ORDER_ID_STR}`);
+    // 3. 修改订单时间戳 (order_time)
+    if (data.order_time) {
+        data.order_time = targetTimestampSec;
+    }
+    
+    // 4. 修改评论相关时间戳 (comment)
+    if (data.comment) {
+        // 评论时间
+        if (data.comment.comment_time) {
+            data.comment.comment_time = targetTimestampSec; 
+        }
+
+        // 商家回复时间 (add_comment_list)
+        if (Array.isArray(data.comment.add_comment_list)) {
+            data.comment.add_comment_list.forEach((reply) => {
+                if (reply.time) {
+                    reply.time = targetTimestampSec; 
+                }
+            });
+        }
+    }
+    
+    // 5. 修改 URL scheme 中的订单号
+    if (data.scheme) {
+        data.scheme = data.scheme.replace(new RegExp(originalID, 'g'), TARGET_ORDER_ID_STR);
+    }
+    // **********************************
+
+    console.log(`[美团外卖重写] 订单详情全部字段修改成功。新订单号: ${TARGET_ORDER_ID_STR}`);
 }
