@@ -27,7 +27,7 @@ hostname = i.waimai.meituan.com, *.meituan.com
 const TARGET_SHOP_NAME = "武松醉鹅（鹅汁泡皈・南悦城店）";
 const TARGET_DATE = "2025-11-05";
 const TARGET_TIME = "10:42"; // 示例时间，用于 orderList 中的 orderTime
-const TARGET_ARRIVAL_TIME = "11月5日 12:00-12:20"; // 订单详情页的期望送达时间
+const TARGET_ARRIVAL_TIME = "11月5日 11:30-12:20"; // 订单详情页的期望送达时间
 // --------------------
 
 const url = $request.url;
