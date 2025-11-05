@@ -16,195 +16,270 @@
 * hostname = cupid.51job.com, we.51job.com
 */
 
+
+
+/* ========== 配置项（可按需修改） ========== */
+// 保存 key（$prefs）
+const KEY_TOKEN = "51job_user_token";
+const KEY_WORKING_SIGN = "51job_working_sign";      // 成功时保存的 sign
+const KEY_WORKING_TIMESTAMP = "51job_working_ts";   // 成功时保存的 timestamp
+
+// 静态字段（从抓包内容填入）
+const API_KEY = "51job";
+const PARTNER = "b3cb7e0289d7ce624549498cae53b174";
+const ACCOUNT_ID = "169799378";
+const UUID = "e45d42cf7fa9a4c84246c8e4bc6714ef";
+const APP_VERSION = "15.19.0";
+
+// 请求体（如需更改请同步修改）
+const DEFAULT_BODY_OBJ = {
+ version: APP_VERSION,
+ actionType: "daily_check_in",
+ step2Add: 1
+};
+
+/* ========== 环境封装（兼容 QX） ========== */
 const $ = new Env("51Job 签到");
 
-const tokenKey = "51job_user_token";
-
-// 签到请求中的动态签名（!!! 硬编码，可能需要更新 !!!）
-const FIXED_SIGN = "b840342843266ffcb15e372b0c5ac7d8424a8865eaad3ae965274dc81e569e2e"; 
-const FIXED_PROPERTY = `%7B%22partner%22%3A%22b3cb7e0289d7ce624549498cae53b174%22%2C%22webId%22%3A2%2C%22fromdomain%22%3A%2251job_app_iphone%22%2C%22frompageUrl%22%3A%22https%3A%2F%2Fwe.51job.com%2F%22%2C%22pageUrl%22%3A%22https%3A%2F%2Fwe.51job.com%2Fop%2Ftask%22%2C%22identityType%22%3A%22%E8%81%8C%E5%9C%BA%E4%BA%BA%22%2C%22userType%22%3A%22%22%2C%22isLogin%22%3A%22%E6%98%AF%22%2C%22accountid%22%3A%22169799378%22%7D`;
-const FIXED_UUID = `e45d42cf7fa9a4c84246c8e4bc6714ef`;
-const FIXED_ACCOUNT_ID = `169799378`;
-
-/* ---------------- 捕获逻辑 ---------------- */
 if (typeof $request !== "undefined") {
-    // 自动抓取 user-token
-    (async () => {
-        try {
-            const head = ObjectKeys2LowerCase($request.headers || {});
-            const userToken = head["user-token"] || "";
-
-            if (userToken && userToken.length > 10) {
-                const oldToken = $.getdata(tokenKey) || "";
-                if (oldToken !== userToken) {
-                    $.setdata(userToken, tokenKey);
-                    $.log("【抓取】成功获取新 user-token。");
-                    $notify($.name + " — 抓取成功", "", "已保存 user-token，请关闭抓包并运行任务。");
-                } else {
-                    $.log("【抓取】user-token 未变化。");
-                }
-            } else {
-                $.log("【抓取】请求中未发现 user-token。");
-            }
-        } catch (e) {
-            $.logErr("【抓取】处理异常:", e);
-        } finally {
-            $done({});
-        }
-    })();
+ // 捕获阶段：尝试从请求头中抽取 user-token 并保存
+ (async () => {
+   try {
+     const hdrs = ObjectKeys2LowerCase($request.headers || {});
+     const userToken = hdrs["user-token"] || hdrs["user-token".toLowerCase()] || "";
+     if (userToken && userToken.length > 8) {
+       const old = $.getdata(KEY_TOKEN) || "";
+       if (old !== userToken) {
+         $.setdata(userToken, KEY_TOKEN);
+         $.log("【抓取】保存新的 user-token：" + userToken);
+         $.msg($.name + " — 抓取成功", "", "已保存 user-token");
+       } else {
+         $.log("【抓取】user-token 未变化");
+       }
+     } else {
+       $.log("【抓取】未在请求头中发现 user-token");
+     }
+   } catch (e) {
+     $.logErr("【抓取】异常：", e);
+   } finally {
+     $done({});
+   }
+ })();
 } else {
-    // 定时/手动运行签到流程
-    (async () => {
-        await main();
-    })().finally(() => {
-        $.done();
-    });
+ // 定时/手动运行签到流程
+ (async () => {
+   await main();
+   $.done();
+ })();
 }
 
-/* -------------------- 主流程 -------------------- */
+/* ========== 主流程 ========== */
 async function main() {
-    $.log(`\n============== ${$.name} 开始执行 ==============`);
-    const userToken = $.getdata(tokenKey);
-    
-    if (!userToken) {
-        $.msg($.name, "❌ 凭证缺失", "未找到 51job_user_token，请先通过抓包获取。");
-        $.log("【主流程】❌ 凭证缺失，脚本终止。");
-        return;
-    }
-    $.log(`【主流程】✅ 获取到 user-token。`);
+ $.log(`\n============== ${$.name} 开始执行 ==============`);
+ const userToken = $.getdata(KEY_TOKEN);
+ if (!userToken) {
+   $.msg($.name, "❌ 凭证缺失", "未找到 user-token，请先通过抓包获取（rewrite 捕获）后再运行。");
+   $.log("【主流程】❌ 凭证缺失，脚本结束");
+   return;
+ }
+ $.log("【主流程】找到 user-token（长度）：" + userToken.length);
+ 
+ // 准备 body
+ const bodyObj = DEFAULT_BODY_OBJ;
+ const bodyStr = JSON.stringify(bodyObj);
 
-    const signResult = await checkIn(userToken);
-    
-    // 构造最终通知消息
-    let finalMessage = `[状态] ${signResult.status}\n`;
-    finalMessage += `[详情] ${signResult.msg}\n`;
-    
-    if (signResult.success && signResult.rewardName) {
-        finalMessage += `🎁 奖励: ${signResult.rewardName} x ${signResult.rewardNumber}`;
-    }
-    
-    $.log(`\n【通知】${finalMessage}`);
-    $.log(`\n============== ${$.name} 执行完毕 ==============`);
+ // 首先尝试之前保存的 working sign（如果有）并实时更新 timestamp
+ const savedSign = $.getdata(KEY_WORKING_SIGN) || "";
+ const savedTs = $.getdata(KEY_WORKING_TIMESTAMP) || "";
 
-    // 推送结果通知
-    $.msg($.name, signResult.status, finalMessage);
+ const candidates = buildSignCandidates(userToken, bodyStr, savedTs);
+ $.log("【主流程】生成签名候选数量：" + candidates.length);
+
+ for (let i = 0; i < candidates.length; i++) {
+   const candidate = candidates[i];
+   $.log(`\n【尝试】#${i+1} -> 拼接方式: ${candidate.tag}`);
+   const ts = candidate.timestamp;
+   const sign = candidate.sign;
+   const headers = buildHeaders(userToken, ts, sign);
+   const url = `https://cupid.51job.com/open/user-task/user/task/active?version=${APP_VERSION}&api_key=${API_KEY}&timestamp=${ts}`;
+   $.log("【尝试】URL: " + url);
+   $.log("【尝试】sign: " + sign);
+   const res = await httpRequest({ url, method: "POST", headers, body: bodyStr });
+
+   if (!res || typeof res !== "object") {
+     $.log("【尝试】网络或解析错误，继续下一个候选");
+     continue;
+   }
+
+   $.log(`【尝试】响应: status=${res.status}, message=${res.message || JSON.stringify(res)}`);
+
+   if (res.status === "1" || res.status === 1) {
+     // 成功
+     $.log("【结果】✅ 签到成功！");
+     // 保存有效 sign/timestamp
+     $.setdata(sign, KEY_WORKING_SIGN);
+     $.setdata(String(ts), KEY_WORKING_TIMESTAMP);
+     let rewardInfo = "";
+     try {
+       const doneList = res.resultbody?.concurrentActionDoneTaskList || [];
+       const checkIn = doneList.find(t => t.actionType === "daily_check_in");
+       if (checkIn && checkIn.taskReward) {
+         rewardInfo = `${checkIn.taskReward.name} x ${checkIn.taskReward.number || 1}`;
+       }
+     } catch (e) {}
+     const msg = `签到成功！${rewardInfo ? "\n奖励: " + rewardInfo : ""}`;
+     $.msg($.name, "签到成功", msg);
+     return;
+   } else {
+     // 判断是否签名相关错误
+     const msg = (res.message || "").toString();
+     if (msg.includes("签名") || msg.includes("鉴权") || msg.includes("sign")) {
+       $.log("【结果】签名校验失败，继续尝试其它候选...");
+       continue;
+     } else if (res.status === "0" || res.status === 110010 || msg.includes("已签到") || msg.includes("任务已完成")) {
+       $.log("【结果】已签到或任务已完成：" + (res.message || ""));
+       $.msg($.name, "已签到/无操作", res.message || "已签到或无奖励");
+       return;
+     } else {
+       $.log("【结果】其他错误：" + (res.message || JSON.stringify(res)));
+       // 根据需要可以 break 或 continue；这里继续尝试
+       continue;
+     }
+   }
+ }
+
+ // 如果所有候选都失败
+ $.log("【结果】❌ 所有签名候选均失败，请提供更多抓包样本以改进算法。");
+ $.msg($.name, "签到失败", "尝试多种签名策略均失败，请抓取成功请求样本（timestamp + sign）供分析。");
 }
 
-/* -------------------- API 函数 -------------------- */
+/* ========== 构造签名候选 (尝试多种拼接方式与 salt) ========== */
+function buildSignCandidates(userToken, bodyStr, savedTs) {
+ const nowTs = Math.floor(Date.now() / 1000);
+ const tsList = [];
+ // 优先使用保存的 ts（如果存在）
+ if (savedTs && savedTs.length > 8) tsList.push(Number(savedTs));
+ // 然后使用当前时间前后几秒/分钟的 ts，扩大命中概率
+ for (let delta of [0, -1, 1, -5, 5, -30, 30, -60, 60]) {
+   tsList.push(nowTs + delta);
+ }
+ // 去重
+ const uniqTs = Array.from(new Set(tsList)).slice(0, 12);
 
-async function checkIn(userToken) {
-    // 动态生成秒级时间戳
-    const timestamp = Math.floor(Date.now() / 1000); 
+ // 常见 salt 值（可扩展）
+ const SALTS = [
+   "", "51job", "openapi_51job", "open_51job", "salt", "51job_salt", "partner", PARTNER
+ ];
 
-    // URL 构造
-    const url = `https://cupid.51job.com/open/user-task/user/task/active?version=15.19.0&api_key=51job&timestamp=${timestamp}`;
+ // 常见拼接模板（猜测）
+ // 模板为一个数组，数组项按顺序拼接，然后做 sha256(hex)
+ const templates = [
+   { tag: "api_key|timestamp|user-token|salt", order: ["api_key","timestamp","user-token","salt"] },
+   { tag: "api_key|timestamp|body|salt", order: ["api_key","timestamp","body","salt"] },
+   { tag: "timestamp|user-token|salt", order: ["timestamp","user-token","salt"] },
+   { tag: "user-token|timestamp|salt", order: ["user-token","timestamp","salt"] },
+   { tag: "api_key|user-token|timestamp|salt", order: ["api_key","user-token","timestamp","salt"] },
+   { tag: "api_key|timestamp|partner|user-token|salt", order: ["api_key","timestamp","partner","user-token","salt"] },
+   { tag: "timestamp|body|salt", order: ["timestamp","body","salt"] },
+   { tag: "timestamp|body|partner|salt", order: ["timestamp","body","partner","salt"] }
+ ];
 
-    $.log(`【签到】URL: ${url}`);
-    $.log(`【签到】Headers中的Sign: ${FIXED_SIGN}`);
-    $.log(`【签到】Headers中的Timestamp: ${timestamp}`);
-    
-    const headers = {
-        // 动态参数
-        'timestamp': String(timestamp),
-        'user-token': userToken,
-        'sign': FIXED_SIGN, 
-        'account-id': FIXED_ACCOUNT_ID,
-        
-        // 静态参数
-        'Accept-Encoding': `gzip, deflate, br`,
-        'Host': `cupid.51job.com`,
-        'Origin': `https://we.51job.com`,
-        'property': FIXED_PROPERTY,
-        'uuid': FIXED_UUID,
-        'From-Domain': `51job_app_iphone`,
-        'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 statusBarHeight:47.0 navBarHeight:91.0 width:390.0 height:844.0 51jobapp/15.19.0`,
-        'Content-Type': `application/json`,
-        'Referer': `https://we.51job.com/`,
-        'partner': `b3cb7e0289d7ce624549498cae53b174`,
-        'Accept-Language': `zh-CN,zh-Hans;q=0.9`,
-        'Accept': `application/json, text/plain, */*`,
-    };
-    
-    const body = JSON.stringify({
-        "version": "15.19.0",
-        "actionType": "daily_check_in",
-        "step2Add": 1
-    });
-    
-    $.log(`【签到】Body: ${body}`);
+ const candidates = [];
+ for (const ts of uniqTs) {
+   for (const t of templates) {
+     for (const salt of SALTS) {
+       const pieces = t.order.map(k => {
+         if (k === "api_key") return API_KEY;
+         if (k === "timestamp") return String(ts);
+         if (k === "user-token") return userToken;
+         if (k === "partner") return PARTNER;
+         if (k === "account-id") return ACCOUNT_ID;
+         if (k === "uuid") return UUID;
+         if (k === "body") return bodyStr;
+         if (k === "salt") return salt;
+         return "";
+       });
+       const raw = pieces.join("");
+       const sign = sha256(raw);
+       candidates.push({ timestamp: ts, sign: sign, tag: `${t.tag}|salt=${salt}` });
+     }
+   }
+ }
 
-    const res = await httpRequest({ url, headers, body, method: "POST" });
-    
-    try {
-        if (!res || !res.status) {
-            $.log(`【签到】❌ 请求失败或响应格式错误: ${JSON.stringify(res)}`);
-            return { success: false, status: "❌ 签到失败", msg: "网络请求失败或响应为空" };
-        }
-        
-        $.log(`【签到】响应状态: ${res.status}, 消息: ${res.message}`);
-
-        if (res.status === "1") {
-            const doneList = res.resultbody?.concurrentActionDoneTaskList || [];
-            const checkInReward = doneList.find(task => task.actionType === "daily_check_in");
-
-            if (checkInReward && checkInReward.rewardSuccess) {
-                const rewardName = checkInReward.taskReward?.name || "未知奖励";
-                const rewardNumber = checkInReward.taskReward?.number || 1;
-                const dailyCheckIn = checkInReward.name || "每日打卡";
-                
-                $.log(`【签到】✅ 成功领取任务奖励: ${dailyCheckIn}`);
-                
-                return {
-                    success: true,
-                    status: "✅ 签到成功",
-                    msg: `${dailyCheckIn} 完成！`,
-                    rewardName,
-                    rewardNumber
-                };
-            } else {
-                $.log("【签到】⚠️ 任务已完成或奖励未更新，判定为已签到。");
-                return { success: true, status: "⚠️ 今日已签到", msg: "任务已完成，等待明日签到。", rewardName: "无", rewardNumber: 0 };
-            }
-            
-        } else {
-            const errMsg = res.message || JSON.stringify(res) || "未知错误";
-            $.log(`【签到】❌ 失败原因: ${errMsg}`);
-            
-            if (errMsg.includes("签名") || errMsg.includes("sign")) {
-                 return { success: false, status: "❌ 签到失败", msg: `签名/时间戳校验失败，请更新脚本中的 sign 值！` };
-            }
-            return { success: false, status: "❌ 签到失败", msg: errMsg };
-        }
-    } catch (e) {
-        $.logErr("【签到】❌ 解析 51Job 签到响应时出错:", e);
-        return { success: false, status: "❌ 脚本错误", msg: "解析响应体失败" };
-    }
+ // 将之前保存的 sign 优先放在前面（如果存在）
+ const savedSign = $.getdata(KEY_WORKING_SIGN) || "";
+ const ordered = [];
+ if (savedSign) {
+   // 再用当前 ts 与保存的 sign 一起尝试（以防只需更新 timestamp）
+   ordered.push({ timestamp: Math.floor(Date.now() / 1000), sign: savedSign, tag: "savedSign" });
+ }
+ // concat candidates（去重 sign）
+ const seen = new Set();
+ for (const c of ordered.concat(candidates)) {
+   if (!seen.has(c.sign)) {
+     seen.add(c.sign);
+     ordered.push(c);
+   }
+ }
+ return ordered;
 }
 
-// ... [ Env 环境封装和通用工具函数保持不变 ] ...
+/* ========== 构造请求头 ========== */
+function buildHeaders(userToken, timestamp, sign) {
+ const headers = {
+   "Accept-Encoding": "gzip, deflate, br",
+   "Host": "cupid.51job.com",
+   "user-token": userToken,
+   "Origin": "https://we.51job.com",
+   "property": encodeURIComponent(JSON.stringify({
+     partner: PARTNER,
+     webId: 2,
+     fromdomain: "51job_app_iphone",
+     frompageUrl: "https://we.51job.com/",
+     pageUrl: "https://we.51job.com/op/task",
+     identityType: "职场人",
+     userType: "",
+     isLogin: "是",
+     accountid: ACCOUNT_ID
+   })),
+   "Connection": "keep-alive",
+   "uuid": UUID,
+   "From-Domain": "51job_app_iphone",
+   "User-Agent": `Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 statusBarHeight:47.0 navBarHeight:91.0 width:390.0 height:844.0 51jobapp/${APP_VERSION}`,
+   "Content-Type": "application/json",
+   "Referer": "https://we.51job.com/",
+   "partner": PARTNER,
+   "Accept-Language": "zh-CN,zh-Hans;q=0.9",
+   "Accept": "application/json, text/plain, */*",
+   "account-id": ACCOUNT_ID,
+   "timestamp": String(timestamp),
+   "sign": sign
+ };
+ return headers;
+}
 
-/* -------------------- 通用工具 -------------------- */
+/* ========== HTTP 请求封装（使用 $task.fetch） ========== */
 async function httpRequest(options) {
  return new Promise((resolve) => {
-   const request = {
+   const req = {
      url: options.url,
      method: (options.method || "GET").toUpperCase(),
      headers: options.headers || {},
-     body: options.body || null,
+     body: options.body || null
    };
-   $task.fetch(request).then(
-     (resp) => {
+   $task.fetch(req).then(
+     resp => {
        try {
          const text = resp.body || "";
          if (!text) return resolve({});
          const obj = JSON.parse(text);
          resolve(obj);
        } catch (e) {
-         // $.logErr("httpRequest parse error:", e, "body:", resp.body); // 避免日志过多
+         $.logErr("httpRequest parse error:", e);
          resolve({});
        }
      },
-     (err) => {
+     err => {
        $.logErr("httpRequest fetch error:", err);
        resolve({});
      }
@@ -212,61 +287,42 @@ async function httpRequest(options) {
  });
 }
 
-/* headers key 小写化工具 */
+/* ========== 工具函数 ========== */
 function ObjectKeys2LowerCase(obj) {
  if (!obj || typeof obj !== "object") return {};
  const ret = {};
- Object.keys(obj).forEach((k) => {
+ Object.keys(obj).forEach(k => {
    ret[k.toLowerCase()] = obj[k];
  });
  return ret;
 }
 
-/* -------------------- Env 环境封装（与 QX 兼容） -------------------- */
+/* ========== Env (QX 兼容封装) ========== */
 function Env(t, e) {
  class s {
    constructor(t) {
      this.name = t;
      this.startTime = new Date().getTime();
-     Object.assign(this, e);
    }
    toStr(t) {
-     try {
-       return JSON.stringify(t);
-     } catch {
-       return String(t);
-     }
+     try { return JSON.stringify(t); } catch { return String(t); }
    }
    toObj(t, e = null) {
-     try {
-       return JSON.parse(t);
-     } catch {
-       return e;
-     }
+     try { return JSON.parse(t); } catch { return e; }
    }
    getdata(t) {
-     try {
-       return $prefs.valueForKey(t);
-     } catch {
-       return null;
+     try { return $prefs.valueForKey(t); } catch {
+       try { return $prefs.read(t); } catch { return null; }
      }
    }
    setdata(t, e) {
-     try {
-       return $prefs.setValueForKey(t, e);
-     } catch (err) {
-       this.logErr("setdata error", err);
+     try { return $prefs.setValueForKey(t, e); } catch (err) {
+       try { return $prefs.write(e, t); } catch (err2) { this.logErr("setdata error", err, err2); }
      }
    }
-   msg(t = this.name, e = "", s = "", i) {
-     $notify(t, e, s, i);
-   }
-   log(...t) {
-     console.log(t.join(" "));
-   }
-   logErr(...t) {
-     console.log(...t);
-   }
+   msg(t = this.name, e = "", s = "") { $notify(t, e, s); }
+   log(...t) { console.log(t.join(" ")); }
+   logErr(...t) { console.log(...t); }
    done(t = {}) {
      const e = (new Date().getTime() - this.startTime) / 1e3;
      this.log(`🔔 ${this.name}, 结束! ⏱ ${e} 秒`);
@@ -274,4 +330,86 @@ function Env(t, e) {
    }
  }
  return new s(t, e);
+}
+
+/* ========== SHA-256 实现（简化版，来自 js-sha256） ========== */
+/* 小巧独立实现以保证在 QX 环境可以直接使用 */
+function sha256(ascii) {
+ function rightRotate(value, amount) {
+   return (value>>>amount) | (value<<(32 - amount));
+ }
+ var mathPow = Math.pow;
+ var maxWord = mathPow(2, 32);
+ var lengthProperty = 'length'
+ var i, j; // Used as a counter across the whole file
+ var result = ''
+
+ var words = [];
+ var asciiBitLength = ascii[lengthProperty]*8;
+
+ /* caching results is optional - remove for smaller code */
+ var hash = sha256.h = sha256.h || [];
+ var k = sha256.k = sha256.k || [];
+ var primeCounter = k[lengthProperty];
+
+ var isComposite = {};
+ for (var candidate = 2; primeCounter < 64; candidate++) {
+   if (!isComposite[candidate]) {
+     for (i = 0; i < 313; i += candidate) {
+       isComposite[i] = candidate;
+     }
+     hash[primeCounter] = (mathPow(candidate, .5)*maxWord)|0;
+     k[primeCounter++] = (mathPow(candidate, 1/3)*maxWord)|0;
+   }
+ }
+
+ ascii += '\x80' // Append Ƈ' bit (plus zero padding)
+ while (ascii[lengthProperty]%64 - 56) ascii += '\x00' // More zero padding
+ for (i = 0; i < ascii[lengthProperty]; i++) {
+   j = ascii.charCodeAt(i);
+   if (j>>8) return; // ASCII check: only accept characters in range 0-255
+   words[i>>2] |= j << ((3 - i)%4)*8;
+ }
+ words[words[lengthProperty]] = ((asciiBitLength/maxWord)|0);
+ words[words[lengthProperty]] = (asciiBitLength)
+
+ for (j = 0; j < words[lengthProperty];) {
+   var w = words.slice(j, j += 16);
+   var oldHash = hash.slice(0);
+
+   for (i = 0; i < 64; i++) {
+     var w15 = w[i - 15], w2 = w[i - 2];
+
+     var a = hash[0], e = hash[4];
+     var temp1 = hash[7]
+       + (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25))
+       + ((e & hash[5]) ^ ((~e) & hash[6]))
+       + k[i]
+       + (w[i] = (i < 16) ? w[i] : (
+           w[i - 16]
+           + (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15>>>3))
+           + w[i - 7]
+           + (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2>>>10))
+         )|0
+       );
+     var temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22))
+       + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+
+     hash = [(temp1 + temp2)|0].concat(hash);
+     hash[4] = (hash[4] + temp1)|0;
+     hash.pop();
+   }
+
+   for (i = 0; i < 8; i++) {
+     hash[i] = (hash[i] + oldHash[i])|0;
+   }
+ }
+
+ for (i = 0; i < 8; i++) {
+   for (j = 3; j + 1; j--) {
+     var b = (hash[i] >> (j * 8)) & 255;
+     result += ((b < 16) ? 0 : '') + b.toString(16);
+   }
+ }
+ return result;
 }
