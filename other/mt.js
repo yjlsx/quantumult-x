@@ -22,7 +22,7 @@ hostname = i.waimai.meituan.com, *.meituan.com
  */
 
 // --- 🎯 方便修改区 ---
-const TARGET_SHOP_NAME = "武松醉鹅（鹅汁泡皈 ・ 南悦城店）";
+const TARGET_SHOP_NAME = "武松醉鹅（鹅汁泡皈·南悦城店）";
 const TARGET_DATE = "2025-11-05";
 const TARGET_TIME = "10:52"; // 订单列表和时间戳的基础时间
 const TARGET_ARRIVAL_TIME = "11月5日 11:30-12:20"; // 订单详情页的期望送达时间
