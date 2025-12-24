@@ -349,7 +349,7 @@ if (url.includes("/vipdress/v1/favor/list")) {
 
 if (url.includes("/player/v1/model/list")) {
     try {
-        let obj = JSON.parse(body);
+
         if (obj.data) {
             const data = obj.data;
             for (const key in data) {
@@ -359,7 +359,7 @@ if (url.includes("/player/v1/model/list")) {
                         if (tab && Array.isArray(tab.list)) {
                             tab.list.forEach(theme => {
                                 theme.is_free = "1";
-                               
+                                
                                 if (theme.theme_content && typeof theme.theme_content === "object") {
                                     theme.theme_content.is_free = 1;
                                     theme.theme_content.free_type = 1;
@@ -383,5 +383,7 @@ if (url.includes("/player/v1/model/list")) {
         }
     } 
 }
+
+
 
 $done({ body: JSON.stringify(obj) });
