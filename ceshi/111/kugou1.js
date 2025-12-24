@@ -348,30 +348,44 @@ if (url.includes("/vipdress/v1/favor/list")) {
 
 
 if (url.includes("/player/v1/model/list")) {
-  const unlock = (data) => {
-    for (const key in data) {
-      const section = data[key];
-      if (Array.isArray(section.list)) {
-        section.list.forEach(tab => {
-          if (Array.isArray(tab.list)) {
-            tab.list.forEach(theme => {
-              theme.is_free = "1";
-              if (theme.theme_content && typeof theme.theme_content === "object") {
-                theme.theme_content.is_free = 1;
-              }
-              if (theme.theme_content_5 && typeof theme.theme_content_5 === "object") {
-                theme.theme_content_5.free_type = 1;
-              }
-            });
-          }
-        });
-      }
-    }
-  };
+    try {
+        let obj = JSON.parse(body);
+        if (obj.data) {
+            const data = obj.data;
+            for (const key in data) {
+                const section = data[key];
+                if (section && Array.isArray(section.list)) {
+                    section.list.forEach(tab => {
+                        if (tab && Array.isArray(tab.list)) {
+                            tab.list.forEach(theme => {
 
-  if (obj?.data && typeof obj.data === "object") {
-    unlock(obj.data);
-  }
+                                theme.is_free = "1";
+                                
+                                if (theme.theme_content && typeof theme.theme_content === "object") {
+                                    theme.theme_content.is_free = 1;
+                                    theme.theme_content.free_type = 1;
+                                }
+                                
+                                if (theme.theme_content_5 && typeof theme.theme_content_5 === "object") {
+                                    theme.theme_content_5.free_type = 1;
+                                    theme.theme_content_5.is_free = 1;
+                                }
+                                
+                                if (theme.can_use !== undefined) {
+                                    theme.can_use = 1;
+                                }
+                                
+                                if (theme.label_name) {
+                                    theme.label_name = "";
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        }
+       }
+    }
 }
 
 $done({ body: JSON.stringify(obj) });
