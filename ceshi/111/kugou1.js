@@ -191,11 +191,35 @@ if (url.includes('/album/check_buy')) {
 }
 
 
-if (url.includes('/vipdress/v1/record_rack/set_user_record_rack')) {
-    obj.errcode =0;
+if (url.includes("/record_rack/set_user_record_rack")) {
+    if (!obj.data || Object.keys(obj.data).length === 0) {
+        obj.data = {
+            "can_use": 1,
+            "is_set": 1,
+            "record_rack_status": 1,
+            "need_popup": 0,
+            "user_share_img": "",
+            "share_img": ""
+        };
+    } else {
+        obj.data.can_use = 1;
+        obj.data.is_set = 1;
+        obj.data.record_rack_status = 1;
+        obj.data.need_popup = 0;
+        if (obj.data.popup_Info) {
+            obj.data.popup_Info = {
+                "popup_type": 0,
+                "popup_button": "已解锁",
+                "jump_url": "",
+                "popup_content": ""
+            };
+        }
+    }
+    obj.errcode = 0;
     obj.status = 1;
-    obj.errmsg = " ";
+    obj.errmsg = "";
 }
+
 
 if ($request.url.includes('/v1/dress_sales/get_dress_by_version')) {
 
