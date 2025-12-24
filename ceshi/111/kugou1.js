@@ -17,6 +17,9 @@
 ^https:\/\/gateway\.kugou\.com\/media\.store\/v1\/album\/check_buy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/favor\/list\? url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https?:\/\/(gateway|vipdress)\.kugou\.com\/.*(get_dress_authority_list|check_user_dress) url script-response-body  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https?:\/\/gateway\.kugou\.com\/.*(model\/list|set_record_rack_check|set_user_record_rack)  url script-response-body  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+
+
 
 
 
@@ -405,5 +408,17 @@ if (url.includes("/player/v1/model/list")) {
     }
 }
 
+
+if (url.includes("/record_rack/set_record_rack_check")) {
+    obj = {
+        "errcode": 0,
+        "status": 1,
+        "errmsg": "",
+        "data": {
+            "can_use": 1,
+            "popup_type": 0
+        }
+    };
+}
 
 $done({ body: JSON.stringify(obj) });
