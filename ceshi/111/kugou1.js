@@ -16,7 +16,7 @@
 ^https:\/\/gateway\.kugou\.com\/player\/v1\/model\/list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/gateway\.kugou\.com\/media\.store\/v1\/album\/check_buy url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/favor\/list\? url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
-
+^https?:\/\/(gateway|vipdress)\.kugou\.com\/.*(get_dress_authority_list|check_user_dress) url script-response-body  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 
 
@@ -205,6 +205,39 @@ if ($request.url.includes('/v1/dress_sales/get_dress_by_version')) {
     });
   }
 } 
+
+if ($request.url.includes('/v1/authority/check_user_dress')) {
+  if (obj.data && Array.isArray(obj.data.dress_list)) {
+    obj.data.dress_list.forEach(item => {
+      item.has_authority = true; 
+      item.free_type = 1;        
+      item.popup_type = 0;       
+      if (item.popup_info) {
+        item.popup_info.popup_info = "";
+        item.popup_info.button_txt = "立即佩戴";
+      }
+    });
+  }
+}
+
+// 1. 处理图标列表权限 (Authority List)
+if ($request.url.includes('/vipdress/v1/authority/get_dress_authority_list')) {
+  if (obj && obj.data && Array.isArray(obj.data.authority_data)) {
+    // 处理主列表
+    obj.data.authority_data.forEach(item => {
+      item.free_type = 1;        // 设为免费状态
+      if (item.label_name) item.label_name = ""; 
+      if (item.ext_info) {
+        item.ext_info.intro = ""; // 清空“超级VIP专享”提示
+        item.ext_info.url_type = 1;
+      }
+    });
+    // 处理当前选中项状态
+    if (obj.data.other_authority_data) {
+      obj.data.other_authority_data.free_type = 1;
+    }
+  }
+}
 
 if (url.includes("/vip/v1/fusion/userinfo") && obj?.data?.get_vip_info_v3?.data) {
   let d = obj.data.get_vip_info_v3.data;
