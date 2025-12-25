@@ -369,25 +369,22 @@ if (url.includes("record_rack/set_record_rack_check") || url.includes("record_ra
     obj.status = 1;
     obj.errmsg = "";
     
-    if (!obj.data) {
-        obj.data = {
-            "can_use": 1,
-            "is_set": 1,
-            "record_rack_status": 1,
-            "need_popup": false,
-            "popup_type": 0
-        };
-    } else {
-        obj.data.can_use = 1;
-        obj.data.is_set = 1;
-        obj.data.record_rack_status = 1; 
-        obj.data.need_popup = false;
-        obj.data.popup_type = 0;
-        obj.data.popup_info = null;
-        obj.data.popup_Info = null; 
-        if (obj.data.hasOwnProperty('access')) obj.data.access = 1;
-        if (obj.data.hasOwnProperty('has_authority')) obj.data.has_authority = true;
-    }
+    if (!obj.data) obj.data = {};
+    obj.data.can_use = 1;
+    obj.data.is_set = 1;
+    obj.data.record_rack_status = 1; 
+    obj.data.need_popup = false;
+    obj.data.popup_type = 0;
+    obj.data.is_buy = 1; 
+    const trashFields = ["popup_info", "popup_Info", "popup_info_v2", "popup_Info_v2", "button_info"];
+    trashFields.forEach(field => {
+        if (obj.data[field]) delete obj.data[field];
+    });
+    if (obj.data.hasOwnProperty('access')) obj.data.access = 1;
+    if (obj.data.hasOwnProperty('has_authority')) obj.data.has_authority = true;
+    obj.data.vip_type = 4; 
+    obj.data.m_type = 1;
 }
+
 
 $done({ body: JSON.stringify(obj) });
