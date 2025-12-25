@@ -200,7 +200,7 @@ if (url.includes("/record_rack/set_user_record_rack")) {
             "can_use": 1,
             "is_set": 1,
             "record_rack_status": 1,
-            "need_popup": 0,
+            "need_popup": false,
             "user_share_img": "",
             "share_img": ""
         };
@@ -208,7 +208,7 @@ if (url.includes("/record_rack/set_user_record_rack")) {
         obj.data.can_use = 1;
         obj.data.is_set = 1;
         obj.data.record_rack_status = 1;
-        obj.data.need_popup = 0;
+        obj.data.need_popup = false;
         if (obj.data.popup_Info) {
             obj.data.popup_Info = {
                 "popup_type": 0,
@@ -376,30 +376,17 @@ if (url.includes("/vipdress/v1/favor/list")) {
 
 if (url.includes("/player/v1/model/list")) {
     if (obj.data) {
-        const data = obj.data;
-        for (const key in data) {
-            const section = data[key];
+        for (let key in obj.data) {
+            let section = obj.data[key];
             if (section && Array.isArray(section.list)) {
                 section.list.forEach(tab => {
                     if (tab && Array.isArray(tab.list)) {
                         tab.list.forEach(theme => {
                             theme.is_free = "1";
-                            if (theme.theme_content && typeof theme.theme_content === "object") {
-                                theme.theme_content.is_free = 1;
-                                theme.theme_content.free_type = 1;
-                            }
-                            
-                            if (theme.theme_content_5 && typeof theme.theme_content_5 === "object") {
-                                theme.theme_content_5.free_type = 1;
-                                theme.theme_content_5.is_free = 1;
-                            }
-                            
-                            if (theme.can_use !== undefined) {
-                                theme.can_use = 1;
-                            }     
-                            if (theme.label_name) {
-                                theme.label_name = "";
-                            }
+                            if (theme.theme_content) theme.theme_content.is_free = 1;
+                            if (theme.theme_content_5) theme.theme_content_5.is_free = 1;
+                            if (theme.can_use !== undefined) theme.can_use = 1;
+                            theme.label_name = "";
                         });
                     }
                 });
