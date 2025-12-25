@@ -368,6 +368,7 @@ if (url.includes("record_rack/set_record_rack_check") || url.includes("record_ra
     obj.errcode = 0;
     obj.status = 1;
     obj.errmsg = "";
+    
     if (!obj.data) {
         obj.data = {
             "can_use": 1,
@@ -379,9 +380,13 @@ if (url.includes("record_rack/set_record_rack_check") || url.includes("record_ra
     } else {
         obj.data.can_use = 1;
         obj.data.is_set = 1;
+        obj.data.record_rack_status = 1; 
         obj.data.need_popup = false;
         obj.data.popup_type = 0;
         obj.data.popup_info = null;
+        obj.data.popup_Info = null; 
+        if (obj.data.hasOwnProperty('access')) obj.data.access = 1;
+        if (obj.data.hasOwnProperty('has_authority')) obj.data.has_authority = true;
     }
 }
 
