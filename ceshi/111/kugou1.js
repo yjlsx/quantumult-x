@@ -367,6 +367,7 @@ if (url.includes("/player/v1/model/list")) {
 if (url.includes("record_rack/set_record_rack_check") || url.includes("record_rack/set_user_record_rack")) {
     obj.errcode = 0;
     obj.status = 1;
+    obj.errmsg = "";
     if (!obj.data) {
         obj.data = {
             "can_use": 1,
