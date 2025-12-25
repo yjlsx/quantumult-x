@@ -194,35 +194,6 @@ if (url.includes('/album/check_buy')) {
 }
 
 
-if (url.includes("/record_rack/set_user_record_rack")) {
-    if (!obj.data || Object.keys(obj.data).length === 0) {
-        obj.data = {
-            "can_use": 1,
-            "is_set": 1,
-            "record_rack_status": 1,
-            "need_popup": false,
-            "user_share_img": "",
-            "share_img": ""
-        };
-    } else {
-        obj.data.can_use = 1;
-        obj.data.is_set = 1;
-        obj.data.record_rack_status = 1;
-        obj.data.need_popup = false;
-        if (obj.data.popup_Info) {
-            obj.data.popup_Info = {
-                "popup_type": 0,
-                "popup_button": "已解锁",
-                "jump_url": "",
-                "popup_content": ""
-            };
-        }
-    }
-    obj.errcode = 0;
-    obj.status = 1;
-    obj.errmsg = "";
-}
-
 
 if ($request.url.includes('/v1/dress_sales/get_dress_by_version')) {
 
@@ -233,19 +204,6 @@ if ($request.url.includes('/v1/dress_sales/get_dress_by_version')) {
   }
 } 
 
-if ($request.url.includes('/v1/authority/check_user_dress')) {
-  if (obj.data && Array.isArray(obj.data.dress_list)) {
-    obj.data.dress_list.forEach(item => {
-      item.has_authority = true; 
-      item.free_type = 1;        
-      item.popup_type = 0;       
-      if (item.popup_info) {
-        item.popup_info.popup_info = "";
-        item.popup_info.button_txt = "立即佩戴";
-      }
-    });
-  }
-}
 
 // 1. 处理图标列表权限 (Authority List)
 if ($request.url.includes('/vipdress/v1/authority/get_dress_authority_list')) {
@@ -373,39 +331,58 @@ if (url.includes("/vipdress/v1/favor/list")) {
   }
 
 
-
-if (url.includes("/player/v1/model/list")) {
-    if (obj.data) {
-        for (let key in obj.data) {
-            let section = obj.data[key];
-            if (section && Array.isArray(section.list)) {
-                section.list.forEach(tab => {
-                    if (tab && Array.isArray(tab.list)) {
-                        tab.list.forEach(theme => {
-                            theme.is_free = "1";
-                            if (theme.theme_content) theme.theme_content.is_free = 1;
-                            if (theme.theme_content_5) theme.theme_content_5.is_free = 1;
-                            if (theme.can_use !== undefined) theme.can_use = 1;
-                            theme.label_name = "";
-                        });
-                    }
-                });
+if (url.includes('/v1/authority/check_user_dress')) {
+    obj.errcode = 0;
+    obj.status = 1;
+    if (obj.data && Array.isArray(obj.data.dress_list)) {
+        obj.data.dress_list.forEach(item => {
+            item.has_authority = true; 
+            item.free_type = 1;        
+            item.popup_type = 0;     
+            item.popup_info = null;     
+            
+            if (item.dress_id) {
+                item.can_use = 1;      
+                item.is_buy = 1;       
             }
-        }
+        });
     }
 }
 
 
-if (url.includes("/record_rack/set_record_rack_check")) {
-    obj = {
-        "errcode": 0,
-        "status": 1,
-        "errmsg": "",
-        "data": {
+if (url.includes("/player/v1/model/list")) {
+    if (obj.data) {
+        let str = JSON.stringify(obj.data);
+        // 全局替换：开启权限、设为免费、开启使用开关
+        str = str.replace(/"is_free":\s?"\d"/g, '"is_free":"1"')
+                 .replace(/"can_use":\s?0/g, '"can_use":1')
+                 .replace(/"has_authority":\s?false/g, '"has_authority":true')
+                 .replace(/"free_type":\s?\d/g, '"free_type":1')
+                 .replace(/"is_buy":\s?0/g, '"is_buy":1');
+        obj.data = JSON.parse(str);
+    }
+}
+
+
+if (url.includes("record_rack/set_record_rack_check") || url.includes("record_rack/set_user_record_rack")) {
+    obj.errcode = 0;
+    obj.status = 1;
+    if (!obj.data) {
+        // 如果 data 为空，强制补全基本结构，防止前端 o[1] 或类似 undefined 报错 
+        obj.data = {
             "can_use": 1,
+            "is_set": 1,
+            "record_rack_status": 1,
+            "need_popup": false,
             "popup_type": 0
-        }
-    };
+        };
+    } else {
+        obj.data.can_use = 1;
+        obj.data.is_set = 1;
+        obj.data.need_popup = false;
+        obj.data.popup_type = 0;
+        obj.data.popup_info = null;
+    }
 }
 
 $done({ body: JSON.stringify(obj) });
