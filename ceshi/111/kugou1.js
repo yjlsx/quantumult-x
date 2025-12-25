@@ -376,15 +376,15 @@ if (url.includes("record_rack/set_record_rack_check") || url.includes("record_ra
     obj.data.need_popup = false;
     obj.data.popup_type = 0;
     obj.data.is_buy = 1; 
+    
     const trashFields = ["popup_info", "popup_Info", "popup_info_v2", "popup_Info_v2", "button_info"];
     trashFields.forEach(field => {
-        if (obj.data[field]) delete obj.data[field];
+        delete obj.data[field]; 
     });
-    if (obj.data.hasOwnProperty('access')) obj.data.access = 1;
-    if (obj.data.hasOwnProperty('has_authority')) obj.data.has_authority = true;
     obj.data.vip_type = 4; 
     obj.data.m_type = 1;
+    obj.data.has_authority = true;
+    obj.data.access = 1;
 }
-
 
 $done({ body: JSON.stringify(obj) });
