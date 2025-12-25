@@ -368,7 +368,6 @@ if (url.includes("record_rack/set_record_rack_check") || url.includes("record_ra
     obj.errcode = 0;
     obj.status = 1;
     if (!obj.data) {
-        // 如果 data 为空，强制补全基本结构，防止前端 o[1] 或类似 undefined 报错 
         obj.data = {
             "can_use": 1,
             "is_set": 1,
