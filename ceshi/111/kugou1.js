@@ -18,7 +18,7 @@
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/favor\/list\? url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https?:\/\/(gateway|vipdress)\.kugou\.com\/.*(get_dress_authority_list|check_user_dress) url script-response-body  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https?:\/\/gateway\.kugou\.com\/.*(model\/list|set_record_rack_check|set_user_record_rack)  url script-response-body  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
-
+^https?:\/\/welfare\.kugou\.com\/nameplate\/v1\/set_user_nameplate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 
 
@@ -386,5 +386,20 @@ if (url.includes("record_rack/set_record_rack_check") || url.includes("record_ra
     obj.data.has_authority = true;
     obj.data.access = 1;
 }
+
+
+  // --- 铭牌佩戴权限绕过 
+   if (url.includes("nameplate/v1/set_user_nameplate")) {
+        console.log("检测到铭牌设置请求，正在强制授权...");
+        obj.status = 1;
+        obj.error_code = 0;
+        if (obj.data) {
+            obj.data.intro = "已成功佩戴限定铭牌";
+            obj.data.button_txt = "已拥有";
+            // 某些情况下需要强制 nameplate_type 匹配，通常 5 是动态限定
+            obj.data.nameplate_type = 5; 
+        }
+    }
+
 
 $done({ body: JSON.stringify(obj) });
