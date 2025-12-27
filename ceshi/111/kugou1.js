@@ -18,9 +18,10 @@
 ^https:\/\/gateway\.kugou\.com\/vipdress\/v1\/favor\/list\? url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https?:\/\/(gateway|vipdress)\.kugou\.com\/.*(get_dress_authority_list|check_user_dress) url script-response-body  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https?:\/\/gateway\.kugou\.com\/.*(model\/list|set_record_rack_check|set_user_record_rack)  url script-response-body  https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
-^https?:\/\/welfare\.kugou\.com\/nameplate\/v1\/set_user_nameplate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+
 # 拦截铭牌列表接口
 ^https?:\/\/welfare\.kugou\.com\/nameplate\/v1\/get_nameplate_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
+^https?:\/\/welfare\.kugou\.com\/nameplate\/v1\/set_user_nameplate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 
 
@@ -404,23 +405,30 @@ if (url.includes("record_rack/set_record_rack_check") || url.includes("record_ra
     }
 
 // --- 针对 get_nameplate_list 列表接口的解锁 ---
-if (url.includes("nameplate/v1/get_nameplate_list")) {
-    console.log("正在解锁全铭牌列表展示状态...");
+if (url.indexOf("nameplate/v1/get_nameplate_list") != -1) {
+    // 遍历列表，解锁所有铭牌
     if (obj.data && Array.isArray(obj.data)) {
-        obj.data.forEach(category => {
-            if (category.list && Array.isArray(category.list)) {
-                category.list.forEach(item => {
-                    item.intro = "";           // 清空“开通会员”等干扰提示
-                    item.label_name = "已拥有"; // 把“限定”标签改为“已拥有”
-                    item.change_type = 1;      // 强制改为普通佩戴类型
-                    item.act_start_time = "2000-01-01 00:00:00"; // 确保活动已开始
-                    item.act_end_time = "2099-12-31 23:59:59";   // 确保活动未结束
+        obj.data.forEach(group => {
+            if (group.list) {
+                group.list.forEach(item => {
+                    item.intro = "";          
+                    item.label_name = "";    
+                    item.change_type = 1;     
+                    item.act_end_time = "2099-12-31 23:59:59"; 
                 });
             }
         });
     }
+} else if (url.indexOf("nameplate/v1/set_user_nameplate") != -1) {
+    // 强制返回佩戴成功
+    obj.status = 1;
+    obj.error_code = 0;
+} else if (url.indexOf("popup/v1/info") != -1) {
+    // 屏蔽“权限不足”的弹窗提示
+    if (obj.data && obj.data.nameplate_popup_info) {
+        obj.data.nameplate_popup_info.popup_status = 0;
+    }
 }
-
 
 
 $done({ body: JSON.stringify(obj) });
