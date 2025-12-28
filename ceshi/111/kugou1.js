@@ -369,6 +369,7 @@ if (url.includes("/player/v1/model/list")) {
 }
 
 
+// ---播放器皮肤
 if (url.includes("record_rack/set_record_rack_check") || url.includes("record_rack/set_user_record_rack")) {
     obj.errcode = 0;
     obj.status = 1;
@@ -376,21 +377,25 @@ if (url.includes("record_rack/set_record_rack_check") || url.includes("record_ra
     
     if (!obj.data) obj.data = {};
     obj.data.can_use = 1;
-    obj.data.is_set = 1;
-    obj.data.record_rack_status = 1; 
+    obj.data.is_set = 1;              
+    obj.data.record_rack_status = 1;  
+    obj.data.has_authority = true;    
+    obj.data.access = 1;              
+    obj.data.is_buy = 1;           
+    obj.data.vip_type = 4;                
     obj.data.need_popup = false;
     obj.data.popup_type = 0;
-    obj.data.is_buy = 1; 
-    
-    const trashFields = ["popup_info", "popup_Info", "popup_info_v2", "popup_Info_v2", "button_info"];
-    trashFields.forEach(field => {
-        delete obj.data[field]; 
+    obj.data.popup_content = "";
+    obj.data.popup_button = "";
+    obj.data.jump_url = "";
+
+    const fieldsToFix = ["popup_info", "button_info", "popup_info_v2"];
+    fieldsToFix.forEach(f => {
+        if (obj.data[f]) {
+            obj.data[f] = null;         }
     });
-    obj.data.vip_type = 4; 
-    obj.data.m_type = 1;
-    obj.data.has_authority = true;
-    obj.data.access = 1;
 }
+
 
 
   // --- 铭牌佩戴权限绕过 
