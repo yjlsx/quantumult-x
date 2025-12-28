@@ -233,26 +233,22 @@ if (url.includes("/vip/v1/fusion/userinfo")) {
     if (obj.data && obj.data.get_vip_info_v3 && obj.data.get_vip_info_v3.data) {
         let d = obj.data.get_vip_info_v3.data;
         
-        // 1. 强制点亮会员身份
         d.is_vip = 1;
         d.vip_type = 4;        // 豪华VIP
         d.user_type = 20;      // SVIP标志
         d.svip_level = 9;      // V9
         d.svip_score = 999999;
         
-        // 2. 状态纠正（针对你发出的响应体）
-        d.isExpiredMember = 0; // 必须改！原本是 1
+        d.isExpiredMember = 0; 
         d.new_user = 0;
         d.producttype = 4;
         
-        // 3. 彻底禁用自动续费标识 (应你的要求)
         d.autostatus = 0;
         d.autoVipType = 0;
         d.autotype = 0;
         if (d.su_vip_upgrade_info) d.su_vip_upgrade_info.autotype = 0;
         if (d.svip_upgrade_info) d.svip_upgrade_info.autotype = 0;
         
-        // 4. 时间线延长
         const forever = "2099-12-31 23:59:59";
         d.vip_end_time = forever;
         d.su_vip_end_time = forever;
@@ -260,14 +256,11 @@ if (url.includes("/vip/v1/fusion/userinfo")) {
         d.m_begin_time = "2024-01-01 00:00:00";
         d.vip_begin_time = "2024-01-01 00:00:00";
         
-        // 5. 强行注入会员列表 (防止某些皮肤校验 list 是否为空)
         const activeItem = { "type": 1, "begin_time": "2024-01-01 00:00:00", "end_time": forever };
         d.vip_list = { "1": activeItem };
         d.m_list = { "1": activeItem };
         d.h_list = { "1": activeItem };
     }
-    
-    // 同时也把响应体最前面的 iOS 促销弹窗关掉
     if (obj.data.ios_promotion) {
         obj.data.ios_promotion.status = 0;
     }
