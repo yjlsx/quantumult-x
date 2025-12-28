@@ -23,12 +23,14 @@
 ^https?:\/\/welfare\.kugou\.com\/nameplate\/v1\/get_nameplate_list url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 ^https?:\/\/welfare\.kugou\.com\/nameplate\/v1\/set_user_nameplate url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
-
+^https?:\/\/(gateway|gatewayretry|vipdress|welfare)\.kugou\.com\/.*(get_dress_authority_list|check_user_dress|get_nameplate_list|set_user_nameplate|popup\/v1\/info|get_user_pendant|record_rack|get_record_rack_list) url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/ceshi/111/kugou1.js
 
 
 
 [mitm]
-hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com */
+hostname = gateway.kugou.com, vip.kugou.com, gatewayretry.kugou.com, sentry.kugou.com, vipdress.kugou.com
+
+ */
 
 const timestamp = Math.floor(Date.now() / 1000);
 const url = $request.url;
@@ -429,6 +431,18 @@ if (url.indexOf("nameplate/v1/get_nameplate_list") != -1) {
         obj.data.nameplate_popup_info.popup_status = 0;
     }
 }
+
+
+if (url.includes("/pendant/v2/get_user_pendant")) {
+    if (obj.data) {
+        obj.data.access = 1; // 强制开启权限
+        obj.data.end_time = "2099-12-31 23:59:59"; // 延长过期时间
+        obj.data.popup_status = 0; // 屏蔽购买/续费弹窗
+    }
+    obj.status = 1;
+    obj.error_code = 0;
+}
+
 
 
 $done({ body: JSON.stringify(obj) });
