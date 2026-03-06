@@ -5,6 +5,45 @@
  "icon": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/Auto.png",
  "repo": "https://github.com/yjlsx",
  "apps": [
+  {
+  "id": "lx_subtitle_translator",
+  "name": "youtube字幕组",
+  "keys": ["ytb_gpt_api_url", "ytb_gpt_api_key", "ytb_gpt_model", "ytb_gpt_lang"],
+  "settings": [
+    {
+      "id": "ytb_gpt_api_url",
+      "name": "API 中转地址",
+      "val": "https://api.openai.com/v1/chat/completions",
+      "type": "text",
+      "desc": "填写 GPT 接口地址"
+    },
+    {
+      "id": "ytb_gpt_api_key",
+      "name": "API KEY",
+      "val": "",
+      "type": "text",
+      "desc": "填写你的 OpenAI 或中转 API Key"
+    },
+    {
+      "id": "ytb_gpt_model",
+      "name": "模型选择",
+      "val": "gpt-4o-mini",
+      "type": "text",
+      "desc": "建议使用 gpt-4o-mini 兼顾速度与成本"
+    },
+    {
+      "id": "ytb_gpt_lang",
+      "name": "目标语言",
+      "val": "中文",
+      "type": "text",
+      "desc": "翻译成的语言，如：中文、粤语、日语"
+    }
+  ],
+  "author": "@yjlsx",
+  "script": "https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/ytb_gpt.js"
+  "icon": "https://raw.githubusercontent.com/chavyleung/scripts/master/box/icons/openai.png"
+},
+
    {
      "id": "Kuwomusic",
      "name": "酷我音乐",
