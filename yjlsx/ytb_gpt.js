@@ -343,6 +343,7 @@ function buildGptRequest(rawText) {
     },
     body: JSON.stringify({
       model: boxConfig.model,
+      group: "default",
       messages: [
         {
           role: "system",
@@ -352,7 +353,12 @@ For each input line, output exactly one line in the format "[n] translated text"
 不要添加或删除行，不要合并多行，不要输出多余说明。`
         },
         { role: "user", content: rawText }
-      ]
+      ],
+      stream: false,
+      temperature: 0.7,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0
     })
   };
 }
