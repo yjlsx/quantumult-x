@@ -222,7 +222,11 @@ function handleXmlSubtitle(body) {
 
     console.log(`[${scriptName}] 🎬 XML 字幕片段数量: ${texts.length}`);
 
-    const rawText = texts
+    // 只翻译前 MAX_LINES 行，避免一次请求太长
+    const MAX_LINES = 200;
+    const batch = texts.slice(0, MAX_LINES);
+
+    const rawText = batch
       .map((item, i) => `[${i}] ${item.decoded}`)
       .join("\n");
 
@@ -250,8 +254,8 @@ function handleXmlSubtitle(body) {
             if (match) {
               const idx = parseInt(match[1], 10);
               const translated = match[2];
-              if (texts[idx]) {
-                translationMap[texts[idx].order] = translated;
+              if (batch[idx]) {
+                translationMap[batch[idx].order] = translated;
               }
             }
           });
