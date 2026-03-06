@@ -222,9 +222,27 @@ function handleXmlSubtitle(body) {
 
     console.log(`[${scriptName}] 🎬 XML 字幕片段数量: ${texts.length}`);
 
-    // 只翻译前 MAX_LINES 行，避免一次请求太长
-    const MAX_LINES = 200;
-    const batch = texts.slice(0, MAX_LINES);
+    // 只翻译前 MAX_LINES 行，且总字符数不超过 MAX_CHARS，避免一次请求太长
+    const MAX_LINES = 40;
+    const MAX_CHARS = 3000;
+    const batch = [];
+    let charCount = 0;
+    for (let i = 0; i < texts.length; i++) {
+      const item = texts[i];
+      const len = item.decoded.length;
+      if (batch.length >= MAX_LINES || charCount + len > MAX_CHARS) break;
+      batch.push(item);
+      charCount += len;
+    }
+
+    console.log(
+      `[${scriptName}] 🧩 本批翻译片段: ${batch.length}/${texts.length} 行，约 ${charCount} 字符`
+    );
+
+    if (batch.length === 0) {
+      console.log(`[${scriptName}] 本批无可翻译片段，跳过 (XML)`);
+      return $done({});
+    }
 
     const rawText = batch
       .map((item, i) => `[${i}] ${item.decoded}`)
