@@ -146,6 +146,10 @@ function handleJsonSubtitle(body) {
       response => {
         try {
           console.log(`[${scriptName}] GPT 原始返回前200 (JSON): ${String(response.body).slice(0, 200)}`);
+          if (!response || typeof response.body !== "string") {
+            console.log(`[${scriptName}] GPT 返回为空或非字符串 (JSON)，跳过本次翻译`);
+            return $done({});
+          }
           const json = JSON.parse(response.body);
           const translatedContent = json.choices?.[0]?.message?.content;
           if (!translatedContent) {
@@ -228,6 +232,10 @@ function handleXmlSubtitle(body) {
       response => {
         try {
           console.log(`[${scriptName}] GPT 原始返回前200 (XML): ${String(response.body).slice(0, 200)}`);
+          if (!response || typeof response.body !== "string") {
+            console.log(`[${scriptName}] GPT 返回为空或非字符串 (XML)，跳过本次翻译`);
+            return $done({});
+          }
           const json = JSON.parse(response.body);
           const translatedContent = json.choices?.[0]?.message?.content;
           if (!translatedContent) {
@@ -316,7 +324,10 @@ function buildGptRequest(rawText) {
       messages: [
         {
           role: "system",
-          content: `You are a professional subtitle translator. Translate into ${boxConfig.target_lang}. Keep index [n].`
+          content: `You are a professional subtitle translator. Translate all subtitles into ${boxConfig.target_lang}.
+Each input line has the format "[n] text".
+For each input line, output exactly one line in the format "[n] translated text".
+不要添加或删除行，不要合并多行，不要输出多余说明。`
         },
         { role: "user", content: rawText }
       ]
