@@ -3,7 +3,7 @@
  * @description 结合 BoxJS 动态配置 API Key 和中转地址，实现 YouTube 双语翻译。
 
 [rewrite_local]
-^https?:\/\/[\w-]+\.googlevideo\.com\/timedtext url script-response-body https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/ytb_gpt.js
+^https?:\/\/[\w-]+\.googlevideo\.com\/timedtext url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/ytb_gpt.js
 
 [mitm]
 hostname = *.googlevideo.com
