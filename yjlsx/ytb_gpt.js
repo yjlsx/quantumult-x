@@ -98,7 +98,7 @@ else {
 
     // 根据第一个字符判断是 XML 还是 JSON
     if (trimmed.startsWith("<")) {
-      // XML 格式字幕
+      // XML 格式字幕 (format=srv3 text/xml)
       return handleXmlSubtitle(body);
     } else {
       // JSON (srv3/json3) 格式字幕
@@ -188,21 +188,23 @@ function handleJsonSubtitle(body) {
   }
 }
 
-// 处理 XML 字幕
+// 处理 XML 字幕 (format="3" text/xml, <timedtext><body><p>...)
 function handleXmlSubtitle(body) {
   try {
-    const textTagRe = /<text([^>]*)>([\s\S]*?)<\/text>/g;
+    // 匹配 <p ...> ... </p>
+    const pTagRe = /<p([^>]*)>([\s\S]*?)<\/p>/g;
     let match;
-    let texts = []; // { order, original, inner, attr }
+    let texts = []; // { order, attr, inner, decoded }
     let order = 0;
 
-    while ((match = textTagRe.exec(body)) !== null) {
-      const full = match[0];
+    while ((match = pTagRe.exec(body)) !== null) {
       const attr = match[1] || "";
       const inner = match[2] || "";
-      const decoded = decodeHtml(inner).trim();
-      // 放宽过滤条件：只要有非空文本就翻译
-      if (decoded && decoded !== "\n") {
+      // 去掉内部所有标签，只保留纯文本
+      const innerStripped = inner.replace(/<[^>]+>/g, "");
+      const decoded = decodeHtml(innerStripped).trim();
+      // 只要有非空文本就翻译（包括 [music] 这类）
+      if (decoded) {
         texts.push({ order, attr, inner, decoded });
       }
       order++;
@@ -247,25 +249,30 @@ function handleXmlSubtitle(body) {
           // 重建 XML 字符串
           let result = "";
           let lastIndex = 0;
-          textTagRe.lastIndex = 0;
+          pTagRe.lastIndex = 0;
           let applied = 0;
           let currentOrder = 0;
 
-          while ((match = textTagRe.exec(body)) !== null) {
+          while ((match = pTagRe.exec(body)) !== null) {
             const start = match.index;
-            const end = textTagRe.lastIndex;
+            const end = pTagRe.lastIndex;
             const attr = match[1] || "";
             const inner = match[2] || "";
 
+            // 先把上一个位置到当前 <p> 之前的内容原样拼上
             result += body.slice(lastIndex, start);
 
             const translated = translationMap[currentOrder];
             if (translated) {
               applied++;
-              const decodedOriginal = decodeHtml(inner);
-              const newInner = encodeHtml(decodedOriginal + "\n" + translated);
-              result += `<text${attr}>${newInner}</text>`;
+              // 原始纯文本
+              const originalPlain = decodeHtml(inner.replace(/<[^>]+>/g, ""));
+              const newPlain = originalPlain + "\n" + translated;
+              const encoded = encodeHtml(newPlain);
+              // 为简单起见，用纯文本覆盖原 <p> 内容，保留原有属性
+              result += `<p${attr}>${encoded}</p>`;
             } else {
+              // 不需要翻译的 <p> 原样保留
               result += match[0];
             }
 
@@ -273,6 +280,7 @@ function handleXmlSubtitle(body) {
             currentOrder++;
           }
 
+          // 拼接最后一个 </p> 之后的尾部内容
           result += body.slice(lastIndex);
 
           console.log(`[${scriptName}] ✅ XML 模式已应用翻译片段数量: ${applied}`);
