@@ -86,106 +86,249 @@ else {
     }
   }
 
-  // B. 字幕翻译：拦截所有 timedtext 响应，直接做双语（不再依赖 subtype 标记）
+  // B. 字幕翻译：拦截所有 timedtext 响应，直接做双语
   if (isSubtitle) {
     if (!boxConfig.key) {
       console.log(`⚠️ [${scriptName}] 未设置 API Key，跳过翻译`);
       return $done({});
     }
 
-    try {
-      let subtitleObj = JSON.parse($response.body);
-      if (!Array.isArray(subtitleObj.events)) {
-        console.log(`[${scriptName}] 字幕结构中 events 不存在或不是数组，可能不是 JSON3，跳过`);
-        return $done({});
-      }
+    const body = $response.body || "";
+    const trimmed = body.trim();
 
-      let translateList = [];
-      subtitleObj.events.forEach((event, index) => {
-        if (event.segs && event.segs.length > 0) {
-          let text = event.segs.map(s => s.utf8).join("").trim();
-          // 如果已经是双语（包含换行），可以选择跳过，这里简单判断
-          if (text && text !== "\n" && !text.includes("\n")) {
-            translateList.push({ index, text });
-          }
-        }
-      });
-
-      if (translateList.length === 0) {
-        console.log(`[${scriptName}] 无可翻译的字幕片段`);
-        return $done({});
-      }
-
-      console.log(`[${scriptName}] 🎬 准备翻译字幕片段数量: ${translateList.length}`);
-
-      const rawText = translateList
-        .map((item, i) => `[${i}] ${item.text}`)
-        .join("\n");
-
-      const gptRequest = {
-        url: boxConfig.url,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${boxConfig.key}`
-        },
-        body: JSON.stringify({
-          model: boxConfig.model,
-          messages: [
-            { role: "system", content: `You are a professional subtitle translator. Translate into ${boxConfig.target_lang}. Keep index [n].` },
-            { role: "user", content: rawText }
-          ]
-        })
-      };
-
-      $.fetch(gptRequest).then(
-        response => {
-          try {
-            const json = JSON.parse(response.body);
-            const translatedContent = json.choices?.[0]?.message?.content;
-            if (!translatedContent) {
-              console.log(`[${scriptName}] GPT 返回内容为空或格式异常`);
-              return $done({});
-            }
-
-            const lines = translatedContent.split("\n");
-            let applied = 0;
-            lines.forEach(line => {
-              const match = line.match(/^\[(\d+)\]\s*(.*)/);
-              if (match) {
-                const idx = parseInt(match[1], 10);
-                const translated = match[2];
-                const originalIndex = translateList[idx]?.index;
-                if (
-                  typeof originalIndex === "number" &&
-                  subtitleObj.events[originalIndex]?.segs?.[0]?.utf8 !== undefined
-                ) {
-                  subtitleObj.events[originalIndex].segs[0].utf8 += `\n${translated}`;
-                  applied++;
-                }
-              }
-            });
-
-            console.log(`[${scriptName}] ✅ 已应用翻译片段数量: ${applied}`);
-            return $done({ body: JSON.stringify(subtitleObj) });
-          } catch (e) {
-            console.log(`[${scriptName}] 解析 GPT 返回失败: ${e.message}`);
-            return $done({});
-          }
-        },
-        err => {
-          console.log(`[${scriptName}] GPT 请求失败: ${err}`);
-          return $done({});
-        }
-      );
-    } catch (e) {
-      console.log(`[${scriptName}] 字幕响应解析失败: ${e.message}`);
-      return $done({});
+    // 根据第一个字符判断是 XML 还是 JSON
+    if (trimmed.startsWith("<")) {
+      // XML 格式字幕
+      return handleXmlSubtitle(body);
+    } else {
+      // JSON (srv3/json3) 格式字幕
+      return handleJsonSubtitle(body);
     }
   }
 
   // 其他响应直接放行
   return $done({});
+}
+
+// 处理 JSON 字幕 (srv3/json3)
+function handleJsonSubtitle(body) {
+  try {
+    let subtitleObj = JSON.parse(body);
+    if (!Array.isArray(subtitleObj.events)) {
+      console.log(`[${scriptName}] 字幕结构中 events 不存在或不是数组，可能不是 JSON3，跳过`);
+      return $done({});
+    }
+
+    let translateList = [];
+    subtitleObj.events.forEach((event, index) => {
+      if (event.segs && event.segs.length > 0) {
+        let text = event.segs.map(s => s.utf8).join("").trim();
+        if (text && text !== "\n" && !text.includes("\n")) {
+          translateList.push({ index, text });
+        }
+      }
+    });
+
+    if (translateList.length === 0) {
+      console.log(`[${scriptName}] 无可翻译的字幕片段 (JSON)`);
+      return $done({});
+    }
+
+    console.log(`[${scriptName}] 🎬 JSON 字幕片段数量: ${translateList.length}`);
+
+    const rawText = translateList
+      .map((item, i) => `[${i}] ${item.text}`)
+      .join("\n");
+
+    const gptRequest = buildGptRequest(rawText);
+
+    $.fetch(gptRequest).then(
+      response => {
+        try {
+          const json = JSON.parse(response.body);
+          const translatedContent = json.choices?.[0]?.message?.content;
+          if (!translatedContent) {
+            console.log(`[${scriptName}] GPT 返回内容为空或格式异常 (JSON)`);
+            return $done({});
+          }
+
+          const lines = translatedContent.split("\n");
+          let applied = 0;
+          lines.forEach(line => {
+            const match = line.match(/^\[(\d+)\]\s*(.*)/);
+            if (match) {
+              const idx = parseInt(match[1], 10);
+              const translated = match[2];
+              const originalIndex = translateList[idx]?.index;
+              if (
+                typeof originalIndex === "number" &&
+                subtitleObj.events[originalIndex]?.segs?.[0]?.utf8 !== undefined
+              ) {
+                subtitleObj.events[originalIndex].segs[0].utf8 += `\n${translated}`;
+                applied++;
+              }
+            }
+          });
+
+          console.log(`[${scriptName}] ✅ JSON 模式已应用翻译片段数量: ${applied}`);
+          return $done({ body: JSON.stringify(subtitleObj) });
+        } catch (e) {
+          console.log(`[${scriptName}] 解析 GPT 返回失败 (JSON): ${e.message}`);
+          return $done({});
+        }
+      },
+      err => {
+        console.log(`[${scriptName}] GPT 请求失败 (JSON): ${err}`);
+        return $done({});
+      }
+    );
+  } catch (e) {
+    console.log(`[${scriptName}] 字幕响应解析失败 (JSON): ${e.message}`);
+    return $done({});
+  }
+}
+
+// 处理 XML 字幕
+function handleXmlSubtitle(body) {
+  try {
+    const textTagRe = /<text([^>]*)>([\s\S]*?)<\/text>/g;
+    let match;
+    let texts = []; // { order, original, inner, attr }
+    let order = 0;
+
+    while ((match = textTagRe.exec(body)) !== null) {
+      const full = match[0];
+      const attr = match[1] || "";
+      const inner = match[2] || "";
+      const decoded = decodeHtml(inner).trim();
+      if (decoded && decoded !== "\n" && !decoded.includes("\n")) {
+        texts.push({ order, attr, inner, decoded });
+      }
+      order++;
+    }
+
+    if (texts.length === 0) {
+      console.log(`[${scriptName}] 无可翻译的字幕片段 (XML)`);
+      return $done({});
+    }
+
+    console.log(`[${scriptName}] 🎬 XML 字幕片段数量: ${texts.length}`);
+
+    const rawText = texts
+      .map((item, i) => `[${i}] ${item.decoded}`)
+      .join("\n");
+
+    const gptRequest = buildGptRequest(rawText);
+
+    $.fetch(gptRequest).then(
+      response => {
+        try {
+          const json = JSON.parse(response.body);
+          const translatedContent = json.choices?.[0]?.message?.content;
+          if (!translatedContent) {
+            console.log(`[${scriptName}] GPT 返回内容为空或格式异常 (XML)`);
+            return $done({});
+          }
+
+          const lines = translatedContent.split("\n");
+          const translationMap = {}; // order -> translated
+          lines.forEach(line => {
+            const match = line.match(/^\[(\d+)\]\s*(.*)/);
+            if (match) {
+              const idx = parseInt(match[1], 10);
+              const translated = match[2];
+              if (texts[idx]) {
+                translationMap[texts[idx].order] = translated;
+              }
+            }
+          });
+
+          // 重建 XML 字符串
+          let result = "";
+          let lastIndex = 0;
+          textTagRe.lastIndex = 0;
+          let applied = 0;
+          let currentOrder = 0;
+
+          while ((match = textTagRe.exec(body)) !== null) {
+            const start = match.index;
+            const end = textTagRe.lastIndex;
+            const attr = match[1] || "";
+            const inner = match[2] || "";
+
+            result += body.slice(lastIndex, start);
+
+            const translated = translationMap[currentOrder];
+            if (translated) {
+              applied++;
+              const decodedOriginal = decodeHtml(inner);
+              const newInner = encodeHtml(decodedOriginal + "\n" + translated);
+              result += `<text${attr}>${newInner}</text>`;
+            } else {
+              result += match[0];
+            }
+
+            lastIndex = end;
+            currentOrder++;
+          }
+
+          result += body.slice(lastIndex);
+
+          console.log(`[${scriptName}] ✅ XML 模式已应用翻译片段数量: ${applied}`);
+          return $done({ body: result });
+        } catch (e) {
+          console.log(`[${scriptName}] 解析 GPT 返回失败 (XML): ${e.message}`);
+          return $done({});
+        }
+      },
+      err => {
+        console.log(`[${scriptName}] GPT 请求失败 (XML): ${err}`);
+        return $done({});
+      }
+    );
+  } catch (e) {
+    console.log(`[${scriptName}] 字幕响应解析失败 (XML): ${e.message}`);
+    return $done({});
+  }
+}
+
+function buildGptRequest(rawText) {
+  return {
+    url: boxConfig.url,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${boxConfig.key}`
+    },
+    body: JSON.stringify({
+      model: boxConfig.model,
+      messages: [
+        {
+          role: "system",
+          content: `You are a professional subtitle translator. Translate into ${boxConfig.target_lang}. Keep index [n].`
+        },
+        { role: "user", content: rawText }
+      ]
+    })
+  };
+}
+
+function decodeHtml(str) {
+  return str
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+function encodeHtml(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 // --- [4. 环境兼容封装] ---
