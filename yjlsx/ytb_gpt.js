@@ -110,7 +110,9 @@ else {
   return $done({});
 }
 
-// 处理 JSON 字幕 (srv3/json3)
+// ==========================================
+// 4. 处理 JSON 字幕 (srv3/json3)
+// ==========================================
 function handleJsonSubtitle(body) {
   try {
     let subtitleObj = JSON.parse(body);
@@ -136,7 +138,29 @@ function handleJsonSubtitle(body) {
 
     console.log(`[${scriptName}] 🎬 JSON 字幕片段数量: ${translateList.length}`);
 
-    const rawText = translateList
+    // 分批控制：限制每次请求的行数和总字符数，避免超时
+    const MAX_LINES_JSON = 30;
+    const MAX_CHARS_JSON = 2500;
+    const batch = [];
+    let charCount = 0;
+    for (let i = 0; i < translateList.length; i++) {
+      const item = translateList[i];
+      const len = item.text.length;
+      if (batch.length >= MAX_LINES_JSON || charCount + len > MAX_CHARS_JSON) break;
+      batch.push(item);
+      charCount += len;
+    }
+
+    if (batch.length === 0) {
+      console.log(`[${scriptName}] 本批无可翻译片段，跳过 (JSON)`);
+      return $done({});
+    }
+
+    console.log(
+      `[${scriptName}] 🧩 JSON 本批翻译片段: ${batch.length}/${translateList.length} 行，约 ${charCount} 字符`
+    );
+
+    const rawText = batch
       .map((item, i) => `[${i}] ${item.text}`)
       .join("\n");
 
@@ -145,7 +169,9 @@ function handleJsonSubtitle(body) {
     $.fetch(gptRequest).then(
       response => {
         try {
-          console.log(`[${scriptName}] GPT 原始返回前200 (JSON): ${String(response.body).slice(0, 200)}`);
+          console.log(
+            `[${scriptName}] GPT 原始返回前200 (JSON): ${String(response.body).slice(0, 200)}`
+          );
           if (!response || typeof response.body !== "string") {
             console.log(`[${scriptName}] GPT 返回为空或非字符串 (JSON)，跳过本次翻译`);
             return $done({});
@@ -164,7 +190,7 @@ function handleJsonSubtitle(body) {
             if (match) {
               const idx = parseInt(match[1], 10);
               const translated = match[2];
-              const originalIndex = translateList[idx]?.index;
+              const originalIndex = batch[idx]?.index;
               if (
                 typeof originalIndex === "number" &&
                 subtitleObj.events[originalIndex]?.segs?.[0]?.utf8 !== undefined
@@ -193,7 +219,9 @@ function handleJsonSubtitle(body) {
   }
 }
 
-// 处理 XML 字幕 (format="3" text/xml, <timedtext><body><p>...)
+// ==========================================
+// 5. 处理 XML 字幕 (format="3" text/xml, <timedtext><body><p>...)
+// ==========================================
 function handleXmlSubtitle(body) {
   try {
     // 匹配 <p ...> ... </p>
@@ -223,8 +251,9 @@ function handleXmlSubtitle(body) {
     console.log(`[${scriptName}] 🎬 XML 字幕片段数量: ${texts.length}`);
 
     // 只翻译前 MAX_LINES 行，且总字符数不超过 MAX_CHARS，避免一次请求太长
-    const MAX_LINES = 40;
-    const MAX_CHARS = 3000;
+    // 长视频容易超时，这里更保守一点
+    const MAX_LINES = 20;
+    const MAX_CHARS = 2000;
     const batch = [];
     let charCount = 0;
     for (let i = 0; i < texts.length; i++) {
@@ -333,6 +362,9 @@ function handleXmlSubtitle(body) {
   }
 }
 
+// ==========================================
+// 6. 构造 GPT 请求
+// ==========================================
 function buildGptRequest(rawText) {
   return {
     url: boxConfig.url,
@@ -341,6 +373,7 @@ function buildGptRequest(rawText) {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${boxConfig.key}`
     },
+    timeout: 15000, // 请求超时 15 秒，避免长时间挂起
     body: JSON.stringify({
       model: boxConfig.model,
       group: "default",
@@ -370,8 +403,8 @@ Your goal:
         { role: "user", content: rawText }
       ],
       stream: false,
-      // 字幕翻译更适合稳定结果，降低随机性
-      temperature: 0,
+      max_tokens: 800,      // 控制返回长度，加快响应
+      temperature: 0,       // 稳定翻译
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0
@@ -379,6 +412,9 @@ Your goal:
   };
 }
 
+// ==========================================
+// 7. HTML 转义/反转义
+// ==========================================
 function decodeHtml(str) {
   return str
     .replace(/&amp;/g, "&")
@@ -397,7 +433,7 @@ function encodeHtml(str) {
     .replace(/'/g, "&#39;");
 }
 
-// --- [4. 环境兼容封装] ---
+// --- [8. 环境兼容封装] ---
 function Env(name) {
   return {
     getdata: key => $prefs.valueForKey(key),
