@@ -201,7 +201,8 @@ function handleXmlSubtitle(body) {
       const attr = match[1] || "";
       const inner = match[2] || "";
       const decoded = decodeHtml(inner).trim();
-      if (decoded && decoded !== "\n" && !decoded.includes("\n")) {
+      // 放宽过滤条件：只要有非空文本就翻译
+      if (decoded && decoded !== "\n") {
         texts.push({ order, attr, inner, decoded });
       }
       order++;
