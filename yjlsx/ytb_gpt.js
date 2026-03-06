@@ -145,6 +145,7 @@ function handleJsonSubtitle(body) {
     $.fetch(gptRequest).then(
       response => {
         try {
+          console.log(`[${scriptName}] GPT 原始返回前200 (JSON): ${String(response.body).slice(0, 200)}`);
           const json = JSON.parse(response.body);
           const translatedContent = json.choices?.[0]?.message?.content;
           if (!translatedContent) {
@@ -226,6 +227,7 @@ function handleXmlSubtitle(body) {
     $.fetch(gptRequest).then(
       response => {
         try {
+          console.log(`[${scriptName}] GPT 原始返回前200 (XML): ${String(response.body).slice(0, 200)}`);
           const json = JSON.parse(response.body);
           const translatedContent = json.choices?.[0]?.message?.content;
           if (!translatedContent) {
