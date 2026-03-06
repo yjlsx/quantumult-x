@@ -179,7 +179,7 @@ function handleJsonSubtitle(body) {
         }
       },
       err => {
-        console.log(`[${scriptName}] GPT 请求失败 (JSON): ${err}`);
+        console.log(`[${scriptName}] GPT 请求失败 (JSON): ${JSON.stringify(err)}`);
         return $done({});
       }
     );
@@ -293,7 +293,7 @@ function handleXmlSubtitle(body) {
         }
       },
       err => {
-        console.log(`[${scriptName}] GPT 请求失败 (XML): ${err}`);
+        console.log(`[${scriptName}] GPT 请求失败 (XML): ${JSON.stringify(err)}`);
         return $done({});
       }
     );
