@@ -392,7 +392,7 @@ Output rules (STRICT):
         { role: "user", content: userContent }
       ],
       stream:            false,
-      max_tokens:        1500,
+      max_tokens:        512,
       temperature:       0,
       top_p:             1,
       frequency_penalty: 0,
