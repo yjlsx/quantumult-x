@@ -135,8 +135,8 @@ function handleJsonSubtitle(body) {
       return $done({});
     }
 
-    const MAX_LINES_JSON = 30;
-    const MAX_CHARS_JSON = 2500;
+    const MAX_LINES_JSON = 1;
+    const MAX_CHARS_JSON = 200;
     const batch = [];
     let charCount = 0;
     for (let i = 0; i < translateList.length; i++) {
@@ -248,8 +248,8 @@ function handleXmlSubtitle(body) {
       return $done({});
     }
 
-    const MAX_LINES = 30;
-    const MAX_CHARS = 2500;
+    const MAX_LINES = 1;
+    const MAX_CHARS = 200;
     const batch = [];
     let charCount = 0;
     for (let i = 0; i < texts.length; i++) {
