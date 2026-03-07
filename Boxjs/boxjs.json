@@ -13,7 +13,7 @@
     {
       "id": "ytb_gpt_api_url",
       "name": "API 中转地址",
-      "val": "https://api.openai.com/v1/chat/completions",
+      "val": "https://open.lxcloud.dev/v1/chat/completions",
       "type": "text",
       "desc": "填写 GPT 接口地址"
     },
