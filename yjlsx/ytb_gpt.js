@@ -250,8 +250,8 @@ function handleXmlSubtitle(body) {
     }
 
     // [fix5] 适度放宽分批上限
-    const MAX_LINES = 30;
-    const MAX_CHARS = 2500;
+    const MAX_LINES = 1;
+    const MAX_CHARS = 200;
     const batch = [];
     let charCount = 0;
     for (let i = 0; i < texts.length; i++) {
