@@ -369,16 +369,16 @@ function buildGptRequest(rawText, contextBlock) {
     ? rawText + "\n\n[Previous subtitle context for reference only — DO NOT OUTPUT:\n" + contextBlock + "]"
     : rawText;
 
-  return {
-    url:     boxConfig.url,
-    method:  "POST",
-    headers: {
-      "Content-Type":  "application/json",
-      "Authorization": `Bearer ${boxConfig.key}`
-    },
-    timeout: 15000,
-    body: JSON.stringify({
-      model: boxConfig.model,
+return {
+  url:     boxConfig.url,
+  method:  "POST",
+  headers: {
+    "Content-Type":  "application/json",
+    "Authorization": `Bearer ${boxConfig.key}`
+  },
+  timeout: 60000,  // 等 60 秒，别 15 秒就砍
+  body: JSON.stringify({
+    model: boxConfig.model,
       messages: [
         {
           role: "system",
