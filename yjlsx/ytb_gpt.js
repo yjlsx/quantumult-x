@@ -26,6 +26,14 @@ const boxConfig = {
   target_lang: $.getdata("ytb_gpt_lang")     || "中文"
 };
 
+// 👇 在这里加一行打印
+console.log(`[${scriptName}] BoxJS 配置: ` + JSON.stringify({
+  url: boxConfig.url,
+  key: boxConfig.key ? boxConfig.key.slice(0, 10) + '...' : '(empty)',
+  model: boxConfig.model,
+  lang: boxConfig.target_lang
+}));
+
 const HISTORY_KEY     = "ytb_subtitle_history";
 const HISTORY_MAX_LEN = 10;
 
