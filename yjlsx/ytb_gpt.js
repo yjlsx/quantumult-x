@@ -135,9 +135,8 @@ function handleJsonSubtitle(body) {
       return $done({});
     }
 
-    // [fix5] 适度放宽分批上限
-    const MAX_LINES_JSON = 1;
-    const MAX_CHARS_JSON = 200;
+    const MAX_LINES_JSON = 30;
+    const MAX_CHARS_JSON = 2500;
     const batch = [];
     let charCount = 0;
     for (let i = 0; i < translateList.length; i++) {
@@ -155,10 +154,9 @@ function handleJsonSubtitle(body) {
 
     console.log(`[${scriptName}] 🧩 JSON 本批: ${batch.length}/${translateList.length} 行，约 ${charCount} 字符`);
 
-// JSON
-const rawText    = batch.map((item, i) => `[${i}] ${item.text}`).join("\n");
-const gptRequest = buildGptRequest(rawText);
+    const rawText      = batch.map((item, i) => `[${i}] ${item.text}`).join("\n");
     const contextBlock = buildContextBlock();
+    const gptRequest   = buildGptRequest(rawText, contextBlock);
 
     // [fix1] 不在外层调用 $done，完全依赖异步回调返回结果
     $.fetch(gptRequest).then(
@@ -250,9 +248,8 @@ function handleXmlSubtitle(body) {
       return $done({});
     }
 
-    // [fix5] 适度放宽分批上限
-    const MAX_LINES = 1;
-    const MAX_CHARS = 200;
+    const MAX_LINES = 30;
+    const MAX_CHARS = 2500;
     const batch = [];
     let charCount = 0;
     for (let i = 0; i < texts.length; i++) {
@@ -270,9 +267,9 @@ function handleXmlSubtitle(body) {
 
     console.log(`[${scriptName}] 🧩 XML 本批: ${batch.length}/${texts.length} 行，约 ${charCount} 字符`);
 
-const rawText    = batch.map((item, i) => `[${i}] ${item.decoded}`).join("\n");
-const gptRequest = buildGptRequest(rawText);
+    const rawText      = batch.map((item, i) => `[${i}] ${item.decoded}`).join("\n");
     const contextBlock  = buildContextBlock();
+    const gptRequest    = buildGptRequest(rawText, contextBlock);
 
     // [fix1] 不在外层调用 $done，完全依赖异步回调返回结果
     $.fetch(gptRequest).then(
@@ -364,7 +361,10 @@ const gptRequest = buildGptRequest(rawText);
 // ==========================================
 // 6. 构造 GPT Chat Completions 请求
 // ==========================================
-function buildGptRequest(rawText) {
+function buildGptRequest(rawText, contextBlock) {
+  const userContent = contextBlock
+    ? rawText + "\n\n[Previous subtitle context for reference only — DO NOT OUTPUT:\n" + contextBlock + "]"
+    : rawText;
   return {
     url:     boxConfig.url,
     method:  "POST",
@@ -389,10 +389,10 @@ Output rules (STRICT):
 2) Keep index n unchanged, no new or missing lines.
 3) Do NOT merge lines, do NOT add explanations, comments, or blank lines.`
         },
-        { role: "user", content: rawText }
+        { role: "user", content: userContent }
       ],
       stream:            false,
-      max_tokens:        512,
+      max_tokens:        1500,
       temperature:       0,
       top_p:             1,
       frequency_penalty: 0,
