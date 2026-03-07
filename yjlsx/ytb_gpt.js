@@ -155,9 +155,10 @@ function handleJsonSubtitle(body) {
 
     console.log(`[${scriptName}] 🧩 JSON 本批: ${batch.length}/${translateList.length} 行，约 ${charCount} 字符`);
 
-    const rawText     = batch.map((item, i) => `[${i}] ${item.text}`).join("\n");
+// JSON
+const rawText    = batch.map((item, i) => `[${i}] ${item.text}`).join("\n");
+const gptRequest = buildGptRequest(rawText);
     const contextBlock = buildContextBlock();
-    const gptRequest  = buildGptRequest(rawText, contextBlock);
 
     // [fix1] 不在外层调用 $done，完全依赖异步回调返回结果
     $.fetch(gptRequest).then(
@@ -269,9 +270,9 @@ function handleXmlSubtitle(body) {
 
     console.log(`[${scriptName}] 🧩 XML 本批: ${batch.length}/${texts.length} 行，约 ${charCount} 字符`);
 
-    const rawText      = batch.map((item, i) => `[${i}] ${item.decoded}`).join("\n");
+const rawText    = batch.map((item, i) => `[${i}] ${item.decoded}`).join("\n");
+const gptRequest = buildGptRequest(rawText);
     const contextBlock  = buildContextBlock();
-    const gptRequest   = buildGptRequest(rawText, contextBlock);
 
     // [fix1] 不在外层调用 $done，完全依赖异步回调返回结果
     $.fetch(gptRequest).then(
@@ -363,50 +364,35 @@ function handleXmlSubtitle(body) {
 // ==========================================
 // 6. 构造 GPT Chat Completions 请求
 // ==========================================
-function buildGptRequest(rawText, contextBlock) {
-  // 若有历史上下文，附加在 user 消息末尾，标注 DO NOT OUTPUT
-  const userContent = contextBlock
-    ? rawText + "\n\n[Previous subtitle context for reference only — DO NOT OUTPUT:\n" + contextBlock + "]"
-    : rawText;
-
-return {
-  url:     boxConfig.url,
-  method:  "POST",
-  headers: {
-    "Content-Type":  "application/json",
-    "Authorization": `Bearer ${boxConfig.key}`
-  },
-  timeout: 60000,  // 等 60 秒，别 15 秒就砍
-  body: JSON.stringify({
-    model: boxConfig.model,
+function buildGptRequest(rawText) {
+  return {
+    url:     boxConfig.url,
+    method:  "POST",
+    headers: {
+      "Content-Type":  "application/json",
+      "Authorization": `Bearer ${boxConfig.key}`
+    },
+    // 不再显式设置 timeout，交给 Quantumult X 默认处理
+    body: JSON.stringify({
+      model: boxConfig.model,
       messages: [
         {
           role: "system",
-          content: `You are an expert subtitle translation engine for video dialogue.
-Your job is to translate subtitles into ${boxConfig.target_lang} while 保持原句的语气、情绪和语境。
-You may be given recent subtitle history as context — use it to understand pronouns, references, and plot, but DO NOT output any of it.
+          content: `You are a subtitle translator.
+Translate all user content into ${boxConfig.target_lang}.
 
-INPUT FORMAT
-- The user will send multiple lines, each in the format: "[n] text".
-- Each line is an independent subtitle segment.
+Input format:
+- Multiple lines, each like: "[n] text".
 
-OUTPUT RULES (VERY IMPORTANT)
-1) For every input line "[n] text", output EXACTLY ONE line in the format:
-   "[n] translated text"
-2) 保持行号 n 不变，不要跳号，不要新增行号。
-3) 不要合并多行，不要在一行里翻译多个编号。
-4) 不要输出任何额外说明、空行、前后解释或摘要。
-5) 如果某行原文是标记类内容（例如 [Music]、[Laughs]），可以根据需要翻译或保留英文，但仍然要按 "[n] ..." 的格式输出。
-
-Your goal:
-- Accurately convey the meaning of each line using context when available;
-- Make the translation natural and easy to read as on-screen subtitles;
-- STRICTLY obey the output format rules above.`
+Output rules (STRICT):
+1) For every input line "[n] text", output EXACTLY one line: "[n] translated text".
+2) Keep index n unchanged, no new or missing lines.
+3) Do NOT merge lines, do NOT add explanations, comments, or blank lines.`
         },
-        { role: "user", content: userContent }
+        { role: "user", content: rawText }
       ],
       stream:            false,
-      max_tokens:        2000,
+      max_tokens:        512,
       temperature:       0,
       top_p:             1,
       frequency_penalty: 0,
@@ -414,6 +400,7 @@ Your goal:
     })
   };
 }
+
 
 // ==========================================
 // 7. HTML 转义/反转义
