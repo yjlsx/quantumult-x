@@ -136,8 +136,8 @@ function handleJsonSubtitle(body) {
     }
 
     // [fix5] 适度放宽分批上限
-    const MAX_LINES_JSON = 40;
-    const MAX_CHARS_JSON = 3000;
+    const MAX_LINES_JSON = 10;
+    const MAX_CHARS_JSON = 800;
     const batch = [];
     let charCount = 0;
     for (let i = 0; i < translateList.length; i++) {
