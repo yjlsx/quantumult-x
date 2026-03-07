@@ -11,18 +11,12 @@
  *     GPT 超时/失败时直接返回机器翻译原文，不影响观看
  *
  * [rewrite_local]
- * ^https?:\/\/(www|m)\.youtube\.com\/youtubei\/v1\/player(\?.*)?$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/ytb_gpt.js
-
- * ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(\?.*)?$ url script-request-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/ytb_gpt.js
-
- * ^https?:\/\/(www|m)\.youtube\.com\/youtubei\/v1\/player(\?.*)?$ url script-response-bodyhttps://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/ytb_gpt.js
-
- * ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(\?.*)?$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/ytb_gpt.js
-
- * ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext(\?.*)?$ url script-request-header https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/ytb_gpt.js
-
- * ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext(\?.*)?$ url script-response-body https://raw.githubusercontent.com/yjlsx/quantumult-x/master/yjlsx/ytb_gpt.js
-
+ * ^https?:\/\/(www|m)\.youtube\.com\/youtubei\/v1\/player(\?.*)?$ url script-request-body ytb_gpt.js
+ * ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(\?.*)?$ url script-request-body ytb_gpt.js
+ * ^https?:\/\/(www|m)\.youtube\.com\/youtubei\/v1\/player(\?.*)?$ url script-response-body ytb_gpt.js
+ * ^https?:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player(\?.*)?$ url script-response-body ytb_gpt.js
+ * ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext(\?.*)?$ url script-request-header ytb_gpt.js
+ * ^https?:\/\/(www|m)\.youtube\.com\/api\/timedtext(\?.*)?$ url script-response-body ytb_gpt.js
  *
  * [mitm]
  * hostname = www.youtube.com, m.youtube.com, youtubei.googleapis.com
@@ -112,7 +106,7 @@ else {
 }
 
 // ==========================================
-// 4. 处理 JSON 字幕 — 每次只翻译第一句
+// 4. 处理 JSON 字幕 — 逐句串行翻译，超时保留已翻译部分
 // ==========================================
 function handleJsonSubtitle(body) {
   try {
@@ -121,70 +115,70 @@ function handleJsonSubtitle(body) {
       return $done({ body: body });
     }
 
-    // 找第一个有内容的 event
-    let target = null;
-    let targetIndex = -1;
-    for (let i = 0; i < subtitleObj.events.length; i++) {
-      const event = subtitleObj.events[i];
+    let translateList = [];
+    subtitleObj.events.forEach((event, index) => {
       if (event.segs && event.segs.length > 0) {
         const text = event.segs.map(s => s.utf8).join("").trim();
         if (text && text !== "\n" && !text.includes("\n")) {
-          target = { index: i, text: text };
-          targetIndex = i;
-          break;
+          translateList.push({ index, text });
         }
       }
-    }
+    });
 
-    if (!target) {
-      console.log(`[${scriptName}] 无可翻译内容，直接返回`);
+    if (translateList.length === 0 || !boxConfig.key) {
       return $done({ body: body });
     }
 
-    if (!boxConfig.key) {
-      console.log(`[${scriptName}] 无 API Key，直接返回`);
-      return $done({ body: body });
-    }
+    console.log(`[${scriptName}] 🎬 共 ${translateList.length} 句，逐句翻译`);
 
-    console.log(`[${scriptName}] 🧩 JSON 翻译第一句: ${target.text.slice(0, 30)}`);
+    // 记录开始时间，超过 8 秒停止，保留已翻译部分
+    const startTime = Date.now();
+    const TIME_LIMIT = 8000;
 
-    const gptRequest = buildGptRequest(target.text);
+    function translateNext(i) {
+      // 超时或翻译完毕，返回当前结果
+      if (i >= translateList.length || Date.now() - startTime > TIME_LIMIT) {
+        console.log(`[${scriptName}] ✅ 完成 ${i}/${translateList.length} 句`);
+        return $done({ body: JSON.stringify(subtitleObj) });
+      }
 
-    $.fetch(gptRequest).then(
-      response => {
-        try {
-          if (!response || typeof response.body !== "string") {
-            console.log(`[${scriptName}] GPT 无响应，直接返回`);
-            return $done({ body: body });
+      const item = translateList[i];
+      const gptRequest = buildGptRequest(item.text);
+
+      $.fetch(gptRequest).then(
+        response => {
+          try {
+            if (!response || typeof response.body !== "string") {
+              return $done({ body: JSON.stringify(subtitleObj) });
+            }
+            const json = JSON.parse(response.body);
+            if (json.error && json.error.message) {
+              console.log(`[${scriptName}] GPT 错误: ${json.error.message}`);
+              return $done({ body: JSON.stringify(subtitleObj) });
+            }
+            const translated = json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content;
+            if (translated && translated.trim()) {
+              const event = subtitleObj.events[item.index];
+              if (event && event.segs && event.segs.length) {
+                event.segs.push({ utf8: "\n" + translated.trim() });
+              }
+            }
+            // 继续下一句
+            translateNext(i + 1);
+          } catch (e) {
+            console.log(`[${scriptName}] 解析失败: ${e.message}`);
+            return $done({ body: JSON.stringify(subtitleObj) });
           }
-          const json = JSON.parse(response.body);
-          if (json.error && json.error.message) {
-            console.log(`[${scriptName}] GPT 错误: ${json.error.message}`);
-            return $done({ body: body });
-          }
-          const translated = json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content;
-          if (!translated) {
-            console.log(`[${scriptName}] GPT 内容为空`);
-            return $done({ body: body });
-          }
-
-          const event = subtitleObj.events[target.index];
-          if (event && event.segs && event.segs.length) {
-            event.segs.push({ utf8: "\n" + translated.trim() });
-          }
-
-          console.log(`[${scriptName}] ✅ JSON 翻译完成`);
+        },
+        err => {
+          console.log(`[${scriptName}] 请求失败: ${JSON.stringify(err)}`);
           return $done({ body: JSON.stringify(subtitleObj) });
-        } catch (e) {
-          console.log(`[${scriptName}] 解析失败: ${e.message}`);
-          return $done({ body: body });
         }
-      },
-      err => {
-        console.log(`[${scriptName}] GPT 请求失败: ${JSON.stringify(err)}`);
-        return $done({ body: body });
-      }
-    );
+      );
+    }
+
+    translateNext(0);
+
   } catch (e) {
     console.log(`[${scriptName}] JSON 解析失败: ${e.message}`);
     return $done({ body: body });
@@ -192,76 +186,100 @@ function handleJsonSubtitle(body) {
 }
 
 // ==========================================
-// 5. 处理 XML 字幕 — 每次只翻译第一句
+// 5. 处理 XML 字幕 — 逐句串行翻译，超时保留已翻译部分
 // ==========================================
 function handleXmlSubtitle(body) {
   try {
     const makePTagRe = () => /<p([^>]*)>([\s\S]*?)<\/p>/g;
     const pTagRe = makePTagRe();
     let match;
+    let texts = [];
+    let order = 0;
 
-    // 找第一个有内容的 <p>
-    let target = null;
     while ((match = pTagRe.exec(body)) !== null) {
       const attr    = match[1] || "";
       const inner   = match[2] || "";
       const decoded = decodeHtml(inner.replace(/<[^>]+>/g, "")).trim();
       if (decoded) {
-        target = { fullMatch: match[0], attr, inner, decoded, start: match.index, end: pTagRe.lastIndex };
-        break;
+        texts.push({ order, attr, inner, decoded, start: match.index, end: pTagRe.lastIndex, full: match[0] });
       }
+      order++;
     }
 
-    if (!target) {
-      console.log(`[${scriptName}] 无可翻译内容，直接返回`);
+    if (texts.length === 0 || !boxConfig.key) {
       return $done({ body: body });
     }
 
-    if (!boxConfig.key) {
-      console.log(`[${scriptName}] 无 API Key，直接返回`);
-      return $done({ body: body });
-    }
+    console.log(`[${scriptName}] 🎬 共 ${texts.length} 句，逐句翻译`);
 
-    console.log(`[${scriptName}] 🧩 XML 翻译第一句: ${target.decoded.slice(0, 30)}`);
+    const startTime = Date.now();
+    const TIME_LIMIT = 8000;
+    // 用 map 存翻译结果 order -> translated
+    const translationMap = {};
 
-    const gptRequest = buildGptRequest(target.decoded);
+    function translateNext(i) {
+      if (i >= texts.length || Date.now() - startTime > TIME_LIMIT) {
+        // 重建 XML
+        const pTagRe2 = makePTagRe();
+        let result  = "";
+        let lastIdx = 0;
+        let cur     = 0;
+        let applied = 0;
 
-    $.fetch(gptRequest).then(
-      response => {
-        try {
-          if (!response || typeof response.body !== "string") {
-            console.log(`[${scriptName}] GPT 无响应，直接返回`);
-            return $done({ body: body });
+        while ((match = pTagRe2.exec(body)) !== null) {
+          result += body.slice(lastIdx, match.index);
+          const attr  = match[1] || "";
+          const inner = match[2] || "";
+          const translated = translationMap[cur];
+          if (translated) {
+            applied++;
+            const plain = decodeHtml(inner.replace(/<[^>]+>/g, ""));
+            result += "<p" + attr + ">" + encodeHtml(plain + "\n" + translated) + "</p>";
+          } else {
+            result += match[0];
           }
-          const json = JSON.parse(response.body);
-          if (json.error && json.error.message) {
-            console.log(`[${scriptName}] GPT 错误: ${json.error.message}`);
-            return $done({ body: body });
-          }
-          const translated = json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content;
-          if (!translated) {
-            console.log(`[${scriptName}] GPT 内容为空`);
-            return $done({ body: body });
-          }
-
-          // 只替换第一个 <p> 标签内容
-          const newPlain = target.decoded + "\n" + translated.trim();
-          const newBody  = body.slice(0, target.start)
-                         + `<p${target.attr}>${encodeHtml(newPlain)}</p>`
-                         + body.slice(target.end);
-
-          console.log(`[${scriptName}] ✅ XML 翻译完成`);
-          return $done({ body: newBody });
-        } catch (e) {
-          console.log(`[${scriptName}] 解析失败: ${e.message}`);
-          return $done({ body: body });
+          lastIdx = pTagRe2.lastIndex;
+          cur++;
         }
-      },
-      err => {
-        console.log(`[${scriptName}] GPT 请求失败: ${JSON.stringify(err)}`);
-        return $done({ body: body });
+        result += body.slice(lastIdx);
+
+        console.log(`[${scriptName}] ✅ XML 完成 ${i}/${texts.length} 句，应用 ${applied} 条`);
+        return $done({ body: result });
       }
-    );
+
+      const item = texts[i];
+      const gptRequest = buildGptRequest(item.decoded);
+
+      $.fetch(gptRequest).then(
+        response => {
+          try {
+            if (!response || typeof response.body !== "string") {
+              return translateNext(texts.length); // 跳到重建
+            }
+            const json = JSON.parse(response.body);
+            if (json.error && json.error.message) {
+              console.log(`[${scriptName}] GPT 错误: ${json.error.message}`);
+              return translateNext(texts.length);
+            }
+            const translated = json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content;
+            if (translated && translated.trim()) {
+              translationMap[item.order] = translated.trim();
+            }
+            translateNext(i + 1);
+          } catch (e) {
+            console.log(`[${scriptName}] 解析失败: ${e.message}`);
+            return translateNext(texts.length);
+          }
+        },
+        err => {
+          console.log(`[${scriptName}] 请求失败: ${JSON.stringify(err)}`);
+          return translateNext(texts.length);
+        }
+      );
+    }
+
+    translateNext(0);
+
   } catch (e) {
     console.log(`[${scriptName}] XML 解析失败: ${e.message}`);
     return $done({ body: body });
@@ -282,14 +300,11 @@ function buildGptRequest(text) {
     body: JSON.stringify({
       model: boxConfig.model,
       messages: [
-        {
-          role: "system",
-          content: "You are a subtitle translator. Translate the user's text into " + boxConfig.target_lang + ". Output ONLY the translated text, nothing else."
-        },
-        { role: "user", content: text }
+        // 不用 system prompt，减少 token，加快响应
+        { role: "user", content: "Translate to " + boxConfig.target_lang + ", output translation only:\n" + text }
       ],
       stream:     false,
-      max_tokens: 200,
+      max_tokens: 100,
       temperature: 0
     })
   };
