@@ -32,8 +32,10 @@
 
 const $ = new API();
 const NOTIFY_TITLE = "快手签到";
-const COOKIE_KEYS = ["ks_cookie_1", "ks_cookie_2", "ks_cookie_3"];
-const ENABLE_KEYS = ["ks_enabled_1", "ks_enabled_2", "ks_enabled_3"];
+const COOKIE_KEYS = ["ks_cookie_1", "ks_cookie_2"];
+const ENABLE_KEYS = ["ks_enabled_1", "ks_enabled_2"];
+const WATCH_AD_ENABLED_KEY = "ks_watch_ad_enabled";
+const UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.7.10.9371 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.3.8 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1";
 
 if (typeof $request !== 'undefined') {
   handleCookieCapture().finally(() => $.done());
@@ -45,25 +47,20 @@ async function main() {
   console.log("====== 开始执行快手签到任务 ======");
 
   for (let i = 0; i < COOKIE_KEYS.length; i++) {
-    // 针对第三、第四账号启用开关控制
-    if (i >= 2) { // 0,1是账号1和2，2,3是账号3和4
-      if (!isAccountEnabled(i)) {
-        console.log(`账号${i+1} 未启用，跳过执行`);
-        continue;
-      }
-    } else {
-      // 对账号1、2，默认启用或也根据开关（按你需求）
-      if (!isAccountEnabled(i)) {
-        console.log(`账号${i+1} 未启用，跳过执行`);
-        continue;
-      }
+    if (!isAccountEnabled(i)) {
+      console.log(`账号${i+1} 未启用，跳过执行`);
+      continue;
     }
 
-    const cookie = $.read(COOKIE_KEYS[i]);
+    let cookie = $.read(COOKIE_KEYS[i]);
     if (!cookie) {
       $.notify(NOTIFY_TITLE, `账号${i+1} Cookie未配置`, "");
       continue;
     }
+    if (/%[0-9A-Fa-f]{2}/.test(cookie)) {
+      try { cookie = decodeURIComponent(cookie); } catch (e) {}
+    }
+    cookie = String(cookie).trim();
 
     try {
       console.log(`\n===== 开始处理账号${i+1} =====`);
@@ -95,6 +92,15 @@ async function processAccount(cookie, accountNum) {
     console.log(`宝箱开启失败: ${boxRes.message}`);
   }
 
+  const adRes = isWatchAdEnabled() ? await watchAdReward(cookie) : { skipped: true, message: "未启用" };
+  if (adRes.skipped) {
+    console.log(`看广告领金币: ${adRes.message}`);
+  } else if (adRes.success) {
+    console.log(`广告奖励: ${adRes.reward}金币`);
+  } else {
+    console.log(`广告领奖失败: ${adRes.message}`);
+  }
+
   // 获取最新账户数据
   console.log("获取最新账户数据...");
   const latestInfo = await getAccountInfo(cookie);
@@ -105,6 +111,7 @@ async function processAccount(cookie, accountNum) {
   const msg = [
     `签到状态: ${checkinRes}`,
     boxRes.success ? `宝箱奖励: ${boxRes.reward}金币` : `宝箱失败: ${boxRes.message}`,
+    adRes.skipped ? `广告任务: ${adRes.message}` : (adRes.success ? `广告奖励: ${adRes.reward}金币` : `广告失败: ${adRes.message}`),
     `当前金币: ${latestInfo.coin}`,
     `可提现金额: ${latestInfo.cash}元`
   ].join("\n");
@@ -128,25 +135,9 @@ async function handleCookieCapture() {
     let slotIndex = -1;
 
     if (targetSlotSetting >= 1 && targetSlotSetting <= COOKIE_KEYS.length) {
-      // 手动指定槽位
       slotIndex = targetSlotSetting - 1;
     } else {
-      // 自动模式：先找同 UID
-      slotIndex = COOKIE_KEYS.findIndex(key => {
-        const oldCookie = $.read(key);
-        if (!oldCookie) return false;
-        try {
-          const oldInfo = JSON.parse(getAccountInfoSync(oldCookie)); // 同步方式或用缓存
-          return oldInfo.uid === accountInfo.uid;
-        } catch {
-          return false;
-        }
-      });
-
-      // 如果没有找到同 UID 的账号，则找空槽
-      if (slotIndex === -1) {
-        slotIndex = COOKIE_KEYS.findIndex(key => !$.read(key));
-      }
+      slotIndex = COOKIE_KEYS.findIndex(key => !$.read(key));
     }
 
     if (slotIndex === -1) {
@@ -170,13 +161,14 @@ async function handleCookieCapture() {
  * 工具函数 *
  *********************/
 async function getAccountInfo(cookie) {
-  const { body } = await $.get({
+  const { statusCode, body } = await $.get({
     url: "https://encourage.kuaishou.com/rest/wd/encourage/account/withdraw/info",
-    headers: { Cookie: cookie }
+    headers: ksHeaders(cookie)
   });
 
-  const data = JSON.parse(body);
-  if (data.result !== 1) throw new Error("账户信息获取失败");
+  ensureJSONOrThrow(statusCode, body, "账户信息");
+  const data = safeJSON(body, "账户信息");
+  if (!data || data.result !== 1) throw new Error((data && data.error_msg) || "账户信息获取失败");
 
   return {
     uid: data.data?.account?.uid,
@@ -187,43 +179,83 @@ async function getAccountInfo(cookie) {
 }
 
 async function checkIn(cookie) {
-  const { body } = await $.get({
+  const { statusCode, body } = await $.get({
     url: "https://encourage.kuaishou.com/rest/wd/encourage/unionTask/signIn/report",
-    headers: { Cookie: cookie }
+    headers: ksHeaders(cookie)
   });
 
-  const res = JSON.parse(body);
+  ensureJSONOrThrow(statusCode, body, "签到");
+  const res = safeJSON(body, "签到");
   if (res.result === 1) return "✅ 签到成功";
   if (res.result === 102006) return "⏳ 已签到";
   throw new Error(res.error_msg || "未知错误");
 }
 
 async function openTreasureBox(cookie) {
-  const url = 'https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report';
+  const info = await getTreasureBoxInfo(cookie);
+  if (!info.success) return info;
 
-  const { body } = await $.post({
+  if (Number(info.remainSeconds) > 0) {
+    return {
+      success: false,
+      reward: info.reward || "未知",
+      message: `宝箱倒计时未结束，还需 ${info.remainSeconds} 秒，预计奖励 ${info.reward || "未知"}金币`
+    };
+  }
+
+  if (info.status && Number(info.status) !== 3) {
+    return {
+      success: false,
+      reward: info.reward || "未知",
+      message: `宝箱暂不可开，状态码 ${info.status}，预计奖励 ${info.reward || "未知"}金币`
+    };
+  }
+
+  const url = "https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/report";
+
+  const { statusCode, body } = await $.post({
     url,
     headers: {
-      'Cookie': cookie,
-      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.7.10.9371 ISLP/0',
-      'Content-Type': 'application/json'
+      ...ksHeaders(cookie),
+      "Content-Type": "application/json",
+      "Origin": "https://encourage.kuaishou.com",
+      "Referer": "https://encourage.kuaishou.com/kwai/task?layoutType=4&source=pendant&hyId=encourage_earning"
     },
-    body: '{}'
+    body: JSON.stringify({ imei: "", idfa: "", oaid: "" })
   });
 
-  const res = JSON.parse(body);
-  if (res.result !== 1) return { success: false, message: res.error_msg || '宝箱开启失败' };
+  ensureJSONOrThrow(statusCode, body, "宝箱");
+  const res = safeJSON(body, "宝箱");
+  if (!res || res.result !== 1) return { success: false, message: (res && res.error_msg) || "宝箱开启失败" };
+
+  if (res.data?.reportCode === "UNION_TREASURE_BOX_REPORT_TIME_CHECK_FAILED") {
+    const remain = findTreasureBoxRemainSeconds(res.data?.progressBar?.nodes);
+    return {
+      success: false,
+      reward: res.data?.title?.rewardCount || info.reward || "未知",
+      message: `倒计时结束才能开宝箱${remain ? `，还需 ${remain} 秒` : ""}`
+    };
+  }
+
+  const reward = res.data?.prizeAmount || res.data?.rewardCount || res.data?.title?.rewardCount || res.data?.reward?.rewardCount;
+  if (res.data?.type === 1 || res.data?.executeReportSuccess === true) {
+    return {
+      success: true,
+      reward: reward || "未知",
+      message: `宝箱奖励已到账，奖励: ${reward || "未知"}金币`
+    };
+  }
 
   const nodes = res.data?.progressBar?.nodes || [];
-  if (!nodes.length) return { success: false, message: '没有宝箱数据' };
+  if (!nodes.length) return { success: false, message: "没有宝箱数据" };
 
   // 可开宝箱
   const availableBox = nodes.find(node => node.remainSeconds === 0 && !node.hasReceived);
   if (availableBox) {
     return {
       success: true,
-      reward: availableBox.rewardCount || '未知',
-      message: `宝箱${availableBox.boxNumber}已开启，奖励: ${availableBox.rewardCount || '未知'}金币`
+      reward: availableBox.rewardCount || "未知",
+      message: `宝箱${availableBox.boxNumber}已开启，奖励: ${availableBox.rewardCount || "未知"}金币`
     };
   }
 
@@ -232,14 +264,95 @@ async function openTreasureBox(cookie) {
   if (nextBox) {
     return {
       success: false,
-      reward: nextBox.rewardCount || '未知',
-      message: `今天没有可开宝箱，下一个宝箱${nextBox.boxNumber} ${nextBox.remainSeconds}秒后可开，奖励: ${nextBox.rewardCount || '未知'}金币`
+      reward: nextBox.rewardCount || "未知",
+      message: `今天没有可开宝箱，下一个宝箱${nextBox.boxNumber || ""} ${nextBox.remainSeconds}秒后可开，奖励: ${nextBox.rewardCount || "未知"}金币`
     };
   }
 
-  return { success: false, message: '今天没有宝箱可开' };
+  return { success: false, message: "今天没有宝箱可开" };
 }
 
+async function getTreasureBoxInfo(cookie) {
+  const { statusCode, body } = await $.get({
+    url: "https://encourage.kuaishou.com/rest/wd/encourage/unionTask/treasureBox/info?source=pendant",
+    headers: {
+      ...ksHeaders(cookie),
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "Referer": "https://encourage.kuaishou.com/kwai/task?layoutType=4&source=pendant&hyId=encourage_earning"
+    }
+  });
+
+  ensureJSONOrThrow(statusCode, body, "宝箱信息");
+  const res = safeJSON(body, "宝箱信息");
+  if (!res || res.result !== 1 || !res.data) {
+    return { success: false, message: (res && res.error_msg) || "宝箱信息获取失败" };
+  }
+
+  return {
+    success: true,
+    remainSeconds: Number(res.data.remainSeconds || 0),
+    reward: res.data.rewardCount || "未知",
+    status: res.data.status,
+    message: "宝箱信息获取成功"
+  };
+}
+
+function findTreasureBoxRemainSeconds(nodes) {
+  if (!Array.isArray(nodes)) return 0;
+  const nextBox = nodes.find(node => Number(node.remainSeconds) > 0);
+  return nextBox ? Number(nextBox.remainSeconds) : 0;
+}
+
+async function watchAdReward(cookie) {
+  const { statusCode, body } = await $.post({
+    url: "https://activity.m.kuaishou.com/rest/wd/taskCenter/task/appStartup/reward",
+    headers: {
+      Host: "activity.m.kuaishou.com",
+      Cookie: cookie,
+      "Content-Type": "application/json;charset=utf-8",
+      "User-Agent": UA,
+      Referer: "https://activity.m.kuaishou.com/"
+    },
+    body: JSON.stringify({ bizId: 29 })
+  });
+
+  ensureJSONOrThrow(statusCode, body, "看广告领金币");
+  const res = safeJSON(body, "看广告领金币");
+  if (!res) return { success: false, message: "返回为空" };
+  if (res.rewardSuccess === true || res.result === 1) {
+    const reward = res.reward?.rewardCount || res.data?.rewardCount || res.rewardCount || "未知";
+    return { success: true, reward, message: `广告奖励已领取: ${reward}金币` };
+  }
+  return { success: false, message: res.error_msg || res.msg || res.message || "广告任务未完成或暂无奖励" };
+}
+
+function ksHeaders(cookie) {
+  return {
+    Cookie: cookie,
+    "User-Agent": UA,
+    Accept: "*/*",
+    "Accept-Language": "zh-CN,zh;q=0.9",
+    "ZYCK": "encourage_earning"
+  };
+}
+
+function safeJSON(text, tag) {
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    console.log(`【${tag}】返回非 JSON，前300字：\n${String(text).slice(0, 300)}\n`);
+    return null;
+  }
+}
+
+function ensureJSONOrThrow(status, body, tag) {
+  if (status && !(status >= 200 && status < 300)) {
+    throw new Error(`HTTP ${status}（${tag}）`);
+  }
+  if (typeof body !== "string" || !/^\s*[\[{]/.test(String(body))) {
+    throw new Error(`${tag}返回不是 JSON，可能 Cookie 失效或接口变更`);
+  }
+}
 
 function getAvailableAccountSlot() {
   for (let i = 0; i < COOKIE_KEYS.length; i++) {
@@ -250,6 +363,10 @@ function getAvailableAccountSlot() {
 
 function isAccountEnabled(index) {
   return $.read(ENABLE_KEYS[index]) === 'true';
+}
+
+function isWatchAdEnabled() {
+  return $.read(WATCH_AD_ENABLED_KEY) === "true";
 }
 
 function handleError(e, accountNum) {

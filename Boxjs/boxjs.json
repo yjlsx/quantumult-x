@@ -67,10 +67,7 @@
     "ks_cookie_1",
     "ks_enabled_2",
     "ks_cookie_2",
-    "ks_enabled_3",
-    "ks_cookie_3",
-    "ks_enabled_4",
-    "ks_cookie_4"
+    "ks_watch_ad_enabled"
   ],
   "boxjs": {
     "hosts": [
@@ -86,18 +83,6 @@
       "ks_cookie_2": {
         "type": "text",
         "label": "账号2 Cookie",
-        "desc": "用于快手签到",
-        "input": "password"
-      },
-      "ks_cookie_3": {
-        "type": "text",
-        "label": "账号3 Cookie",
-        "desc": "用于快手签到",
-        "input": "password"
-      },
-      "ks_cookie_4": {
-        "type": "text",
-        "label": "账号4 Cookie",
         "desc": "用于快手签到",
         "input": "password"
       }
@@ -118,18 +103,11 @@
         "desc": "控制是否启用快手账号2"
       },
       {
-        "id": "ks_enabled_3",
-        "name": "启用账号3",
-        "val": true,
-        "type": "boolean",
-        "desc": "控制是否启用快手账号3"
-      },
-      {
-        "id": "ks_enabled_4",
-        "name": "启用账号4",
+        "id": "ks_watch_ad_enabled",
+        "name": "看广告领金币",
         "val": false,
         "type": "boolean",
-        "desc": "控制是否启用快手账号4"
+        "desc": "开启后执行广告领奖接口，接口不稳定时可关闭"
       }
     ]
   }
