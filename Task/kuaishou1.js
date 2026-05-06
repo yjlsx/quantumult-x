@@ -45,16 +45,18 @@ if (typeof $request !== 'undefined') {
 
 async function main() {
   console.log("====== 开始执行快手签到任务 ======");
+  const notifyMsgs = [];
 
   for (let i = 0; i < COOKIE_KEYS.length; i++) {
     if (!isAccountEnabled(i)) {
       console.log(`账号${i+1} 未启用，跳过执行`);
+      notifyMsgs.push(`账号${i+1}: 未启用`);
       continue;
     }
 
     let cookie = $.read(COOKIE_KEYS[i]);
     if (!cookie) {
-      $.notify(NOTIFY_TITLE, `账号${i+1} Cookie未配置`, "");
+      notifyMsgs.push(`账号${i+1}: Cookie未配置`);
       continue;
     }
     if (/%[0-9A-Fa-f]{2}/.test(cookie)) {
@@ -64,11 +66,16 @@ async function main() {
 
     try {
       console.log(`\n===== 开始处理账号${i+1} =====`);
-      await processAccount(cookie, i+1);
+      const accountMsg = await processAccount(cookie, i+1);
+      notifyMsgs.push(accountMsg);
       await $.wait(2000);
     } catch (e) {
-      handleError(e, i+1);
+      notifyMsgs.push(handleError(e, i+1, false));
     }
+  }
+
+  if (notifyMsgs.length) {
+    $.notify(NOTIFY_TITLE, "执行完成", notifyMsgs.join("\n\n"));
   }
 }
 
@@ -116,7 +123,7 @@ async function processAccount(cookie, accountNum) {
     `可提现金额: ${latestInfo.cash}元`
   ].join("\n");
 
-  $.notify(`${NOTIFY_TITLE} - 账号${accountNum}`, initialInfo.nickname, msg);
+  return [`账号${accountNum}: ${initialInfo.nickname}`, msg].join("\n");
 }
 
 async function handleCookieCapture() {
@@ -375,15 +382,18 @@ function readBool(key, defaultValue) {
   return val === true || val === "true";
 }
 
-function handleError(e, accountNum) {
+function handleError(e, accountNum, shouldNotify = true) {
   console.log(`账号${accountNum} 处理失败: ${e.message}`);
+  let msg;
   if (e.message.includes("身份验证")) {
-    $.notify(NOTIFY_TITLE, `⚠️ 账号${accountNum} Cookie失效`, "请重新获取Cookie");
+    msg = `账号${accountNum}: Cookie失效，请重新获取Cookie`;
     $.write('', COOKIE_KEYS[accountNum - 1]);
     $.write('false', ENABLE_KEYS[accountNum - 1]);
   } else {
-    $.notify(NOTIFY_TITLE, `❌ 账号${accountNum} 执行错误`, e.message);
+    msg = `账号${accountNum}: 执行错误\n${e.message}`;
   }
+  if (shouldNotify) $.notify(NOTIFY_TITLE, `账号${accountNum} 执行异常`, msg);
+  return msg;
 }
 
 /*********************
