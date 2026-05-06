@@ -59,7 +59,7 @@
   "author": "@yjlsx",
   "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
   "icons": [
-    "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"
+    "https://raw.githubusercontent.com/yjlsx/qx/refs/heads/main/icon/kuaishou.png"
   ],
   "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishou1.js",
   "keys": [
@@ -136,7 +136,7 @@
   "author": "@yjlsx",
   "repo": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task",
   "icons": [
-    "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/IconSet/Color/kuaishou.png"
+    "https://raw.githubusercontent.com/yjlsx/qx/refs/heads/main/icon/kuaishou.png"
   ],
   "script": "https://raw.githubusercontent.com/yjlsx/quantumult-x/master/Task/kuaishoujisu.js",
   "keys": [
