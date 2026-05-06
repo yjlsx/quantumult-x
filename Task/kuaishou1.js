@@ -50,13 +50,13 @@ async function main() {
   for (let i = 0; i < COOKIE_KEYS.length; i++) {
     if (!isAccountEnabled(i)) {
       console.log(`账号${i+1} 未启用，跳过执行`);
-      notifyMsgs.push(`账号${i+1}: 未启用`);
+      notifyMsgs.push("未启用");
       continue;
     }
 
     let cookie = $.read(COOKIE_KEYS[i]);
     if (!cookie) {
-      notifyMsgs.push(`账号${i+1}: Cookie未配置`);
+      notifyMsgs.push("Cookie未配置");
       continue;
     }
     if (/%[0-9A-Fa-f]{2}/.test(cookie)) {
@@ -75,7 +75,7 @@ async function main() {
   }
 
   if (notifyMsgs.length) {
-    $.notify(NOTIFY_TITLE, "执行完成", notifyMsgs.join("\n\n"));
+    $.notify(NOTIFY_TITLE, "", notifyMsgs.join("\n\n"));
   }
 }
 
@@ -123,7 +123,7 @@ async function processAccount(cookie, accountNum) {
     `可提现金额: ${latestInfo.cash}元`
   ].join("\n");
 
-  return [`账号${accountNum}: ${initialInfo.nickname}`, msg].join("\n");
+  return [`🎉 ${initialInfo.nickname}`, msg].join("\n");
 }
 
 async function handleCookieCapture() {
@@ -386,11 +386,11 @@ function handleError(e, accountNum, shouldNotify = true) {
   console.log(`账号${accountNum} 处理失败: ${e.message}`);
   let msg;
   if (e.message.includes("身份验证")) {
-    msg = `账号${accountNum}: Cookie失效，请重新获取Cookie`;
+    msg = "Cookie失效，请重新获取Cookie";
     $.write('', COOKIE_KEYS[accountNum - 1]);
     $.write('false', ENABLE_KEYS[accountNum - 1]);
   } else {
-    msg = `账号${accountNum}: 执行错误\n${e.message}`;
+    msg = `执行错误\n${e.message}`;
   }
   if (shouldNotify) $.notify(NOTIFY_TITLE, `账号${accountNum} 执行异常`, msg);
   return msg;
