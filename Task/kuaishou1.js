@@ -362,11 +362,17 @@ function getAvailableAccountSlot() {
 }
 
 function isAccountEnabled(index) {
-  return $.read(ENABLE_KEYS[index]) === 'true';
+  return readBool(ENABLE_KEYS[index], true);
 }
 
 function isWatchAdEnabled() {
-  return $.read(WATCH_AD_ENABLED_KEY) === "true";
+  return readBool(WATCH_AD_ENABLED_KEY, false);
+}
+
+function readBool(key, defaultValue) {
+  const val = $.read(key);
+  if (val === undefined || val === null || val === "") return defaultValue;
+  return val === true || val === "true";
 }
 
 function handleError(e, accountNum) {
